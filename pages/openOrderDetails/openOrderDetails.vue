@@ -259,25 +259,67 @@
 				<view v-if="index != 0" class="deleteOrder" @click="deleteOrder(index)">删除子单</view>
 			</view>
 			<view class="main">
+				<!-- 价格 -->
 				<view class="listBox">
 					<view class="titleL">价格</view>
 					<input type="number" class="text" v-model="item.orderMoney"/>
 				</view>
+				<!-- 精修 -->
 				<view class="listBox">
 					<view class="titleL">精修</view>
 					<input type="number" class="text" v-model="item.modify"/>
 				</view>
+				<!-- 拍摄保底张数 -->
 				<view class="listBox">
 					<view class="titleL">拍摄保底张数</view>
 					<input type="number" class="text" v-model="item.photoNum"/>
 				</view>
+				<!-- 入底 -->
 				<view class="listBox">
 					<view class="titleL">入底</view>
 					<input type="number" class="text" v-model="item.onBottom"/>
 				</view>
+				<!-- 入册 -->
 				<view class="listBox">
 					<view class="titleL">入册</view>
 					<input type="number" class="text" v-model="item.onCopies"/>
+				</view>
+				
+				<view class="labelBox">
+					<view class="title">新增产品</view>
+					<view class="labe">
+						<view class="titleBox">
+							<view class="titleLB">商品</view>
+							<view class="titleLB">P数</view>
+							<view class="titleLB">数量</view>
+							<view class="titleLB">价格</view>
+							<view class="titleLB">加急</view>
+							<view class="titleLB">取件方式</view>
+							<view class="titleLB">备注</view>
+						</view>
+						<view class="textBox1">
+							<view class="textLB">
+								<view class="textLBtitle">10*10杂志</view>
+							</view>
+							<input class="textLB" v-model="item.newProduct.Pnum1"/>
+							<input class="textLB" v-model="item.newProduct.num1"/>
+							<input class="textLB" v-model="item.newProduct.money1"/>
+							<input class="textLB" v-model="item.newProduct.urgent1"/>
+							<input class="textLB" v-model="item.newProduct.getFun1"/>
+							<input class="textLB" v-model="item.newProduct.note1"/>
+						</view>
+						<view class="textBox2">
+							<view class="textLB">
+								<view class="textLBtitle">36寸放大</view>
+							</view>
+							<input class="textLB" v-model="item.newProduct.Pnum2"/>
+							<input class="textLB" v-model="item.newProduct.num2"/>
+							<input class="textLB" v-model="item.newProduct.money2"/>
+							<input class="textLB" v-model="item.newProduct.urgent2"/>
+							<input class="textLB" v-model="item.newProduct.getFun2"/>
+							<input class="textLB" v-model="item.newProduct.note2"/>
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -288,6 +330,7 @@
 
 <script>
 	var calendar = require('../../util/calendar.js');
+	import {mapGetters} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -303,12 +346,6 @@
 				time:'2020-6-28',
 				// 时间布尔值
 				timeBoo:false,
-				// 接单
-				pickOrder:'张三/李四/王五',
-				// 客服
-				CustomerService:'张六/李七/王八',
-				// 网销
-				NetSales:'张九/李十/王十一',
 				// 分类
 				classification:'婚纱',
 				// 分组
@@ -384,10 +421,45 @@
 						// 入底
 						onBottom:'50',
 						// 入册
-						onCopies:'50'
+						onCopies:'50',
+						// 新增产品
+						newProduct:{
+							// P数 1
+							Pnum1 : 10,
+							// 数量 1
+							num1 : 1,
+							// 价格 1
+							money1 : 100,
+							// 加急 1
+							urgent1 : '加急',
+							// 取件方式 1
+							getFun1 : '',
+							// 备注 1
+ 							note1 : '',
+							
+							// P数 2
+							Pnum2 : 20,
+							// 数量 1
+							num2 : 2,
+							// 价格 2
+							money2 : 200,
+							// 加急 2
+							urgent2 : '加急',
+							// 取件方式 2
+							getFun2 : '',
+							// 备注 2
+							note2 : ''
+						}
 					}
 				]
-			};
+			};	
+		},
+		computed: {
+			...mapGetters([
+				'pickOrder',
+				'CustomerService',
+				'NetSales'
+			]),
 		},
 		onLoad(option){
 			// 获取页面路径中的type（开单类型）
@@ -398,7 +470,7 @@
 			});
 		},
 		mounted(){
-		
+
 		},
 		methods: {
 			// 编号开关
@@ -419,7 +491,19 @@
 			
 			// 前往选人页面
 			goCandidates(type){
-				console.log(type)
+				if(type == 'pickOrder'){
+					uni.navigateTo({
+						url:'../candidates/candidates?type=pickOrder'
+					})
+				}else if(type == 'CustomerService'){
+					uni.navigateTo({
+						url:'../candidates/candidates?type=CustomerService'
+					})
+				}else if(type == 'NetSales'){
+					uni.navigateTo({
+						url:'../candidates/candidates?type=NetSales'
+					})
+				}
 			},
 			
 			// 前往选择页面
@@ -507,7 +591,35 @@
 					// 入底
 					onBottom:'',
 					// 入册
-					onCopies:''
+					onCopies:'',
+					// 新增产品
+					newProduct:{
+						// P数 1
+						Pnum1 : 10,
+						// 数量 1
+						num1 : 1,
+						// 价格 1
+						money1 : 100,
+						// 加急 1
+						urgent1 : '加急',
+						// 取件方式 1
+						getFun1 : '',
+						// 备注 1
+						note1 : '',
+						
+						// P数 2
+						Pnum2 : 20,
+						// 数量 1
+						num2 : 2,
+						// 价格 2
+						money2 : 200,
+						// 加急 2
+						urgent2 : '加急',
+						// 取件方式 2
+						getFun2 : '',
+						// 备注 2
+						note2 : ''
+					}
 				}
 				
 				this.orderInfo.push(info)
@@ -519,7 +631,31 @@
 			},
 			// 保存订单
 			saveOrder(){
-				console.log('保存订单')
+				let OrderArr = {
+					'编号' : this.coding,
+					'门店' : this.stores,
+					'时间' : this.time,
+					'分类' : this.classification,
+					'分组' : this.grouping,
+					'风格' : this.style,
+					'备注' : this.note,
+					'来源' : this.source,
+					'介绍人' : this.references,
+					'介绍人电话' : this.sourcePhone,
+					'区域' : this.area,
+					'结婚时间' : this.marriedTime,
+				    '结婚时间(农历)' : this.marriedTimeOld,
+					'客户联系人信息' : this.userInfo,
+					'服务等级' : this.serviceLv,
+					'老师等级' : this.teacherLv,
+					'套系名称' : this.seriesName,
+					'套餐价格' : this.seriesMoney,
+					'礼包价格' : this.bagMoney,
+					'合计' : this.addMoney,
+					'子单' : this.orderInfo
+				}
+				
+				console.log(OrderArr)
 			}
 		}
 	}
@@ -675,6 +811,49 @@
 				.text{
 					color: #909090;
 					margin: auto 40rpx
+				}
+			}
+			.labelBox{
+				.title{
+					background-color: #FFFFFF;
+					padding-left: 0;
+				}
+				.labe{
+					width: 700rpx;
+					margin: 0 auto;
+					.titleBox{
+						background-color: #e3ecff;
+						display: flex;
+						justify-content: space-between;
+						.titleLB{
+							text-align: center;
+							height: 80rpx;
+							line-height: 80rpx;
+							width: 14.3%;
+							font-size: 24rpx;
+							color: #6c90cf;
+							// width: ;
+						}
+					}
+					.textBox1,.textBox2{
+						margin-top: 5rpx;
+						background-color: #f2f6ff;
+						display: flex;
+						justify-content: space-between;
+						.textLB{
+							color: #000000;
+							text-align: center;
+							height: 80rpx;
+							width: 14.3%;
+							font-size: 24rpx;
+							color: #6c90cf;
+							.textLBtitle{
+								width: 70%;
+								margin: auto;
+								margin-top: 10rpx;
+							}
+						}
+					}
 				}
 			}
 		}	
