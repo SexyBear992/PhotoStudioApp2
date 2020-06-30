@@ -1,5 +1,9 @@
 {
 	"pages": [	
+		{
+		    "path" : "pages/openOrder/openOrder",
+		    "style" : {}
+		},
 		
 		{
 		    "path" : "pages/openOrderDetails/openOrderDetails",
@@ -43,10 +47,6 @@
             "path" : "pages/add/add",
             "style" : {}
         },
-		{
-		    "path" : "pages/openOrder/openOrder",
-		    "style" : {}
-		},
 		
 		{
 		    "path" : "pages/infoDetails/infoDetails",

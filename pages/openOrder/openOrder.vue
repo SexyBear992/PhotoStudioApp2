@@ -50,43 +50,37 @@
 					// 婚纱开单
 					case 'hs':
 					uni.navigateTo({
-						url:'../openOrderDetails/openOrderDetails?type=婚纱开单' 
+						url:'../openOrderDetails/openOrderDetails?typeName=婚纱开单&type=' + u 
 					})
 					break;
 					// 儿童开单
 					case 'et':
 					uni.navigateTo({
-						url:'../openOrderDetails/openOrderDetails?type=儿童开单' 
+						url:'../openOrderDetails/openOrderDetails?typeName=儿童开单&type=' + u 
 					})
 					break;
 					// 孕妈开单
 					case 'ym':
 					uni.navigateTo({
-						url:'../openOrderDetails/openOrderDetails?type=孕妈开单' 
+						url:'../openOrderDetails/openOrderDetails?typeName=孕妈开单&type=' + u 
 					})
 					break;
 					// 写真开单
 					case 'xz':
 					uni.navigateTo({
-						url:'../openOrderDetails/openOrderDetails?type=写真开单'
+						url:'../openOrderDetails/openOrderDetails?typeName=写真开单&type=' + u
 					})
 					break;
 					// 服务开单
 					case 'fw':
 					uni.navigateTo({
-						url:'../openOrderDetails/openOrderDetails?type=服务开单'
+						url:'../openOrderDetails/openOrderDetails?typeName=服务开单&type=' + u
 					})
 					break;
 					// 婚庆开单
 					case 'hq':
 					uni.navigateTo({
-						url:'../openOrderDetails/openOrderDetails?type=婚庆开单'
-					})
-					break;
-					// 自组开单
-					case 'zz':
-					uni.navigateTo({
-						url:'../openOrderDetails/openOrderDetails?type=自组开单'
+						url:'../openOrderDetails/openOrderDetails?typeName=婚庆开单&type=' + u
 					})
 					break;
 				}
