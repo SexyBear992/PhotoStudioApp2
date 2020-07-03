@@ -6,11 +6,11 @@ Vue.use(Vuex)
 export default  new Vuex.Store({
 	state:{
 		// 接单
-		pickOrder:'张三/李四/王五',
+		pickOrder:'接单人员',
 		// 客服
-		CustomerService:'张六/李七/王八',
+		CustomerService:'专服人员',
 		// 网销
-		NetSales:'张九/李十/王十一',
+		NetSales:'网销人员',
 	},
 	getters:{
 		pickOrder(state){
