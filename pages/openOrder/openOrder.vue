@@ -40,7 +40,7 @@
 	export default {
 		data() {
 			return {
-				url:'../../static/icon/'
+				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/'
 			};
 		},
 		methods:{

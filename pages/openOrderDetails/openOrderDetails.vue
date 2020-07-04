@@ -213,7 +213,7 @@
 				<!-- QQ -->
 				<view class="listBox">
 					<view class="left">
-						<view class="title">QQ</view>
+						<view class="title">Q Q</view>
 						<input type="text" v-model="item.qq" placeholder="QQ"/>
 					</view>
 				</view>
@@ -426,7 +426,7 @@
 		components: {uniDrawer,uniCalendar,childOrder},
 		data() {
 			return {
-				url:'../../static/icon/',
+				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
 				// 标题名字
 				typeName:null,
 				// 类型
@@ -782,6 +782,8 @@
 				}
 				console.log(this.$refs.calendar)
 			}
+			
+			
 		},
 		watch:{
 			// 监听，如果选择风格为空 则显示 '喜爱风格'

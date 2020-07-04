@@ -35,74 +35,111 @@
 					<input type="number" class="text" v-model="item.onCopies"/>
 				</view>
 				<!-- 新增产品 product-->
-				<view class="labelBox">
-					<view class="title">新增产品</view>
+				<view class="labelBox moveView" v-if="item.newProduct.length>0">
+					<!-- <view class="title">新增产品</view> -->
 					<view class="labe">
 						<view class="titleBox">
-							<view class="titleLB">商品</view>
+							<view class="titleLB fTLB">商品</view>
+							<view class="titleLB">单价</view>
 							<view class="titleLB">P数</view>
 							<view class="titleLB">数量</view>
-							<view class="titleLB">价格</view>
-							<view class="titleLB">加急</view>
-							<view class="titleLB">取件方式</view>
-							<view class="titleLB">备注</view>
 						</view>
-						<view class="textBox1">
-							<view class="textLB">
-								<view class="textLBtitle">10*10杂志</view>
-							</view>
-							<input class="textLB" v-model="item.newProduct.pPnum1"/>
-							<input class="textLB" v-model="item.newProduct.pNum1"/>
-							<input class="textLB" v-model="item.newProduct.pMoney1"/>
-							<input class="textLB" v-model="item.newProduct.pUrgent1"/>
-							<input class="textLB" v-model="item.newProduct.pGetFun1"/>
-							<input class="textLB" v-model="item.newProduct.pNote1"/>
-						</view>
-						<view class="textBox2">
-							<view class="textLB">
-								<view class="textLBtitle">36寸放大</view>
-							</view>
-							<input class="textLB" v-model="item.newProduct.pPnum2"/>
-							<input class="textLB" v-model="item.newProduct.pNum2"/>
-							<input class="textLB" v-model="item.newProduct.pMoney2"/>
-							<input class="textLB" v-model="item.newProduct.pUrgent2"/>
-							<input class="textLB" v-model="item.newProduct.pGetFun2"/>
-							<input class="textLB" v-model="item.newProduct.pNote2"/>
+						<view class="titleBox" v-for="(list,ind) in item.newProduct" :key='ind'>
+							<movable-area class="movableArea">
+							    <movable-view class="movableView" 
+									:x="list.close" 
+									direction="horizontal" 
+									@change="onChange($event,list)"
+								>
+									<view class="textLB fTLB">{{list.title}}</view>
+									<view class="textLB Money">{{list.price}}</view>
+									<input class="textLB" v-model="list.pnum"/>
+									<input class="textLB" v-model="list.num"/>
+									<view class="del" @click="del(item.newProduct,ind)">删除</view>
+								</movable-view>
+							</movable-area>
 						</view>
 					</view>
 				</view>
 				<!-- 新增服装 clothing-->
-				<view class="labelBox">
-				<view class="title">新增服装</view>
-				<view class="labe">
-					<view class="titleBox">
-						<view class="titleLB cTitle">商品</view>
-						<view class="titleLB cTitle">数量</view>
-						<view class="titleLB cTitle">单价</view>
-						<view class="titleLB cTitle">类型</view>
-						<view class="titleLB cTitle">备注</view>
-					</view>
-					<view class="textBox1">
-						<view class="textLB cText">
-							<view class="textLBtitle cTitle">10*10杂志</view>
+				<view class="labelBox" v-if="item.newClothing.length>0">
+					<view class="labe">
+						<view class="titleBox moveView">
+							<view class="titleLB fTLB">服装</view>
+							<view class="titleLB">单价</view>
+							<view class="titleLB">类型</view>
+							<view class="titleLB">数量</view>
 						</view>
-						<input class="textLB cText" v-model="item.newClothing.cNum1"/>
-						<input class="textLB cText" v-model="item.newClothing.cPrice1"/>
-						<input class="textLB cText" v-model="item.newClothing.cType1"/>
-						<input class="textLB cText" v-model="item.newClothing.cNote1"/>
-					</view>
-					<view class="textBox2">
-						<view class="textLB cText">
-							<view class="textLBtitle cTitle">10*10杂志</view>
+						<view class="titleBox" v-for="(list,ind) in item.newClothing" :key='ind'>
+							<movable-area class="movableArea">
+							    <movable-view class="movableView" 
+									:x="list.close" 
+									direction="horizontal" 
+									@change="onChange($event,list)"
+								>
+									<view class="textLB fTLB">{{list.title}}</view>
+									<view class="textLB Money">{{list.price}}</view>
+									<view class="textLB">{{list.type}}</view>
+									<input class="textLB" v-model="list.num"/>
+									<view class="del" @click.stop="del(item.newClothing,ind)">删除</view>
+								</movable-view>
+							</movable-area>
 						</view>
-						<input class="textLB cText" v-model="item.newClothing.cNum2"/>
-						<input class="textLB cText" v-model="item.newClothing.cPrice2"/>
-						<input class="textLB cText" v-model="item.newClothing.cType2"/>
-						<input class="textLB cText" v-model="item.newClothing.cNote2"/>
 					</view>
 				</view>
-			</view>
-				
+				<!-- 景点 attractions-->
+				<view class="labelBox moveView" v-if="item.newAttractions.length>0">
+					<view class="labe">
+						<view class="titleBox">
+							<view class="titleLB fTLB">景点</view>
+							<view class="titleLB">单价</view>
+							<view class="titleLB">类型</view>
+							<view class="titleLB"></view>
+						</view>
+						<view class="titleBox" v-for="(list,ind) in item.newAttractions" :key='ind'>
+							<movable-area class="movableArea">
+							    <movable-view class="movableView" 
+									:x="list.close" 
+									direction="horizontal" 
+									@change="onChange($event,list)"
+								>
+									<view class="textLB fTLB">{{list.title}}</view>
+									<view class="textLB Money">{{list.price}}</view>
+									<view class="textLB">{{list.type}}</view>
+									<input class="textLB" v-model="list.num"/>
+									<view class="del" @click="del(item.newAttractions,ind)">删除</view>
+								</movable-view>
+							</movable-area>
+						</view>
+					</view>
+				</view>
+				<!-- 服务 service-->
+				<view class="labelBox moveView" v-if="item.newService.length>0">
+					<view class="labe">
+						<view class="titleBox">
+							<view class="titleLB fTLB">服务</view>
+							<view class="titleLB">单价</view>
+							<view class="titleLB">人数</view>
+							<view class="titleLB">数量</view>
+						</view>
+						<view class="titleBox" v-for="(list,ind) in item.newService" :key='ind'>
+							<movable-area class="movableArea">
+							    <movable-view class="movableView" 
+									:x="list.close" 
+									direction="horizontal" 
+									@change="onChange($event,list)"
+								>
+									<view class="textLB fTLB">{{list.title}}</view>
+									<view class="textLB Money">{{list.price}}</view>
+									<view class="textLB">{{list.type}}</view>
+									<input class="textLB" v-model="list.num"/>
+									<view class="del" @click="del(item.newService,ind)">删除</view>
+								</movable-view>
+							</movable-area>
+						</view>
+					</view>
+				</view>
+			
 			</view>
 		</view>
 		
@@ -120,7 +157,7 @@
 				// 订单
 				orderInfo:[],
 				// 套餐金额
-				allMoney:null
+				allMoney:null,
 			};
 		},
 		mounted(){
@@ -138,6 +175,18 @@
 				// index 为循环列表的下标
 				this.orderInfo.splice(index, 1)
 			},
+			onChange: function(e,list){
+				// console.log(e.detail.x)
+				if(e.detail.x < -35){
+					list.close = -77
+				}else if(e.detail.x >= -35){
+					list.close = 0
+				}
+			},
+			del(list,index){
+				list[index+1].close = 0
+				list.splice(index,1)
+			}
 		},
 		watch:{
 			orderInfo:{//深度监听，可监听到对象、数组的变化
@@ -194,6 +243,7 @@
 				width: 700rpx;
 				margin: 0 auto;
 				.titleBox{
+					overflow: hidden;
 					background-color: #e3ecff;
 					display: flex;
 					justify-content: space-between;
@@ -201,40 +251,25 @@
 						text-align: center;
 						height: 80rpx;
 						line-height: 80rpx;
-						width: 14.3%;
 						font-size: 24rpx;
 						color: #6c90cf;
-						// width: ;
-					}
-					.cTitle{
 						width: 20%;
 					}
 				}
-				.textBox1,.textBox2{
+				.fTLB{
+					width: 40% !important;
+				}
+				.textBox1{
+					// transform: translateX(-80rpx);
 					margin-top: 5rpx;
 					background-color: #f2f6ff;
 					display: flex;
 					justify-content: space-between;		
-					.textLB{
-						color: #000000;
-						text-align: center;
-						height: 80rpx;
-						width: 14.3%;
-						font-size: 24rpx;
-						.textLBtitle{
-							width: 70%;
-							margin: auto;
-							margin-top: 10rpx;
-						}
-						.cTitle{
-							width: 60%;
-						}
-					}	
-					.cText{
-						width: 20% ;
-					}
 				}
 			}
+		}
+		.moveView{
+			margin-top: 20rpx;
 		}
 	}	
 }
@@ -254,5 +289,35 @@
 	color: #FF0000;
 	margin: 20rpx;
 	font-size: 28rpx;
+}
+.movableArea{
+	width: 840rpx;
+	height: 80rpx;
+	.movableView{
+		display: flex;
+		width: 840rpx;
+		height: 80rpx;
+		.del{
+			width: 20%;
+			height: 80rpx;
+			line-height: 80rpx;
+			text-align: center;
+			color: #FFFFFF;
+			background-color: #FF0000;
+		}
+	}
+	.textLB{
+		width: 20%;
+		color: #000000;
+		text-align: center;
+		height: 80rpx;
+		font-size: 24rpx;
+		line-height: 80rpx;
+		.textLBtitle{
+// 		// 	width: 70%;
+// 		// 	margin: auto;
+// 		// 	margin-top: 10rpx;
+		}
+	}	
 }
 </style>

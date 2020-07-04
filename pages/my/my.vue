@@ -52,7 +52,7 @@
 	export default {
 		data() {
 			return {
-				url:'../../static/icon/',
+				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
 				user:{
 					name:'熊镇城',
 					department:'开发',

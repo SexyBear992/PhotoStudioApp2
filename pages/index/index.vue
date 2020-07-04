@@ -4,9 +4,9 @@
 		<view class="topBox">
 			<!-- 头像 搜索 -->
 			<view class="top">
-				<image src="/static/icon/img_tx@2x.png" class="avatar"></image>
+				<image :src="url+'img_tx@2x.png'" class="avatar"></image>
 				<view class="search">
-					<image src="/static/icon/icon_search@2x.png" mode="" class="icon"></image>
+					<image :src="url+'icon_search@2x.png'" mode="" class="icon"></image>
 					<input placeholder="请输入订单号/手机号/姓名" placeholder-style="color: #FFFFFF; font-size:25rpx" />
 				</view>
 				<image :src="url+'icon_xx@2x.png'" mode="" class="ts"></image>
@@ -243,7 +243,7 @@
 	export default {
 		data() {
 			return {
-				url:'../../static/icon/'
+				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/'
 			};
 		},
 		methods:{
