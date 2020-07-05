@@ -1,15 +1,15 @@
 export default [
 	{
-		'cityType': '市',
+		'cityType': '人事部',
 		'cityCode': '110100',
-		'cityName': '北京'
+		'cityName': '卫斯理'
 	}, {
-		'cityType': '市',
+		'cityType': '人事部',
 		'cityCode': '120100',
-		'cityName': '天津'
+		'cityName': '李顺在'
 	}, {
-		'cityType': '区',
+		'cityType': '开发部',
 		'cityCode': '130100',
-		'cityName': '石家庄市'
+		'cityName': '陈友谅'
 	}
 ]

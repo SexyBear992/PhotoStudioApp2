@@ -1,23 +1,23 @@
 export default [
 	{
-		'cityType': '市',
+		'cityType': '人事部',
 	    'cityCode': '140300',
-	    'cityName': '阳泉市'
+	    'cityName': '吴玉章'
 	}, {
-		'cityType': '区',
+		'cityType': '开发部',
 	    'cityCode': '140400',
-	    'cityName': '长治市'
+	    'cityName': '杨秀清'
 	}, {
-		'cityType': '城',
+		'cityType': '人事部',
 	    'cityCode': '140500',
-	    'cityName': '晋城市'
+	    'cityName': '唐彦林'
 	}, {
-		'cityType': '区',
+		'cityType': '人事部',
 	    'cityCode': '140600',
-	    'cityName': '朔州市'
+	    'cityName': '潘乔里'
 	}, {
-		'cityType': '市',
+		'cityType': '开发部',
 	    'cityCode': '140700',
-	    'cityName': '晋中市'
+	    'cityName': '针叶林'
 	}
 ]

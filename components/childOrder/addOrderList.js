@@ -1,15 +1,15 @@
 // 新增订单	addOrderList
 export default {
 	// 价格
-	orderMoney : 500,
+	orderMoney:5999,
 	// 精修
 	modify:50,
 	// 拍摄保底张数
-	photoNum:10,
+	photoNum:1,
 	// 入底
-	onBottom:20,
+	onBottom:50,
 	// 入册
-	onCopies:20,
+	onCopies:50,
 	// 新增产品
 	newProduct:[
 		{
@@ -21,6 +21,8 @@ export default {
 			pnum : 8,
 			// 数量
 			num : 1,
+			// 关闭
+			close:0
 		},
 		{
 			// 标题
@@ -31,6 +33,8 @@ export default {
 			pnum : 1,
 			// 数量
 			num : 1,
+			// 关闭
+			close:0
 		},
 		{
 			// 标题
@@ -41,6 +45,8 @@ export default {
 			pnum : 1,
 			// 数量
 			num : 1,
+			// 关闭
+			close:0
 		},
 		{
 			// 标题
@@ -51,6 +57,8 @@ export default {
 			pnum : 1,
 			// 数量
 			num : 1,
+			// 关闭
+			close:0
 		}
 	],
 	// 新增服装
@@ -62,7 +70,9 @@ export default {
 			// 类型
 			type: '外景',
 			// 数量 
-			num : 1,	
+			num : 1,
+			// 关闭
+			close:0
 		},
 		{
 			title: '汉服男装',
@@ -72,6 +82,8 @@ export default {
 			type: '外景',
 			// 数量 
 			num : 1,	
+			// 关闭
+			close:0
 		},
 		{
 			title: '现代男装',
@@ -81,6 +93,8 @@ export default {
 			type: '内景',
 			// 数量 
 			num : 1,	
+			// 关闭
+			close:0
 		},
 		{
 			title: '现代女装',
@@ -90,6 +104,8 @@ export default {
 			type: '内景',
 			// 数量 
 			num : 1,	
+			// 关闭
+			close:0
 		},
 		
 	],
@@ -102,6 +118,8 @@ export default {
 			price : 100,
 			// 类型
 			type: '外景',
+			// 关闭
+			close:0
 		},
 		{
 			title: '湖心岛',
@@ -109,6 +127,8 @@ export default {
 			price : 800,
 			// 类型
 			type: '外景',
+			// 关闭
+			close:0
 		},
 		{
 			title: '1号摄影室',
@@ -116,6 +136,8 @@ export default {
 			price : 0,
 			// 类型
 			type: '内景',
+			// 关闭
+			close:0
 		},
 	],
 	// 新增服务
@@ -128,7 +150,8 @@ export default {
 			people: 1,
 			// 数量 
 			num : 1,	
+			// 关闭
+			close:0
 		},
 	]
-
 }

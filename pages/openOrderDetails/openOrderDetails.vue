@@ -108,16 +108,18 @@
 				<view class="listBox">
 					<view class="left">
 						<view class="title">介绍人</view>
-						<view class="text">{{references}}</view>
+						<!-- <view class="text">{{references}}</view> -->
+						<input type="text" v-model="references" placeholder="介绍人名字"/>
 					</view>
+					<view class="chooseReferences" @click="goCandidates('references')">选择介绍人</view>
 				</view>
 				<!-- 手机号码 -->
 				<view class="listBox">
 					<view class="left">
 						<view class="title">手机号码</view>
-						<view class="text">{{sourcePhone}}</view>
+						<input type="text" v-model="sourcePhone" placeholder="介绍人手机号"/>
+						<!-- <view class="text">{{sourcePhone}}</view> -->
 					</view>
-					<view class="chooseReferences" @click="goCandidates('references')">选择介绍人</view>
 				</view>
 			</view>
 		</view>
@@ -272,10 +274,11 @@
 						<view class="text">{{seriesName}}</view>
 					</view>
 					<view class="addLB">
-						<view class="but" @click="addBag">添加礼包</view>
 						<image :src="url+'icon_hr@2x.png'" mode="" @click="openDrawer('seriesName')"></image>
 					</view>
 				</view>
+				
+				<view class="but" @click="addBag">添加礼包</view>
 				<!-- 套系明细 -->
 				<!-- <view class="seriesInfo" v-if="seriesName != '请选择'">
 					<view class="left">
@@ -395,6 +398,8 @@
 			@confirm="sureDay"
 			class="calendar"
 		 />
+		<!-- IOS手机底部留白 -->
+		<view class="bottomList"></view>
 		<view class="save" @click="saveOrder">保存订单</view>
 	</view>
 </template>
@@ -402,7 +407,7 @@
 <script>
 	import uniDrawer from "@/components/uni/uni-drawer/uni-drawer.vue"
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
-	import childOrder from '@/components/childOrder.vue'
+	import childOrder from '@/components/childOrder/childOrder.vue'
 	import {mapGetters} from 'vuex'
 	// 导入文件数据
 	import storesList from './storesList.js'
@@ -466,9 +471,9 @@
 				// 来源列表
 				sourceList:[],
 				// 介绍人
-				references:'莉莉',
+				// references:'莉莉',
 				// 介绍人电话
-				sourcePhone:'16271717126',
+				// sourcePhone:'16271717126',
 				// 区域
 				area:'客户区域',
 				// 区域列表
@@ -517,7 +522,9 @@
 			...mapGetters([
 				'pickOrder',
 				'CustomerService',
-				'NetSales'
+				'NetSales',
+				'references',
+				'sourcePhone'
 			]),
 		},
 		onLoad(option){
@@ -535,6 +542,20 @@
 			}else if(option.type == 'xz' || option.type == 'fw'){
 				this.userInfo = userInfoX
 			}
+		},
+		onUnload(){
+			this.clearAction(seriesNameList)
+			this.clearAction(classificationList)
+			this.clearAction(groupingList)
+			this.clearAction(styleList)
+			this.clearAction(sourceList)
+			this.clearAction(areaList)
+			this.clearAction(babyInfo)
+			this.clearAction(babyCallNameList)
+			this.clearAction(callNameList)
+			this.clearAction(serviceLvList)
+			this.clearAction(teacherLvList)
+			this.clearAction(storesList)
 		},
 		mounted(){
 			this.seriesNameList = seriesNameList
@@ -781,9 +802,20 @@
 					this[this.timeClss][this.timeIndex].brisdayOld = lunar
 				}
 				console.log(this.$refs.calendar)
-			}
+			},
 			
-			
+			// 清空选择
+			clearAction(list){
+				list.forEach((i)=>{
+					if(i.list){
+						i.list.forEach((item)=>{
+							item.action = false
+						})
+					}else{
+						i.action = false
+					}
+				})
+			},
 		},
 		watch:{
 			// 监听，如果选择风格为空 则显示 '喜爱风格'
@@ -833,7 +865,7 @@
 					}
 					input{
 						margin:auto 0;
-						width: 500rpx;
+						width: 435rpx;
 					}
 				}
 				.switch{
@@ -862,16 +894,7 @@
 				}
 				.addLB{
 					display: flex;
-					.but{
-						border: 1rpx solid #6d9ef6;
-						color: #6d9ef6;
-						border-radius: 10rpx;
-						font-size: 24rpx;
-						height: 40rpx;
-						line-height: 40rpx;
-						padding: 0 10rpx;
-						margin: auto 0;
-					}
+					
 				}
 				.chooseReferences{
 					border: 1rpx solid #6d9ef6;
@@ -884,6 +907,18 @@
 					margin: auto 0;
 				}
 			}	
+			.but{
+				border: 1rpx solid #6d9ef6;
+				color: #6d9ef6;
+				border-radius: 10rpx;
+				font-size: 24rpx;
+				height: 40rpx;
+				line-height: 40rpx;
+				padding: 0 10rpx;
+				width: 100rpx;
+				float: right;
+				margin: 10rpx 0;
+			}
 			.seriesInfo{
 				margin-top: 30rpx;
 				display: flex;
@@ -924,6 +959,10 @@
 	
 	
 	.save{
+		position: fixed;
+		bottom: 30rpx;
+		margin-left: 50%;
+		transform: translateX(-50%);
 		color: #FFFFFF;
 		width: 650rpx;
 		height: 80rpx;
@@ -931,7 +970,6 @@
 		text-align: center;
 		line-height: 80rpx;
 		border-radius: 40rpx;
-		margin: 50rpx auto;
 	}
 	.action{
 		color: #578ff4;
@@ -951,5 +989,8 @@
 	}
 	.calendar{
 		z-index: 2;
+	}
+	.bottomList{
+		height: 150rpx;
 	}
 </style>

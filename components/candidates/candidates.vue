@@ -65,6 +65,7 @@
 				</view>
 		    </view>
 		</uni-drawer>
+
 		<view class="sureBut" @click="sureBut">确定</view>
 	</view>
 </template>
@@ -296,6 +297,7 @@ export default {
 		// 确定提交
 		sureBut(){
 			let arr = []
+
 			this.needName.forEach(e=>{
 				arr.push(e.name)
 			})
@@ -307,6 +309,14 @@ export default {
 				this.$store.commit('CustomerService',str)
 			}else if(this.typeName == 'NetSales'){
 				this.$store.commit('NetSales',str)
+			}else if(this.typeName == 'references'){
+				this.$store.commit('references',str)
+				let _this = this
+				this.cityData.forEach((i)=>{
+					if(i.cityName == str){
+						_this.$store.commit('sourcePhone',i.phone)					
+					}
+				})
 			}
 			uni.navigateBack({
 				delta:1

@@ -1,15 +1,18 @@
 export default [
 	{
-		'cityType': '市',
+		'cityType': '开发部',
 		'cityCode': '130200',
-		'cityName': '唐山市'
+		'cityName': '朴勇宇',
+		'phone':'18719269887'
 	}, {
-		'cityType': '市',
+		'cityType': '人事部',
 		'cityCode': '130300',
-		'cityName': '秦皇岛市'
+		'cityName': '杨钰莹',
+		'phone':'18719269987'
 	}, {
-		'cityType': '区',
+		'cityType': '开发部',
 		'cityCode': '130400',
-		'cityName': '邯郸市'
+		'cityName': '李林泷',
+		'phone':'18980369987'
 	},
 ]

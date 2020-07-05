@@ -83,6 +83,8 @@ export default [
 				type: '外景',
 				// 数量 
 				num : 1,	
+				// 关闭
+				close:0
 			},
 			{
 				title: '现代男装',
@@ -92,6 +94,8 @@ export default [
 				type: '内景',
 				// 数量 
 				num : 1,	
+				// 关闭
+				close:0
 			},
 			{
 				title: '现代女装',
@@ -101,6 +105,8 @@ export default [
 				type: '内景',
 				// 数量 
 				num : 1,	
+				// 关闭
+				close:0
 			},
 			
 		],
@@ -113,6 +119,8 @@ export default [
 				price : 100,
 				// 类型
 				type: '外景',
+				// 关闭
+				close:0
 			},
 			{
 				title: '湖心岛',
@@ -120,6 +128,8 @@ export default [
 				price : 800,
 				// 类型
 				type: '外景',
+				// 关闭
+				close:0
 			},
 			{
 				title: '1号摄影室',
@@ -127,6 +137,8 @@ export default [
 				price : 0,
 				// 类型
 				type: '内景',
+				// 关闭
+				close:0
 			},
 		],
 		// 新增服务
@@ -139,6 +151,8 @@ export default [
 				people: 1,
 				// 数量 
 				num : 1,	
+				// 关闭
+				close:0
 			},
 		]
 	}

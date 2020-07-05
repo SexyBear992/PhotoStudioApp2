@@ -6,7 +6,10 @@
 				<view class="text">
 					{{seriesName}}
 				</view>
-				<view v-if="index != 0" class="deleteOrder" @click="deleteOrder(index)">删除子单</view>
+				<view class="butBox">
+					<view class="addList" @click="openAddList(index)">新增</view>
+					<view v-if="index != 0" class="deleteOrder" @click="deleteOrder(index)">删除子单</view>
+				</view>
 			</view>
 			<view class="main">
 				<!-- 价格 -->
@@ -36,9 +39,9 @@
 				</view>
 				<!-- 新增产品 product-->
 				<view class="labelBox moveView" v-if="item.newProduct.length>0">
-					<!-- <view class="title">新增产品</view> -->
+					<view class="title">新增产品</view>
 					<view class="labe">
-						<view class="titleBox">
+						<view class="titleBox tB">
 							<view class="titleLB fTLB">商品</view>
 							<view class="titleLB">单价</view>
 							<view class="titleLB">P数</view>
@@ -62,9 +65,10 @@
 					</view>
 				</view>
 				<!-- 新增服装 clothing-->
-				<view class="labelBox" v-if="item.newClothing.length>0">
+				<view class="labelBox moveView" v-if="item.newClothing.length>0">
+					<view class="title">新增服装</view>
 					<view class="labe">
-						<view class="titleBox moveView">
+						<view class="titleBox tB">
 							<view class="titleLB fTLB">服装</view>
 							<view class="titleLB">单价</view>
 							<view class="titleLB">类型</view>
@@ -89,8 +93,9 @@
 				</view>
 				<!-- 景点 attractions-->
 				<view class="labelBox moveView" v-if="item.newAttractions.length>0">
+					<view class="title">新增景点</view>
 					<view class="labe">
-						<view class="titleBox">
+						<view class="titleBox tB">
 							<view class="titleLB fTLB">景点</view>
 							<view class="titleLB">单价</view>
 							<view class="titleLB">类型</view>
@@ -115,8 +120,9 @@
 				</view>
 				<!-- 服务 service-->
 				<view class="labelBox moveView" v-if="item.newService.length>0">
+					<view class="title">新增服务</view>
 					<view class="labe">
-						<view class="titleBox">
+						<view class="titleBox tB">
 							<view class="titleLB fTLB">服务</view>
 							<view class="titleLB">单价</view>
 							<view class="titleLB">人数</view>
@@ -131,7 +137,7 @@
 								>
 									<view class="textLB fTLB">{{list.title}}</view>
 									<view class="textLB Money">{{list.price}}</view>
-									<view class="textLB">{{list.type}}</view>
+									<view class="textLB">{{list.people}}</view>
 									<input class="textLB" v-model="list.num"/>
 									<view class="del" @click="del(item.newService,ind)">删除</view>
 								</movable-view>
@@ -143,22 +149,52 @@
 			</view>
 		</view>
 		
+		
 		<view class="addOrder" @click="addOrder">新增子单</view>
+		
+		<!-- 抽屉弹窗 -->
+		<uni-drawer
+			mode="right"
+			ref='drawer'
+			class="drawer"
+		>
+			<view style="padding:30rpx;">
+				<!-- 门店 -->
+				<view>
+					<view class="title">新增产品</view>
+					<view class="text" v-for="(item,index) in addListType" :key="index" @click="goChooseList(item)">
+						{{item}}
+					</view>
+				</view>
+			</view>
+		</uni-drawer>
 	</view>
 </template>
 
 <script>
-	import orderInfo from '../pages/openOrderDetails/orderInfo.js'
-	import addOrderList from '../pages/openOrderDetails/addOrderList.js'
+	import uniDrawer from "@/components/uni/uni-drawer/uni-drawer.vue"
+	import orderInfo from './orderInfo.js'
+	import addOrderList from './addOrderList.js'
+	import {mapGetters} from 'vuex'
 	export default {
 		props:['seriesName'],
+		components: {uniDrawer},
 		data() {
 			return {
 				// 订单
 				orderInfo:[],
 				// 套餐金额
 				allMoney:null,
+				// 新增List类型
+				addListType:['商品','服装','景点','服务'],
+				// 增加List类型下标
+				addListIndex : 0
 			};
+		},
+		computed:{
+			...mapGetters([
+				'addList'
+			])
 		},
 		mounted(){
 			this.orderInfo = orderInfo
@@ -184,19 +220,52 @@
 				}
 			},
 			del(list,index){
-				list[index+1].close = 0
+				// list[index+1].close = 0
 				list.splice(index,1)
+			},
+			
+			// 新增订单list
+			openAddList(index){
+				this.addListIndex = index
+				this.$refs.drawer.open()
+			},
+			
+			// 进入选择
+			goChooseList(type){
+				switch(type){
+					case '商品':
+						var t = 'newProduct';
+						break;
+					case '服装':
+						var t =  'newClothing';
+						break;
+					case '景点':
+						var t = 'newAttractions';
+						break;
+					case '服务':
+						var t= 'newService';
+						break;
+				}
+				uni.navigateTo({
+					url:'../../pages/chooseList/chooseList?type=' + t
+				})
+				this.$refs.drawer.close()
 			}
 		},
 		watch:{
 			orderInfo:{//深度监听，可监听到对象、数组的变化
 				handler(val, oldVal){
 					let arr = val.map((i)=>{
-						return i.orderMoney
+						return Number(i.orderMoney)
 					})
 					this.allMoney = arr.reduce((n,m) => n+m)
 				},
 				deep:true
+			},
+			addList(){
+				this.addList.arr.forEach((i)=>{
+					(this.orderInfo[this.addListIndex])[this.addList.type].push(i)
+				})
 			}
 		}
 	}
@@ -212,14 +281,21 @@
 		padding: 20rpx 30rpx;
 		display: flex;
 		justify-content: space-between;
-		.deleteOrder{
-			border: 1rpx solid #FF0000;
-			color: #FF0000;
-			background-color: #FFFFFF;
-			border-radius: 10rpx;
-			padding: 5rpx;
-			font-size: 20rpx;
+		.butBox{
+			display: flex;
+			.deleteOrder{
+				border: 1rpx solid #FF0000;
+				color: #FF0000;
+				background-color: #FFFFFF;
+				border-radius: 10rpx;
+				padding: 5rpx;
+				font-size: 20rpx;
+			}
+			.addList{
+				margin-right: 20rpx;
+			}
 		}
+		
 	}
 	.main{
 		margin: 0 30rpx;
@@ -244,9 +320,9 @@
 				margin: 0 auto;
 				.titleBox{
 					overflow: hidden;
-					background-color: #e3ecff;
 					display: flex;
 					justify-content: space-between;
+					background-color: #f2f6ff;
 					.titleLB{
 						text-align: center;
 						height: 80rpx;
@@ -256,15 +332,11 @@
 						width: 20%;
 					}
 				}
+				.tB{
+					background-color: #e5edff;
+				}
 				.fTLB{
 					width: 40% !important;
-				}
-				.textBox1{
-					// transform: translateX(-80rpx);
-					margin-top: 5rpx;
-					background-color: #f2f6ff;
-					display: flex;
-					justify-content: space-between;		
 				}
 			}
 		}
@@ -319,5 +391,18 @@
 // 		// 	margin-top: 10rpx;
 		}
 	}	
+}
+.drawer{
+	.title{
+		font-size: 38rpx;
+		font-weight: bold
+	}
+	.text{
+		margin: 20rpx;
+		font-size: 36rpx;
+	}
+	.liName{
+		margin-left: 20rpx;
+	}
 }
 </style>

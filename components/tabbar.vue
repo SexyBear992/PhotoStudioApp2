@@ -55,7 +55,7 @@
 			},
 			tabBarMy(){
 				uni.switchTab({
-					url:'/pages/my/my'
+					url:'/pages/my/my' 
 				})
 			}
 		}
@@ -64,6 +64,7 @@
 
 <style lang="scss" scoped>
 	.tabbar{
+		border-top: 2rpx solid #f7f7f9;
 		width: 100%;
 		height: 122rpx;
 		background-color: #fff;

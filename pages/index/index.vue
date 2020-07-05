@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="mainBox">
 		<!-- 顶部模块 -->
 		<view class="topBox">
 			<!-- 头像 搜索 -->
@@ -217,7 +217,7 @@
 		</view>
 		
 		<!-- 分类按键 客服-->
-		<view class="classification bottomList">
+		<view class="classification">
 			<view class="title">客服</view>
 			<view class="iconBox">
 				<view class="list" @click="iconList('hfdc')">
@@ -234,7 +234,8 @@
 				</view>
 			</view>
 		</view>
-	
+		<!-- IOS手机底部留白 -->
+		<view class="bottomList"></view>
 		<tabBar :index="1"></tabBar>
 	</view>
 </template>
@@ -413,9 +414,14 @@
 <style>
 	page{
 		background-color: #F7F7F9;
+		height : 100%
 	}
 </style>
 <style lang="scss" scoped>
+	.mainBox{
+		height: 100%;
+		overflow: scroll
+	}
 	.topBox{
 		height: 240rpx;
 		background-color: #61A3FF;
@@ -510,6 +516,6 @@
 		}
 	}
 	.bottomList{
-		margin-bottom: 137rpx;
+		height: 137rpx;
 	}
 </style>
