@@ -33,10 +33,10 @@
 </template>
 
 <script>
-	import newProduct from '../../components/childOrder/addListSP.js'
-	import newClothing from '../../components/childOrder/addListFZ.js'
-	import newAttractions from '../../components/childOrder/addListJD.js'
-	import newService from '../../components/childOrder/addListFW.js'
+	import newProduct from '@/components/childOrder/addListSP.js'
+	import newClothing from '@/components/childOrder/addListFZ.js'
+	import newAttractions from '@/components/childOrder/addListJD.js'
+	import newService from '@/components/childOrder/addListFW.js'
 	export default {
 		data() {
 			return {

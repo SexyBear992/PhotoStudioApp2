@@ -1,6 +1,11 @@
 {
 	"pages": [	
-		
+		{
+		    "path" : "pages/index/myOrderBox/myOrder/myOrder",
+		    "style" : {
+				"navigationBarTitleText":"我的订单"
+			}
+		},
 		{
 		    "path" : "pages/login/login",
 		    "style" : {
@@ -38,19 +43,19 @@
 			}
 		},	
 		{
-		    "path" : "pages/openOrder/openOrder",
+		    "path" : "pages/index/openOrderBox/openOrder/openOrder",
 		    "style" : {
 				"disableScroll": true
 			}
 		},
 		
 		{
-		    "path" : "pages/openOrderDetails/openOrderDetails",
+		    "path" : "pages/index/openOrderBox/openOrderDetails/openOrderDetails",
 		    "style" : {
 			}
 		},
 		{
-		    "path" : "pages/candidates/candidates",
+		    "path" : "pages/index/openOrderBox/candidates/candidates",
 		    "style" : {
 			}
 		},
@@ -62,16 +67,17 @@
         },
 		
 		{
-		    "path" : "pages/infoDetails/infoDetails",
+		    "path" : "pages/information/infoDetails/infoDetails",
 		    "style" : {
 				"disableScroll": true
 			}
 		}
         ,{
-            "path" : "pages/chooseList/chooseList",
+            "path" : "pages/index/openOrderBox/chooseList/chooseList",
             "style" : {
 			}
         }
+        
     ],
 	"tabBar": {
 		// 隐藏tabBar

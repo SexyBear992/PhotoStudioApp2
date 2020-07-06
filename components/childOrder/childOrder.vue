@@ -246,8 +246,11 @@
 						var t= 'newService';
 						break;
 				}
+				uni.switchTab({
+					url:'../../pages/add/add'
+				})
 				uni.navigateTo({
-					url:'../../pages/chooseList/chooseList?type=' + t
+					url:'../chooseList/chooseList?type=' + t
 				})
 				this.$refs.drawer.close()
 			}

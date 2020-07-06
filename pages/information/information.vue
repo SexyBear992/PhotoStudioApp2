@@ -68,7 +68,7 @@
 			infoDetails(d){
 				// 传信息ID给消息详情页
 				uni.navigateTo({
-					url:'../infoDetails/infoDetails?infoId=' + d 
+					url:'./infoDetails/infoDetails?infoId=' + d 
 				})
 			},
 		}

@@ -970,6 +970,7 @@
 		text-align: center;
 		line-height: 80rpx;
 		border-radius: 40rpx;
+		z-index: 2;
 	}
 	.action{
 		color: #578ff4;

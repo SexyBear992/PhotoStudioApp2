@@ -266,7 +266,7 @@
 					// 开单
 					case 'kd':
 					uni.navigateTo({
-						url:'../openOrder/openOrder'
+						url:'openOrderBox/openOrder/openOrder'
 					})
 					break;
 					// 取件
@@ -296,15 +296,21 @@
 					break;		
 					// 我的订单
 					case 'wddd':
-					console.log('我的订单');
+					uni.navigateTo({
+						url:'./myOrderBox/myOrder/myOrder?type=wddd'
+					})
 					break;
 					// 团队订单
 					case 'tddd':
-					console.log('团队订单');
+					uni.navigateTo({
+						url:'./myOrderBox/myOrder/myOrder?type=tddd'
+					})
 					break;
 					// 所有订单
 					case 'sydd':
-					console.log('所有订单');
+					uni.navigateTo({
+						url:'./myOrderBox/myOrder/myOrder?type=sydd'
+					})
 					break;
 					// 套餐升级
 					case 'tcsj':
