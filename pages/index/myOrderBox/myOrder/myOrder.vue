@@ -1,19 +1,26 @@
 <template>
 	<view>
+		<view class="showTop" v-if="showTop">
+			<view class="but" :class="action?'action':''" @click="changeShow1">部门订单</view>
+			<view class="but" :class="!action?'action':''" @click="changeShow2">下属订单</view>
+		</view>
 		<view class="topBox">
-			<view class="chooseType">
-				<view class="text">订单号</view>
-				<image :src="url+'icon_hr@2x.png'" mode=""></image>
-			</view>
+			<picker @change="bindPickerChange" :value="index" :range="array" class="chooseType">
+				<view class="text">
+					{{array[index]}}
+					<image :src="url+'icon_hr@2x.png'" mode=""></image>
+				</view>
+			</picker>
 			<view class="search">
 				<input type="text" value="" placeholder="请输入关键字" v-model="keyword"/>
 			</view>
+			<view class="searchBut" @click="search">搜索</view>
 		</view>
 		<view class="oNumTs">
 			共计{{allOrderNum}}个订单，已加载{{getOrderNum}}个订单
 		</view>
 		
-		<view class="orderMain" v-for="(item,index) in allOrder" :key="index">
+		<view class="orderMain"  v-for="(item,index) in allOrder" :key="index">
 			<view class="orderMainTopBox">
 				<view class="DDnum">
 					<view class="img">
@@ -53,11 +60,10 @@
 				</view>
 			</view>
 			<view class="orderMainBut">
-				<view class="but">客人信息</view>
-				<view class="but">套系修改</view>
+				<view class="but" @click="goOrderDetails">订单信息</view>
 				<view class="but">进度查询</view>
 				<view class="but">收银</view>
-				<view class="but">备注</view>
+				<!-- <view class="but">备注</view> -->
 			</view>
 		</view>
 	</view>
@@ -77,23 +83,69 @@
 				// 已加载订单数量
 				getOrderNum:0,
 				// 所有订单内容
-				allOrder:[]
+				allOrder:[],
+				// 显示顶部订单选项
+				showTop:false,
+				// 顶部订单选项
+				action:true,
+				// 类型选择
+				array: ['订单号', '姓名', '预约日期', '拍照日期','选片日期','看设计日期','取件日期'],
+				index: 0,
 			}
 		},
 		onLoad(option){
 			this.type = option.type
-			
+			if(option.type == 'tddd'){
+				this.showTop = true
+			}
 		},
 		mounted(){
 			this.allOrder = myOrder
 		},
 		methods: {
+			// 客人信息 跳转开单详情页面
+			goOrderDetails(){
+				uni.navigateTo({
+					url:'../orderDetails/orderDetails'
+				})
+			},
+			// 搜索
+			search(){
+				console.log(this.keyword)
+			},
+			// 团队订单 部门订单
+			changeShow1(){
+				this.action = true
+			},
+			// 团队订单 部门订单
+			changeShow2(){
+				this.action = false
+			},
 			
+			bindPickerChange: function(e) {
+				this.index = e.target.value
+			},
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.showTop{
+		display: flex;
+		margin: 10rpx;
+		justify-content: space-around;
+		.but{
+			width: 360rpx;
+			height: 80rpx;
+			line-height: 80rpx;
+			border: 1rpx solid #C0C0C0;
+			text-align: center;
+			font-size: 32rpx;
+		}
+		.action{
+			background-color: #bababa;
+		}
+	}
 	.topBox{
 		display: flex;
 		justify-content: space-between;
@@ -102,11 +154,11 @@
 			display: flex;
 			border: 1rpx solid #c0c0c0;
 			border-radius: 10rpx;
-			width: 130rpx;
+			// width: 130rpx;
 			height: 60rpx;
 			line-height: 60rpx;
 			justify-content: space-between;
-			padding: 0rpx 20rpx;
+			padding: 0rpx 10rpx;
 			.text{
 				font-size: 30rpx;
 			}
@@ -115,11 +167,12 @@
 				width: 12rpx;
 				height: 18rpx;
 				transform:rotate(90deg);
+				margin-left: 10rpx;
 			}
 		}
 		.search{
 			input{
-				width: 500rpx;
+				width: 350rpx;
 				height: 60rpx;
 				line-height: 60rpx;
 				font-size: 28rpx;
@@ -127,6 +180,14 @@
 				border: 1px solid #c0c0c0;
 				border-radius: 3px;
 			}
+		}
+		.searchBut{
+			border: 1rpx solid #c0c0c0;
+			border-radius: 10rpx;
+			text-align: center;
+			width: 100rpx;
+			height: 60rpx;
+			line-height: 60rpx;
 		}
 	}
 	.oNumTs{
@@ -189,7 +250,7 @@
 		.orderMainBut{
 			display: flex;
 			margin: 20rpx;
-			justify-content: space-between;
+			justify-content: flex-end;
 			.but{
 				width: 130rpx;
 				height: 70rpx;
@@ -199,6 +260,7 @@
 				font-size: 28rpx;
 				color: #FFFFFF;
 				border-radius: 10rpx;
+				margin-left: 20rpx;
 			}
 		}
 	}

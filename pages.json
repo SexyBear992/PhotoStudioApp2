@@ -1,10 +1,8 @@
 {
 	"pages": [	
 		{
-		    "path" : "pages/index/myOrderBox/myOrder/myOrder",
-		    "style" : {
-				"navigationBarTitleText":"我的订单"
-			}
+		    "path" : "pages/index/myOrderBox/orderDetails/orderDetails",
+		    "style" : {}
 		},
 		{
 		    "path" : "pages/login/login",
@@ -76,8 +74,21 @@
             "path" : "pages/index/openOrderBox/chooseList/chooseList",
             "style" : {
 			}
+        },
+        {
+            "path" : "pages/index/myOrderBox/myOrder/myOrder",
+            "style" : {
+        		"navigationBarTitleText":"我的订单"
+        	}
+        },
+		{
+		    "path" : "pages/index/myOrderBox/goOrderInfo/goOrderInfo",
+		    "style" : {}
+		}
+        ,{
+            "path" : "pages/index/myOrderBox/goServicePersonnel/goServicePersonnel",
+            "style" : {}
         }
-        
     ],
 	"tabBar": {
 		// 隐藏tabBar

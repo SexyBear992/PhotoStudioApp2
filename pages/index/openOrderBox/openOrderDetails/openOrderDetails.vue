@@ -544,6 +544,7 @@
 			}
 		},
 		onUnload(){
+			// 清空数据
 			this.clearAction(seriesNameList)
 			this.clearAction(classificationList)
 			this.clearAction(groupingList)
@@ -552,10 +553,17 @@
 			this.clearAction(areaList)
 			this.clearAction(babyInfo)
 			this.clearAction(babyCallNameList)
-			this.clearAction(callNameList)
+			if(this.callNameList == []){
+				this.clearAction(callNameList)
+			}
 			this.clearAction(serviceLvList)
 			this.clearAction(teacherLvList)
 			this.clearAction(storesList)
+			this.$store.commit('pickOrder','接单人员')
+			this.$store.commit('CustomerService','专服人员')
+			this.$store.commit('NetSales','网销人员')
+			this.$store.commit('references','介绍人')
+			this.$store.commit('sourcePhone','介绍人电话')
 		},
 		mounted(){
 			this.seriesNameList = seriesNameList
