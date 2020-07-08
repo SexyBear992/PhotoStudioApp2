@@ -14,7 +14,7 @@
 						<uni-icons :color="activeColor" type="checkbox-filled" size="14"></uni-icons>
 					</view>
 					<view :class="[direction==='column'?'uni-steps__column-circle':'uni-steps__row-circle']" v-else :style="{backgroundColor:index<active?activeColor:deactiveColor}"></view>
-					<view :class="[direction==='column'?'uni-steps__column-line':'uni-steps__row-line',direction==='column'?'uni-steps__column-line--after':'uni-steps__row-line--after']" :style="{backgroundColor:index<active&&index!==options.length-1?activeColor:index===options.length-1?'transparent':deactiveColor}"></view>
+					<view :class="[direction==='column'?'uni-steps__column-line':'uni-steps__row-line',direction==='column'?'uni-steps__column-line--after':'uni-steps__row-line--after']" :style="{backgroundColor:index<=active&&index!==options.length-1?activeColor:index===options.length-1?'transparent':deactiveColor}"></view>
 				</view>
 			</view>
 		</view>

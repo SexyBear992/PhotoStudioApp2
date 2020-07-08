@@ -244,7 +244,7 @@
 	export default {
 		data() {
 			return {
-				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/'
+				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
 			};
 		},
 		methods:{
@@ -326,7 +326,9 @@
 					break;
 					// 支出
 					case 'zc':
-					console.log('支出');
+					uni.navigateTo({
+						url:'./collectionBox/spending/spending'
+					})
 					break;
 					// 保留金
 					case 'blj':
@@ -334,7 +336,9 @@
 					break;
 					// 其他收入
 					case 'qtsr':
-					console.log('其他收入');
+					uni.navigateTo({
+						url:'./collectionBox/spending/spending'
+					})
 					break;
 					// 服装预约
 					case 'fzyy':

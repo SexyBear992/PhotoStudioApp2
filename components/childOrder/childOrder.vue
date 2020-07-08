@@ -246,9 +246,6 @@
 						var t= 'newService';
 						break;
 				}
-				uni.switchTab({
-					url:'../../pages/add/add'
-				})
 				uni.navigateTo({
 					url:'../chooseList/chooseList?type=' + t
 				})

@@ -169,6 +169,15 @@
 			openDrawer(type,index){
 				this.drawerType = type
 				this.$refs.drawer.open()
+				let List = type+'List'
+				let _this = this
+				this[List].forEach(function(i){
+					if(i.name == _this[type]){
+						i.action = true
+					}else{
+						i.action = false
+					}
+				})
 			},
 			// 抽屉选择返回值
 			chooseDrawer(drawerType,item,index){

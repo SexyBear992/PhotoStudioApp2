@@ -1,8 +1,10 @@
 {
 	"pages": [	
 		{
-		    "path" : "pages/index/myOrderBox/orderDetails/orderDetails",
-		    "style" : {}
+		    "path" : "pages/index/collectionBox/spending/spending",
+		    "style" : {
+				"navigationBarTitleText":"支出"
+			}
 		},
 		{
 		    "path" : "pages/login/login",
@@ -73,8 +75,15 @@
         ,{
             "path" : "pages/index/openOrderBox/chooseList/chooseList",
             "style" : {
+				"navigationBarTitleText":""
 			}
         },
+		{
+		    "path" : "pages/index/myOrderBox/orderDetails/orderDetails",
+		    "style" : {
+				"navigationBarTitleText":"订单详情"
+			}
+		},
         {
             "path" : "pages/index/myOrderBox/myOrder/myOrder",
             "style" : {
@@ -83,11 +92,65 @@
         },
 		{
 		    "path" : "pages/index/myOrderBox/goOrderInfo/goOrderInfo",
-		    "style" : {}
-		}
-        ,{
+		    "style" : {
+				"navigationBarTitleText":"开单信息"
+			}
+		},
+		{
             "path" : "pages/index/myOrderBox/goServicePersonnel/goServicePersonnel",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText":"服务人员"
+			}
+        },
+		{
+            "path" : "pages/index/myOrderBox/goCustomerSource/goCustomerSource",
+            "style" : {
+				"navigationBarTitleText":"客户来源"
+			}
+        },
+		{
+            "path" : "pages/index/myOrderBox/goSeries/goSeries",
+            "style" : {
+				"navigationBarTitleText":"套系信息"
+			}
+        },
+		{
+            "path" : "pages/index/myOrderBox/goCustomerInfo/goCustomerInfo",
+            "style" : {
+				"navigationBarTitleText":"客户信息"
+			}
+        },
+		{
+            "path" : "pages/index/myOrderBox/goSystemInfo/goSystemInfo",
+            "style" : {
+				"navigationBarTitleText":"套系信息"
+			}
+        },
+		{
+            "path" : "pages/index/myOrderBox/goOnBottomAndCopies/goOnBottomAndCopies",
+            "style" : {
+				"navigationBarTitleText":"入底/入册"
+			}
+        },
+		
+		{
+		    "path" : "pages/index/myOrderBox/progress/progress",
+		    "style" : {
+				"navigationBarTitleText":"订单进度"
+			}
+		},
+		
+		{
+            "path" : "pages/index/collectionBox/newBut/newBut",
+            "style" : {
+				"navigationBarTitleText":"支出"
+			}
+        },
+		{
+            "path" : "pages/index/collectionBox/checkBut/checkBut",
+            "style" : {
+				"navigationBarTitleText":"查询支出"
+			}
         }
     ],
 	"tabBar": {

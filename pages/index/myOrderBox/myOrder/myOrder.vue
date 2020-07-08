@@ -61,7 +61,7 @@
 			</view>
 			<view class="orderMainBut">
 				<view class="but" @click="goOrderDetails">订单信息</view>
-				<view class="but">进度查询</view>
+				<view class="but" @click="goProgress">进度查询</view>
 				<view class="but">收银</view>
 				<!-- <view class="but">备注</view> -->
 			</view>
@@ -107,6 +107,12 @@
 			goOrderDetails(){
 				uni.navigateTo({
 					url:'../orderDetails/orderDetails'
+				})
+			},
+			// 查看进度
+			goProgress(){
+				uni.navigateTo({
+					url:"../progress/progress"
 				})
 			},
 			// 搜索

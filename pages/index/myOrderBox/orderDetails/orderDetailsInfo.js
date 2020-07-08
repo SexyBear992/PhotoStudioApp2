@@ -55,7 +55,8 @@ export default
 		// 套系名字
 		seriesName:'9980超值套餐',
 		// 套系内容
-		series:{
+		series:[
+			{
 			// 价格
 			orderMoney:5999,
 			// 精修
@@ -210,5 +211,5 @@ export default
 				},
 			]
 		},
-		
+		]
 	}

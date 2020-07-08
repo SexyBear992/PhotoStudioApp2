@@ -167,125 +167,165 @@
 				<view class="right">{{info.seriesName}}</view>
 			</view>
 			
-			<view class="title">{{info.seriesName}}</view>
-			<!-- 价格 -->
-			<view class="listBox">
-				<view class="left">价格</view>
-				<view class="right">{{info.series.orderMoney}}</view>
-			</view>
-			<!-- 精修 -->
-			<view class="listBox">
-				<view class="left">精修</view>
-				<view class="right">{{info.series.modify}}</view>
-			</view>
-			<!-- 拍摄保底张数 -->
-			<view class="listBox">
-				<view class="left">拍摄保底张数</view>
-				<view class="right">{{info.series.photoNum}}</view>
-			</view>
-			<!-- 入底 -->
-			<view class="listBox">
-				<view class="left">入底</view>
-				<view class="right">{{info.series.onBottom}}</view>
-			</view>
-			<!-- 入册 -->
-			<view class="listBox">
-				<view class="left">入册</view>
-				<view class="right">{{info.series.onCopies}}</view>
-			</view>
-			<!-- 新增产品 product-->
-			<view class="title">新增产品</view>
-			<view class="labelBox moveView" v-if="info.series.newProduct.length>0">
-				<view class="labe">
-					<view class="titleBox tB">
-						<view class="titleLB fTLB">商品</view>
-						<view class="titleLB">单价</view>
-						<view class="titleLB">P数</view>
-						<view class="titleLB">数量</view>
+			<view v-for="(item,ind) in info.series" :key="ind">
+				<view class="title">{{info.seriesName}}</view>
+				<!-- 价格 -->
+				<view class="listBox">
+					<view class="left">价格</view>
+					<view class="right">{{item.orderMoney}}</view>
+				</view>
+				<!-- 精修 -->
+				<view class="listBox">
+					<view class="left">精修</view>
+					<view class="right">{{item.modify}}</view>
+				</view>
+				<!-- 拍摄保底张数 -->
+				<view class="listBox">
+					<view class="left">拍摄保底张数</view>
+					<view class="right">{{item.photoNum}}</view>
+				</view>
+				<!-- 入底 -->
+				<view class="listBox">
+					<view class="left">入底</view>
+					<view class="right">{{item.onBottom}}</view>
+				</view>
+				<!-- 入册 -->
+				<view class="listBox">
+					<view class="left">入册</view>
+					<view class="right">{{item.onCopies}}</view>
+				</view>
+				<!-- 新增产品 product-->
+				<view class="title">新增产品</view>
+				<view class="labelBox moveView" v-if="item.newProduct.length>0">
+					<view class="labe">
+						<view class="titleBox tB">
+							<view class="titleLB fTLB">商品</view>
+							<view class="titleLB">单价</view>
+							<view class="titleLB">P数</view>
+							<view class="titleLB">数量</view>
+						</view>
+						<view class="titleBox" v-for="(list,ind) in item.newProduct" :key='ind'>
+							<view class="titleLB fTLB">{{list.title}}</view>
+							<view class="titleLB Money">{{list.price}}</view>
+							<input class="titleLB" v-model="list.pnum"/>
+							<input class="titleLB" v-model="list.num"/>
+						</view>
 					</view>
-					<view class="titleBox" v-for="(list,ind) in info.series.newProduct" :key='ind'>
-						<view class="titleLB fTLB">{{list.title}}</view>
-						<view class="titleLB Money">{{list.price}}</view>
-						<input class="titleLB" v-model="list.pnum"/>
-						<input class="titleLB" v-model="list.num"/>
+				</view>
+				<!-- 新增服装 clothing-->
+				<view class="title">新增服装</view>
+				<view class="labelBox moveView" v-if="item.newClothing.length>0">
+					<view class="labe">
+						<view class="titleBox tB">
+							<view class="titleLB fTLB">服装</view>
+							<view class="titleLB">单价</view>
+							<view class="titleLB">类型</view>
+							<view class="titleLB">数量</view>
+						</view>
+						<view class="titleBox" v-for="(list,ind) in item.newClothing" :key='ind'>
+							<view class="titleLB fTLB">{{list.title}}</view>
+							<view class="titleLB Money">{{list.price}}</view>
+							<view class="titleLB">{{list.type}}</view>
+							<input class="titleLB" v-model="list.num"/>
+						</view>
+					</view>
+				</view>
+				<!-- 景点 attractions-->
+				<view class="title">新增景点</view>
+				<view class="labelBox moveView" v-if="item.newAttractions.length>0">
+					<view class="labe">
+						<view class="titleBox tB">
+							<view class="titleLB fTLB">景点</view>
+							<view class="titleLB">单价</view>
+							<view class="titleLB">类型</view>
+							<view class="titleLB"></view>
+						</view>
+						<view class="titleBox" v-for="(list,ind) in item.newAttractions" :key='ind'>
+							<view class="titleLB fTLB">{{list.title}}</view>
+							<view class="titleLB Money">{{list.price}}</view>
+							<view class="titleLB">{{list.type}}</view>
+							<input class="titleLB" v-model="list.num"/>
+						</view>
+					</view>
+				</view>
+				<!-- 服务 service-->
+				<view class="title">新增服务</view>
+				<view class="labelBox moveView" v-if="item.newService.length>0">
+					<view class="labe">
+						<view class="titleBox tB">
+							<view class="titleLB fTLB">服务</view>
+							<view class="titleLB">单价</view>
+							<view class="titleLB">人数</view>
+							<view class="titleLB">数量</view>
+						</view>
+						<view class="titleBox" v-for="(list,ind) in item.newService" :key='ind'>
+							<view class="titleLB fTLB">{{list.title}}</view>
+							<view class="titleLB Money">{{list.price}}</view>
+							<view class="titleLB">{{list.people}}</view>
+							<input class="titleLB" v-model="list.num"/>
+						</view>
 					</view>
 				</view>
 			</view>
-			<!-- 新增服装 clothing-->
-			<view class="title">新增服装</view>
-			<view class="labelBox moveView" v-if="info.series.newClothing.length>0">
-				<view class="labe">
-					<view class="titleBox tB">
-						<view class="titleLB fTLB">服装</view>
-						<view class="titleLB">单价</view>
-						<view class="titleLB">类型</view>
-						<view class="titleLB">数量</view>
-					</view>
-					<view class="titleBox" v-for="(list,ind) in info.series.newClothing" :key='ind'>
-						<view class="titleLB fTLB">{{list.title}}</view>
-						<view class="titleLB Money">{{list.price}}</view>
-						<view class="titleLB">{{list.type}}</view>
-						<input class="titleLB" v-model="list.num"/>
-					</view>
-				</view>
-			</view>
-			<!-- 景点 attractions-->
-			<view class="title">新增景点</view>
-			<view class="labelBox moveView" v-if="info.series.newAttractions.length>0">
-				<view class="labe">
-					<view class="titleBox tB">
-						<view class="titleLB fTLB">景点</view>
-						<view class="titleLB">单价</view>
-						<view class="titleLB">类型</view>
-						<view class="titleLB"></view>
-					</view>
-					<view class="titleBox" v-for="(list,ind) in info.series.newAttractions" :key='ind'>
-						<view class="titleLB fTLB">{{list.title}}</view>
-						<view class="titleLB Money">{{list.price}}</view>
-						<view class="titleLB">{{list.type}}</view>
-						<input class="titleLB" v-model="list.num"/>
-					</view>
-				</view>
-			</view>
-			<!-- 服务 service-->
-			<view class="title">新增服务</view>
-			<view class="labelBox moveView" v-if="info.series.newService.length>0">
-				<view class="labe">
-					<view class="titleBox tB">
-						<view class="titleLB fTLB">服务</view>
-						<view class="titleLB">单价</view>
-						<view class="titleLB">人数</view>
-						<view class="titleLB">数量</view>
-					</view>
-					<view class="titleBox" v-for="(list,ind) in info.series.newService" :key='ind'>
-						<view class="titleLB fTLB">{{list.title}}</view>
-						<view class="titleLB Money">{{list.price}}</view>
-						<view class="titleLB">{{list.people}}</view>
-						<input class="titleLB" v-model="list.num"/>
-					</view>
-				</view>
-			</view>
-						
+				
 		</view>
+		
+		<uni-drawer
+			mode="right"
+			ref='drawer'
+			class="drawer"
+		>
+			<view style="padding:30rpx;">
+				<!-- 区域 -->
+				<view>
+					<view class="title">区域修改</view>
+					<view v-for="(item,index) in areaList" :key="index">
+						<view class="text" @click="chooseDrawer(item.name)" :class="(item.action)?'action':''">{{item.name}}</view>
+					</view>
+				</view>
+				
+				<!-- 取消/确定 -->
+				<view class="butBox">
+					<view class="cancel" @click="cancel">取消</view>
+					<view class="determine" @click="determine">确认</view>
+				</view>
+			</view>
+		</uni-drawer>
 	</view>
 </template>
 
 <script>
+	import uniDrawer from "@/components/uni/uni-drawer/uni-drawer.vue"
+	import areaList from '../../openOrderBox/openOrderDetails/areaList.js'
 	import info from './orderDetailsInfo.js'
 	export default {
+		components:{uniDrawer},
 		data() {
 			return {
 				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
-				info:[]
+				info:[],
+				// 区域列表
+				areaList:[],
+				// 选择区块
+				actionArea:null
 			};
 		},
 		mounted(){
 			this.info = info
+			this.areaList = areaList
+			this.$store.commit('pickOrder',info.pickOrder)
+			this.$store.commit('CustomerService',info.CustomerService)
+			this.$store.commit('NetSales',info.NetSales)
+			this.$store.commit('references',info.references)
+			this.$store.commit('sourcePhone',info.sourcePhone)
 		},
 		onUnload(){
+			// 初始化vuex数据
 			this.$store.commit('pickOrder','接单人员')
 			this.$store.commit('CustomerService','专服人员')
 			this.$store.commit('NetSales','网销人员')
+			this.$store.commit('references','介绍人')
+			this.$store.commit('sourcePhone','介绍人电话')
 		},
 		methods:{
 			// 修改开单信息
@@ -296,46 +336,92 @@
 			},
 			// 修改客户信息
 			goCustomerInfo(){
-				console.log('修改客户信息')
+				uni.navigateTo({
+					url:'../goCustomerInfo/goCustomerInfo'
+				})
 			},
 			// 修改客户来源
 			goCustomerSource(){
-				console.log('修改客户来源')
+				uni.navigateTo({
+					url:'../goCustomerSource/goCustomerSource'
+				})
 			},
 			// 修改服务人员
 			goServicePersonnel(){
 				uni.navigateTo({
 					url:'../goServicePersonnel/goServicePersonnel'
 				})
-				console.log('修改服务人员')
 			},
+			
+			
 			// 修改客户区域
 			goCustomerArea(){
-				console.log('修改客户区域')
+				this.areaList.forEach((i)=>{
+					if(this.info.area == i.name){
+						i.action = true
+					}else{
+						i.action = false
+					}
+				})
+				this.$refs.drawer.open()
 			},
+			// 关闭弹窗
+			cancel(){
+				this.$refs.drawer.close()
+			},
+			// 确认修改区域
+			determine(){
+				this.info.area = this.actionArea
+				this.$refs.drawer.close()
+			},
+			// 抽屉返回值
+			chooseDrawer(item){
+				this.actionArea = item
+				this.areaList.forEach((i)=>{
+					if(i.name == item){
+						i.action = true
+					}else{
+						i.action = false
+					}
+				})
+			},
+			
 			// 修改套系信息
 			goSystemInfo(){
-				console.log('修改套系信息')
+				uni.navigateTo({
+					url:'../goSystemInfo/goSystemInfo'
+				})
 			},
 			// 修改入底/入册
 			goOnBottomAndCopies(){
-				console.log('修改入底/入册')
+				uni.navigateTo({
+					url:'../goOnBottomAndCopies/goOnBottomAndCopies'
+				})
 			},
+			
 			// 修改产品
 			goProduct(){
-				console.log('修改产品')
+				uni.navigateTo({
+					url:'../goSeries/goSeries?type=newProduct&ind=0'
+				})
 			},
 			// 修改服装
 			goClothing(){
-				console.log('修改服装')
+				uni.navigateTo({
+					url:'../goSeries/goSeries?type=newClothing&ind=0'
+				})
 			},
 			// 修改景点
 			goAttractions(){
-				console.log('修改景点')
+				uni.navigateTo({
+					url:'../goSeries/goSeries?type=newAttractions&ind=0'
+				})
 			},
 			// 修改服务
 			goService(){
-				console.log('修改服务')
+				uni.navigateTo({
+					url:'../goSeries/goSeries?type=newService&ind=0'
+				})
 			}
 		},
 	}
@@ -427,5 +513,46 @@
 			}
 		}
 		
+	}
+	.drawer{
+		.title{
+			font-size: 38rpx;
+			font-weight: bold
+		}
+		.text{
+			margin: 20rpx;
+			font-size: 36rpx;
+		}
+		.liName{
+			margin-left: 20rpx;
+		}
+		.action{
+			color: #578ff4;
+		}
+		.butBox{
+			margin-top: 20rpx;
+			display: flex;
+			justify-content: flex-end;
+			.cancel{
+				width: 120rpx;
+				height: 60rpx;
+				line-height: 60rpx;
+				text-align: center;
+				font-size: 28rpx;
+				border-radius: 10rpx;
+				border: 1rpx solid #C0C0C0;
+			}
+			.determine{
+				width: 120rpx;
+				height: 60rpx;
+				line-height: 60rpx;
+				text-align: center;
+				font-size: 28rpx;
+				border-radius: 10rpx;
+				margin-left: 20rpx;
+				color: #FFFFFF;
+				background-color: #2d8cf0;
+			}
+		}
 	}
 </style>
