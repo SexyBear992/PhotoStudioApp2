@@ -1,158 +1,160 @@
 {
-	"pages": [	
+	"pages": [
 		{
-		    "path" : "pages/index/collectionBox/spending/spending",
-		    "style" : {
-				"navigationBarTitleText":"支出"
-			}
+			"path": "pages/come/come",
+			"style": {}
 		},
 		{
-		    "path" : "pages/login/login",
-		    "style" : {
+			"path": "pages/login/login",
+			"style": {
 				"navigationBarTitleText": " ",
 				"disableScroll": true
 			}
 		},
 		{
-		    "path" : "pages/index/index",
-		    "style" : {
+			"path": "pages/index/index",
+			"style": {
 				"navigationBarTitleText": "工作台",
 				"disableScroll": true
 			}
 
 		},
 		{
-		    "path" : "pages/addressBook/addressBook",
-		    "style" : {
+			"path": "pages/addressBook/addressBook",
+			"style": {
 				"navigationBarTitleText": "通讯录",
 				"disableScroll": true
 			}
 		},
 		{
-		    "path" : "pages/information/information",
-		    "style" : {
+			"path": "pages/information/information",
+			"style": {
 				"navigationBarTitleText": "消息",
 				"disableScroll": true
 			}
 		},
 		{
-		    "path" : "pages/my/my",
-		    "style" : {
+			"path": "pages/my/my",
+			"style": {
 				"navigationBarTitleText": "我的",
 				"disableScroll": true
 			}
-		},	
+		},
 		{
-		    "path" : "pages/index/openOrderBox/openOrder/openOrder",
-		    "style" : {
+			"path": "pages/index/openOrderBox/openOrder/openOrder",
+			"style": {
 				"disableScroll": true
 			}
 		},
-		
+
 		{
-		    "path" : "pages/index/openOrderBox/openOrderDetails/openOrderDetails",
-		    "style" : {
+			"path": "pages/index/openOrderBox/openOrderDetails/openOrderDetails",
+			"style": {}
+		},
+		{
+			"path": "pages/index/openOrderBox/candidates/candidates",
+			"style": {}
+		},
+		{
+			"path": "pages/add/add",
+			"style": {
+				"disableScroll": true
+			}
+		},
+
+		{
+			"path": "pages/information/infoDetails/infoDetails",
+			"style": {
+				"disableScroll": true
+			}
+		}, {
+			"path": "pages/index/openOrderBox/chooseList/chooseList",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-		    "path" : "pages/index/openOrderBox/candidates/candidates",
-		    "style" : {
+			"path": "pages/index/myOrderBox/orderDetails/orderDetails",
+			"style": {
+				"navigationBarTitleText": "订单详情"
 			}
 		},
 		{
-            "path" : "pages/add/add",
-            "style" : {
-				"disableScroll": true
+			"path": "pages/index/myOrderBox/myOrder/myOrder",
+			"style": {
+				"navigationBarTitleText": "我的订单"
 			}
-        },
-		
+		},
 		{
-		    "path" : "pages/information/infoDetails/infoDetails",
-		    "style" : {
-				"disableScroll": true
+			"path": "pages/index/myOrderBox/goOrderInfo/goOrderInfo",
+			"style": {
+				"navigationBarTitleText": "开单信息"
+			}
+		},
+		{
+			"path": "pages/index/myOrderBox/goServicePersonnel/goServicePersonnel",
+			"style": {
+				"navigationBarTitleText": "服务人员"
+			}
+		},
+		{
+			"path": "pages/index/myOrderBox/goCustomerSource/goCustomerSource",
+			"style": {
+				"navigationBarTitleText": "客户来源"
+			}
+		},
+		{
+			"path": "pages/index/myOrderBox/goSeries/goSeries",
+			"style": {
+				"navigationBarTitleText": "套系信息"
+			}
+		},
+		{
+			"path": "pages/index/myOrderBox/goCustomerInfo/goCustomerInfo",
+			"style": {
+				"navigationBarTitleText": "客户信息"
+			}
+		},
+		{
+			"path": "pages/index/myOrderBox/goSystemInfo/goSystemInfo",
+			"style": {
+				"navigationBarTitleText": "套系信息"
+			}
+		},
+		{
+			"path": "pages/index/myOrderBox/goOnBottomAndCopies/goOnBottomAndCopies",
+			"style": {
+				"navigationBarTitleText": "入底/入册"
+			}
+		},
+
+		{
+			"path": "pages/index/myOrderBox/progress/progress",
+			"style": {
+				"navigationBarTitleText": "订单进度"
+			}
+		},
+
+		{
+			"path": "pages/index/collectionBox/newBut/newBut",
+			"style": {
+				"navigationBarTitleText": "支出"
+			}
+		},
+		{
+			"path": "pages/index/collectionBox/spending/spending",
+			"style": {
+				"navigationBarTitleText": "支出"
+			}
+		},
+		{
+			"path": "pages/index/collectionBox/checkBut/checkBut",
+			"style": {
+				"navigationBarTitleText": "查询支出"
 			}
 		}
-        ,{
-            "path" : "pages/index/openOrderBox/chooseList/chooseList",
-            "style" : {
-				"navigationBarTitleText":""
-			}
-        },
-		{
-		    "path" : "pages/index/myOrderBox/orderDetails/orderDetails",
-		    "style" : {
-				"navigationBarTitleText":"订单详情"
-			}
-		},
-        {
-            "path" : "pages/index/myOrderBox/myOrder/myOrder",
-            "style" : {
-        		"navigationBarTitleText":"我的订单"
-        	}
-        },
-		{
-		    "path" : "pages/index/myOrderBox/goOrderInfo/goOrderInfo",
-		    "style" : {
-				"navigationBarTitleText":"开单信息"
-			}
-		},
-		{
-            "path" : "pages/index/myOrderBox/goServicePersonnel/goServicePersonnel",
-            "style" : {
-				"navigationBarTitleText":"服务人员"
-			}
-        },
-		{
-            "path" : "pages/index/myOrderBox/goCustomerSource/goCustomerSource",
-            "style" : {
-				"navigationBarTitleText":"客户来源"
-			}
-        },
-		{
-            "path" : "pages/index/myOrderBox/goSeries/goSeries",
-            "style" : {
-				"navigationBarTitleText":"套系信息"
-			}
-        },
-		{
-            "path" : "pages/index/myOrderBox/goCustomerInfo/goCustomerInfo",
-            "style" : {
-				"navigationBarTitleText":"客户信息"
-			}
-        },
-		{
-            "path" : "pages/index/myOrderBox/goSystemInfo/goSystemInfo",
-            "style" : {
-				"navigationBarTitleText":"套系信息"
-			}
-        },
-		{
-            "path" : "pages/index/myOrderBox/goOnBottomAndCopies/goOnBottomAndCopies",
-            "style" : {
-				"navigationBarTitleText":"入底/入册"
-			}
-        },
 		
-		{
-		    "path" : "pages/index/myOrderBox/progress/progress",
-		    "style" : {
-				"navigationBarTitleText":"订单进度"
-			}
-		},
-		
-		{
-            "path" : "pages/index/collectionBox/newBut/newBut",
-            "style" : {
-				"navigationBarTitleText":"支出"
-			}
-        },
-		{
-            "path" : "pages/index/collectionBox/checkBut/checkBut",
-            "style" : {
-				"navigationBarTitleText":"查询支出"
-			}
-        }
-    ],
+	],
 	"tabBar": {
 		// 隐藏tabBar
 		"custom": true,
@@ -161,40 +163,41 @@
 		"borderStyle": "white",
 		"backgroundColor": "#ffffff",
 		"list": [{
-			"pagePath": "pages/index/index",
-			"text": "工作台",
-			"style": {
-				"backgroundColor": "rgba(249, 249, 249, 1)"
+				"pagePath": "pages/index/index",
+				"text": "工作台",
+				"style": {
+					"backgroundColor": "rgba(249, 249, 249, 1)"
+				}
+			},
+			{
+				"pagePath": "pages/addressBook/addressBook",
+				"text": "通讯录",
+				"style": {
+					"backgroundColor": "rgba(249, 249, 249, 1)"
+				}
+			},
+			{
+				"pagePath": "pages/add/add",
+				"text": "add",
+				"style": {
+					"backgroundColor": "rgba(249, 249, 249, 1)"
+				}
+			},
+			{
+				"pagePath": "pages/information/information",
+				"text": "信息",
+				"style": {
+					"backgroundColor": "rgba(249, 249, 249, 1)"
+				}
+			},
+			{
+				"pagePath": "pages/my/my",
+				"text": "我的",
+				"style": {
+					"backgroundColor": "rgba(249, 249, 249, 1)"
+				}
 			}
-		},
-		{
-			"pagePath": "pages/addressBook/addressBook",
-			"text": "通讯录",
-			"style": {
-				"backgroundColor": "rgba(249, 249, 249, 1)"
-			}
-		},
-		{
-			"pagePath": "pages/add/add",
-			"text": "add",
-			"style": {
-				"backgroundColor": "rgba(249, 249, 249, 1)"
-			}
-		},
-		{
-			"pagePath": "pages/information/information",
-			"text": "信息",
-			"style": {
-				"backgroundColor": "rgba(249, 249, 249, 1)"
-			}
-		},
-		{
-			"pagePath": "pages/my/my",
-			"text": "我的",
-			"style": {
-				"backgroundColor": "rgba(249, 249, 249, 1)"
-			}
-		}]
+		]
 		// "usingComponents": {}
 	},
 	"globalStyle": {
@@ -202,6 +205,6 @@
 		"navigationBarTitleText": " ",
 		"navigationBarBackgroundColor": "#61A3FF",
 		"backgroundColor": "#FFFFFF",
-		"enablePullDownRefresh":false
+		"enablePullDownRefresh": false
 	}
 }

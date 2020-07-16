@@ -241,11 +241,20 @@
 </template>
 
 <script>
+	import { mapGetters } from 'vuex'
 	export default {
 		data() {
 			return {
 				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
 			};
+		},
+		computed:{
+			...mapGetters('app',[
+				'token'
+			])
+		},
+		onLoad(){
+			uni.hideHomeButton()
 		},
 		methods:{
 			// 点击图标进入
@@ -419,6 +428,9 @@
 				}
 			}
 		},
+		mounted(){
+			console.log('indextoken',this.token)
+		}
 	}
 </script>
 <style>

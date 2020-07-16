@@ -15,7 +15,7 @@
 			</view>
 			
 			<view class="right">
-				<input type="text" placeholder="请输入手机号" v-model="phone"/>
+				<input type="text" placeholder="请输入手机号" v-model="ticketBody.unumber"/>
 				<image :src="url+'ziyuan.png'" mode=""  class="close" @click="close(1)"></image>
 			</view>
 		</view>
@@ -25,7 +25,7 @@
 			<view class="left">
 				<image class="icon i2" :src="url+'suoding.png'" mode=""></image>
 				<!-- <view class="icon"></view> -->
-				<input type="password" placeholder="请输入密码" v-model="pass"/>
+				<input type="password" placeholder="请输入密码" v-model="ticketBody.password"/>
 			</view>
 			<view class="right">
 				<image :src="url+'ziyuan.png'" mode=""  class="close" @click="close(2)"></image>
@@ -34,63 +34,80 @@
 		
 		<!-- 登录按键 -->
 		<view class="but" @click="login">登录</view>
-		
-		<!-- 授权登录 -->
-		<!-- <button v-if="canIUse" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">授权登录</button> -->
-		<view class="but sq" @click="sqLogin">微信授权登录</view>
 	</view>
 </template>
 
 <script>
+	import { getTicket } from '../../util/api/getTicket.js'
+	import { getToken } from '../../util/api/login.js'
+	import { mapGetters, mapActions } from 'vuex'
 	export default {
 		data() {
 			return {
 				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
-				phone:'',
-				pass:'',
-				// 授权登录
-				canIUse:null
+				// 获取ticket的包体
+				ticketBody: {
+					// "15816447772"
+					unumber:null,
+					// "123456"
+					password:null,
+					service:"",
+					code:"",
+					app:"erp"
+				}
 			};
 		},
+		onLoad(){
+			uni.hideHomeButton()
+		},
 		mounted(){
-			this.canIUse = wx.canIUse('button.open-type.getUserInfo')
 		},
 		methods:{
+			...mapActions('app',[
+				'setToken'
+			]),
+			
 			// 清空输入框input
 			close(i){
 				// 清空手机号
 				if(i == 1){
-					this.phone = ''
+					this.ticketBody.unumber = null
 					// 清空密码
 				}else if(i == 2){
-					this.pass = ''
+					this.ticketBody.password = null
 				}
 			},
 			// 登录
 			login(){
-				uni.switchTab({
-					url:'../index/index'
+				let that = this
+				
+				getTicket(this.ticketBody).then(res=>{
+					uni.setStorage({
+						key:'ticket',
+						data:res.data.data.ticket
+					})
+					let ticket = {
+						grant_type: 'ticket',
+						ticket: res.data.data.ticket
+					}
+					getToken(ticket).then(resquest => {
+						if (resquest.data.code === 200) {
+							// 将返回的token存入vuex中
+							that.setToken(resquest.data.data.access_token)
+							// 并跳转到首页
+							uni.switchTab({
+								url: '/pages/index/index'
+							})
+						}else{
+							// 如果登录失败跳转入登录页
+							uni.redirectTo({
+								url:'/pages/login/login'
+							})
+						}
+					})
 				})
+
 			},
-			// 授权调用云函数
-			bindGetUserInfo(){
-				wx.getUserInfo({
-				  success: function(res) {
-					console.log(res.cloudID)
-				    var userInfo = res.userInfo
-				    var nickName = userInfo.nickName
-				    var avatarUrl = userInfo.avatarUrl
-				    var gender = userInfo.gender //性别 0：未知、1：男、2：女
-				    var province = userInfo.province
-				    var city = userInfo.city
-				    var country = userInfo.country
-				  }
-				})
-				// wx.cloud.init()
-				// wx.cloud.callFunction({
-				//   name: 'getUnionID',
-				// })
-			}
 		}
 	}
 </script>

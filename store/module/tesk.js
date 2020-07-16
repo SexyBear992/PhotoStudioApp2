@@ -1,9 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import app from './module/app.js'
-Vue.use(Vuex)
-
-export default  new Vuex.Store({
+export default{
+	namespaced: true,
 	state:{
 		// 接单
 		pickOrder:'接单人员',
@@ -59,7 +55,18 @@ export default  new Vuex.Store({
 			return state.sourcePhone = i
 		}
 	},
-	modules:{
-		app
+  actions: {
+	pickOrder ({ commit }, data) {
+	  commit('pickOrder', data)
+	},
+	CustomerService ({ commit }, data) {
+	  commit('CustomerService', data)
+	},
+	NetSales ({ commit }, data) {
+	  commit('NetSales', data)
+	},
+	addList ({ commit }, data) {
+	  commit('addList', data)
 	}
-})
+  }
+}
