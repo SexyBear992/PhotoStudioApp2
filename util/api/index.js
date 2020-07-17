@@ -1,13 +1,16 @@
-const baseApi = process.env.NODE_ENV === 'production' ? 'https://erpapi.lyfz.net:9443/pro/api' : 'http://192.168.5.220/test/api'
-
-
-// 登录测试
-
-let base_user = 'http://192.168.5.220/dev/api/account'
-let base_auth = 'http://192.168.5.220/dev/api/auth' // 登录
-
+  let base_dress = 'http://192.168.5.220/pro/api/dress'
+  let base_message = 'http://192.168.5.220/dev/api/message'
+  let base_user = 'http://192.168.5.220/dev/api/account'
+  let base_goods = 'http://192.168.5.220/dev/api/goods'
+  let base_common = 'http://192.168.5.220/dev/api/base'
+  let base_customer = 'http://192.168.5.220/dev/api/store'
+  let base_auth = 'http://192.168.5.220/dev/api/auth'
+	
 let baseUrl = {
-	getToken: `${base_auth}/oauth/token` // 登录
+	getToken: `${base_auth}/oauth/token` ,// post 获取token
+	getUserInfo: `${base_user}/account/list/shopIds`, // get 获得用户信息
+	
+	getAllShopQY: `${base_common}/shop/list/shopNameVo`, // 查找-所有门店
 }
 
 export default baseUrl

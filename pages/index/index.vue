@@ -241,7 +241,8 @@
 </template>
 
 <script>
-	import { mapGetters } from 'vuex'
+	import { mapGetters, mapActions } from 'vuex'
+	import { getAllShopQY } from '@/util/api/user.js'
 	export default {
 		data() {
 			return {
@@ -250,7 +251,11 @@
 		},
 		computed:{
 			...mapGetters('app',[
-				'token'
+				'token',
+				'shopId'
+			]),
+			...mapGetters('shopArr',[
+				'get_shopAllArr'
 			])
 		},
 		onLoad(){
@@ -275,7 +280,7 @@
 					// 开单
 					case 'kd':
 					uni.navigateTo({
-						url:'openOrderBox/openOrder/openOrder'
+						url:'myOrderBox/openOrder/openOrder'
 					})
 					break;
 					// 取件
@@ -429,7 +434,7 @@
 			}
 		},
 		mounted(){
-			console.log('indextoken',this.token)
+			console.log('商店',this.get_shopAllArr)
 		}
 	}
 </script>

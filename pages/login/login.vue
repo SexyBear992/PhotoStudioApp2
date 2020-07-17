@@ -39,7 +39,7 @@
 
 <script>
 	import { getTicket } from '../../util/api/getTicket.js'
-	import { getToken } from '../../util/api/login.js'
+	import { getToken } from '../../util/api/user.js'
 	import { mapGetters, mapActions } from 'vuex'
 	export default {
 		data() {

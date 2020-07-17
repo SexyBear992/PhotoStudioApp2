@@ -24,6 +24,11 @@ export const getTicket = (options) => {
 						icon:'none',
 						duration:2000
 					})
+				}else if(res.data.code === 3101){
+					uni.showToast({
+						title:'请输入验证码',
+						icon:'none'
+					})
 				}else if(res.data.code !== 1000){
 					uni.showToast({
 						title:res.data.msg,

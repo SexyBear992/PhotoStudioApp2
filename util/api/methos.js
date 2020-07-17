@@ -4,7 +4,7 @@
 
 **********/
 
-
+import app from '@/store/module/app.js'
 const request = (url, options) => {
 	uni.showLoading({
 	    title: '加载中',
@@ -16,6 +16,7 @@ const request = (url, options) => {
 			data:options.data,
 			header: {
 				'content-type': options.isObj ? 'application/json': 'application/x-www-form-urlencoded',
+				'Authorization':'bearer '+ app.state.token
 			},
 			success :(res)=>{
 				if(res.data.code !== 200){
@@ -43,9 +44,9 @@ const get = (url, options = {}) => {
 }
  
 //post对象
-const postObj = (url, options) => {
-    return request(url, { method: 'POST', data: options, isObj: true })
-}
+// const postObj = (url, options) => {
+//     return request(url, { method: 'POST', data: options, isObj: true })
+// }
 //post参数
 const post = (url, options) => {
     return request(url, { method: 'POST', data: options, isObj: false })
@@ -65,5 +66,5 @@ module.exports = {
     post,
     put,
     remove,
-    postObj,
+    // postObj,
 }

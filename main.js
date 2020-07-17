@@ -5,9 +5,6 @@ import store from './store'
 import tabBar from './components/tabbar.vue'
 
 // 封装request
-import { myRequest } from './util/api.js'
-// 全局使用request
-Vue.prototype.$myRequest = myRequest
 // 全局使用stroe
 Vue.prototype.$store = store;
 Vue.config.productionTip = false
