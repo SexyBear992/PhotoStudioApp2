@@ -5,3 +5,6 @@ import { get, post, put, remove, postObj, } from './methos.js'
 export const getAllShopQY = (params) => {
   return get(baseUrl.getAllShopQY, params)
 }
+export const getCategoryList = (params) => {
+  return get(baseUrl.getCategoryList, params)
+}

@@ -19,15 +19,16 @@ const request = (url, options) => {
 				'Authorization':'bearer '+ app.state.token
 			},
 			success :(res)=>{
+				uni.hideLoading();
 				if(res.data.code !== 200){
 					uni.showToast({
 						title:res.data.message,
 						icon:'none'
 					})
+					resolve(res)
 				}else{
 					resolve(res)
 				}
-				uni.hideLoading();
 			},
 			fail:(err)=>{
 				uni.showToast({

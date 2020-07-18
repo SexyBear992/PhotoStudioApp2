@@ -57,6 +57,10 @@
 			}
 		}
     
+        ,{
+            "path" : "pages/EnterpriseAll/EnterpriseAll",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		// 隐藏tabBar
@@ -111,7 +115,10 @@
 		"enablePullDownRefresh": false,
 		"usingComponents":{
 			"i-cell-group": "/wxcomponents/cell-group/index",
-			"i-cell": "/wxcomponents/cell/index"
+			"i-cell": "/wxcomponents/cell/index",
+			"i-modal": "/wxcomponents/modal/index",
+			"i-checkbox-group": "/wxcomponents/checkbox-group/index",
+			"i-checkbox": "/wxcomponents/checkbox/index"
 		}
 	}
 }

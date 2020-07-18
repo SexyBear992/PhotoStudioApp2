@@ -9,8 +9,12 @@
 let baseUrl = {
 	getToken: `${base_auth}/oauth/token` ,// post 获取token
 	getUserInfo: `${base_user}/account/list/shopIds`, // get 获得用户信息
+	getAccountAllArr: `${base_user}/account/getEnterpriseAll`, // 查找-全部员工
+
 	
 	getAllShopQY: `${base_common}/shop/list/shopNameVo`, // 查找-所有门店
+	getCategoryList: `${base_common}/category/list/`, // get     根据类型Type获取所有类别
+
 }
 
 export default baseUrl

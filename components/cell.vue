@@ -1,6 +1,8 @@
+/***************  信息模块选择picker组件模块  ****************/
+
 <template>
 	<view>
-			<view class="uni-list">
+			<view class="uni-list" v-if="list.length > 0">
 					<view class="uni-list-cell">
 							<view class="uni-list-cell-db">
 									<picker @change="bindPickerChange" :value="index" :range="array">
@@ -15,6 +17,15 @@
 							</view>
 					</view>
 			</view>
+	
+			<view v-else class="box">
+				<view class="left">
+					<view class="title">{{title}}</view>
+					<view class="value" v-if="time">{{time | time}}</view>
+					<view class="value" v-if="text">{{text}}</view>
+				</view>
+				<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
+			</view>
 	</view>
 </template>
 
@@ -26,6 +37,22 @@
 			},
 			list:{
 				type: Array
+			},
+			time:{
+				type: String,
+			},
+			text:{
+				type: String
+			}
+		},
+		filters:{
+			time(times){
+				
+				let dt = new Date(Number(times))
+				let y = dt.getFullYear()
+				let m = (dt.getMonth() + 1).toString().padStart(2, 0)
+				let d = dt.getDate().toString().padStart(2, 0)
+				return `${y}-${m}-${d}`
 			}
 		},
 		data() {
@@ -36,6 +63,7 @@
 		},
 		mounted(){
 			this.newArr()
+	
 		},
 		methods:{
 			bindPickerChange(e){

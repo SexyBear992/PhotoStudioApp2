@@ -30,7 +30,9 @@
 				'getUserInfo'
 			]),
 			...mapActions('shopArr',[
-				'act_shopAllArr'
+				'act_shopAllArr',
+				'act_orderTypeArr',
+				'act_orderGroup'
 			]),
 			// 获取本地缓存ticket
 			getStorageTicket() {
@@ -60,9 +62,11 @@
 						// })
 					}else{
 						// 如果登录失败跳转入登录页
-						// uni.redirectTo({
-						// 	url:'/pages/login/login'
-						// })
+						// setTimeout(()=>{
+						// 	uni.redirectTo({
+						// 		url:'/pages/login/login'
+						// 	})
+						// },2000)
 					}
 				})
 			},
@@ -78,6 +82,8 @@
 			// 获取token 请求商店
 			token(){
 				this.act_shopAllArr()
+				this.act_orderTypeArr()
+				this.act_orderGroup()
 			}
 		}
 	};

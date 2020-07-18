@@ -21,9 +21,18 @@
 		data() {
 			return {
 				openOrderData:{
+					// 当前商店ID
 					shopId:null,
+					// 选择商店ID
 					orderShopId:null,
-					groupCategoryId:null
+					// 订单分组ID
+					groupCategoryId:null,
+					// 订单分类ID
+					orderCategoryId:null,
+					// 下单时间
+					orderTime:null,
+					// 风格
+					likeStyle:null,
 				}
 			};
 		},
@@ -47,6 +56,9 @@
 				// 选择门店ID
 				this.openOrderData.orderShopId = e.orderShopId
 				this.openOrderData.groupCategoryId = e.groupCategoryId
+				this.openOrderData.orderCategoryId = e.orderCategoryId
+				this.openOrderData.orderTime = e.orderTime
+				this.openOrderData.likeStyle = e.likeStyle
 			}
 		},
 		watch:{

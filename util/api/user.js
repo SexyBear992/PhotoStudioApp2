@@ -9,6 +9,6 @@ export const getToken = (params) => {
 export const getUserInfo = (params) => {
   return get(baseUrl.getUserInfo, params)
 }
-export const getAllShopQY = (params) => {
-	return get(baseUrl.getAllShopQY, params)
+export const getAccountAllArr = (params) =>{
+	return get(baseUrl.getAccountAllArr, params)
 }
