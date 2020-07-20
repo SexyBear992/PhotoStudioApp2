@@ -30,7 +30,11 @@
 			<cell :title="'风格'" :text="likeStyleText"></cell>
 		</view>
 		
-	
+		<!-- 备注 -->
+		<view class="remark">
+			<view class="title">备注</view>
+			<textarea class="textartea" placeholder="订单备注" v-model="infoValue.remark"></textarea>
+		</view>
 		
 		<!-- 日历 -->
 		<uni-calendar 
@@ -98,6 +102,7 @@
 					orderTime:null,
 					orderCategoryId:null,
 					likeStyle:null,
+					remark:null
 				}
 			}
 		},
@@ -215,7 +220,7 @@
 			infoValue:{
 				deep:true,
 				handler(newVal,oldVal){
-					console.log('深度监听模块信息',this.infoValue)
+					// console.log('深度监听模块信息',this.infoValue)
 					this.$emit('InfoModuleValue',this.infoValue)
 				}
 			},
@@ -229,5 +234,25 @@
 		margin-left: 30rpx;
 		margin-top: 30rpx;
 		font-weight: bold;
+	}
+	.remark{
+		border-bottom: 1rpx solid #f9f9f9;
+		margin: 0 30rpx;
+		.title{
+			font-size: 28rpx;
+			font-weight: normal;
+			margin: 0;
+			margin-right: 30rpx;
+			margin-top: 20rpx;
+		}
+		.textartea {
+			margin-top: 20rpx;
+			background-color: #f9f9f9;
+			max-width:650rpx;
+			width:650rpx;
+			height: 100rpx;
+			padding: 20rpx;
+			font-size: 24rpx;
+		}
 	}
 </style>

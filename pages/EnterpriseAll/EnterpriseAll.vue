@@ -45,7 +45,6 @@
 					 return	i.positionTypes.includes(this.type)
 					})
 					this.AllArr = newArr
-					console.log(newArr)
 				})
 			},
 		}

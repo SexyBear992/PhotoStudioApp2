@@ -8,3 +8,7 @@ export const getAllShopQY = (params) => {
 export const getCategoryList = (params) => {
   return get(baseUrl.getCategoryList, params)
 }
+// 获取套系名称
+export const getSystemNameList = (params) => {
+	return get(baseUrl.getSystemNameList, params)
+}

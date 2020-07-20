@@ -14,6 +14,9 @@ let baseUrl = {
 	
 	getAllShopQY: `${base_common}/shop/list/shopNameVo`, // 查找-所有门店
 	getCategoryList: `${base_common}/category/list/`, // get     根据类型Type获取所有类别
+	
+	getSystemNameList: `${base_goods}/assembly/getAssemblyName`, // 获取套系名称列表
+
 
 }
 

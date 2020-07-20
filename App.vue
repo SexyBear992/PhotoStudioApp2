@@ -24,6 +24,16 @@
 				'token',
 			])
 		},
+		mounted(){
+			// this.act_shopAllArr()
+			// this.act_orderTypeArr()
+			// this.act_orderGroup()
+			// this.act_origin()
+			// this.act_category()
+			// this.act_serviceCategory()
+			// this.act_teacherCategory()
+			// this.act_piceList()
+		},
 		methods: {
 			...mapActions('app',[
 				'setToken',
@@ -32,7 +42,12 @@
 			...mapActions('shopArr',[
 				'act_shopAllArr',
 				'act_orderTypeArr',
-				'act_orderGroup'
+				'act_orderGroup',
+				'act_origin',
+				'act_category',
+				'act_serviceCategory',
+				'act_teacherCategory',
+				'act_piceList'
 			]),
 			// 获取本地缓存ticket
 			getStorageTicket() {
@@ -84,6 +99,11 @@
 				this.act_shopAllArr()
 				this.act_orderTypeArr()
 				this.act_orderGroup()
+				this.act_origin()
+				this.act_category()
+				this.act_serviceCategory()
+				this.act_teacherCategory()
+				this.act_piceList()
 			}
 		}
 	};

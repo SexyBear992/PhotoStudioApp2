@@ -1,9 +1,12 @@
 {
 	"pages": [
 		{
-		    "path" : "pages/index/myOrderBox/openOrder/openInfo/openInfo",
-		    "style" : {}
-		},{
+			"path" : "pages/index/myOrderBox/openOrder/openOrder",
+			"style" : {
+				"navigationBarTitleText": "开单"
+			}
+		},
+		{
 			"path": "pages/come/come",
 			"style": {}
 		},
@@ -50,17 +53,15 @@
 				"disableScroll": true
 			}
 		},
+
+    {
+    	"path" : "pages/index/myOrderBox/openOrder/openInfo/openInfo",
+    	"style" : {}
+    },
 		{
-			"path" : "pages/index/myOrderBox/openOrder/openOrder",
-			"style" : {
-				"navigationBarTitleText": "开单"
-			}
+			"path" : "pages/EnterpriseAll/EnterpriseAll",
+			"style" : {}
 		}
-    
-        ,{
-            "path" : "pages/EnterpriseAll/EnterpriseAll",
-            "style" : {}
-        }
     ],
 	"tabBar": {
 		// 隐藏tabBar
