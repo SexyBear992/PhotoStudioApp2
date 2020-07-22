@@ -86,17 +86,16 @@
 				})
 			},
 		
+		
+			// 保存订单
+			save(){
+				return this.sourceValue
+			},
 		},
 		watch:{
 			get_origin(){
 				this.newSourceList()
 			},
-			sourceValue:{
-				deep:true,
-				handler(newVal,oldVal){
-					this.$emit('sourceModuleValue',this.sourceValue)
-				}
-			}
 		}
 	}
 </script>

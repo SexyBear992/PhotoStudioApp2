@@ -89,18 +89,17 @@
 				})
 				this.categoryList = arr
 			},
-					
+			
+			
+			// 保存订单
+			save(){
+				return this.userInfoValue
+			},
 		},
 		watch:{
 			get_category(){
 				this.newCategoryList()
 			},
-			userInfoValue:{
-				deep:true,
-				handler(newVal,oldVal){
-					this.$emit('userInfoValue',this.userInfoValue)
-				}
-			}
 		}
 	}
 </script>

@@ -24,18 +24,21 @@
 				<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
 			</view>
 			
+			<systemInfo v-if="systemName !== '请选择'" :piceId="orderPriceValue.assemblyId"></systemInfo>
 		</view>
 	</view>
 </template>
 
 <script>
 	import { mapGetters } from 'vuex'
-	import { getSystemNameList } from '@/util/api/shop.js'
+	import { getSystemNameList, getSystemDetail } from '@/util/api/shop.js'
 	import cell from '@/components/cell.vue'
+	import systemInfo from './systemInfo.vue'
 	export default{
 		props:['type'],
 		components:{
-			cell
+			cell,
+			systemInfo
 		},
 		computed:{
 			...mapGetters('shopArr',[
@@ -61,7 +64,7 @@
 		},
 		data(){
 			return{
-				array:[[],['1','2']],
+				array:[[],[]],
 
 				// 多选选择
 				piceType:null,
@@ -71,6 +74,8 @@
 				systemNameList:null,
 				// 套系项数组
 				systemNameItem:null,
+				// 类型ID
+				piceId:null,
 				
 				// 选择的套系名字
 				systemName:'请选择',
@@ -80,6 +85,7 @@
 				// 老师级别数组
 				teacherCategoryList:[],
 				
+				// 返回父组件内容
 				orderPriceValue:{
 					// 服务等级
 					serviceCategoryId:null,
@@ -108,21 +114,47 @@
 		methods:{
 			// 套系类改变
 			changeList(e){
-				// this.array[1]
-				console.log(e)
-				// 套系类别ID 赋值
-				// this.orderPriceValue.assemblyCategoryId 
-				
-				// let ind = e.detail.value[1]
-				// this.piceType = this.array[1][ind]
-				// console.log(this.piceType)
+				// 当前选择类别名字
+				let piceName = this.array[e.detail.column][e.detail.value]
+				// 获得类别ID
+				this.get_piceList.some((i)=>{
+					if(i.name === piceName){
+						this.piceId = i.id
+					}
+				})
+				this.getSystemNameItem(piceName)
+				// console.log('类别',this.get_piceList)
+				// console.log('套系',this.systemNameList)
 			},
 			// 选择套系
 			enSystem(e){
-				console.log('类',this.array[0][e.detail.value[0]])
-				console.log(this.get_piceList)
-				console.log('项',this.array[1][e.detail.value[1]])
-				console.log(this.systemNameItem)
+				// 获得类别下标
+				let piceIndex = e.detail.value[0]
+				// 获得套系下标
+				let systemIndex = e.detail.value[1]
+				// 获得类别名称
+				let piceName = this.array[0][piceIndex]
+				// 获得套系名称
+				let systemName = this.array[1][systemIndex]
+				// 赋值显示套系名称
+				this.systemName = systemName
+				// 获得类别ID 并赋值
+				this.get_piceList.some((i)=>{
+					if(i.name === piceName){
+						this.orderPriceValue.assemblyCategoryId = i.id
+					}
+				})
+				// 获得套系ID 并赋值
+				this.systemNameList[this.orderPriceValue.assemblyCategoryId].some((i)=>{
+					if(i.name === systemName){
+						this.orderPriceValue.assemblyId = i.id
+					}
+				})
+				// 获取套系详情
+				getSystemDetail({id:this.orderPriceValue.assemblyId}).then(res=>{
+					this.orderPriceValue.assemblyName = res.data.data.name
+					this.orderPriceValue.assemblyPrice = res.data.data.price
+				})
 			},
 			
 			// 获取套系类型名字
@@ -165,14 +197,14 @@
 					this.getSystemNameItem(this.array[0][0])
 				})	
 			},
-			// 获得选择类对应的套系项
+			// 获得选择类别对应的套系
 			getSystemNameItem(name){
 				this.get_piceList.some((i)=>{
 					if(i.name === name){
-						this.orderPriceValue.assemblyCategoryId = i.id
+						this.piceId = i.id
 					}
 				})
-				this.systemNameItem = this.systemNameList[this.orderPriceValue.assemblyCategoryId].map((i)=>{
+				this.systemNameItem = this.systemNameList[this.piceId].map((i)=>{
 					return i.name
 				})
 				this.array[1] = this.systemNameItem
@@ -217,6 +249,10 @@
 				this.teacherCategoryList = arr
 			},
 			
+			//保存订单
+			 save(){
+				 return this.orderPriceValue
+			 },
 		},
 		watch:{
 			dateRange(){
@@ -226,19 +262,6 @@
 			AssemblyName(){
 				this.getSystemNameList()
 			},
-			array:{
-				deep:true,
-				handler(){
-				}
-			},
-			orderPriceValue:{
-				deep:true,
-				handler(newVal,oldVal){
-					console.log('监听',this.orderPriceValue)
-					this.$emit('orderPriceValue',this.orderPriceValue)
-				}
-			},
-
 		}
 	}
 </script>
@@ -268,5 +291,8 @@
 			height: 18rpx;
 			padding: 33rpx 0;
 		}
+	}
+	.uni-input{
+		color: #808080;
 	}
 </style>

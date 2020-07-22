@@ -4,6 +4,14 @@
 	<view>
 		<view class="title">开单信息</view>
 	
+		<view class="oIdBox">
+			<view class="left">
+				<view class="oIdtitle">订单号</view>
+				<input type="text" v-model="infoValue.orderNo" :placeholder="!infoValue.autoOrderNo?'输入订单号':'生成订单号'" :disabled='infoValue.autoOrderNo'/>				
+			</view>
+			<switch @change="autoOrderNo" color="#61a3ff" class="switch"/>
+		</view>
+	
 		<cell :title="'门店'" :list="shopList" @changeValue="changShopId"></cell>
 		
 		<view @click="openCalendar">
@@ -97,6 +105,8 @@
 				
 				// 开单信息模块数据
 				infoValue:{
+					orderNo:null,
+					autoOrderNo:false,
 					orderShopId:null,
 					groupCategoryId:null,
 					orderTime:null,
@@ -116,6 +126,13 @@
 			this.infoValue.orderTime = timestamp
 		},
 		methods:{
+			// 是否自动生成订单号
+			autoOrderNo(e){
+				this.infoValue.autoOrderNo = e.detail.value
+				if(e.detail.value){
+					this.infoValue.orderNo = null
+				}
+			},
 			
 			/*********************************   组件选择返回值模块   *********************************/
 			// 门店选择改变
@@ -208,21 +225,17 @@
 			cancelStyle(){
 				this.visibleStyle = false
 			},
-		
+			
+			// 保存订单
+			save(){
+				return this.infoValue
+			},
 		},
 		watch:{
 			dateRange(){
 				this.newShopList()
 				this.newchangTypeCategoryId()
 				this.newGroupCategoryId()
-			},
-			/*******************************   深度监听开单信息模块值   *******************************/ 
-			infoValue:{
-				deep:true,
-				handler(newVal,oldVal){
-					// console.log('深度监听模块信息',this.infoValue)
-					this.$emit('InfoModuleValue',this.infoValue)
-				}
 			},
 		}
 	}
@@ -234,6 +247,32 @@
 		margin-left: 30rpx;
 		margin-top: 30rpx;
 		font-weight: bold;
+	}
+	.oIdBox{
+		height: 80rpx;
+		display: flex;
+		margin: 0 30rpx;
+		justify-content: space-between;
+		border-bottom: 1rpx solid #f9f9f9;
+		.left{
+			width: 75%;
+			font-size: 28rpx;
+			display: flex;
+			line-height: 80rpx;
+			.oIdtitle{
+				margin-right:30rpx
+			}
+			input{
+				margin-top: 19rpx;
+				color: #8d8d8d;
+			}
+		}
+		.switch{
+			margin-top: 0;
+			margin-right: -20rpx;
+			margin-top: 10rpx;
+			transform:scale(0.5);
+		}
 	}
 	.remark{
 		border-bottom: 1rpx solid #f9f9f9;

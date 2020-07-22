@@ -1,19 +1,19 @@
 <template>
 	<view>
 		<!-- 开单信息模块 -->
-		<InfoModule @InfoModuleValue="InfoModuleValue"></InfoModule>
+		<InfoModule ref="Info"></InfoModule>
 		
 		<!-- 客户来源模板 -->
-		<sourceModule @sourceModuleValue="sourceModuleValue"></sourceModule>
+		<sourceModule ref="source"></sourceModule>
 		
 		<!-- 客户信息 -->
-		<userInfoModule @userInfoValue="userInfoValue" :type="type"></userInfoModule>
+		<userInfoModule ref="userInfo" :type="type"></userInfoModule>
 		
 		<!-- 客户联系人信息 -->
-		<contactInfoModule :type="type"></contactInfoModule>
+		<contactInfoModule ref="contactInfo" :type="type"></contactInfoModule>
 		
 		<!-- 订单套系内容 -->
-		<orderPriceModule @orderPriceValue="orderPriceValue" :type="type"></orderPriceModule>
+		<orderPriceModule ref="orderPrice":type="type"></orderPriceModule>
 		
 		<button type="default" @click="save">保存订单</button>
 	</view>
@@ -44,6 +44,10 @@
 				// 订单类型
 				type:null,
 				openOrderData:{
+					// 订单号
+					orderNo:null,
+					// 是否自动生产订单号
+					autoOrderNo:false,
 					// 当前商店ID
 					shopId:null,
 					// 选择商店ID
@@ -79,6 +83,14 @@
 					serviceCategoryId:null,
 					// 老师级别
 					teacherCategoryId:null,
+					// 套系类别ID
+					assemblyCategoryId:null,
+					// 套系ID
+					assemblyId:null,
+					// 套系名称
+					assemblyName:null,
+					// 套系价格
+					assemblyPrice:null
 				}
 			};
 		},
@@ -96,39 +108,19 @@
 		methods:{
 			// 保存订单
 			save(){
-				console.log(this.openOrderData)
+				let Info = this.$refs.Info.save()
+				let contactInfo = this.$refs.contactInfo.save()
+				let source = this.$refs.source.save()
+				let userInfo = this.$refs.userInfo.save()
+				let orderPrice =this.$refs.orderPrice.save()
+				console.log('Info',Info)
+				console.log('contactInfo',contactInfo)
+				console.log('source',source)
+				console.log('userInfo',userInfo)
+				console.log('orderPrice',orderPrice)
+				// console.log(this.openOrderData)
 			},
 			
-			/***************************************  组件回值 ********************************************/ 
-			
-			// 组件传值 选择结果 开单信息
-			InfoModuleValue(e){
-				this.openOrderData.orderShopId = e.orderShopId
-				this.openOrderData.groupCategoryId = e.groupCategoryId
-				this.openOrderData.orderCategoryId = e.orderCategoryId
-				this.openOrderData.orderTime = e.orderTime
-				this.openOrderData.likeStyle = e.likeStyle
-				this.openOrderData.remark = e.remark
-			},
-			// 组件传值 选择结果 客户来源
-			sourceModuleValue(e){
-				this.openOrderData.customerGroup.originId = e.originId
-				this.openOrderData.customerGroup.referrerName = e.referrerName
-				this.openOrderData.customerGroup.referrerMobile = e.referrerMobile
-			},
-			// 组件传值 选择结果 客户信息
-			userInfoValue(e){
-				this.openOrderData.customerGroup.categoryId = e.categoryId
-				this.openOrderData.typeTime = e.typeTime
-				this.openOrderData.typeLunar = e.typeLunar
-				this.openOrderData.typeStr = e.typeStr
-			},
-			
-			// 组件传值 选择结果 订单套系内容
-			orderPriceValue(e){
-				this.openOrderData.serviceCategoryId = e.serviceCategoryId
-				this.openOrderData.teacherCategoryId = e.teacherCategoryId
-			}
 		},
 		watch:{
 			shopId(){

@@ -18,6 +18,8 @@ export default{
 		teacherCategory: [],
 		// 套系数组
 		piceList: [],
+		// 工具箱选择类
+		toolType:[]
 	},
 	getters:{
 		get_shopAllArr: state => state.shopAllArr,
@@ -28,6 +30,7 @@ export default{
 		get_serviceCategory: state => state.serviceCategory,
 		get_teacherCategory: state => state.teacherCategory,
 		get_piceList: state => state.piceList,
+		get_toolType: state => state.toolType,
 	},
 	mutations:{
 		mut_shopAllArr (state, data) {
@@ -53,6 +56,9 @@ export default{
 		},
 		mut_piceList (state,data) {
 			state.piceList = data
+		},
+		mut_toolType (state,data) {
+			state.toolType = data
 		}
 	},
 	actions:{
@@ -98,6 +104,10 @@ export default{
 				commit('mut_piceList', res.data.data)
 			})
 		},
-		
+		act_toolType ({ commit } ,data) {
+			getCategoryList({type:data}).then(res => {
+				commit('mut_toolType', res.data.data)
+			})
+		},
 	}
 }

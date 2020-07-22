@@ -119,7 +119,9 @@
 			"i-cell": "/wxcomponents/cell/index",
 			"i-modal": "/wxcomponents/modal/index",
 			"i-checkbox-group": "/wxcomponents/checkbox-group/index",
-			"i-checkbox": "/wxcomponents/checkbox/index"
+			"i-checkbox": "/wxcomponents/checkbox/index",
+			"i-swipeout": "/wxcomponents/swipeout/index",
+			 "i-icon": "/wxcomponents/icon/index"
 		}
 	}
 }

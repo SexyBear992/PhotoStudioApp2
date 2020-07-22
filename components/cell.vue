@@ -5,11 +5,12 @@
 			<view class="uni-list" v-if="list.length > 0">
 					<view class="uni-list-cell">
 							<view class="uni-list-cell-db">
-									<picker @change="bindPickerChange" :value="index" :range="array">
+									<picker @change="bindPickerChange" :value="callIndex?callIndex:index" :range="array">
 										<view class="box">
 											<view class="left">
 												<view class="title">{{title}}</view>
-												<view class="uni-input value">{{array[index]}}</view>
+												<view class="uni-input value" v-if="callIndex">{{array[callIndex]}}</view>
+												<view class="uni-input value" v-else>{{array[index]}}</view>
 											</view>
 											<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
 										</view>
@@ -43,6 +44,9 @@
 			},
 			text:{
 				type: String
+			},
+			callNameIndex:{
+				type: Number
 			}
 		},
 		filters:{
@@ -59,27 +63,40 @@
 			return {
 				array: [],
 				index: 0,
+				callIndex:null,
 			};
 		},
 		mounted(){
+			this.callIndex = this.callNameIndex
 			this.newArr()
 	
 		},
 		methods:{
 			bindPickerChange(e){
-				this.index = e.target.value
+				if(this.callIndex){
+					this.callIndex = e.target.value
+				}else{
+					this.index = e.target.value
+				}
 				this.$emit('changeValue',this.array[e.target.value])
 			},
 			// 赋值数组
 			newArr(){
 				this.array = this.list
-				this.$emit('changeValue',this.array[this.index])
+				if(this.callIndex){
+					this.$emit('changeValue',this.array[this.callIndex])
+				}else{
+					this.$emit('changeValue',this.array[this.index])
+				}
 			}
 		},
 		watch:{
 			list(){
 				this.newArr()
 			},
+			callNameIndex(){
+				this.callIndex = this.callNameIndex
+			}
 		}
 	}
 </script>
