@@ -23,7 +23,8 @@ let baseUrl = {
 	getPlaceToolList: `${base_goods}/place/toolList`, // 获取景点工具箱
 	getServicesToolList: `${base_goods}/services/toolList`, // 获取服务工具箱
 	getDressInfoToolList: `${base_goods}/dressInfo/toolList`, // 获取服装工具箱
-
+	getGiftName: `${base_goods}/gift/getGiftName`, // 获取礼包名称
+	getGiftDetail: `${base_goods}/gift/detail`, // 获取礼包详情
 	
 	getCustomerMobileList: `${base_store}/customer/list/customerGroupPersonnelVo`, // 查找-通过手机查找客户组人员
 

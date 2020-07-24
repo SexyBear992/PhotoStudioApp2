@@ -4,12 +4,12 @@
 
 <template>
 	<view>
-		<image :src="url+'hsBut.png'" mode="" @click="goOpen('婚纱开单','hs')"></image>
-		<image :src="url+'etBut.png'" mode="" @click="goOpen('儿童开单','et')"></image>
-		<image :src="url+'ymBut.png'" mode="" @click="goOpen('孕妈开单','ym')"></image>
-		<image :src="url+'fwBut.png'" mode="" @click="goOpen('服务开单','fw')"></image>
-		<image :src="url+'xzBut.png'" mode="" @click="goOpen('写真开单','xz')"></image>
-		<image :src="url+'hqBut.png'" mode="" @click="goOpen('婚庆开单','hq')"></image>
+		<image :src="url+'hsBut.png'" mode="" @click="goOpen('婚纱开单','WEDDING_DRESS')"></image>
+		<image :src="url+'etBut.png'" mode="" @click="goOpen('儿童开单','BABY')"></image>
+		<image :src="url+'ymBut.png'" mode="" @click="goOpen('孕妈开单','PREGNANT')"></image>
+		<image :src="url+'fwBut.png'" mode="" @click="goOpen('服务开单','SERVICE')"></image>
+		<image :src="url+'xzBut.png'" mode="" @click="goOpen('写真开单','PORTRAY')"></image>
+		<image :src="url+'hqBut.png'" mode="" @click="goOpen('婚庆开单','WEDDING')"></image>
 	</view>
 </template>
 

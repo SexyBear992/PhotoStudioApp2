@@ -7,6 +7,7 @@
 			:hotCity="hotCity"
 			:obtainCitys="AllArr"
 			:isSearch="true"
+			:type="type"
 			ref="citys"
 		></addressBox>
 	</view>

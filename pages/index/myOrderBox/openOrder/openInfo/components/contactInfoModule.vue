@@ -82,8 +82,6 @@
 		},
 		data(){
 			return {
-				// 开单类型
-				AssemblyName:null,
 				// 是否有第二联系人
 				isUserSec:false,
 				// 昵称数组
@@ -143,41 +141,16 @@
 			}
 		},
 		mounted(){
-			this.AssemblyName =	this.getAssemblyName(this.type)
 			this.getCallName()
-			if(this.type === 'hs' || 'et' || 'ym' || 'hq'){
+			if(this.type === 'WEDDING_DRESS' || 'BABY' || 'PREGNANT' || 'WEDDING'){
 				this.isUserSec = true
 			}
 		},
 		methods:{
 			
-			// 获取套系类型名字
-			getAssemblyName(type){
-				switch(type){
-					case 'hs':
-						return 'WEDDING_DRESS';
-						break;
-					case 'et':
-						return 'BABY';
-						break;
-					case 'ym':
-						return 'PREGNANT';
-						break;
-					case 'xz':
-						return 'PORTRAY';
-						break;
-					case 'fw':
-						return 'SERVICE';
-						break;
-					case 'hq':
-						return 'WEDDING';
-						break;
-				}
-			},
-			
 			// 获得昵称
 			getCallName(){
-				getCallName({isAdults:true , type:this.AssemblyName}).then(res=>{
+				getCallName({isAdults:true , type:this.type}).then(res=>{
 					this.callNameList = res.data.data
 					this.callNameListToCellFun()
 				})

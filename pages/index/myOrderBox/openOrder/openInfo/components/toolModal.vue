@@ -13,9 +13,9 @@
 			<!-- 查询 -->
 			<view class="serachBox">
 				
-				<picker class="pickerBox" @change="bindPickerChange" :value="pickerIndex" :range="array">
+				<picker class="pickerBox" @change="bindPickerChange" :value="pickerIndex" :range="toolTypeList">
 					<view class="uni-input">
-						<view class="text">{{array[pickerIndex]}}</view>
+						<view class="text">{{toolTypeList[pickerIndex]}}</view>
 						<i-icon type="unfold" size="15" color="#80848f"/>
 					</view>
 				</picker>			
@@ -57,20 +57,28 @@
 						<view class="check">
 							<checkbox :value="item.id" style="transform:scale(0.7)"/>
 						</view>
-						<view class="name">{{item.name}}</view>
+						<view class="name">{{item.name}}<span v-if="item.defaultP">{{item.defaultP}}</span></view>
 						<!-- 价格 -->
 						<view class="price">{{item.salePrice}}</view>
 						<!-- 库存 -->
-						<view class="number" v-if="item.number">{{item.number}}<span v-if="item.defaultP">{{item.defaultP}}</span></view>
+						<view class="number" v-if="item.number >= 0">{{item.number}}</view>
 						<!-- 内外景 -->
-						<view class="number" v-if="item.placeType">{{item.placeType}}</view>
-						<view class="number" v-if="item.type">{{item.type}}</view>
+						<view class="number" v-if="item.placeType">{{item.placeType |type}}</view>
+						<view class="number" v-if="item.type">{{item.type |type}}</view>
 						<!-- 人数 -->
 						<view class="number" v-if="item.peopleNumber">{{item.peopleNumber}}</view>
 					</label>
 				</checkbox-group>
-			
-				<view class="enSure" @click="enSure">确定</view>
+				<view class="noToolList" v-if="toolList.length === 0 ">暂无数据</view>
+				
+				<!-- 分页 -->
+				<i-page :current="body.page" :total="toolListLen" @change="pageChange" v-if="toolListLen>1">
+				    <view slot="prev">上一页</view>
+				    <view slot="next">下一页</view>
+				</i-page>
+				<view class="enSureBox">
+					<view class="enSure" @click="enSure">确定</view>
+				</view>
 			</view>
 			
 		</view>
@@ -96,6 +104,16 @@
 	import {getGoodsToolList, getPlaceToolList, getServicesToolList, getDressInfoToolList} from '@/util/api/shop.js'
 	import { mapGetters,mapActions } from 'vuex'
 	export default{
+		filters:{
+			type(type){
+				const result = new Map([
+					['INT', '内景'],
+					['OUT', '外景'],
+					['NONE', '无']
+				])
+				return result.get(type)
+			}
+		},
 		data(){
 			return{
 				// 是否打开工具箱
@@ -104,12 +122,14 @@
 				toolTitle:null,
 				// picker下标
 				pickerIndex:0,
-				// picker所需要的数组
-				array:['1','2','3'],
 				// 工具箱类型
 				toolType:null,
 				// 工具箱列表
 				toolList:null,
+				// 工具箱类别列表
+				toolTypeList:null,
+				// 分页总条数
+				toolListLen:null,
 				// 请求工具箱包体
 				body:{
 					// categoryId:null,
@@ -127,8 +147,11 @@
 		computed:{
 			...mapGetters('app',[
 				'shopId',
-				'act_toolType'
-			])
+			]),
+			...mapGetters('shopArr',[
+				'get_toolType',
+				'get_shopAllArr'
+			]),
 		},
 		mounted(){
 			this.body.shopId = Number(this.shopId)
@@ -148,7 +171,7 @@
 				this.toolTitle = '商品工具箱'
 				this.toolType = 'GOODS'
 				this.getToolList()
-				act_toolType('GOODS')
+				this.act_toolType('GOODS')
 			},
 			// 打开服装工具箱
 			dressToolList(){
@@ -156,6 +179,12 @@
 				this.toolType = 'DRESSINFO'
 				this.toolTitle = '服装工具箱'
 				this.getToolList()
+				
+				let arr = this.get_shopAllArr.map((i)=>{
+					return i.shopName
+				})
+				arr.unshift('门店选择')
+				this.toolTypeList = arr
 			},
 			// 打开景点工具箱
 			placeToolList(){
@@ -163,6 +192,7 @@
 				this.toolType = 'PLACE'
 				this.toolTitle = '景点工具箱'
 				this.getToolList()
+				this.act_toolType('PLACE')
 			},
 			// 打开服务工具箱
 			servicesToolList(){
@@ -170,55 +200,99 @@
 				this.toolType = 'SERVICE'
 				this.toolTitle = '服务工具箱'
 				this.getToolList()
+				this.act_toolType('SERVICE')
 			},
-			
+		
 			// 获取工具箱内容
 			getToolList(){
 				if(this.toolType === 'GOODS'){
 					getGoodsToolList(this.body).then(res=>{
 						this.toolList = res.data.data.records
+						this.toolListLen = Math.ceil(res.data.data.total/res.data.data.size)
 					})
 				}else if(this.toolType === 'DRESSINFO'){
 					getDressInfoToolList(this.body).then(res=>{
 						this.toolList = res.data.data.records
+						this.toolListLen = Math.ceil(res.data.data.total/res.data.data.size)
 					})
 				}else if(this.toolType === 'PLACE'){
 					getPlaceToolList(this.body).then(res=>{
 						this.toolList = res.data.data.records
+						this.toolListLen = Math.ceil(res.data.data.total/res.data.data.size)
 					})
 				}else if(this.toolType === 'SERVICE'){
 					getServicesToolList(this.body).then(res=>{
 						this.toolList = res.data.data.records
+						this.toolListLen = Math.ceil(res.data.data.total/res.data.data.size)
 					})
 				}
 			},
-			
+			// 工具箱分页
+			pageChange(e){
+				const type = e.detail.type;
+				if (type === 'next') {
+					this.body.page += 1
+					this.getToolList()
+				} else if (type === 'prev') {
+					this.body.page -= 1
+					this.getToolList()
+				}
+			},
+				
 			// 多选返回
 			checkboxChange: function (e) {
 				this.checkId = e.detail.value
 			},
 			// 选择类返回值
 			bindPickerChange(e){
-				console.log(e)
+				this.pickerIndex = e.target.value
+				// 获取返回名字
+				let name = this.toolTypeList[e.target.value]
+				// 如果为服装 picker选择为门店 则为选择类型
+				if(this.toolType === 'DRESSINFO'){
+					delete this.body.categoryId
+					this.get_shopAllArr.some((i)=>{
+						if(name === '门店选择'){
+							delete this.body.shopId
+						}else if(i.name = name){
+							this.body.shopId = i.shopId
+						}
+					})
+				}else{
+					delete this.body.shopId
+					this.get_toolType.some((i)=>{
+						if(name === '选择类别'){
+							delete this.body.categoryId
+						}else	if(i.name === name){
+							this.body.categoryId = i.id
+						}
+					})
+				}
+				
+				this.getToolList()
 			},
 			
 			// 查询
 			serach(){
-				console.log('查询')
+				this.getToolList()
 			},
 			// 确定选择
 			enSure(){
-				// let needArr = this.toolList.filter((i)=>{
-				// 	if(this.checkId.includes(String(i.id))){
-				// 		return i
-				// 	}
-				// })
+				let needArr = this.toolList.filter((i)=>{
+					if(this.checkId.includes(String(i.id))){
+						return i
+					}
+				})
 				this.$emit('enSure',{arr:needArr,type:this.toolType})
 			}
 		},
 		watch:{
-			act_toolType(){
-				console.log(act_toolType)
+			get_toolType(){
+				let arr = this.get_toolType.map((i)=>{
+					return i.name
+				})
+				arr.unshift('选择类别')
+				this.toolTypeList = arr
 			}
 		}
 	}
@@ -268,7 +342,7 @@
 				padding: 0 30rpx;
 				display: flex;
 				.pickerBox{
-					width: 130rpx;
+					width: 160rpx;
 					border: 1rpx solid #F0F0F0;
 					border-radius: 10rpx;
 					height: 50rpx;
@@ -333,6 +407,21 @@
 						width: 25%;
 					}
 				}
+			}
+		}
+		.enSureBox{
+			display: flex;
+			flex-direction: row-reverse;
+			padding: 30rpx;
+			.enSure{
+				background-color: #61a3ff;
+				color: #FFFFFF;
+				font-size: 32rpx;
+				width: 100rpx;
+				height: 55rpx;
+				line-height: 55rpx;
+				text-align: center;
+				border-radius: 10rpx;
 			}
 		}
 	}

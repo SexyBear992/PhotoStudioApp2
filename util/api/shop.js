@@ -44,3 +44,11 @@ export const getServicesToolList = (params) => {
 export const getDressInfoToolList = (params) => {
 	return get(baseUrl.getDressInfoToolList, params)
 }
+// 获取礼包名称
+export const getGiftName = (params) => {
+	return get(baseUrl.getGiftName, params)
+}
+// 获取礼包详情
+export const getGiftDetail = (params) => {
+	return get(baseUrl.getGiftDetail, params)
+}

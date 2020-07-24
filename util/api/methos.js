@@ -31,6 +31,7 @@ const request = (url, options) => {
 				}
 			},
 			fail:(err)=>{
+				uni.hideLoading();
 				uni.showToast({
 					title:'请求接口失败'
 				})

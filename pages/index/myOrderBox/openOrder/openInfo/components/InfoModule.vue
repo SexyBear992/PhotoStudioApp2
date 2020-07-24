@@ -19,15 +19,15 @@
 		</view>
 		
 		<view @click="gotEnterpriseAll('RECEPTION')">
-			<cell :title="'接单'" :text="'接单人员'"></cell>
+			<cell :title="'接单'" :text="peception"></cell>
 		</view>
 		
 		<view @click="gotEnterpriseAll('SERVICE')">
-			<cell :title="'客服'" :text="'客服人员'"></cell>
+			<cell :title="'客服'" :text="service"></cell>
 		</view>
 		
 		<view @click="gotEnterpriseAll('NETWORK_SALES')">
-			<cell :title="'网销'" :text="'网销人员'"></cell>
+			<cell :title="'网销'" :text="network"></cell>
 		</view>
 		
 		<cell :title="'分类'" :list="orderCategoryIdList" @changeValue="changTypeCategoryId"></cell>
@@ -54,12 +54,15 @@
 		/>
 		<!-- 喜爱风格 -->
 		<styleModal v-if="visibleStyle" @cancel="cancelStyle" @ok="enSureStyle" :faCurrent="faCurrent"></styleModal>
+		<!-- 联系人模态框 -->
+		<addressModal v-if="addressShow" :show="showTextFa" :type="addressType" @close="closeAddress" @ok="addressInfo"></addressModal>
 	</view>
 </template>
 
 <script>
 	import { mapGetters } from 'vuex'
 	import styleModal from './styleModal.vue'
+	import addressModal from './addressModal.vue'
 	import cell from '@/components/cell.vue'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	export default {	
@@ -85,7 +88,8 @@
 		components:{
 			cell,
 			uniCalendar,
-			styleModal
+			styleModal,
+			addressModal
 		},
 		data(){
 			return{
@@ -103,16 +107,43 @@
 				// 前端显示喜爱风格
 				likeStyleText:'喜爱风格',
 				
+				// 联系人类型
+				addressType:null,
+				// 联系人模块框
+				addressShow:null,
+				// 接单人员显示
+				peception:'接单人员',
+				// 客服人员显示
+				service:'客服人员',
+				// 网销人员显示
+				network:'网销人员',
+				// 传给子组件的已选人员
+				showTextFa:null,
+
 				// 开单信息模块数据
 				infoValue:{
+					// 订单号
 					orderNo:null,
+					// 是否自动获取订单
 					autoOrderNo:false,
+					// 门店ID
 					orderShopId:null,
+					// 订单分组ID
 					groupCategoryId:null,
+					// 订单时间
 					orderTime:null,
+					// 订单类别ID
 					orderCategoryId:null,
+					// 喜爱风格
 					likeStyle:null,
-					remark:null
+					// 备注
+					remark:null,
+					// 接单人
+					receptions:[],
+					// 网销人员
+					networkSales:[],
+					// 专服人员
+					services:[],
 				}
 			}
 		},
@@ -201,14 +232,7 @@
 				this.infoValue.orderTime = Date.parse(new Date(e.fulldate))
 			},
 			
-			/*********************************   工作人员处理模块   **********************************/
-			// 跳转到通讯录
-			gotEnterpriseAll(type){
-				uni.navigateTo({
-					url:'../../../../EnterpriseAll/EnterpriseAll?type=' + type
-				})
-			},
-			
+		
 			/*********************************   喜爱风格处理模块   **********************************/
 			// 打开喜爱风格模态框
 			openModal(){
@@ -224,6 +248,52 @@
 			// 取消风格
 			cancelStyle(){
 				this.visibleStyle = false
+			},
+			
+			/*********************************   联系人处理模块   **********************************/
+			// 打开模态框
+			gotEnterpriseAll(type){
+				this.addressType = type
+				this.addressShow = true
+				if(type === 'RECEPTION'){
+					this.showTextFa = this.peception
+				}else if(type === 'SERVICE'){
+					this.showTextFa = this.service
+				}else if(type === 'NETWORK_SALES'){
+					this.showTextFa = this.network
+				}
+				// uni.navigateTo({
+				// 	url:'../../../../EnterpriseAll/EnterpriseAll?type=' + type
+				// })
+			},
+			
+			// 关闭模态框
+			closeAddress(){
+				this.addressShow = false
+				this.showTextFa = null
+			},
+			// 模态框返回值
+			addressInfo(e){
+				let arr = []
+				e.info.map((i)=>{
+					let a = {
+						actorId:i.id,
+						main:i.main || false
+					}
+					arr.push(a)
+				})
+				if(this.addressType === 'RECEPTION'){
+					this.peception = e.show
+					this.infoValue.receptions = arr
+				}else if(this.addressType === 'SERVICE'){
+					this.service = e.show
+					this.infoValue.services = arr
+				}else if(this.addressType === 'NETWORK_SALES'){
+					this.network = e.show
+					this.infoValue.networkSales = arr
+				}
+				this.addressShow = false
+				this.showTextFa = null
 			},
 			
 			// 保存订单

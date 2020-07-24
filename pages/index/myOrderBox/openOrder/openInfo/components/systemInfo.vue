@@ -3,7 +3,7 @@
 	<view class="bigBox">
 		<view class="top">
 			<view class="allMoney">套系金额{{allMoney}}元</view>
-			<view class="addGift">添加礼包</view>
+			<view class="addGift" @click="addGift">添加礼包</view>
 		</view>
 		
 		<view class="orderItem" v-for="(item,index) in orderItem" :key="index">
@@ -78,6 +78,8 @@
 		<delModal v-if="delModalShow" @cancel="cancel" @ok="ok"></delModal>
 		
 		<toolModal v-if="toolModalShow" @close="close" @enSure="enSure"></toolModal>
+		
+		<addGiftModal	v-if="addGiftShow" :type="type" @closeAddGift="closeAddGift" @addGiftInfo="addGiftInfo"></addGiftModal>
 	</view>
 </template>
 
@@ -86,12 +88,14 @@
 	import addListModal from './addListModal.vue'
 	import toolModal from './toolModal.vue'
 	import delModal from '@/components/delModal.vue'
+	import addGiftModal from './addGiftModal.vue'
 	export default{
-		props:['piceId'],
+		props:['piceId','type'],
 		components:{
 			addListModal,
 			delModal,
-			toolModal
+			toolModal,
+			addGiftModal
 		},
 		data(){
 			return{
@@ -118,7 +122,12 @@
 				toolModalShow:false,
 				// 打开模态框的下标
 				toolModalIndex:null,
-					
+				
+				// 礼包模态框
+				addGiftShow:false,
+				// 已选礼包
+				giveGift:null,
+				
 				// 订单详情
 				orderItem:[],
 			}
@@ -138,12 +147,65 @@
 					this.orderItem[0].bottomCount = assembledlyItemList.bottomCount
 					this.orderItem[0].name = assembledlyItemList.name
 					this.orderItem[0].price = assembledlyItemList.price
-					this.orderItem[0].orderItemDressInfo = assembledlyItemList.assemblyItemDressInfos
-					this.orderItem[0].orderItemGoods = assembledlyItemList.assemblyItemGoods
-					this.orderItem[0].orderItemPlace = assembledlyItemList.assemblyItemPlaces
-					this.orderItem[0].orderItemService = assembledlyItemList.assemblyItemServices
 					
-					console.log('订单详情',this.orderItem)
+					//  商品 景点 服务 对象
+					// 商品 对象
+					let orderItemGoodsArr = []
+					assembledlyItemList.assemblyItemGoods.forEach((i)=>{
+						let orderItemGoods = {
+							name: i.name,
+							orderP: i.countP,
+							defaultP: i.defaultP,
+							goodsId: i.id,
+							orderNum: i.count,
+							pSalePrice: i.salePrice,
+						}
+						orderItemGoodsArr.push(orderItemGoods)
+					})
+					this.orderItem[0].orderItemGoods = orderItemGoodsArr
+					
+					// 服装 对象
+					let orderItemDressInfoArr = []
+					assembledlyItemList.assemblyItemDressInfos.forEach((i)=>{
+						let orderItemDressInfo = {
+							count: i.count,
+							dressInfoId: i.id,
+							name: i.name,
+							salePrice: i.salePrice,
+							type: i.type
+						}
+						orderItemDressInfoArr.push(orderItemDressInfo)
+					})
+					this.orderItem[0].orderItemDressInfo = orderItemDressInfoArr
+					
+					// 景点 对象
+					let assemblyItemPlacesArr =[]
+					assembledlyItemList.assemblyItemPlaces.forEach((i)=>{
+						let assemblyItemPlaces = {
+							name: i.name,
+							placeId: i.id,
+							placeType: i.placeType,
+							salePrice: i.salePrice
+						}
+						assemblyItemPlacesArr.push(assemblyItemPlaces)
+					})
+					this.orderItem[0].orderItemPlace = assemblyItemPlacesArr
+					
+					// 服务 对象
+					let assemblyItemServicesArr = []
+					assembledlyItemList.assemblyItemServices.forEach((i)=>{
+						let assemblyItemServices = {
+							name: i.name,
+							serviceId:i.id,
+							salePrice:i.salePrice,
+							peopleNumber:i.peopleNumber,
+							count:i.count
+						}
+						assemblyItemServicesArr.push(assemblyItemServices)
+					})
+					this.orderItem[0].orderItemService = assemblyItemServicesArr
+					
+					// console.log('订单详情',this.orderItem)
 				})
 			},
 			
@@ -170,6 +232,8 @@
 					orderItemPlace:[],
 					// 子订单礼包服务对象
 					orderItemService:[],
+					// 礼包
+					addGiftInfo:[],
 				}
 				this.orderItem.push(addOrderItem)
 			},
@@ -206,14 +270,48 @@
 			enSure(e){
 				if(e.type === 'GOODS'){
 					e.arr.forEach((i)=>{
-						this.orderItem[this.toolModalIndex].orderItemGoods.push(i)
+						let orderItemGoods = {
+							name: i.name,
+							orderP: i.defaultP,
+							defaultP: i.defaultP,
+							goodsId: i.id,
+							orderNum: 1,
+							pSalePrice: i.salePrice
+						}
+						this.orderItem[this.toolModalIndex].orderItemGoods.push(orderItemGoods)
 					})
 				}else if(e.type === 'DRESSINFO'){
-					this.orderItem[this.toolModalIndex].orderItemDressInfo.push(e.arr)
+					e.arr.forEach((i)=>{
+						let orderItemDressInfo = {
+							name: i.name,
+							count: 1,
+							dressInfoId: i.id,
+							salePrice: i.salePrice,
+							type: i.type
+						}
+						this.orderItem[this.toolModalIndex].orderItemDressInfo.push(orderItemDressInfo)
+					})
 				}else if(e.type === 'PLACE'){
-					this.orderItem[this.toolModalIndex].orderItemPlace.push(e.arr)
+					e.arr.forEach((i)=>{
+						let orderItemPlace = {
+							name:i.name,
+							placeId: i.id,
+							placeType:i.placeType,
+							salePrice:i.salePrice
+						}
+						this.orderItem[this.toolModalIndex].orderItemPlace.push(orderItemPlace)
+					})
 				}else if(e.type === 'SERVICE'){
-					this.orderItem[this.toolModalIndex].orderItemService.push(e.arr)
+					e.arr.forEach((i)=>{
+						let orderItemService = {
+							name: i.name,
+							serviceId: i.id,
+							salePrice: i.salePrice,
+							peopleNumber: i.peopleNumber,
+							count: 1
+						}
+						this.orderItem[this.toolModalIndex].orderItemService.push(orderItemService)
+					})
 				}
 				this.toolModalIndex = null
 				this.toolModalShow = false
@@ -241,6 +339,31 @@
 				this.delModalShow = false
 			},
 		
+			// 添加礼包
+			addGift(){
+				this.addGiftShow = true
+			},
+			// 礼包模态框关闭
+			closeAddGift(){
+				this.addGiftShow = false
+			},
+			// 礼包模态框返回内容
+			addGiftInfo(e){
+				this.addGiftShow = false
+				this.addGiftInfo = e.info
+				
+				this.giveGift = e.show
+				
+				console.log('礼包模态框返回',this.giveGift)
+			},
+			
+			// 保存
+			saveOrderItem(){
+				return this.orderItem
+			},
+			saveAddGiftInfo(){
+				return this.addGiftInfo
+			}
 		},
 		watch:{
 			piceId(){
@@ -249,7 +372,6 @@
 			orderItem:{
 				deep:true,
 				handler(){
-					console.log('orderItem',this.orderItem)
 					if(this.orderItem.length > 0){
 						let moneyArr = this.orderItem.map((i)=>{
 							return Number(i.price)

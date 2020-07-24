@@ -6,7 +6,7 @@
 					<view class="title" v-for="(item,index) in title" :key="index">{{item}}</view>
 				</view>
 				
-				<view class="tableInfo" v-for="(item,index) in list" :key="index">
+				<view class="tableInfo" v-for="(item,index) in sonlist" :key="index">
 					<i-swipeout 
 						:actions="actions" 
 						:toggle="toggle2"
@@ -15,18 +15,45 @@
 						<view slot="content" class="listInfo">
 							<!-- 名字 -->
 							<view class="textFirst">{{item.name}}</view>
-							<!-- 单价 -->
-							<view class="text price">{{item.salePrice}}</view>
-							<!-- P数 -->
-							<input class="text" type="number" v-model="item.countP" v-if="item.countP"/>
-							<!-- 类型 -->
-							<view class="text" v-if="item.type">{{item.type | type}}</view>
-							<!-- 景点类型 -->
-							<view class="text" v-if="item.placeType">{{item.placeType | type}}</view>
-							<!-- 人数 -->
-							<input class="text" type="number" v-model="item.peopleNumber" v-if="item.peopleNumber"/>
-							<!-- 数量 -->
-							<input class="text" type="number" v-model="item.count" v-if="item.count"/>
+							
+							<!-- 商品 -->
+							<view v-if="title[0] === '商品'">
+								<!-- 商品单价 -->
+								<view class="text price">{{item.pSalePrice}}</view>
+								<!-- 商品P数 -->
+								<input class="text" type="number" v-model="item.orderP"/> 
+								<!-- 商品数量 -->
+								<input class="text" type="number" v-model="item.orderNum"/>
+							</view>
+							
+							<!-- 服装 -->
+							<view v-if="title[0] === '服装'">
+								<!-- 服装单价 -->
+								<view class="text price">{{item.salePrice}}</view>
+								<!-- 服装类型 -->
+								<view class="text">{{item.type | type}}</view>
+								<!-- 商品数量 -->
+								<input class="text" type="number" v-model="item.count"/>
+							</view>
+							
+							<!-- 景点 -->
+							<view v-if="title[0] === '景点'">
+								<!-- 景点单价 -->
+								<view class="text price">{{item.salePrice}}</view>
+								<!-- 景点类型 -->
+								<view class="text">{{item.placeType | type}}</view>
+							</view>
+							
+							<!-- 服务 -->
+							<view v-if="title[0] === '服务'">
+								<!-- 服务单价 -->
+								<view class="text price">{{item.salePrice}}</view>
+								<!-- 服务人数 -->
+								<view class="text">{{item.peopleNumber}}</view>
+								<!-- 服务数量 -->
+								<input class="text" type="number" v-model="item.count"/>
+							</view>
+													
 						</view>
 					</i-swipeout>
 				</view>
@@ -61,19 +88,26 @@
 					},
 				],
 				toggle2 : false,
-				
+				sonlist : null
 			};
 		},
 		mounted(){
+			this.sonlist = this.list
 		},
 		methods:{
 			
 			handlerCloseButton(index){
-				this.list.splice(index, 1)
-				this.$emit('deletList',this.list)
+				this.sonlist.splice(index, 1)
+				this.$emit('deletList',this.sonlist)
 			},
 		},
 		watch:{
+			sonlist:{
+				deep:true,
+				handler(){
+					this.$emit('deletList',this.sonlist)
+				}
+			}
 		}
 	}
 </script>
@@ -90,7 +124,6 @@
 			color: #61a3ff;
 			.title{
 				width: 20%;
-				margin-right: 10rpx;
 			}
 			.title:nth-of-type(1){
 				width: 40%;
@@ -100,22 +133,29 @@
 			margin: 0 30rpx;
 			.listInfo{
 				display: flex;
-				text-align: center;
+				text-align: center;	
 				.textFirst{
-					width: 40%;
-					margin-right: 10rpx;
+					width: 30%;
+					margin-left: 10%;
 				}
-				.text{
-					width: 20%;
-					margin-right: 10rpx;
-				}
-				.price{
-					color: #FF0000;
-				}
-				input{
-					background-color: #FFFFFF;
+				>view {
+					display: flex;
+					width: 60%;
+					.text{
+						// flex: 1;
+						width: 33%;
+						margin-right: 10rpx;
+					}
+					.price{
+						color: #FF0000;
+					}
+					input{
+						background-color: #FFFFFF;
+					}
 				}
 			}
+			
+			
 		}
 	}
 </style>

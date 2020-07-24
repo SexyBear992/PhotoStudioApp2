@@ -19,7 +19,9 @@ export default{
 		// 套系数组
 		piceList: [],
 		// 工具箱选择类
-		toolType:[]
+		toolType:[],
+		// 礼包数组
+		giftType:[],
 	},
 	getters:{
 		get_shopAllArr: state => state.shopAllArr,
@@ -31,6 +33,7 @@ export default{
 		get_teacherCategory: state => state.teacherCategory,
 		get_piceList: state => state.piceList,
 		get_toolType: state => state.toolType,
+		get_giftType: state => state.giftType,
 	},
 	mutations:{
 		mut_shopAllArr (state, data) {
@@ -59,6 +62,9 @@ export default{
 		},
 		mut_toolType (state,data) {
 			state.toolType = data
+		},
+		mut_giftType (state,data) {
+			state.giftType = data
 		}
 	},
 	actions:{
@@ -109,5 +115,10 @@ export default{
 				commit('mut_toolType', res.data.data)
 			})
 		},
+		act_giftType ({ commit }) {
+			getCategoryList({type:'PACKAGE_GIFT'}).then(res => {
+				commit('mut_giftType', res.data.data)
+			})
+		}
 	}
 }

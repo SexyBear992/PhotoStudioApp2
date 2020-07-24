@@ -121,7 +121,8 @@
 			"i-checkbox-group": "/wxcomponents/checkbox-group/index",
 			"i-checkbox": "/wxcomponents/checkbox/index",
 			"i-swipeout": "/wxcomponents/swipeout/index",
-			 "i-icon": "/wxcomponents/icon/index"
+			 "i-icon": "/wxcomponents/icon/index",
+			 "i-page": "/wxcomponents/page/index"
 		}
 	}
 }

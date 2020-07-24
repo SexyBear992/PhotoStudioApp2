@@ -5,9 +5,6 @@
 			<!-- 预留搜索-->
 			<view class="serachBox">
 				<view class="city-serach" v-if="isSearch"><input @input="keyInput" placeholder="搜索名字" class="city-serach-input" /></view>
-				<view class="moveBox" @click="openDrawer">
-					<view class="move"></view>
-				</view>
 			</view>
 			<!-- 城市列表(搜索前) -->
 			<view class="citys" v-if="!serachCity">
@@ -24,16 +21,9 @@
 			<view class="citys" v-if="serachCity">
 				<checkbox-group @change="checkboxChange">
 					<view v-for="(item, index) in searchDatas" :key="index">
-						<view class="citys-item" :key="inx" @click="cityTrigger(item)">{{ item.name }}</view>
-					</view>
-				</checkbox-group>
-			</view>
-			
-			<!-- 城市列表(选择分类后)  -->
-			<view class="citys" v-if="typeCity && !serachCity">
-				<checkbox-group @change="checkboxChange">
-					<view v-for="(item, index) in typeCityDatas" :key="index">
-						<view class="citys-item" :key="inx" @click="cityTrigger(item)">{{ item.name }}</view>
+						<view class="citys-item" :key="inx" @click="cityTrigger(item)">
+							<checkbox :value="item.accountName" />{{ item.name }}
+						</view>
 					</view>
 				</checkbox-group>
 			</view>
@@ -46,21 +36,14 @@
 			</view>
 		</view>
 		
-		<uni-drawer
-			mode="right"
-			ref='drawer'
-			class="drawer"
-		>
-		</uni-drawer>
 		
 	</view>
 </template>
 
 <script>
-import uniDrawer from "@/components/uni/uni-drawer/uni-drawer.vue"
 import citySelect from './addressSelect.js'
+import { mapGetters, mapActions } from 'vuex'
 export default {
-	components: {uniDrawer},
 	props: {
 		//传入要排序的名称
 		formatName: {
@@ -76,6 +59,10 @@ export default {
 		isSearch: {
 			type: Boolean,
 			default: true
+		},
+		// 员工类型
+		type:{
+			type: String
 		}
 	},
 	data() {
@@ -123,20 +110,23 @@ export default {
 			}
 			return searchData
 		},
-		
-		typeCityDatas(){
-			var typeCityDatas = []
-			for (let i = 0; i < this.cityData.length; i++) {
-				if (this.cityData[i][this.formatName].indexOf(this.typeCity) !== -1) {
-					typeCityDatas.push({
-						oldData: this.cityData[i],
-						name: this.cityData[i][this.formatName]
-					})
-				}
+		...mapGetters('address',[
+			'get_RECEPTION',
+			'get_SERVICE',
+			'get_NETWORK_SALES'
+		]),
+		addressAll(){
+			const {
+				get_RECEPTION,
+				get_SERVICE,
+				get_NETWORK_SALES
+			} = this 
+			return {
+				get_RECEPTION,
+				get_SERVICE,
+				get_NETWORK_SALES
 			}
-			return typeCityDatas
-		}
-		
+		},
 	},
 	created() {
 		// 初始化城市数据
@@ -147,6 +137,9 @@ export default {
 	watch: {
 		obtainCitys(newData) {
 			this.updateCitys(newData)
+		},
+		addressAll(){
+			console.log(this.addressAll)
 		}
 	},
 	methods: {
@@ -241,16 +234,30 @@ export default {
 			// 传值到父组件
 			this.$emit('cityClick', item.oldData ? item.oldData : item)
 		},
-	
+		
+		/************************************** 组件修改 **************************************/ 
+		...mapActions('address',[
+			'act_RECEPTION',
+			'act_SERVICE',
+			'act_NETWORK_SALES'
+		]),
+		// 判断类型进行保存入vuex
+		typeOnVeux(data){
+			
+			if(this.type === 'RECEPTION'){
+				this.act_RECEPTION(data)
+			}else if(this.type === 'SERVICE'){
+				this.act_SERVICE(data)
+			}else if(this.type === 'NETWORK_SALES'){
+				this.act_NETWORK_SALES(data)
+			}
+		},
+
 		// 多选返回值
 		checkboxChange: function(e,id){
-			console.log(e.detail.value)
+			this.typeOnVeux(e.detail.value)
 		},
 		
-		// 打开抽屉
-		openDrawer(){
-			this.$refs.drawer.open()
-		}
 	}
 }
 </script>
@@ -279,16 +286,6 @@ view {
 			padding: 0 vww(5);
 			border: 1px solid #4d8cfd;
 			border-radius: 3px;
-		}
-	}
-	.moveBox{
-		padding: 30rpx;
-		z-index: 3;
-		.move{
-			margin-top: 10rpx;
-			width: 50rpx;
-			height: 50rpx;
-			background-color: #4d8cfd;
 		}
 	}
 	

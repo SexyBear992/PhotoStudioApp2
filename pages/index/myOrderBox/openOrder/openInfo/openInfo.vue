@@ -108,16 +108,28 @@
 		methods:{
 			// 保存订单
 			save(){
+				// 开单信息
 				let Info = this.$refs.Info.save()
+				// 客户联系人信息
 				let contactInfo = this.$refs.contactInfo.save()
+				// 客户来源
 				let source = this.$refs.source.save()
+				// 客户信息
 				let userInfo = this.$refs.userInfo.save()
+				// 订单套系内容
 				let orderPrice =this.$refs.orderPrice.save()
-				console.log('Info',Info)
-				console.log('contactInfo',contactInfo)
-				console.log('source',source)
-				console.log('userInfo',userInfo)
-				console.log('orderPrice',orderPrice)
+				// 选择套系内容
+				let orderItem = this.$refs.orderPrice.saveOrderItem()
+				// 礼包内容
+				let addGift = this.$refs.orderPrice.saveAddGiftInfo()
+				
+				// console.log('Info',Info)
+				// console.log('contactInfo',contactInfo)
+				// console.log('source',source)
+				// console.log('userInfo',userInfo)
+				// console.log('orderPrice',orderPrice)
+				console.log('选择套系内容',orderItem)
+				console.log('礼包内容',addGift)
 				// console.log(this.openOrderData)
 			},
 			

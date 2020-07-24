@@ -24,7 +24,7 @@
 				<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
 			</view>
 			
-			<systemInfo v-if="systemName !== '请选择'" :piceId="orderPriceValue.assemblyId"></systemInfo>
+			<systemInfo ref="systemInfo" v-if="systemName !== '请选择'" :piceId="orderPriceValue.assemblyId" :type="type"></systemInfo>
 		</view>
 	</view>
 </template>
@@ -68,8 +68,6 @@
 
 				// 多选选择
 				piceType:null,
-				// 套系类型
-				AssemblyName:null,
 				// 套系类数组
 				systemNameList:null,
 				// 套系项数组
@@ -108,7 +106,6 @@
 			this.newServiceCategoryList()
 			this.newTeacherCategoryList()
 			// this.get_piceList.filter((i)=>{
-			this.AssemblyName = this.getAssemblyName(this.type)
 			// })
 		},
 		methods:{
@@ -157,33 +154,9 @@
 				})
 			},
 			
-			// 获取套系类型名字
-			getAssemblyName(type){
-				switch(type){
-					case 'hs':
-						return 'WEDDING_DRESS';
-						break;
-					case 'et':
-						return 'BABY';
-						break;
-					case 'ym':
-						return 'PREGNANT';
-						break;
-					case 'xz':
-						return 'PORTRAY';
-						break;
-					case 'fw':
-						return 'SERVICE';
-						break;
-					case 'hq':
-						return 'WEDDING';
-						break;
-				}
-			},
-			
 			// 获得该开单对应套系类
 			getSystemNameList(){
-				getSystemNameList({shopId:this.shopId , type:this.AssemblyName}).then(res=>{
+				getSystemNameList({shopId:this.shopId , type:this.type}).then(res=>{
 					this.systemNameList = res.data.data
 					// 套系类ID
 					let needId = Object.keys(res.data.data).map(i => parseInt(i, 0))
@@ -253,13 +226,19 @@
 			 save(){
 				 return this.orderPriceValue
 			 },
+			 saveOrderItem(){
+				 return this.$refs.systemInfo.saveOrderItem()
+			 },
+			 saveAddGiftInfo(){
+				 return this.$refs.systemInfo.saveAddGiftInfo()
+			 }
 		},
 		watch:{
 			dateRange(){
 				this.newServiceCategoryList()
 				this.newTeacherCategoryList() 
 			},
-			AssemblyName(){
+			type(){
 				this.getSystemNameList()
 			},
 		}
