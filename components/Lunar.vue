@@ -52,6 +52,8 @@
 					typeLunar:false,
 					// 时间为农历传
 					typeStr:null,
+					// 生肖
+					zodiac:null,
 				}
 				
 			};
@@ -82,6 +84,8 @@
 			},
 			// 日历选中确定返回值
 			enSure(e){
+				// 生肖
+				this.timeValue.zodiac = e.lunar.Animal
 				// 获得农历
 				let year = e.lunar.Animal
 				let month = e.lunar.IMonthCn

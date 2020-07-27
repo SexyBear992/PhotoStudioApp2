@@ -9,7 +9,7 @@
 				<view class="oIdtitle">订单号</view>
 				<input type="text" v-model="infoValue.orderNo" :placeholder="!infoValue.autoOrderNo?'输入订单号':'生成订单号'" :disabled='infoValue.autoOrderNo'/>				
 			</view>
-			<switch @change="autoOrderNo" color="#61a3ff" class="switch"/>
+			<switch @change="autoOrderNo" color="#61a3ff" class="switch" :checked='infoValue.autoOrderNo'/>
 		</view>
 	
 		<cell :title="'门店'" :list="shopList" @changeValue="changShopId"></cell>
@@ -125,7 +125,7 @@
 					// 订单号
 					orderNo:null,
 					// 是否自动获取订单
-					autoOrderNo:false,
+					autoOrderNo:true,
 					// 门店ID
 					orderShopId:null,
 					// 订单分组ID

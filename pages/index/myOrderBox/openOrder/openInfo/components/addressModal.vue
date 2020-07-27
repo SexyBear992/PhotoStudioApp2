@@ -266,6 +266,8 @@
 			}
 			.contentBox{
 				padding: 0 30rpx;
+				max-height: 600rpx;
+				overflow-y: auto;
 				.content{
 					height: 50rpx;
 					line-height: 50rpx;

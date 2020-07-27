@@ -51,13 +51,13 @@
 		mounted(){
 			this.newCategoryList()
 			switch(this.type){
-				case 'hs':
+				case 'WEDDING_DRESS':
 					this.timeTitle = '结婚日期'
 					break;
-				case 'ym':
+				case 'PREGNANT':
 					this.timeTitle = '预产日期'
 					break;
-				case 'fw':
+				case 'SERVICE':
 					this.timeTitle = '服务日期'
 			}
 		},

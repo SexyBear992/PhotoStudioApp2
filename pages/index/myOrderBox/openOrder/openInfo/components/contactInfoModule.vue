@@ -3,62 +3,40 @@
 	<view>
 		<view class="box">
 			<view class="title">客户联系人信息</view>
-			<!-- 第一联系人 -->
-			<view class="userBox">
-				
-				<cell :title="'昵称'" :list="callNameListToCell" @changeValue="changeCallNameFirst" :callNameIndex="callNameIndexF"></cell>
-				
-				<view class="listBox">
-					<view class="listTitle">姓名</view>
-					<input type="text" placeholder="姓名" v-model="newCustomerContactDtos[0].name"/>
-				</view>
-				
-				<view class="listBox">
-					<view class="listTitle">手机</view>
-					<input  placeholder="手机" type="number" v-model="newCustomerContactDtos[0].mobile" :disabled="!isChackMobile"/>
-				</view>
-				
-				<view class="listBox">
-					<view class="listTitle">QQ</view>
-					<input  placeholder="QQ" type="number" v-model="newCustomerContactDtos[0].qq"/>
-				</view>
-				
-				<view class="listBox">
-					<view class="listTitle">微信</view>
-					<input type="text" placeholder="微信" v-model="newCustomerContactDtos[0].wechat"/>
-				</view>
-				
-				<Lunar  :timeTitle="'生日'" @typeTimeValue="birthdayFirst"></Lunar>
-				
-				<view class="bottom"></view>
+			<view class="addButBox">
+				<view class="add" @click="addUser">新增</view>
 			</view>
-			
-			<!-- 第二联系人 -->
-			<view v-if="isUserSec" class="userBox">
+			<!-- 第一联系人 -->
+			<view class="userBox" v-for="(item,index) in newCustomerContactDtos" :key="index">
 				
-				<cell :title="'昵称'" :list="callNameListToCell" @changeValue="changeCallNameSecond" :callNameIndex = "callNameIndexS"></cell>
+				<view class="addButBox" v-if="index > 0 && isUserSec">
+					<view class="add" @click="remove(index)">删除</view>
+				</view>
+				
+				<cell :title="'昵称'" :list="callNameListToCell" @changeValue="changeCallName($event,index)" :callNameIndex="item.sex ? 1 : 0"></cell>
+				<!-- <cell v-if="index === 1" :title="'昵称'" :list="callNameListToCell" @changeValue="changeCallName($event,index)" :callNameIndex="callNameIndexS"></cell> -->
 				
 				<view class="listBox">
 					<view class="listTitle">姓名</view>
-					<input type="text" placeholder="姓名" v-model="newCustomerContactDtos[1].name"/>
+					<input type="text" placeholder="姓名" v-model="item.name"/>
 				</view>
 				
 				<view class="listBox">
 					<view class="listTitle">手机</view>
-					<input  placeholder="手机" type ="number" v-model="newCustomerContactDtos[1].mobile"/>
+					<input  placeholder="手机" type="number" v-model="item.mobile" :disabled="!isChackMobile"/>
 				</view>
 				
 				<view class="listBox">
 					<view class="listTitle">QQ</view>
-					<input placeholder="QQ" type ="number" v-model="newCustomerContactDtos[1].qq"/>
+					<input  placeholder="QQ" type="number" v-model="item.qq"/>
 				</view>
 				
 				<view class="listBox">
 					<view class="listTitle">微信</view>
-					<input type="text" placeholder="微信" v-model="newCustomerContactDtos[1].wechat"/>
+					<input type="text" placeholder="微信" v-model="item.wechat"/>
 				</view>
 				
-				<Lunar  :timeTitle="'生日'" @typeTimeValue="birthdaySecond"></Lunar>
+				<Lunar  :timeTitle="'生日'" @typeTimeValue="birthday($event,index)"></Lunar>
 				
 				<view class="bottom"></view>
 			</view>
@@ -82,17 +60,13 @@
 		},
 		data(){
 			return {
-				// 是否有第二联系人
-				isUserSec:false,
 				// 昵称数组
 				callNameList:[],
 				// cell所需的昵称数组
 				callNameListToCell:[],
 				
-				// 第一联系人 昵称下标
-				callNameIndexF:0,
-				// 第二联系人 昵称下标
-				callNameIndexS:1,
+				// 是否可删除第二联系人
+				isUserSec:true,
 				
 				// 是否需要通过手机查询
 				isChackMobile:true,
@@ -102,51 +76,59 @@
 				customerData:null,
 					
 				// 新增联系人 保存订单
-				newCustomerContactDtos:[
-					{
-						birthdayLunar: false, // 是否农历
-						birthdayTime: '', // 生日时间
-						birthdayStr: '', // 生日时间字符串
-						callId: null, // 称呼id
-						callName: '', // 称呼
-						name: '', // 客户姓名
-						display: true, // 订单是否显示
-						mobile: '', // 手机号码
-						sex: true, // 客户性别
-						qq: '', // 客户qq
-						wechat: '', // 微信,
-						tel: '', // 固定电话
-						workUnit: '', // 工作单位
-						address: '', // 家庭地址
-						otherShow: false
-					},
-					{
-						birthdayLunar: false, // 是否农历
-						birthdayTime: '', // 生日时间
-						birthdayStr: '', // 生日时间字符串
-						callId: null, // 称呼id
-						callName: '', // 称呼
-						name: '', // 客户姓名
-						display: true, // 订单是否显示
-						mobile: '', // 手机号码
-						sex: true, // 客户性别
-						qq: '', // 客户qq
-						wechat: '', // 微信,
-						tel: '', // 固定电话
-						workUnit: '', // 工作单位
-						address: '', // 家庭地址
-						otherShow: false
-					}],
-
+				newCustomerContactDtos:[],
+					
+	
 			}
 		},
 		mounted(){
 			this.getCallName()
-			if(this.type === 'WEDDING_DRESS' || 'BABY' || 'PREGNANT' || 'WEDDING'){
-				this.isUserSec = true
+			this.addUser()
+
+			if(this.type === 'WEDDING_DRESS' 
+				|| this.type === 'BABY' 
+				|| this.type === 'PREGNANT' 
+				|| this.type === 'WEDDING'
+			){
+				this.isUserSec = false
+				this.addUser()
+				this.newCustomerContactDtos[1].sex = true
 			}
 		},
 		methods:{
+			// 新增联系人
+			addUser(){
+				let arr = {
+					birthdayLunar: false, // 是否农历
+					birthdayTime: null, // 生日时间
+					birthdayStr: null, // 生日时间字符串
+					callId: null, // 称呼id
+					callName: null, // 称呼
+					name: null, // 客户姓名
+					display: true, // 订单是否显示
+					mobile: null, // 手机号码
+					sex: false, // 客户性别
+					qq: null, // 客户qq
+					wechat: null, // 微信,
+					tel: null, // 固定电话
+					workUnit: null, // 工作单位
+					address: null, // 家庭地址
+					otherShow: false
+				}
+				if(this.newCustomerContactDtos.length >= 2){
+					uni.showToast({
+						title:'联系人不能超过两个',
+						icon:'none'
+					})
+				}else{
+					this.newCustomerContactDtos.push(arr)
+				}
+			},
+			
+			// 删除联系人
+			remove(index){
+				this.newCustomerContactDtos.splice(index,1)
+			},
 			
 			// 获得昵称
 			getCallName(){
@@ -165,59 +147,22 @@
 			},
 			
 			/*********************************   组件选择返回值模块   *********************************/
-			// 第一联系人 昵称返回值
-			changeCallNameFirst(e){
+			//  昵称返回值
+			changeCallName(e,index){
 				this.callNameList.some((i)=>{
 					if(i.name === e){
-						this.newCustomerContactDtos[0].callName = i.name
-						this.newCustomerContactDtos[0].sex = i.sex
-						this.newCustomerContactDtos[0].callId = i.id
-						// console.log(i.sex)
-						// 如果第一联系人性别为男 第一联系人下标为 1
-						if(i.sex){
-							this.callNameIndexS = 0
-							// this.callNameIndexF = 1
-						}else{
-							this.callNameIndexS = 1
-							// this.callNameIndexF = 0							
-						}
-						this.newCustomerContactDtos[1].callName = this.callNameList[this.callNameIndexS].name
-						this.newCustomerContactDtos[1].sex = this.callNameList[this.callNameIndexS].sex
-						this.newCustomerContactDtos[1].callId = this.callNameList[this.callNameIndexS].id
-					}
-				})
-	
-			},
-			// 第二联系人 昵称返回值
-			changeCallNameSecond(e){
-				this.callNameList.some((i)=>{
-					if(i.name === e){
-						this.newCustomerContactDtos[1].callName = i.name
-						this.newCustomerContactDtos[1].sex = i.sex
-						this.newCustomerContactDtos[1].callId = i.id
-						if(i.sex){
-							this.callNameIndexF = 0
-						}else{
-							this.callNameIndexF = 1							
-						}
-						this.newCustomerContactDtos[0].callName = this.callNameList[this.callNameIndexF].name
-						this.newCustomerContactDtos[0].sex = this.callNameList[this.callNameIndexF].sex
-						this.newCustomerContactDtos[0].callId = this.callNameList[this.callNameIndexF].id
+						this.newCustomerContactDtos[index].callName = i.name
+						this.newCustomerContactDtos[index].sex = i.sex
+						this.newCustomerContactDtos[index].callId = i.id
 					}
 				})
 			},
-	
-			// 第一联系人 生日返回
-			birthdayFirst(e){
-				this.newCustomerContactDtos[0].birthdayLunar = e.typeLunar
-				this.newCustomerContactDtos[0].birthdayTime = e.typeTime
-				this.newCustomerContactDtos[0].birthdayStr = e.typeStr
-			},
-			// 第二联系人 生日返回
-			birthdaySecond(e){
-				this.newCustomerContactDtos[1].birthdayLunar = e.typeLunar
-				this.newCustomerContactDtos[1].birthdayTime = e.typeTime
-				this.newCustomerContactDtos[1].birthdayStr = e.typeStr
+			
+			//  生日返回
+			birthday(e,index){
+				this.newCustomerContactDtos[index].birthdayLunar = e.typeLunar
+				this.newCustomerContactDtos[index].birthdayTime = e.typeTime
+				this.newCustomerContactDtos[index].birthdayStr = e.typeStr
 			},
 			
 			// 选择联系人返回值 取消
@@ -228,20 +173,36 @@
 			ok(e){
 				this.customerMadal = false
 				this.isChackMobile = false
-				this.newCustomerContactDtos[0] = e[0] 
-				if(e[0].sex){
-					this.callNameIndexS = 0
-					this.callNameIndexF = 1
-				}else{
-					this.callNameIndexS = 1
-					this.callNameIndexF = 0							
-				}
-				this.newCustomerContactDtos[1].callName = this.callNameList[this.callNameIndexS].name
-				this.newCustomerContactDtos[1].sex = this.callNameList[this.callNameIndexS].sex
-				this.newCustomerContactDtos[1].callId = this.callNameList[this.callNameIndexS].id
+				
+				// console.log(this.callNameIndexF)
+				this.newCustomerContactDtos[0].address = e[0].address
+				this.newCustomerContactDtos[0].birthdayLunar = e[0].birthdayLunar
+				this.newCustomerContactDtos[0].birthdayStr = e[0].birthdayStr
+				this.newCustomerContactDtos[0].birthdayTime = e[0].birthdayTime
+				this.newCustomerContactDtos[0].email = e[0].email
+				this.newCustomerContactDtos[0].id = e[0].id
+				this.newCustomerContactDtos[0].idCard = e[0].idCard
+				this.newCustomerContactDtos[0].mobile = e[0].mobile
+				this.newCustomerContactDtos[0].name = e[0].name
+				// this.newCustomerContactDtos[0].sex = e[0].sex
+				this.newCustomerContactDtos[0].tel = e[0].tel
+				this.newCustomerContactDtos[0].wechat = e[0].wechat
+				this.newCustomerContactDtos[0].workUnit = e[0].workUnit
 				
 				if(e[1]){
-					this.newCustomerContactDtos[1] = e[1]
+					this.newCustomerContactDtos[0].address = e[1].address
+					this.newCustomerContactDtos[1].birthdayLunar = e[1].birthdayLunar
+					this.newCustomerContactDtos[1].birthdayStr = e[1].birthdayStr
+					this.newCustomerContactDtos[1].birthdayTime = e[1].birthdayTime
+					this.newCustomerContactDtos[1].email = e[1].email
+					this.newCustomerContactDtos[1].id = e[1].id
+					this.newCustomerContactDtos[1].idCard = e[1].idCard
+					this.newCustomerContactDtos[1].mobile = e[1].mobile
+					this.newCustomerContactDtos[1].name = e[1].name
+					// this.newCustomerContactDtos[1].sex = e[1].sex
+					this.newCustomerContactDtos[1].tel = e[1].tel
+					this.newCustomerContactDtos[1].wechat = e[1].wechat
+					this.newCustomerContactDtos[1].workUnit = e[1].workUnit
 				}
 			},
 		
@@ -251,33 +212,18 @@
 			},
 		},
 		watch:{
-			// 第一联系人 内容改变监听
-			// newCustomerContactDtos[0]mobile:{
-			// 	deep:true,
-			// 	handler(newVal,oldVal){
-			// 		this.newCustomerContactDtos[0] = this.userDataFirst
-				
-			// 		// 打开模态框 赋值
-			// 		if(this.userDataFirst.mobile.length == 11 && this.isChackMobile){
-			// 			getCustomerMobileList({mobile : this.userDataFirst.mobile}).then(res=>{
-			// 				if(res.data.data.length > 0){
-			// 					this.customerData = res.data.data
-			// 					this.customerMadal = true
-			// 				}
-			// 			})
-			// 		}
-			// 	}
-			// },
 			newCustomerContactDtos:{
 				deep:true,
 				handler(){
-					if(this.newCustomerContactDtos[0].mobile.length === 11 && this.isChackMobile){
-						getCustomerMobileList({mobile : this.newCustomerContactDtos[0].mobile}).then(res=>{
-							if(res.data.data.length > 0){
-								this.customerData = res.data.data
-								this.customerMadal = true
-							}
-						})
+					if(this.newCustomerContactDtos[0].mobile){
+						if(this.newCustomerContactDtos[0].mobile.length === 11 && this.isChackMobile){
+							getCustomerMobileList({mobile : this.newCustomerContactDtos[0].mobile}).then(res=>{
+								if(res.data.data.length > 0){
+									this.customerData = res.data.data
+									this.customerMadal = true
+								}
+							})
+						}
 					}
 				}
 			}
@@ -291,6 +237,17 @@
 		margin-left: 30rpx;
 		margin-top: 30rpx;
 		font-weight: bold;
+	}
+	.addButBox{
+		display: flex;
+		flex-direction: row-reverse;
+		padding: 0 30rpx;
+		font-size: 28rpx;
+		height: 50rpx;
+		line-height: 50rpx;
+		.add{
+			
+		}
 	}
 	.listBox{
 		height: 80rpx;

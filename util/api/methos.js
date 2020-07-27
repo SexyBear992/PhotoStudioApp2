@@ -19,7 +19,7 @@ const request = (url, options) => {
 				'Authorization':'bearer '+ app.state.token
 			},
 			success :(res)=>{
-				uni.hideLoading();
+				// uni.hideLoading();
 				if(res.data.code !== 200){
 					uni.showToast({
 						title:res.data.message,
@@ -27,11 +27,12 @@ const request = (url, options) => {
 					})
 					resolve(res)
 				}else{
+					uni.hideLoading();
 					resolve(res)
 				}
 			},
 			fail:(err)=>{
-				uni.hideLoading();
+				// uni.hideLoading();
 				uni.showToast({
 					title:'请求接口失败'
 				})

@@ -12,7 +12,7 @@
 				<input type="text" placeholder="介绍人名字" v-model="sourceValue.referrerName" />
 			</view>
 			
-			<view class="referrerBut" @click="gotEnterpriseAll('NETWORK_SALES')">选择介绍人</view>
+			<view class="referrerBut">选择介绍人</view>
 		</view>
 		<!-- 介绍人电话 -->
 		<view class="referrer">
@@ -81,9 +81,9 @@
 			/*********************************   工作人员处理模块   **********************************/
 			// 跳转到通讯录
 			gotEnterpriseAll(type){
-				uni.navigateTo({
-					url:'../../../../EnterpriseAll/EnterpriseAll?type=' + type
-				})
+				// uni.navigateTo({
+				// 	url:'../../../../EnterpriseAll/EnterpriseAll?type=' + type
+				// })
 			},
 		
 		

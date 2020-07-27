@@ -2,7 +2,10 @@
 <template>
 	<view class="bigBox">
 		<view class="top">
-			<view class="allMoney">套系金额{{allMoney}}元</view>
+			<view class="left">
+				<view class="allMoney">套系金额{{allMoney}}元</view>
+				<view class="giftNum" v-show="giftNumShow">+{{giftPrice}}元 {{giveGift.length}}个</view>
+			</view>
 			<view class="addGift" @click="addGift">添加礼包</view>
 		</view>
 		
@@ -79,7 +82,7 @@
 		
 		<toolModal v-if="toolModalShow" @close="close" @enSure="enSure"></toolModal>
 		
-		<addGiftModal	v-if="addGiftShow" :type="type" @closeAddGift="closeAddGift" @addGiftInfo="addGiftInfo"></addGiftModal>
+		<addGiftModal	v-if="addGiftShow" :type="type" @closeAddGift="closeAddGift" @addGiftInfo="addGiftInfo" :giveGift="giveGift"></addGiftModal>
 	</view>
 </template>
 
@@ -127,6 +130,10 @@
 				addGiftShow:false,
 				// 已选礼包
 				giveGift:null,
+				// 礼包价格
+				giftPrice:null,
+				// 礼包价格数量显示
+				giftNumShow:false,
 				
 				// 订单详情
 				orderItem:[],
@@ -233,7 +240,7 @@
 					// 子订单礼包服务对象
 					orderItemService:[],
 					// 礼包
-					addGiftInfo:[],
+					addGiftInfoData:[],
 				}
 				this.orderItem.push(addOrderItem)
 			},
@@ -350,11 +357,18 @@
 			// 礼包模态框返回内容
 			addGiftInfo(e){
 				this.addGiftShow = false
-				this.addGiftInfo = e.info
+				this.addGiftInfoData = e.info
 				
 				this.giveGift = e.show
 				
-				console.log('礼包模态框返回',this.giveGift)
+				// console.log('礼包模态框返回长度',e.show.length)
+				this.giftPrice = e.info.giftPrice
+				
+				if(e.show.length > 0){
+					this.giftNumShow = true
+				}else{
+					this.giftNumShow = false
+				}
 			},
 			
 			// 保存
@@ -362,7 +376,7 @@
 				return this.orderItem
 			},
 			saveAddGiftInfo(){
-				return this.addGiftInfo
+				return this.addGiftInfoData
 			}
 		},
 		watch:{
@@ -396,8 +410,15 @@
 			height: 80rpx;
 			line-height: 80rpx;
 			justify-content: space-between;
-			.allMoney{
-				color: #FF0000;
+			
+			.left{
+				display: flex;
+				.allMoney{
+					color: #FF0000;
+				}
+				.giftNum{
+					margin-left: 15rpx;
+				}
 			}
 			.addGift{
 				height: 30rpx;

@@ -26,6 +26,10 @@
 				</view>
 			</view>
 			
+			<view class="prompt">
+				<view>总共({{allData}})个 <span v-if="canCheck > 0">可选({{canCheck}})个</span></view>
+			</view>
+			
 			<view class="mainBox">
 				<view class="topBox mainTitleBox">
 					<view class="text name">名称</view>
@@ -36,7 +40,7 @@
 				<checkbox-group @change="checkboxChange">
 					<view class="topBox" v-for="(item ,index) in giftDetail" :key="index">
 						<view class="check">
-							<checkbox :value="item.name" style="transform:scale(0.7);margin-top: 8rpx"/>
+							<checkbox :value="item.name" :checked="item.checked" style="transform:scale(0.7);margin-top: 8rpx"/>
 						</view>
 						<view class="text name">{{item.name}}</view>
 						<view class="text">{{item.number}}</view>
@@ -56,7 +60,7 @@
 	import { getGiftName, getGiftDetail } from '@/util/api/shop.js'
 	import { mapActions,mapGetters } from 'vuex'
 	export default{
-		props:['type'],
+		props:['type','giveGift'],
 		computed:{
 			...mapGetters('shopArr',[
 				'get_giftType'
@@ -90,6 +94,11 @@
 				giftDetail:null,
 				// 选择礼包
 				sureInfo:null,
+				
+				// 总共
+				allData:null,
+				// 可选
+				canCheck:null,
 				
 				orderGiftDto:{
 					// 	礼包入册
@@ -141,7 +150,6 @@
 			// 获取礼物详情
 			getGiftDetail(){
 				getGiftDetail({id:this.giftNameId}).then(res=>{
-					console.log(res.data.data)
 					this.orderGiftDto.giftId = res.data.data.id
 					this.orderGiftDto.giftName = res.data.data.name
 					this.orderGiftDto.giftPrice = res.data.data.price
@@ -207,6 +215,18 @@
 					})
 
 					this.giftDetail = giftDetail
+					this.allData = this.giftDetail.length
+					this.canCheck = res.data.data.selectCount
+					
+					// 已选勾选
+					if(this.giveGift !== null){
+						this.giftDetail.forEach((i)=>{
+							if(this.giveGift.includes(i.name)){
+								this.$set(i,'checked',true)
+							}
+						})
+					}
+					
 				})
 			},
 			
@@ -307,7 +327,14 @@
 					
 				})
 				
-				this.$emit('addGiftInfo',{info:this.orderGiftDto,show:this.sureInfo})
+				if(this.sureInfo.length > this.canCheck && this.canCheck > 0){
+					uni.showToast({
+						title:'最多可选' + this.canCheck,
+						icon:'none'
+					})
+				}else{
+					this.$emit('addGiftInfo',{info:this.orderGiftDto,show:this.sureInfo})
+				}
 				// console.log('礼包名字',this.giftName[this.giftTypeId].name)
 			},
 		},
@@ -373,9 +400,14 @@
 				padding: 0 10rpx;
 			}
 		}
+		.prompt{
+			padding: 5rpx 30rpx;
+		}
 		.mainBox{
 			margin: 10rpx 0;
 			font-size: 28rpx;
+			max-height: 600rpx;
+			overflow-y: auto;
 			.topBox{
 				display: flex;
 				margin: 0 30rpx;
