@@ -1,9 +1,11 @@
 {
 	"pages": [
+
 		{
-			"path" : "pages/index/myOrderBox/openOrder/openOrder",
-			"style" : {
-				"navigationBarTitleText": "开单"
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "工作台",
+				"disableScroll": true
 			}
 		},
 		{
@@ -17,14 +19,7 @@
 				"disableScroll": true
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "工作台",
-				"disableScroll": true
-			}
-
-		},
+		
 		{
 			"path": "pages/addressBook/addressBook",
 			"style": {
@@ -47,13 +42,18 @@
 			}
 		},
 		{
+			"path" : "pages/index/myOrderBox/openOrder/openOrder",
+			"style" : {
+				"navigationBarTitleText": "开单"
+			}
+		},
+		{
 			"path": "pages/add/add",
 			"style": {
 				"navigationBarTitleText": " ",
 				"disableScroll": true
 			}
 		},
-
     {
     	"path" : "pages/index/myOrderBox/openOrder/openInfo/openInfo",
     	"style" : {}
@@ -61,8 +61,30 @@
 		{
 			"path" : "pages/EnterpriseAll/EnterpriseAll",
 			"style" : {}
+		},
+		{
+			"path" : "pages/index/myOrderBox/openOrder/openSuccess/openSuccess",
+			"style" : {
+				"navigationBarTitleText": "开单成功"
+			}
+		},
+		{
+			"path" : "pages/index/myOrderBox/orderBox/order/order",
+			"style" : {}
+		},
+		{
+			"path" : "pages/index/myOrderBox/orderBox/details/details",
+			"style" : {
+				"navigationBarTitleText": "订单详情"
+			}
+		},
+		{
+			"path" : "pages/index/myOrderBox/orderBox/schedule/schedule",
+			"style" : {
+				"navigationBarTitleText": "订单进度"
+			}
 		}
-    ],
+	],
 	"tabBar": {
 		// 隐藏tabBar
 		"custom": true,
@@ -121,8 +143,8 @@
 			"i-checkbox-group": "/wxcomponents/checkbox-group/index",
 			"i-checkbox": "/wxcomponents/checkbox/index",
 			"i-swipeout": "/wxcomponents/swipeout/index",
-			 "i-icon": "/wxcomponents/icon/index",
-			 "i-page": "/wxcomponents/page/index"
+			"i-icon": "/wxcomponents/icon/index",
+		  "i-page": "/wxcomponents/page/index"
 		}
 	}
 }

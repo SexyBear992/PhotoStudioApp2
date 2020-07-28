@@ -47,9 +47,9 @@ const get = (url, options = {}) => {
 }
  
 //post对象
-// const postObj = (url, options) => {
-//     return request(url, { method: 'POST', data: options, isObj: true })
-// }
+const postObj = (url, options) => {
+    return request(url, { method: 'POST', data: options, isObj: true })
+}
 //post参数
 const post = (url, options) => {
     return request(url, { method: 'POST', data: options, isObj: false })
@@ -69,5 +69,5 @@ module.exports = {
     post,
     put,
     remove,
-    // postObj,
+    postObj,
 }

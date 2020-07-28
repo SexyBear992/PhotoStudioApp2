@@ -26,8 +26,20 @@ let baseUrl = {
 	getGiftName: `${base_goods}/gift/getGiftName`, // 获取礼包名称
 	getGiftDetail: `${base_goods}/gift/detail`, // 获取礼包详情
 	
+	
+	
 	getCustomerMobileList: `${base_store}/customer/list/customerGroupPersonnelVo`, // 查找-通过手机查找客户组人员
+	
+	openWedding: `${base_store}/order/add/Wedding`, // 新增-婚庆开单
+	openBaby: `${base_store}/order/add/baby`, // 新增-儿童开单
+	openPortray: `${base_store}/order/add/portray`, // 新增-写真开单
+	openPregnant: `${base_store}/order/add/pregnant`, // 新增-孕妈开单
+	openService: `${base_store}/order/add/service`, // 新增-服务开单
+	openWeddingDress: `${base_store}/order/add/weddingDress`, // 新增-婚纱开单
 
+	getMyOrder: `${base_store}/orderList/page/myOrder` ,// 查找-我的订单
+	getTeamOrder: `${base_store}/orderList/page/myDepartmentOrder`, //查找-我部门的订单
+	getAllOrder: `${base_store}/orderList/page/allOrder`, //查找-所有订单
 }
 
 export default baseUrl

@@ -262,8 +262,7 @@
 			uni.hideHomeButton()
 		},
 		methods:{
-			// 点击图标进入
-			iconList(name){
+			getUrl(name){
 				switch(name){
 					// 收银
 					case 'sy':
@@ -279,10 +278,8 @@
 					break;
 					// 开单
 					case 'kd':
-					uni.navigateTo({
-						url:'myOrderBox/openOrder/openOrder'
-					})
-					break;
+						return 'myOrderBox/openOrder/openOrder'
+						break;
 					// 取件
 					case 'qj':
 					console.log('取件');
@@ -310,22 +307,16 @@
 					break;		
 					// 我的订单
 					case 'wddd':
-					uni.navigateTo({
-						url:'./myOrderBox/myOrder/myOrder?type=wddd'
-					})
-					break;
+						return './myOrderBox/orderBox/order/order?type=wddd&typeName=我的订单'
+						break;
 					// 团队订单
 					case 'tddd':
-					uni.navigateTo({
-						url:'./myOrderBox/myOrder/myOrder?type=tddd'
-					})
-					break;
+						return './myOrderBox/orderBox/order/order?type=tddd&typeName=团队订单'
+						break;
 					// 所有订单
 					case 'sydd':
-					uni.navigateTo({
-						url:'./myOrderBox/myOrder/myOrder?type=sydd'
-					})
-					break;
+						return './myOrderBox/orderBox/order/order?type=sydd&typeName=所有订单'
+						break;
 					// 套餐升级
 					case 'tcsj':
 					console.log('套餐升级');
@@ -340,20 +331,16 @@
 					break;
 					// 支出
 					case 'zc':
-					uni.navigateTo({
-						url:'./collectionBox/spending/spending'
-					})
-					break;
+						return './collectionBox/spending/spending'
+						break;
 					// 保留金
 					case 'blj':
 					console.log('保留金');
 					break;
 					// 其他收入
 					case 'qtsr':
-					uni.navigateTo({
-						url:'./collectionBox/spending/spending'
-					})
-					break;
+						return './collectionBox/spending/spending'
+						break;
 					// 服装预约
 					case 'fzyy':
 					console.log('服装预约');
@@ -431,11 +418,14 @@
 					console.log('客服日历');
 					break;
 				}
+			},
+			// 点击图标进入
+			iconList(name){
+				uni.navigateTo({
+					url:this.getUrl(name)
+				})
 			}
 		},
-		mounted(){
-			console.log('商店',this.get_shopAllArr)
-		}
 	}
 </script>
 <style>

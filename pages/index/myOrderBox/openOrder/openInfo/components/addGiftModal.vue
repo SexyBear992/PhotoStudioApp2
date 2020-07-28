@@ -150,6 +150,7 @@
 			// 获取礼物详情
 			getGiftDetail(){
 				getGiftDetail({id:this.giftNameId}).then(res=>{
+					console.log('礼物',res)
 					this.orderGiftDto.giftId = res.data.data.id
 					this.orderGiftDto.giftName = res.data.data.name
 					this.orderGiftDto.giftPrice = res.data.data.price
@@ -170,7 +171,7 @@
 							name: i.name,
 							number: i.count,
 							type:'服装',
-							id: i.dressInfosId,
+							id: i.dressInfoId,
 							salePrice:i.salePrice,
 							typeB:i.type
 						}
@@ -187,7 +188,8 @@
 							isSelect: i.isSelect,
 							orderNum: i.count,
 							orderP: i.countP,
-							stockStatus: i.stockStatus
+							stockStatus: i.stockStatus,
+							salePrice:i.salePrice
 						}
 						giftDetail.push(arr)
 					})
@@ -195,7 +197,7 @@
 						let arr = {
 							name: i.name,
 							number: '',
-							id: i.placesId,
+							id: i.placeId,
 							type:'景点',
 							salePrice:i.salePrice,
 							typeB:i.placeType
@@ -206,7 +208,7 @@
 						let arr = {
 							name: i.name,
 							number: i.count,
-							id: i.servicesId,
+							id: i.serviceId,
 							type:'服务',
 							salePrice:i.salePrice,
 							peopleNumber:i.peopleNumber
@@ -288,6 +290,7 @@
 							}else if(i.type === '商品'){
 								let arr = {
 									defaultP: i.defaultP,
+									expeditedTime: new Date().getTime(),
 									goodsId: i.id,
 									isSelect: i.isSelect,
 									name: i.name,
@@ -298,13 +301,14 @@
 									remark:null,
 									sort:null,
 									stockStatus:i.stockStatus,
+									salePrice: i.salePrice,
 								}
 								this.orderGiftDto.orderItemGoods.push(arr)
 							}else if(i.type === '景点'){
 								let arr ={
 									name:i.name,
 									placeId:i.id,
-									placeType:i.placeType,
+									placeType:i.typeB,
 									remark:null,
 									salePrice:i.salePrice,
 									sort:null

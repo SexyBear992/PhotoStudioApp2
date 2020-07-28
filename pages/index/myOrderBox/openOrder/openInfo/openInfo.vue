@@ -31,6 +31,7 @@
 	import contactInfoModule from './components/contactInfoModule.vue'
 	import orderPriceModule from './components/orderPriceModule.vue'
 	import baby from './components/babyModule.vue'
+	import { openWedding, openBaby, openPortray, openPregnant, openService, openWeddingDress} from '@/util/api/shop.js'
 	export default {	
 		components:{
 			InfoModule,
@@ -140,32 +141,48 @@
 				let contactInfo = this.$refs.contactInfo.save()	
 				// 订单套系内容
 				let orderPrice =this.$refs.orderPrice.save()
-				
-				// // 选择套系内容
-				// let orderItem = this.$refs.orderPrice.saveOrderItem()
+				// 选择套系内容
+				let orderItem = this.$refs.orderPrice.saveOrderItem()
 				// // 礼包内容
-				// let addGift = this.$refs.orderPrice.saveAddGiftInfo()
+				let addGift = this.$refs.orderPrice.saveAddGiftInfo()
 				
 								
-				// console.log('选择套系内容',orderItem)
-				// console.log('礼包内容',addGift)
+				/********************************  选择套系内容  *********************************/
+				if(addGift){
+					if(addGift.orderItemDressInfo.length <= 0){
+						addGift.orderItemDressInfo = null
+					}
+					if(addGift.orderItemGoods.length <= 0){
+						addGift.orderItemGoods = null
+					}
+					if(addGift.orderItemPlace.length <= 0){
+						addGift.orderItemPlace = null
+					}
+					if(addGift.orderItemService.length <= 0){
+						addGift.orderItemService = null
+					}
+					data.orderGiftDto = addGift
+				}else{
+					data.orderGiftDto = null
+				}
+				
+				/********************************  选择套系内容  *********************************/
+				data.orderItem = orderItem
 				
 				/********************************  订单套系内容  *********************************/
-				console.log('orderPrice',orderPrice)
 				data.serviceCategoryId = orderPrice.serviceCategoryId
 				data.teacherCategoryId = orderPrice.teacherCategoryId
 				data.assemblyCategoryId = orderPrice.assemblyCategoryId
 				data.assemblyId = orderPrice.assemblyId
 				data.assemblyName = orderPrice.assemblyName
 				data.assemblyPrice = orderPrice.assemblyPrice
-				
 				if(data.assemblyName === null){
 					uni.showToast({
 						title:'请选择套系',
 						icon:'none'
 					},2000)
 				}
-s				
+			
 				/*******************************  客户联系人信息  ********************************/
 				data.customerGroup.newCustomerContactDtos = []
 				data.customerGroup.oldCustomerContactDtos = []
@@ -180,22 +197,35 @@ s
 						icon:'none'
 					})
 				}
+				
 				contactInfo.forEach((i)=>{
-					if(i.id){
-						i.dataStatus = 'UPDATE'
-						data.customerGroup.oldCustomerContactDtos.push(i)
-					}else{
-						data.customerGroup.newCustomerContactDtos.push(i)
+					if(i.name !== null){
+						if(i.id){
+							i.dataStatus = 'UPDATE'
+							data.customerGroup.oldCustomerContactDtos.push(i)
+						}else{
+							data.customerGroup.newCustomerContactDtos.push(i)
+						}
 					}
 				})
 
 				
 				/**********************************  宝宝信息  ***********************************/
+				let babySave = true
 				if(this.babyShow){
 					data.customerGroup.newCustomerBabyDtos = []
 					baby.forEach((i)=>{
-						data.customerGroup.newCustomerBabyDtos.push(i)
+						if(i.name !== null){
+							data.customerGroup.newCustomerBabyDtos.push(i)						
+						}
 					})
+					if(baby[0].name === null){
+						uni.showToast({
+							title:'宝宝名字不能为空',
+							icon:'none'
+						})
+						babySave = false
+					}
 				}
 				
 				/**********************************  客户信息  ***********************************/
@@ -226,6 +256,7 @@ s
 					data.receptions = Info.receptions
 				}
 				data.autoOrderNo = Info.autoOrderNo
+				data.autoOrderTime = Info.autoOrderTime
 				data.groupCategoryId = Info.groupCategoryId
 				data.likeStyle = Info.likeStyle
 				if(Info.networkSales.length > 0){
@@ -257,11 +288,68 @@ s
 				if(
 					data.receptions.length > 0 && 
 					canSave && 
+					babySave &&
 					data.customerGroup.originId !== null && 
 					contactInfo[0].mobile !== null && 
-					contactInfo[0].name !== null
+					contactInfo[0].name !== null && 
+					data.assemblyName !== null
 				){
-					console.log(this.openOrderData)
+					// console.log(this.openOrderData)
+					if(this.type === 'WEDDING_DRESS'){
+						openWeddingDress(this.openOrderData).then(res=>{
+							// console.log('婚纱开单',res)
+							if(res.data.data.id){
+								uni.redirectTo({
+									url:'../openSuccess/openSuccess'
+								})
+							}
+						})
+					}else if(this.type === 'BABY'){
+						openBaby(this.openOrderData).then(res=>{
+							// console.log('儿童开单',res)
+							if(res.data.data.id){
+								uni.redirectTo({
+									url:'../openSuccess/openSuccess'
+								})
+							}
+						})
+					}else if(this.type === 'PREGNANT'){
+						openPregnant(this.openOrderData).then(res=>{
+							// console.log('孕妈开单',res)
+							if(res.data.data.id){
+								uni.redirectTo({
+									url:'../openSuccess/openSuccess'
+								})
+							}
+						})
+					}else if(this.type === 'SERVICE'){
+						openService(this.openOrderData).then(res=>{
+							// console.log('服务开单',res)
+							if(res.data.data.id){
+								uni.redirectTo({
+									url:'../openSuccess/openSuccess'
+								})
+							}
+						})
+					}else if(this.type === 'PORTRAY'){
+						openPortray(this.openOrderData).then(res=>{
+							// console.log('写真开单',res)
+							if(res.data.data.id){
+								uni.redirectTo({
+									url:'../openSuccess/openSuccess'
+								})
+							}
+						})
+					}else if(this.type === 'WEDDING'){
+						openWedding(this.openOrderData).then(res=>{
+							// console.log('婚庆开单',res)
+							if(res.data.data.id){
+								uni.redirectTo({
+									url:'../openSuccess/openSuccess'
+								})
+							}
+						})
+					}
 				}
 			},
 			

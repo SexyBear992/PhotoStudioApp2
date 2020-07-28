@@ -18,10 +18,12 @@
 						mode = multiSelector
 						@change="enSystem"
 					>
-						<view class="uni-input">{{systemName}}</view>
+						<view class="uni-input">
+							<view class="text">{{systemName}}</view>
+							<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
+						</view>
 					</picker>
 				</view>
-				<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
 			</view>
 			
 			<systemInfo ref="systemInfo" v-if="systemName !== '请选择'" :piceId="orderPriceValue.assemblyId" :type="type"></systemInfo>
@@ -96,7 +98,7 @@
 					// 套系名称
 					assemblyName:null,
 					// 套系价格
-					assemblyPrice:null
+					assemblyPrice:null,
 				}
 			}
 		},
@@ -227,10 +229,18 @@
 				 return this.orderPriceValue
 			 },
 			 saveOrderItem(){
-				 return this.$refs.systemInfo.saveOrderItem()
+				 if(this.systemName !== '请选择'){
+					 return this.$refs.systemInfo.saveOrderItem()
+				 }else{
+					 return null
+				 }
 			 },
 			 saveAddGiftInfo(){
-				 return this.$refs.systemInfo.saveAddGiftInfo()
+				 if(this.systemName !== '请选择'){
+					return this.$refs.systemInfo.saveGift()
+				 }else{
+				 	return null
+				 }
 			 }
 		},
 		watch:{
@@ -273,5 +283,8 @@
 	}
 	.uni-input{
 		color: #808080;
+		display: flex;
+		justify-content: space-between;
+		width: 545rpx;
 	}
 </style>

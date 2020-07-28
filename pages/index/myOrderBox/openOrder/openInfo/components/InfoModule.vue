@@ -100,6 +100,8 @@
 				// 分组数组
 				groupCategoryIdList:[],
 				
+			
+				
 				// 喜爱风格模态框开关
 				visibleStyle:false,
 				// 已选择喜爱风格模板
@@ -122,6 +124,8 @@
 
 				// 开单信息模块数据
 				infoValue:{
+					// 自动生成时间
+					autoOrderTime:false,
 					// 订单号
 					orderNo:null,
 					// 是否自动获取订单

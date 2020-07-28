@@ -200,7 +200,7 @@
 				this.toolType = 'SERVICE'
 				this.toolTitle = '服务工具箱'
 				this.getToolList()
-				this.act_toolType('SERVICE')
+				this.act_toolType('SERVICES')
 			},
 		
 			// 获取工具箱内容

@@ -52,3 +52,40 @@ export const getGiftName = (params) => {
 export const getGiftDetail = (params) => {
 	return get(baseUrl.getGiftDetail, params)
 }
+
+// 婚庆开单
+export const openWedding = (params) => {
+	return postObj(baseUrl.openWedding, params)
+}
+// 儿童开单
+export const openBaby = (params) => {
+	return postObj(baseUrl.openBaby, params)
+}
+// 写真开单
+export const openPortray = (params) => {
+	return postObj(baseUrl.openPortray, params)
+}
+// 孕妈开单
+export const openPregnant = (params) => {
+	return postObj(baseUrl.openPregnant, params)
+}
+// 服务开单
+export const openService = (params) => {
+	return postObj(baseUrl.openService, params)
+}
+// 婚纱开单
+export const openWeddingDress = (params) => {
+	return postObj(baseUrl.openWeddingDress, params)
+}
+// 查看我的订单
+export const getMyOrder = (params) => {
+	return get(baseUrl.getMyOrder, params)
+}
+// 查看我部门的订单
+export const getTeamOrder = (params) => {
+	return get(baseUrl.getTeamOrder, params)
+}
+// 查看所有订单
+export const getAllOrder = (params) => {
+	return get(baseUrl.getAllOrder, params)
+}

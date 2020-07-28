@@ -154,7 +154,7 @@
 					this.orderItem[0].bottomCount = assembledlyItemList.bottomCount
 					this.orderItem[0].name = assembledlyItemList.name
 					this.orderItem[0].price = assembledlyItemList.price
-					
+					this.orderItem[0].itemRemindTime = new Date().getTime()
 					//  商品 景点 服务 对象
 					// 商品 对象
 					let orderItemGoodsArr = []
@@ -163,9 +163,15 @@
 							name: i.name,
 							orderP: i.countP,
 							defaultP: i.defaultP,
-							goodsId: i.id,
+							goodsId: i.goodsId,
 							orderNum: i.count,
-							pSalePrice: i.salePrice,
+							pSalePrice: i.pSalePrice,
+							stockStatus: i.stockStatus,
+							isSelect: i.isSelect,
+							salePrice: i.salePrice,
+							pickupModeCategoryId: null,
+							remark:null,
+							sort: null
 						}
 						orderItemGoodsArr.push(orderItemGoods)
 					})
@@ -283,7 +289,13 @@
 							defaultP: i.defaultP,
 							goodsId: i.id,
 							orderNum: 1,
-							pSalePrice: i.salePrice
+							pSalePrice: i.pSalePrice,
+							stockStatus: i.stockStatus,
+							isSelect: i.isSelect,
+							salePrice: i.salePrice,
+							pickupModeCategoryId: null,
+							remark:null,
+							sort: null
 						}
 						this.orderItem[this.toolModalIndex].orderItemGoods.push(orderItemGoods)
 					})
@@ -370,14 +382,14 @@
 					this.giftNumShow = false
 				}
 			},
-			
+			saveGift(){
+				return this.addGiftInfoData
+			},
 			// 保存
 			saveOrderItem(){
 				return this.orderItem
 			},
-			saveAddGiftInfo(){
-				return this.addGiftInfoData
-			}
+			
 		},
 		watch:{
 			piceId(){
