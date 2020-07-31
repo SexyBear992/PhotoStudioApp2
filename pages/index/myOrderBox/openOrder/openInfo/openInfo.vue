@@ -147,26 +147,61 @@
 				let addGift = this.$refs.orderPrice.saveAddGiftInfo()
 				
 								
-				/********************************  选择套系内容  *********************************/
+				/********************************  选择礼包内容  *********************************/
 				if(addGift){
-					if(addGift.orderItemDressInfo.length <= 0){
-						addGift.orderItemDressInfo = null
+					if(addGift.orderItemDressInfo){
+						if(addGift.orderItemDressInfo.length <= 0){
+							addGift.orderItemDressInfo = null
+						}
 					}
-					if(addGift.orderItemGoods.length <= 0){
-						addGift.orderItemGoods = null
+					if(addGift.orderItemGoods){
+						if(addGift.orderItemGoods.length <= 0){
+							addGift.orderItemGoods = null
+						}
 					}
-					if(addGift.orderItemPlace.length <= 0){
-						addGift.orderItemPlace = null
+					if(addGift.orderItemPlace){
+						if(addGift.orderItemPlace.length <= 0){
+							addGift.orderItemPlace = null
+						}
 					}
-					if(addGift.orderItemService.length <= 0){
-						addGift.orderItemService = null
+					if(addGift.orderItemService){
+						if(addGift.orderItemService.length <= 0){
+							addGift.orderItemService = null
+						}
 					}
 					data.orderGiftDto = addGift
 				}else{
 					data.orderGiftDto = null
 				}
-				
 				/********************************  选择套系内容  *********************************/
+				orderItem.forEach((i)=>{
+					if(i.orderItemDressInfo){
+						if(i.orderItemDressInfo.length <= 0){
+							i.orderItemDressInfo = null
+						}
+					}
+					if(i.orderItemGoods){
+						if(i.orderItemGoods.length <= 0){
+							i.orderItemGoods = null
+						}
+					}
+					if(i.orderItemPlace){
+						if(i.orderItemPlace.length <= 0){
+							i.orderItemPlace = null
+						}
+					}
+					if(i.orderItemService){
+						if(i.orderItemService.length <= 0){
+							i.orderItemService = null
+						}
+					}
+				})
+				let newOrderItem = orderItem.filter((i)=>{
+					if(i.name !== null){
+						return i
+					}
+				})
+
 				data.orderItem = orderItem
 				
 				/********************************  订单套系内容  *********************************/
@@ -198,6 +233,7 @@
 					})
 				}
 				
+				// 如果名字不为空 则push入数组
 				contactInfo.forEach((i)=>{
 					if(i.name !== null){
 						if(i.id){
@@ -228,13 +264,13 @@
 					}
 				}
 				
-				/**********************************  客户信息  ***********************************/
+				/**********************************  客户信息 userInfo ***********************************/
 				data.customerGroup.categoryId = userInfo.categoryId
 				data.typeLunar = userInfo.typeLunar
 				data.typeStr = userInfo.typeStr
 				data.typeTime = userInfo.typeTime	
 				
-				/**********************************  客户来源  ***********************************/
+				/**********************************  客户来源 source ***********************************/
 				data.customerGroup.originId = source.originId
 				if(data.customerGroup.originId === null){
 					uni.showToast({
@@ -245,7 +281,7 @@
 				data.customerGroup.referrerMobile = source.referrerMobile
 				data.customerGroup.referrerName = source.referrerName
 				
-				/**********************************  开单信息处理  ***********************************/ 
+				/**********************************  开单信息处理 Info ***********************************/ 
 				if(Info.receptions.length <= 0){
 					uni.showToast({
 						title:'接单人员不能为空',
@@ -294,7 +330,7 @@
 					contactInfo[0].name !== null && 
 					data.assemblyName !== null
 				){
-					// console.log(this.openOrderData)
+					console.log(this.openOrderData)
 					if(this.type === 'WEDDING_DRESS'){
 						openWeddingDress(this.openOrderData).then(res=>{
 							// console.log('婚纱开单',res)

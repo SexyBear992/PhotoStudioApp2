@@ -17,9 +17,10 @@
 						:range="array"
 						mode = multiSelector
 						@change="enSystem"
+						:value="pickerIndex"
 					>
 						<view class="uni-input">
-							<view>{{array[1][index]}}</view>
+							<view>{{array[1][pIndex[1]]}}</view>
 							<i-icon type="unfold" size="15" color="#80848f"/>
 						</view>
 					</picker>
@@ -60,7 +61,7 @@
 	import { getGiftName, getGiftDetail } from '@/util/api/shop.js'
 	import { mapActions,mapGetters } from 'vuex'
 	export default{
-		props:['type','giveGift'],
+		props:['type','giveGift','pIndex'],
 		computed:{
 			...mapGetters('shopArr',[
 				'get_giftType'
@@ -84,6 +85,8 @@
 				index:0,
 				// 类别选择
 				array:[[],[]],
+				// 类别选择下标
+				pickerIndex:[0,0],
 				// 当前类别ID
 				giftTypeId:null,
 				// 当前礼包名称ID
@@ -124,6 +127,7 @@
 		},
 		mounted(){
 			this.act_giftType()
+		  this.pickerIndex = this.pIndex
 		},
 		methods:{
 			...mapActions('shopArr',[
@@ -134,7 +138,7 @@
 			getGiftName(){
 				getGiftName({shopId:this.shopId , type:this.type}).then(res=>{	
 					this.giftName = res.data.data
-					this.giftNameId = this.giftName[this.giftTypeId][0].id
+					this.giftNameId = this.giftName[this.giftTypeId][this.pIndex[1]].id
 					this.getGiftDetail()
 				})
 			},
@@ -150,7 +154,6 @@
 			// 获取礼物详情
 			getGiftDetail(){
 				getGiftDetail({id:this.giftNameId}).then(res=>{
-					console.log('礼物',res)
 					this.orderGiftDto.giftId = res.data.data.id
 					this.orderGiftDto.giftName = res.data.data.name
 					this.orderGiftDto.giftPrice = res.data.data.price
@@ -240,14 +243,11 @@
 						this.giftTypeId = i.id
 					}
 				})
-			
-				if(e.detail.column === 1){
-					this.index = e.detail.value
-				}
 			},
 			
 			// picker确定
 			enSystem(e){
+				this.pickerIndex = e.detail.value
 				this.giftName[this.giftTypeId].some((i)=>{
 					if(i.name === this.array[1][e.detail.value[1]]){
 						this.giftNameId = i.id
@@ -269,75 +269,74 @@
 			
 			// 确定添加礼包
 			enGift(){
-				this.giftDetail.forEach((i)=>{
-					if(this.sureInfo){
-						if(this.sureInfo.includes(i.name)){
-							if(i.type === '入册'){
-								this.orderGiftDto.bookCount = i.number
-							}else if(i.type === '入底'){
-								this.orderGiftDto.bottomCount = i.number
-							}else if(i.type === '服装'){
-								let arr = {
-									count: i.number,
-									dressInfoId: i.id,
-									name: i.name,
-									remark: null,
-									salePrice: i.salePrice,
-									sort: null,
-									type: i.typeB
-								}
-								this.orderGiftDto.orderItemDressInfo.push(arr)
-							}else if(i.type === '商品'){
-								let arr = {
-									defaultP: i.defaultP,
-									expeditedTime: new Date().getTime(),
-									goodsId: i.id,
-									isSelect: i.isSelect,
-									name: i.name,
-									orderNum: i.orderNum,
-									orderP: i.orderP,
-									pSalePrice: i.pSalePrice,
-									pickupModeCategoryId:null,
-									remark:null,
-									sort:null,
-									stockStatus:i.stockStatus,
-									salePrice: i.salePrice,
-								}
-								this.orderGiftDto.orderItemGoods.push(arr)
-							}else if(i.type === '景点'){
-								let arr ={
-									name:i.name,
-									placeId:i.id,
-									placeType:i.typeB,
-									remark:null,
-									salePrice:i.salePrice,
-									sort:null
-								}
-								this.orderGiftDto.orderItemPlace.push(arr)
-							}else if(i.type === '服务'){
-								let arr ={
-									name:i.name,
-									servicesId:i.id,
-									count:i.number,
-									remark:null,
-									salePrice:i.salePrice,
-									sort:null,
-									peopleNumber:i.peopleNumber
-								}
-								this.orderGiftDto.orderItemService.push(arr)
-							}
-						}
-					}
-					
-				})
-				
 				if(this.sureInfo.length > this.canCheck && this.canCheck > 0){
 					uni.showToast({
 						title:'最多可选' + this.canCheck,
 						icon:'none'
 					})
 				}else{
-					this.$emit('addGiftInfo',{info:this.orderGiftDto,show:this.sureInfo})
+					this.giftDetail.forEach((i)=>{
+						if(this.sureInfo){
+							if(this.sureInfo.includes(i.name)){
+								if(i.type === '入册'){
+									this.orderGiftDto.bookCount = i.number
+								}else if(i.type === '入底'){
+									this.orderGiftDto.bottomCount = i.number
+								}else if(i.type === '服装'){
+									let arr = {
+										count: i.number,
+										dressInfoId: i.id,
+										name: i.name,
+										remark: null,
+										salePrice: i.salePrice,
+										sort: null,
+										type: i.typeB
+									}
+									this.orderGiftDto.orderItemDressInfo.push(arr)
+								}else if(i.type === '商品'){
+									let arr = {
+										defaultP: i.defaultP,
+										expeditedTime: new Date().getTime(),
+										goodsId: i.id,
+										isSelect: i.isSelect,
+										name: i.name,
+										orderNum: i.orderNum,
+										orderP: i.orderP,
+										pSalePrice: i.pSalePrice,
+										pickupModeCategoryId:null,
+										remark:null,
+										sort:null,
+										stockStatus:i.stockStatus,
+										salePrice: i.salePrice,
+									}
+									this.orderGiftDto.orderItemGoods.push(arr)
+								}else if(i.type === '景点'){
+									let arr ={
+										name:i.name,
+										placeId:i.id,
+										placeType:i.typeB,
+										remark:null,
+										salePrice:i.salePrice,
+										sort:null
+									}
+									this.orderGiftDto.orderItemPlace.push(arr)
+								}else if(i.type === '服务'){
+									let arr ={
+										name:i.name,
+										servicesId:i.id,
+										count:i.number,
+										remark:null,
+										salePrice:i.salePrice,
+										sort:null,
+										peopleNumber:i.peopleNumber
+									}
+									this.orderGiftDto.orderItemService.push(arr)
+								}
+							}
+						}
+					})
+					
+					this.$emit('addGiftInfo',{info:this.orderGiftDto,show:this.sureInfo,index:this.pickerIndex})
 				}
 				// console.log('礼包名字',this.giftName[this.giftTypeId].name)
 			},
@@ -350,7 +349,7 @@
 				arr.shift()
 				this.array[0] = arr
 				this.get_giftType.some((i)=>{
-					if(i.name === this.array[0][0]){
+					if(i.name === this.array[0][this.pIndex[0]]){
 						this.giftTypeId = i.id
 					}
 				})

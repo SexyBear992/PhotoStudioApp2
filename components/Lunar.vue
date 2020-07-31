@@ -117,9 +117,14 @@
 				let arr = lunar.split('-')
 				let year = this.showNew.split('-')[0]
 				let month = this.CNToNumMonth(arr[1])
-				let dayArr1 = this.CNToNumDay1(arr[2].split('')[0])
-				let dayArr2 = this.CNToNumDay2(arr[2].split('')[1])
-				let day = dayArr1+dayArr2
+				let day
+				if(arr[2] === '初十'){
+					day = 10
+				}else{
+					let dayArr1 = this.CNToNumDay1(arr[2].split('')[0])
+					let dayArr2 = this.CNToNumDay2(arr[2].split('')[1])
+					day = dayArr1+dayArr2
+				}
 				let newArr = `${year}-${month}-${day}`
 				return newArr
 			},

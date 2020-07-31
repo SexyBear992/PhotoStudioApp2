@@ -1,8 +1,11 @@
 <template>
 	<view>
 		
-		<view></view>
-		<!-- <steps :title=""></steps> -->
+		<view class="stepsBox">
+			<steps :arr="stepsArr" ></steps>
+		</view>
+		
+		<view class="back" @click="back">返回</view>
 		
 	</view>
 </template>
@@ -37,58 +40,74 @@
 			this.getOrder()
 		},
 		methods:{
+			// 创建订单进度状态数组
 			getOrder(){
 				getAllOrder(this.parmas).then(res=>{
 					this.orderInfo = res.data.data.records
-					let datas = res.data.data.records[0] 
+					let datas = res.data.data.records[0]
 					this.stepsArr = [
 						{
+							number:1,
 							title:'拍照',
-							photoStatus: datas.photoStatus,
-							photoUpdateTime: datas.photoUpdateTime
+							status: datas.photoStatus,
+							time: datas.photoUpdateTime
 						},
 						{
+							number:2,
 							title:'修片',
-							repairStatus: datas.repairStatus,
-							repairUpdateTime: datas.repairUpdateTime
+							status: datas.repairStatus,
+							time: datas.repairUpdateTime
 						},
 						{
+							number:3,
 							title:'选片',
-							chooseStatus: datas.chooseStatus,
-							chooseUpdateTime: datas.chooseUpdateTime
+							status: datas.chooseStatus,
+							time: datas.chooseUpdateTime
 						},
 						{
+							number:4,
 							title:'精修',
-							refineStatus: datas.refineStatus,
-							refineUpdateTime: datas.refineUpdateTime
+							status: datas.refineStatus,
+							time: datas.refineUpdateTime
 						},
 						{
+							number:5,
 							title:'看版',
-							watchStatus: datas.watchStatus,
-							watchUpdateTime: datas.watchUpdateTime
+							status: datas.watchStatus,
+							time: datas.watchUpdateTime
 						},
 						{
+							number:6,
 							title:'设计',
-							designStatus: datas.designStatus,
-							designUpdateTime: datas.designUpdateTime
+							status: datas.designStatus,
+							time: datas.designUpdateTime
 						},
 						{
+							number:7,
 							title:'发件',
-							senderStatus: datas.senderStatus,
-							senderUpdateTime: datas.senderUpdateTime
+							status: datas.senderStatus,
+							time: datas.senderUpdateTime
 						},
 						{
+							number:8,
 							title:'回件',
-							returnStatus: datas.returnStatus,
-							returnUpdateTime: datas.returnUpdateTime
+							status: datas.returnStatus,
+							time: datas.returnUpdateTime
 						},
 						{
+							number:9,
 							title:'取件',
-							pickupStatus: datas.pickupStatus,
-							pickupUpdateTime: datas.pickupUpdateTime
+							status: datas.pickupStatus,
+							time: datas.pickupUpdateTime
 						},
 					]
-					console.log(this.stepsArr)
+				})
+			},
+		
+			// 返回
+			back(){
+				uni.navigateBack({
+					delta:1
 				})
 			}
 		},
@@ -97,5 +116,17 @@
 </script>
 
 <style lang="scss">
-
+	.stepsBox{
+		margin: 80rpx 0;
+	}
+	.back{
+		width: 550rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		text-align: center;
+		background-color: #61A3FF;
+		color: #FFFFFF;
+		border-radius: 30rpx;
+		margin: 0 auto;
+	}
 </style>

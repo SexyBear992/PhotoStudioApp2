@@ -40,6 +40,19 @@ let baseUrl = {
 	getMyOrder: `${base_store}/orderList/page/myOrder` ,// 查找-我的订单
 	getTeamOrder: `${base_store}/orderList/page/myDepartmentOrder`, //查找-我部门的订单
 	getAllOrder: `${base_store}/orderList/page/allOrder`, //查找-所有订单
+	getSubordinatesOrder: `${base_store}/orderList/page/myDepartmentSubordinateOrder`, //查找-我部门下属的订单
+	
+	getOrderDetails: `${base_store}/order/details`,// 订单详情
+	getOrderItem: `${base_store}/order/item/find/orderItemPackageVo` ,//查询-子订单包
+	
+	updataOrderInfo: `${base_store}/order/update/orderInfoDto`,// 更新-订单信息
+	updataSource: `${base_store}/customer/update/customerGroupSource`, //更新-客户组来源信息
+	updataArea: `${base_store}/customer/update/customerGroupCategory`, //更新-客户组区域信息
+	updataSystem: `${base_store}/order/update/orderAssemblyDto` ,//更新-订单套系信息
+	updataItemInfo: `${base_store}/order/item/update/orderItemInfo`, //更新-子订单信息
+	updataActor: `${base_store}/order/update/orderActor`, //更新-订单人员
+	updataPersonnel: `${base_store}/customer/update/customerGroupPersonnel`, //更新-客户组人员
+	
 }
 
 export default baseUrl

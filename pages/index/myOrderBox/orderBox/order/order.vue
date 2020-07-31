@@ -103,7 +103,7 @@
 					
 					<view class="butBox">
 						<view class="scheduleBut" @click="schedule(item.orderNo)">进度查询</view>
-						<view class="detailsBut" @click="orderDetails(item.orderNo)">订单详情</view>
+						<view class="detailsBut" @click="orderDetails(item.orderId)">订单详情</view>
 					</view>
 					
 				</view>
@@ -118,7 +118,7 @@
 	import { mapGetters } from 'vuex'
 	import searchModul from './components/searchModul.vue'
 	import sPullScroll from '@/components/s-pull-scroll';
-	import {getMyOrder, getTeamOrder, getAllOrder} from '@/util/api/shop.js'
+	import {getMyOrder, getTeamOrder, getAllOrder, getSubordinatesOrder} from '@/util/api/shop.js'
 	export default {
 		components:{sPullScroll, searchModul},
 		computed:{
@@ -235,7 +235,11 @@
 					return getMyOrder(this.parmas).then(res=>{
 						return Promise.resolve(res.data.data)
 					})
-				}else if(this.type === 'tddd'){
+				}else if(this.type === 'xsdd'){
+					return getSubordinatesOrder(this.parmas).then(res=>{
+						return Promise.resolve(res.data.data)
+					})
+				}else if(this.type === 'bmdd'){
 					return getTeamOrder(this.parmas).then(res=>{
 						return Promise.resolve(res.data.data)
 					})
@@ -245,10 +249,7 @@
 					})
 				}
 			},
-			// 下拉选择
-			bindPickerChange(e){
-				this.index = e.detail.value
-			},
+
 			// 搜索
 			search(e){
 				this.parmas = e
@@ -262,9 +263,9 @@
 				})
 			},
 			// 订单详情
-			orderDetails(orderNo){
+			orderDetails(orderId){
 				uni.navigateTo({
-					url:'../details/details?orderNo=' + orderNo
+					url:'../details/details?orderId=' + orderId
 				})
 			},
 			// 进度查询

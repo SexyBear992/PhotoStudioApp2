@@ -23,7 +23,7 @@
 			<view class="contentBox" v-if="!keyWork">
 				<checkbox-group @change="checkboxChange">
 					<view v-for="item in showArr" :key="item.id">
-						<checkbox :value="item.id" :checked="item.checked" />{{ item.accountName }}
+						<checkbox :value="item.id" :checked="item.checked" />{{ item.anotherName }}
 					</view>
 				</checkbox-group>
 			</view>
@@ -32,7 +32,7 @@
 				<checkbox-group @change="checkboxChange">
 					<view v-for="item in serachArr" :key="item.id">
 						<view class="content">
-							<checkbox :value="item.id" :checked="item.checked" />{{ item.accountName }}
+							<checkbox :value="item.id" :checked="item.checked" />{{ item.anotherName }}
 						</view>
 					</view>
 				</checkbox-group>
@@ -79,7 +79,7 @@
 			serachArr() {
 				let serachArr = []
 				this.showArr.forEach((i)=>{
-					if(i.accountName.indexOf(this.keyWork) !== -1){
+					if(i.anotherName.indexOf(this.keyWork) !== -1){
 						serachArr.push(i)
 					}
 				})
@@ -155,7 +155,7 @@
 				 return	i.positionTypes.includes(data)
 				})
 				newArr.forEach((i)=>{
-					if(this.show.split('/').includes(i.accountName)){
+					if(this.show.split('/').includes(i.anotherName)){
 						this.$set(i,'checked',true)
 					}
 				})
@@ -177,7 +177,7 @@
 				this.enArr = arr
 				
 				let show = this.enArr.map((i)=>{
-					return i.accountName
+					return i.anotherName
 				})
 				
 				this.showText = show.join('/')

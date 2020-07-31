@@ -32,6 +32,11 @@
 				current:[]
 			}
 		},
+		mounted(){
+			if(this.faCurrent){
+				this.current = this.faCurrent
+			}
+		},
 		methods:{
 			handleFruitChange({ detail = {} }) {
 				const index = this.current.indexOf(detail.value);
@@ -46,7 +51,9 @@
 		},
 		watch:{
 			faCurrent(){
-				this.current = this.faCurrent
+				if(this.faCurrent){
+					this.current = this.faCurrent
+				}
 			}
 		}
 	}

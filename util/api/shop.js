@@ -81,6 +81,10 @@ export const openWeddingDress = (params) => {
 export const getMyOrder = (params) => {
 	return get(baseUrl.getMyOrder, params)
 }
+// 下属订单
+export const getSubordinatesOrder = (params) => {
+	return get(baseUrl.getSubordinatesOrder, params)
+}
 // 查看我部门的订单
 export const getTeamOrder = (params) => {
 	return get(baseUrl.getTeamOrder, params)
@@ -88,4 +92,42 @@ export const getTeamOrder = (params) => {
 // 查看所有订单
 export const getAllOrder = (params) => {
 	return get(baseUrl.getAllOrder, params)
+}
+
+// 订单详情
+export const getOrderDetails = (params) => {
+	return get(baseUrl.getOrderDetails, params)
+}
+// 子订单包
+export const getOrderItem = (params) => {
+	return get(baseUrl.getOrderItem, params)
+}
+
+// 更新-订单信息
+export const updataOrderInfo = (params) => {
+	return put(baseUrl.updataOrderInfo, params)
+}
+// 更新-客户组来源信息
+export const updataSource = (params) => {
+	return put(baseUrl.updataSource, params)
+}
+// 更新-客户组区域信息
+export const updataArea = (params) => {
+	return put(baseUrl.updataArea, params)
+}
+//更新-订单套系信息
+export const updataSystem = (params) => {
+	return put(baseUrl.updataSystem, params)
+}
+//更新-子订单信息
+export const updataItemInfo = (params) => {
+	return put(baseUrl.updataItemInfo, params)
+}
+//更新-订单人员
+export const updataActor = (params) => {
+	return put(baseUrl.updataActor, params)
+}
+//更新-客户组人员
+export const updataPersonnel = (params) => {
+	return put(baseUrl.updataPersonnel, params)
 }

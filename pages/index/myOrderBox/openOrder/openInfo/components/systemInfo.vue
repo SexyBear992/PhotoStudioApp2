@@ -82,7 +82,7 @@
 		
 		<toolModal v-if="toolModalShow" @close="close" @enSure="enSure"></toolModal>
 		
-		<addGiftModal	v-if="addGiftShow" :type="type" @closeAddGift="closeAddGift" @addGiftInfo="addGiftInfo" :giveGift="giveGift"></addGiftModal>
+		<addGiftModal	v-if="addGiftShow" :type="type" @closeAddGift="closeAddGift" @addGiftInfo="addGiftInfo" :giveGift="giveGift" :pIndex="pIndex"></addGiftModal>
 	</view>
 </template>
 
@@ -126,6 +126,8 @@
 				// 打开模态框的下标
 				toolModalIndex:null,
 				
+				// 已选礼包类别
+				pIndex:[0,0],
 				// 礼包模态框
 				addGiftShow:false,
 				// 已选礼包
@@ -182,7 +184,7 @@
 					assembledlyItemList.assemblyItemDressInfos.forEach((i)=>{
 						let orderItemDressInfo = {
 							count: i.count,
-							dressInfoId: i.id,
+							dressInfoId: i.dressInfoId,
 							name: i.name,
 							salePrice: i.salePrice,
 							type: i.type
@@ -196,7 +198,7 @@
 					assembledlyItemList.assemblyItemPlaces.forEach((i)=>{
 						let assemblyItemPlaces = {
 							name: i.name,
-							placeId: i.id,
+							placeId: i.placeId,
 							placeType: i.placeType,
 							salePrice: i.salePrice
 						}
@@ -209,7 +211,7 @@
 					assembledlyItemList.assemblyItemServices.forEach((i)=>{
 						let assemblyItemServices = {
 							name: i.name,
-							serviceId:i.id,
+							serviceId:i.serviceId,
 							salePrice:i.salePrice,
 							peopleNumber:i.peopleNumber,
 							count:i.count
@@ -245,8 +247,6 @@
 					orderItemPlace:[],
 					// 子订单礼包服务对象
 					orderItemService:[],
-					// 礼包
-					addGiftInfoData:[],
 				}
 				this.orderItem.push(addOrderItem)
 			},
@@ -370,7 +370,7 @@
 			addGiftInfo(e){
 				this.addGiftShow = false
 				this.addGiftInfoData = e.info
-				
+				this.pIndex = e.index
 				this.giveGift = e.show
 				
 				// console.log('礼包模态框返回长度',e.show.length)
@@ -386,7 +386,7 @@
 				return this.addGiftInfoData
 			},
 			// 保存
-			saveOrderItem(){
+			saveOrderItem(){		
 				return this.orderItem
 			},
 			
@@ -487,7 +487,7 @@
 					input{
 						margin-left: 30rpx;
 						margin-top: 19rpx;
-						width: 550rpx;
+						width: 470rpx;
 						color: #808080;
 					}
 				}

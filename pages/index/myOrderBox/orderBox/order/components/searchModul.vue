@@ -3,7 +3,10 @@
 		<view class="search">
 			<view class="searchLeft">
 				<picker @change="bindPickerChange" :value="index" :range="array">
-					<view class="uni-input">{{array[index]}}</view>
+					<view class="uni-input">
+						<view>{{array[index]}}</view>
+						<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+					</view>
 				</picker>
 				<input type="text" :placeholder="array[index]" v-model="keyword"/>
 			</view>
@@ -34,27 +37,33 @@
 			}
 		},
 		methods:{
+			// 下拉选择
+			bindPickerChange(e){
+				this.index = e.detail.value
+			},
+			// 清空所有选择
+			clearParmas(){
+				delete this.parmas.contactMobile
+				delete this.parmas.orderNo
+				delete this.parmas.contactName
+			},
+			// 搜索
 			search(){
 				this.parmas.page = 1
 				if(this.keyword && this.keyword !== ''){
 					let value = this.array[this.index]
 					if(value === '姓名'){
-						delete this.parmas.contactMobile
-						delete this.parmas.orderNo
+						this.clearParmas()
 						this.parmas.contactName = this.keyword
 					}else if(value === '手机号'){
-						delete this.parmas.contactName
-						delete this.parmas.orderNo
+						this.clearParmas()
 						this.parmas.contactMobile = this.keyword
 					}else if(value === '订单号'){
-						delete this.parmas.contactName
-						delete this.parmas.contactMobile
+						this.clearParmas()
 						this.parmas.orderNo = this.keyword
 					}
 				}else{
-					delete this.parmas.contactName
-					delete this.parmas.contactMobile
-					delete this.parmas.orderNo
+					this.clearParmas()
 				}
 				this.$emit('search',this.parmas)
 			},
@@ -75,9 +84,15 @@
 		.searchLeft{
 			display: flex; 
 			.uni-input{
+				display: flex;
 				font-size: 28rpx;
 				font-weight: bold;
 				padding: 0 30rpx;
+				image{
+					width: 15rpx;
+					height: 15rpx;
+					margin: 40rpx 0 0 5rpx;
+				}
 			}
 			input{
 				font-size: 28rpx;

@@ -78,17 +78,17 @@
 					<image :src="url+'icon_wdd@2x.png'" mode="" class="icon"></image>
 					<view class="text">我的订单</view>
 				</view>
-				<view class="list"  @click="iconList('tddd')">
+				<view class="list"  @click="iconList('xsdd')">
+					<image :src="url+'icon_tcsj@2x.png'" mode="" class="icon"></image>
+					<view class="text">下属订单</view>
+				</view>
+				<view class="list"  @click="iconList('bmdd')">
 					<image :src="url+'icon_tdd@2x.png'" mode="" class="icon"></image>
 					<view class="text">团队订单</view>
 				</view>
 				<view class="list"  @click="iconList('sydd')">
 					<image :src="url+'icon_wdd@2x.png'" mode="" class="icon"></image>
 					<view class="text">所有订单</view>
-				</view>
-				<view class="list"  @click="iconList('tcsj')">
-					<image :src="url+'icon_tcsj@2x.png'" mode="" class="icon"></image>
-					<view class="text">套餐升级</view>
 				</view>
 			</view>
 		</view>
@@ -309,18 +309,18 @@
 					case 'wddd':
 						return './myOrderBox/orderBox/order/order?type=wddd&typeName=我的订单'
 						break;
-					// 团队订单
-					case 'tddd':
+					// 下属订单
+					case 'xsdd':
+						return './myOrderBox/orderBox/order/order?type=xsdd&typeName=下属订单'
+						break;
+					// 部门订单
+					case 'bmdd':
 						return './myOrderBox/orderBox/order/order?type=tddd&typeName=团队订单'
 						break;
 					// 所有订单
 					case 'sydd':
 						return './myOrderBox/orderBox/order/order?type=sydd&typeName=所有订单'
 						break;
-					// 套餐升级
-					case 'tcsj':
-					console.log('套餐升级');
-					break;
 					// 订单收款
 					case 'ddsk':
 					console.log('订单收款');

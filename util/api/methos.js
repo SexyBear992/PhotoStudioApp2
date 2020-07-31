@@ -16,7 +16,8 @@ const request = (url, options) => {
 			data:options.data,
 			header: {
 				'content-type': options.isObj ? 'application/json': 'application/x-www-form-urlencoded',
-				'Authorization':'bearer '+ app.state.token
+				'Authorization':'bearer '+ app.state.token,
+				'CurrentShopId' : app.state.shopId
 			},
 			success :(res)=>{
 				// uni.hideLoading();
@@ -56,7 +57,7 @@ const post = (url, options) => {
 }
  
 const put = (url, options) => {
-    return request(url, { method: 'PUT', data: options })
+    return request(url, { method: 'PUT', data: options, isObj: true })
 }
  
 // 不能声明DELETE（关键字）
