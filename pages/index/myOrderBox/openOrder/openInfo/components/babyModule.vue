@@ -37,7 +37,7 @@
 <script>
 	import cell from '@/components/cell.vue'
 	import Lunar from '@/components/Lunar.vue'
-	import { getCallName } from '@/util/api/shop.js'
+	import { getCallName } from '@/util/api/goods.js'
 	export default{
 		props:['type'],
 		components:{

@@ -47,7 +47,8 @@
 </template>
 
 <script>
-	import { getCallName, getCustomerMobileList } from '@/util/api/shop.js'
+	import { getCustomerMobileList } from '@/util/api/shop.js'
+	import { getCallName } from '@/util/api/goods.js'
 	import Lunar from '@/components/Lunar.vue'
 	import cell from '@/components/cell.vue'
 	import customerMadal from './customerMadal.vue'

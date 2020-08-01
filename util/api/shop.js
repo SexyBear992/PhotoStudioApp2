@@ -8,51 +8,10 @@ export const getAllShopQY = (params) => {
 export const getCategoryList = (params) => {
   return get(baseUrl.getCategoryList, params)
 }
-// 获取套系名称
-export const getSystemNameList = (params) => {
-	return get(baseUrl.getSystemNameList, params)
-}
-// 获取套系详情
-export const getSystemDetail = (params) => {
-	return get(baseUrl.getSystemDetail, params)
-}
-// 获取昵称
-export const getCallName = (params) => {
-	return get(baseUrl.getCallName, params)
-}
 // 通过手机号查找客户组
 export const getCustomerMobileList = (params) => {
 	return get(baseUrl.getCustomerMobileList, params)
 }
-// 获得套系详情
-export const getOrderAssembly = (params) => {
-	return get(baseUrl.getOrderAssembly, params)
-}
-// 获取商店工具箱
-export const getGoodsToolList = (params) => {
-	return get(baseUrl.getGoodsToolList, params)
-}
-// 获取景点工具箱
-export const getPlaceToolList = (params) => {
-	return get(baseUrl.getPlaceToolList, params)
-}
-// 获取服务工具箱
-export const getServicesToolList = (params) => {
-	return get(baseUrl.getServicesToolList, params)
-}
-// 获取服装工具箱
-export const getDressInfoToolList = (params) => {
-	return get(baseUrl.getDressInfoToolList, params)
-}
-// 获取礼包名称
-export const getGiftName = (params) => {
-	return get(baseUrl.getGiftName, params)
-}
-// 获取礼包详情
-export const getGiftDetail = (params) => {
-	return get(baseUrl.getGiftDetail, params)
-}
-
 // 婚庆开单
 export const openWedding = (params) => {
 	return postObj(baseUrl.openWedding, params)
@@ -131,3 +90,53 @@ export const updataActor = (params) => {
 export const updataPersonnel = (params) => {
 	return put(baseUrl.updataPersonnel, params)
 }
+
+//删除-子订单商品
+export const deletOrderGoods = (params) => {
+	return remove(baseUrl.deletOrderGoods, params)
+}
+//删除-子订单服装
+export const deletOrderDress = (params) => {
+	return remove(baseUrl.deletOrderDress, params)
+}
+//删除-子订单景点
+export const deletOrderPlace = (params) => {
+	return remove(baseUrl.deletOrderPlace, params)
+}
+//删除-子订单服务
+export const deletOrderService = (params) => {
+	return remove(baseUrl.deletOrderService, params)
+}
+// 新增-子订单商品
+export const addOrderGoods = (params) => {
+	return postObj(baseUrl.addOrderGoods, params)
+}
+// 新增-子订单服装
+export const addOrderDress = (params) => {
+	return postObj(baseUrl.addOrderDress, params)
+}
+// 新增-子订单服务
+export const addOrderService = (params) => {
+	return postObj(baseUrl.addOrderService, params)
+}
+// 新增-子订单景点
+export const addOrderPlace = (params) => {
+	return postObj(baseUrl.addOrderPlace, params)
+}
+// 更新-子订单商品
+export const updataOrderGoods = (params) => {
+	return put(baseUrl.updataOrderGoods, params)
+}
+// 更新-子订单服装
+export const updataOrderDress = (params) => {
+	return put(baseUrl.updataOrderDress, params)
+}
+// 更新-子订单景点
+export const updataOrderPlace = (params) => {
+	return put(baseUrl.updataOrderPlace, params)
+}	
+// 更新-子订单服务
+export const updataOrderService = (params) => {
+	return put(baseUrl.updataOrderService, params)
+}
+	

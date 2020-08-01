@@ -33,7 +33,7 @@
 
 <script>
 	import { mapGetters } from 'vuex'
-	import { getSystemNameList, getSystemDetail } from '@/util/api/shop.js'
+	import { getSystemNameList, getSystemDetail } from '@/util/api/goods.js'
 	import cell from '@/components/cell.vue'
 	import systemInfo from './systemInfo.vue'
 	export default{

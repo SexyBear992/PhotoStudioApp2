@@ -74,6 +74,11 @@
 		mounted(){
 			this.dataInfo = this.openInfo.customerGroupVo.customerBabyVos
 		},
+		watch:{
+			openInfo(){
+				this.dataInfo = this.openInfo.customerGroupVo.customerBabyVos
+			}
+		}
 	}
 </script>
 

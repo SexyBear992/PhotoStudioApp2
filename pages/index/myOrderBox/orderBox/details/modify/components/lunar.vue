@@ -77,6 +77,7 @@
 			// 切换是否农历
 			lunarSwitch(e){
 				this.timeData.typeLunar = e.target.value
+				this.$emit('timeInfo',this.timeData)
 			},
 			// 打开日历
 			openCalendar(){

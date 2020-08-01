@@ -87,7 +87,7 @@
 </template>
 
 <script>
-	import { getOrderAssembly } from '@/util/api/shop.js'
+	import { getOrderAssembly } from '@/util/api/goods.js'
 	import addListModal from './addListModal.vue'
 	import toolModal from './toolModal.vue'
 	import delModal from '@/components/delModal.vue'

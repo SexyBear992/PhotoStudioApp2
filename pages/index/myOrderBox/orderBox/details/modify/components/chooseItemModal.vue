@@ -42,12 +42,17 @@
 				this.$emit('cancel')
 			},
 			choose(e){
+				this.cancel()
 				if(this.updataItemType === 'bookAndBottom'){
-					this.cancel()
 					uni.navigateTo({
 						url:'./modify/modifyItemInfo/modifyItemInfo?id=' + this.orderId + '&itemId=' + e
 					})
+				}else{
+					uni.navigateTo({
+						url:'./modify/modifyOrderItem/modifyOrderItem?id=' + this.orderId + '&itemId=' + e + '&type=' + this.updataItemType
+					})
 				}
+				
 			}
 		}
 	}

@@ -1,10 +1,8 @@
 {
 	"pages": [
 		{
-			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyPersonnel/modifyPersonnel",
-			"style" : {
-				"navigationBarTitleText": "编辑客户信息"
-			}
+			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyOrderItem/modifyOrderItem",
+			"style" : {}
 		},
 		{
 			"path": "pages/index/index",
@@ -105,13 +103,14 @@
 			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyOrderActor/modifyOrderActor",
 			"style" : {
 				"navigationBarTitleText": "编辑服务人员"
-				
+			}
+		},
+		{
+			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyPersonnel/modifyPersonnel",
+			"style" : {
+				"navigationBarTitleText": "编辑客户信息"
 			}
 		}
-        ,{
-            "path" : "pages/index/myOrderBox/orderBox/details/modify/modifyPersonnel/babyList/babyList",
-            "style" : {}
-        }
     ],
 	"tabBar": {
 		// 隐藏tabBar
@@ -174,7 +173,8 @@
 			"i-icon": "/wxcomponents/icon/index",
 		  "i-page": "/wxcomponents/page/index",
 			"i-collapse": "/wxcomponents/collapse/index",
-			"i-collapse-item": "/wxcomponents/collapse-item/index"
+			"i-collapse-item": "/wxcomponents/collapse-item/index",
+			"i-notice-bar": "/wxcomponents/notice-bar/index"
 		}
 	}
 }

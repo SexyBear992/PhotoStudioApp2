@@ -58,7 +58,7 @@
 </template>
 
 <script>
-	import { getGiftName, getGiftDetail } from '@/util/api/shop.js'
+	import { getGiftName, getGiftDetail } from '@/util/api/goods.js'
 	import { mapActions,mapGetters } from 'vuex'
 	export default{
 		props:['type','giveGift','pIndex'],

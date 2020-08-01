@@ -101,9 +101,10 @@
 </template>
 
 <script>
-	import {getGoodsToolList, getPlaceToolList, getServicesToolList, getDressInfoToolList} from '@/util/api/shop.js'
+	import { getGoodsToolList, getPlaceToolList, getServicesToolList, getDressInfoToolList } from '@/util/api/goods.js'
 	import { mapGetters,mapActions } from 'vuex'
 	export default{
+		props:['faType'],
 		filters:{
 			type(type){
 				const result = new Map([
@@ -155,6 +156,20 @@
 		},
 		mounted(){
 			this.body.shopId = Number(this.shopId)
+			switch(this.faType){
+				case 'product':
+					this.goodToolList()
+					break
+				case 'dress':
+					this.dressToolList()
+					break
+				case 'place':
+					this.placeToolList()
+					break
+				case 'service':
+					this.servicesToolList()
+					break
+			}
 		},
 		methods:{
 			...mapActions('shopArr',[
@@ -279,8 +294,10 @@
 			// 确定选择
 			enSure(){
 				let needArr = this.toolList.filter((i)=>{
-					if(this.checkId.includes(String(i.id))){
-						return i
+					if(this.checkId){
+						if(this.checkId.includes(String(i.id))){
+							return i
+						}
 					}
 				})
 				this.$emit('enSure',{arr:needArr,type:this.toolType})
@@ -328,6 +345,7 @@
 			}
 		}
 		.toolBox{
+			font-size: 28rpx;
 			width: 650rpx;
 			background-color: #FFFFFF;
 			border-radius: 15rpx;

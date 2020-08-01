@@ -31,7 +31,7 @@
 							</view>
 							<view class="userRight">
 								<view>手机号：</view>
-								<view>{{user.mobile}}</view>
+								<view>{{user.mobile | noMobile}}</view>
 							</view>
 						</view>
 						
@@ -164,6 +164,13 @@
 					return '未选择'
 				}
 			},
+			noMobile(data){
+				if(data){
+					return data
+				}else{
+					return '未填写'
+				}
+			}
 		},
 		data() {
 			return {

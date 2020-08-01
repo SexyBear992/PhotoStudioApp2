@@ -106,6 +106,7 @@
 					if(res.data.data.type === 'BABY'){
 						this.showBaby = true
 					}
+					console.log(res.data.data)
 				})
 			},
 			
@@ -135,7 +136,6 @@
 						})
 						break;
 					// 客户来源
-					// 客户来源
 					case 'userSource':
 						this.showUserSource = true
 						break;
@@ -159,13 +159,34 @@
 						})
 						break;
 					// 客户信息
+					// 客户信息
 					case 'userInfo':
 						uni.navigateTo({
 							url:'./modify/modifyPersonnel/modifyPersonnel?id=' + this.orderId
 						})
 						break
+					// 产品
+					case 'product':
+						this.showOnItem = true
+						this.updataItemType = e
+						break
+					// 服装
+					case 'dress':
+						this.showOnItem = true
+						this.updataItemType = e
+						break
+					// 景点
+					case 'place':
+						this.showOnItem = true
+						this.updataItemType = e
+						break
+					// 服务
+					// 服务
+					case 'service':
+						this.showOnItem = true
+						this.updataItemType = e
+						break
 				}
-				console.log(e)
 			}
 		}
 	}

@@ -1,27 +1,40 @@
+/*****************************  修改客户信息 宝宝  *******************************/
 <template>
 	<view>
 		<view class="box">
+
+			<!-- 昵称 -->
 			<view class="listBox">
 				<view class="title">昵称：</view>
 				<picker @change="babyPicerChange" :value="babyIndex" :range="babyPickerList">
 					<view class="textBox">
 						<view class="text">{{babyPickerList[babyIndex]}}</view>
-						<!-- <image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image> -->
+						<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
 					</view>
 				</picker>
 			</view>
 			
+			<!-- 名字 -->
 			<view class="listBox">
 				<view class="title">名字：</view>
 				<view class="textBox">
-					<input type="text" v-model="thisBabyInfo.name" />
+					<input class="input" type="text" v-model="thisBabyInfo.name" placeholder="宝宝姓名"/>
 				</view>
 			</view>
 			
-			<lunar class="lunar" :title="'宝宝生日'" :typeLunar="thisBabyInfo.birthdayLunar" :typeStr="thisBabyInfo.birthdayStr" :typeTime="thisBabyInfo.birthdayTime"
-			 :calendarData="calendarData" @openCal="openCal" ref="lunar" @timeInfo="timeInfo"></lunar>
-			
-			<view @click="openCalendar">日历</view>
+			<!-- 生日 -->
+			<view class="listBox">
+				<lunar 
+					class="lunar" 
+					:title="'宝宝生日'" 
+					:typeLunar="thisBabyInfo.birthdayLunar" 
+					:typeStr="thisBabyInfo.birthdayStr" 
+					:typeTime="thisBabyInfo.birthdayTime"
+					:calendarData="calendarData"
+					@openCal="openCal" ref="lunar" 
+					@timeInfo="timeInfo"
+				></lunar>
+			</view>
 			<!-- 日历 -->
 			<uni-calendar 
 				:insert="false"
@@ -39,7 +52,7 @@
 	import lunar from '../../components/lunar.vue'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	export default {
-		props:['shopId','info','callNameList'],
+		props:['info','callNameList'],
 		components:{
 			uniCalendar,
 			lunar
@@ -81,6 +94,7 @@
 					// console.log(i)
 					if(i.name === this.babyPickerList[e.detail.value]){
 						this.thisBabyInfo.sex = i.sex
+						this.thisBabyInfo.callName = i.name
 					}
 				})
 			},
@@ -99,16 +113,13 @@
 				this.thisBabyInfo.birthdayStr = e.typeStr
 				this.thisBabyInfo.birthdayTime = e.typeTime
 				this.thisBabyInfo.zodiac = e.zodiac
-			}
+			},
 			
+			save(){
+				return this.thisBabyInfo
+			}
 		},
 		watch:{
-			thisBabyInfo:{
-				deep:true,
-				handler(){
-					console.log('监听组件数据',this.thisBabyInfo)
-				}
-			},
 			callNameList(){
 				this.newBabyPickerList()
 			}
@@ -117,5 +128,40 @@
 </script>
 
 <style lang="scss" scoped>
-
+	.box{
+		.listBox{
+			display: flex;
+			font-size: 28rpx;
+			padding: 0 20rpx;
+			margin: 30rpx;
+			height: 80rpx;
+			line-height: 80rpx;
+			border-bottom: 1rpx solid #DDDDDD;
+			.title{
+				width: 270rpx;
+			}
+			.textBox{
+				display: flex;   
+				.text{
+					max-width: 360rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+				image{
+					width: 15rpx;
+					height: 15rpx;
+					margin: 40rpx 0 0 5rpx;
+				}
+				.input{
+					border-radius: 10rpx;
+					border: 1rpx solid #DDDDDD;
+					padding: 15rpx;
+				}
+			}
+			.lunar{
+				width: 100%;
+			}
+		}
+	}
 </style>

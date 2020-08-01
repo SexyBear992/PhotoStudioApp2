@@ -53,6 +53,20 @@ let baseUrl = {
 	updataActor: `${base_store}/order/update/orderActor`, //更新-订单人员
 	updataPersonnel: `${base_store}/customer/update/customerGroupPersonnel`, //更新-客户组人员
 	
+	deletOrderGoods: `${base_store}/order/item/goods/delete`,//删除-子订单商品
+	deletOrderDress: `${base_store}/order/item/dress/delete`,//删除-子订单服装
+	deletOrderPlace: `${base_store}/order/item/place/delete`,// 删除-子订单景点
+	deletOrderService: `${base_store}/order/item/service/delete`,// 删除-子订单服务
+	
+	addOrderGoods: `${base_store}/order/item/goods/add`, //新增-子订单商品
+	addOrderDress: `${base_store}/order/item/dress/add`,// 新增-子订单服装
+	addOrderPlace: `${base_store}/order/item/place/add`,// 新增-子订单景点
+	addOrderService: `${base_store}/order/item/service/add`, //新增-子订单服务
+	
+	updataOrderGoods: `${base_store}/order/item/goods/update`,// 更新-子订单商品
+	updataOrderDress: `${base_store}/order/item/dress/update`,// 更新-子订单服装
+	updataOrderPlace: `${base_store}/order/item/place/update`,// 更新-子订单景点
+	updataOrderService: `${base_store}/order/item/service/update`,// 更新-子订单服务
 }
 
 export default baseUrl
