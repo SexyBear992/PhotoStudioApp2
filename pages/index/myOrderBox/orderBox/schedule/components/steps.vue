@@ -14,7 +14,7 @@
 			<!-- {{item.title}} -->
 			<view class="left">
 				<image class="status" :src="item.status | img" mode=""></image>
-				<image class="line" v-if="!(item.number === arrLen)" src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/line.png" mode=""></image>
+				<image class="line" v-if="!(item.number === arrLen)" src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/schedule/line.png" mode=""></image>
 			</view>
 			
 			<view class="right">
@@ -32,7 +32,7 @@
 		props:['arr'],
 		filters:{
 			img(status){
-				let url = 'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/'
+				let url = 'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/schedule/'
 				const result = new Map([
 					['NOT_PROCESSING',url+'NOT_PROCESSING.png'],
 					['PROCESSING',url+'PROCESSING.png'],

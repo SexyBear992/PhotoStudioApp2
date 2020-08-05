@@ -13,18 +13,17 @@
 			<view class="mainBox">
 				<!-- 客户来源 -->
 				<view class="listBox">
-					<view class="title">客户来源</view>
-					<picker @change="sourceIdChange" :value="sourceIndex" :range="sourceIdList">
-						<view class="textBox">
-							<view class="text">{{sourceIdList[sourceIndex]}}</view>
-							<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
-						</view>
-					</picker>
+					<view class="titleB">
+						<view class="title">客户来源：</view>
+					</view>
+					<pickerModule class="textBox" my-img="imgMargin" :arrInfo="pickerSource" :nowName="nowSourceName" @getId="getSourceId"></pickerModule>
 				</view>
 				
 				<!-- 介绍人 -->
 				<view class="listBox">
-					<view class="title">介绍人</view>
+					<view class="titleB">
+						<view class="title">介绍人：</view>
+					</view>
 					<view class="textBox">
 						<input class="input" type="text" v-model="sourceInfo.referrerName" placeholder="介绍人" />
 					</view>
@@ -32,7 +31,9 @@
 				
 				<!-- 手机号码 -->
 				<view class="listBox">
-					<view class="title">手机号码</view>
+					<view class="titleB"> 
+						<view class="title">手机号码：</view>
+					</view>
 					<view class="textBox">
 						<input class="input" type="number" v-model="sourceInfo.referrerMobile" placeholder="手机号码" />
 					</view>
@@ -50,9 +51,13 @@
 </template>
 
 <script>
+	import pickerModule from '@/components/pickerModule.vue'
 	import { mapGetters } from 'vuex'
 	import { updataSource } from '@/util/api/shop.js'
 	export default {
+		components:{
+			pickerModule
+		},
 		props:['openInfo'],
 		computed:{
 			...mapGetters('shopArr',[
@@ -66,8 +71,8 @@
 				originIdMap: new Map(),  
 				
 				// 来源picker
-				sourceIndex:0,
-				sourceIdList:[],
+				pickerSource:[],
+				nowSourceName:null,
 				
 				sourceInfo:{}
 			};
@@ -86,23 +91,22 @@
 		methods:{
 			// 创建来源数组
 			newchangSourceId(){
-				let arr = this.get_origin.map((i)=>{
-					return i.name
+				let arr = []
+				this.get_origin.forEach((i)=>{
+					let lis ={
+						id:i.id,
+						name:i.name
+					}
+					arr.push(lis)
 				})
-				arr[0] = '请选择'
-				this.sourceIdList = arr
-				
-				// 已经选择来源名字
-				let nowsourceName = this.originIdMap.get(this.sourceInfo.originId)
-				if(nowsourceName){
-					this.sourceIndex = this.sourceIdList.findIndex((i)=>{
-						return i === nowsourceName
-					})
-				}else{
-					this.sourceIndex = 0
-				}
+				arr[0].name = '请选择'
+				arr[0].id = null
+				this.pickerSource = arr
+				this.nowSourceName = this.originIdMap.get(this.sourceInfo.originId)
 			},
-			
+			getSourceId(e){
+				this.sourceInfo.originId = e.id
+			},
 			sourceIdChange(e){
 				this.sourceIndex = e.detail.value
 				this.get_origin.some((i)=>{
@@ -131,69 +135,8 @@
 </script>
 
 <style lang="scss" scoped>
-	.bigBox{
-		z-index: 9999999;
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0,0,0,0.5);
-		top: 0;
-		color: #8d8d8d;
-		.box{
-			background-color: #FFFFFF;
-			width: 550rpx;
-			margin: 50% auto;
-			transform: translateY(-20%);
-			border-radius: 15rpx;
-			.titleBox{
-				display: flex;
-				justify-content: space-between;
-				color: #000000;
-				padding: 30rpx;
-				border-bottom: 1rpx solid #DDD
-			}
-			.mainBox{
-				padding: 50rpx;
-				.listBox{
-					font-size: 28rpx;
-					display: flex;
-					color: #000000;
-					padding: 20rpx 0;
-					.title{
-						width: 170rpx;
-					}
-					.textBox{
-						display: flex;
-						image{
-							width: 15rpx;
-							height: 15rpx;
-							margin: 18rpx 0 0 5rpx;
-						}
-						input{
-							width: 270rpx;
-							border: 1rpx solid #DDD;
-							border-radius: 10rpx;
-							padding: 0 10rpx;
-						}
-					}
-				}
-			}
-			
-			.but{
-				display: flex;
-				text-align: center;
-				height: 80rpx;
-				line-height: 80rpx;
-				border-top: 1rpx solid #f9f9f9;
-				.cancel{
-					width: 50%;
-				}
-				.ok{
-					width: 50%;
-					border-left: 1rpx solid #f9f9f9;
-					color: #61a3ff;
-				}
-			}
-		}
+	@import './updataModal.scss';
+	/deep/.imgMargin{
+		margin: 18rpx 0 0 5rpx !important;
 	}
 </style>

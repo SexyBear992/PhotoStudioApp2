@@ -27,23 +27,13 @@
 			<!-- 订单分类 -->
 			<view class="listBox">
 				<view class="title">订单分类</view>
-				<picker @change="orderCategoryIdChange" :value="orderCategoryIndex" :range="orderCategoryIdList">
-					<view class="textBox">
-						<view class="text">{{orderCategoryIdList[orderCategoryIndex]}}</view>
-						<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
-					</view>
-				</picker>
+				<pickerModule my-img="imgMargin" :arrInfo="pickerCategory" :nowName="nowCategoryName" @getId="getCategoryId"></pickerModule>
 			</view>
 
 			<!-- 订单分组 -->
 			<view class="listBox">
 				<view class="title">订单分组</view>
-				<picker @change="groupCategoryIdChange" :value="groupCategoryIndex" :range="groupCategoryIdList">
-					<view class="textBox">
-						<view class="text">{{groupCategoryIdList[groupCategoryIndex]}}</view>
-						<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
-					</view>
-				</picker>
+				<pickerModule my-img="imgMargin" :arrInfo="pickerGroup" :nowName="nowGroupName" @getId="getGroupId"></pickerModule>
 			</view>
 
 			<!-- 喜爱风格 -->
@@ -96,6 +86,7 @@
 <script>
 	import lunar from '../components/lunar.vue'
 	import styleModal from '../../../../openOrder/openInfo/components/styleModal.vue'
+	import pickerModule from '@/components/pickerModule.vue'
 	import { mapGetters } from 'vuex'
 	import { getOrderDetails, updataOrderInfo } from '@/util/api/shop.js'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
@@ -113,6 +104,7 @@
 		components:{
 			uniCalendar,
 			styleModal,
+			pickerModule,
 			lunar
 		},
 		filters:{
@@ -138,12 +130,12 @@
 				groupIdMap: new Map(),  
 				
 				// 分类picker
-				orderCategoryIndex:0,
-				orderCategoryIdList:[],
+				pickerCategory:[],
+				nowCategoryName:null,
 				
 				// 分组picker
-				groupCategoryIndex:0,
-				groupCategoryIdList:[],
+				pickerGroup:[],
+				nowGroupName:null,
 				
 				// 喜爱风格模态框开关
 				visibleStyle:false,
@@ -208,64 +200,43 @@
 		methods:{
 			// 创建分类数组
 			newchangTypeCategoryId(){
-				let arr = this.get_orderTypeArr.map((i)=>{
-					return i.name
-				})
-				arr[0] = '请选择'
-				this.orderCategoryIdList = arr
-				
-				// 已经选择分类名字
-				let nowOrderCategoryName = this.typeIdMap.get(this.openInfo.orderCategoryId)
-				if(nowOrderCategoryName){
-					this.orderCategoryIndex = this.orderCategoryIdList.findIndex((i)=>{
-						return i === nowOrderCategoryName
-					})
-				}else{
-					this.orderCategoryIndex = 0
-				}
-			},
-
-			// 分类返回
-			orderCategoryIdChange(e){
-				this.orderCategoryIndex = e.detail.value
-				this.get_orderTypeArr.some((i)=>{
-					if(i.name === this.orderCategoryIdList[e.detail.value]){
-						this.openInfo.orderCategoryId = i.id
-					}else if(this.orderCategoryIdList[e.detail.value] === '请选择'){
-						this.openInfo.orderCategoryId = null
+				let arr = []
+				this.get_orderTypeArr.forEach((i)=>{
+					let lis ={
+						id:i.id,
+						name:i.name
 					}
+					arr.push(lis)
 				})
+				arr[0].name = '请选择'
+				arr[0].id = null
+				this.pickerCategory = arr
+				this.nowCategoryName = this.typeIdMap.get(this.openInfo.orderCategoryId)
+			},
+			// 分类返回
+			getCategoryId(e){
+				this.openInfo.orderCategoryId = e.id
 			},
 			
 			// 创建分组数组
 			newchangeGroupId(){
-				let arr = this.get_orderGroup.map((i)=>{
-					return i.name
+				let arr = []
+				this.get_orderGroup.forEach((i)=>{
+					let lis ={
+						id:i.id,
+						name:i.name
+					}
+					arr.push(lis)
 				})
-				arr[0] = '请选择'
-				this.groupCategoryIdList = arr
-				
-				// 已选择分组名字
-				let nowOrderGroupName = this.groupIdMap.get(this.openInfo.groupCategoryId)
-				if(nowOrderGroupName){
-					this.groupCategoryIndex = this.groupCategoryIdList.findIndex((i)=>{
-						return i === nowOrderGroupName
-					})
-				}else{
-					this.groupCategoryIndex = 0
-				}
+				arr[0].name = '请选择'
+				arr[0].id = null
+				this.pickerGroup = arr
+				this.nowGroupName = this.groupIdMap.get(this.openInfo.groupCategoryId)
 			},
 			
 			// 分组返回
-			groupCategoryIdChange(e){
-				this.groupCategoryIndex = e.detail.value
-				this.get_orderGroup.some((i)=>{
-					if(i.name === this.groupCategoryIdList[e.detail.value]){
-						this.openInfo.groupCategoryId = i.id
-					}else if(this.groupCategoryIdList[e.detail.value] === '请选择'){
-						this.openInfo.groupCategoryId = null
-					}
-				})
+			getGroupId(e){
+				this.openInfo.groupCategoryId = e.id
 			},
 		
 			// 打开日历
@@ -393,5 +364,8 @@
 			margin: 10rpx auto;
 			border-radius: 40rpx;
 		}
+	}
+	/deep/.imgMargin{
+		margin: 40rpx 0 0 5rpx !important;
 	}
 </style>

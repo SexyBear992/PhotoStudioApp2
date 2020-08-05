@@ -8,6 +8,8 @@ import app from '@/store/module/app.js'
 const request = (url, options) => {
 	uni.showLoading({
 	    title: '加载中',
+			// 蒙板层
+			mask:true,
 	});
 	return new Promise((resolve,reject)=>{
 		uni.request({

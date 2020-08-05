@@ -51,7 +51,6 @@
 					<input type="number" v-model="item.bookCount"/>
 				</view>
 			</view>
-			
 			<view class="addList" v-if="item.orderItemGoods.length>0">
 				<view class="addListTitle">新增商品</view>
 				<addListModal :list="item.orderItemGoods" :title="listTitleGoods" @deletList="deletListGood($event,index)"></addListModal>
@@ -78,27 +77,24 @@
 
 		<view class="addOrderChild" @click="addOrderChild">增加子单</view>
 		
-		<delModal v-if="delModalShow" @cancel="cancel" @ok="ok"></delModal>
+		<delModal :title="'删除'" v-if="delModalShow" @cancel="cancel" @ok="ok"></delModal>
 		
-		<toolModal v-if="toolModalShow" @close="close" @enSure="enSure"></toolModal>
+		<toolModal v-if="toolModalShow" @close="close" :index="toolModalIndex"></toolModal>
 		
-		<addGiftModal	v-if="addGiftShow" :type="type" @closeAddGift="closeAddGift" @addGiftInfo="addGiftInfo" :giveGift="giveGift" :pIndex="pIndex"></addGiftModal>
 	</view>
 </template>
 
 <script>
 	import { getOrderAssembly } from '@/util/api/goods.js'
-	import addListModal from './addListModal.vue'
 	import toolModal from './toolModal.vue'
+	import addListModal from './addListModal.vue'
 	import delModal from '@/components/delModal.vue'
-	import addGiftModal from './addGiftModal.vue'
 	export default{
-		props:['piceId','type'],
+		props:['piceId','type','toolInfo','giftInfo'],
 		components:{
 			addListModal,
 			delModal,
 			toolModal,
-			addGiftModal
 		},
 		data(){
 			return{
@@ -128,8 +124,7 @@
 				
 				// 已选礼包类别
 				pIndex:[0,0],
-				// 礼包模态框
-				addGiftShow:false,
+
 				// 已选礼包
 				giveGift:null,
 				// 礼包价格
@@ -220,7 +215,7 @@
 					})
 					this.orderItem[0].orderItemService = assemblyItemServicesArr
 					
-					// console.log('订单详情',this.orderItem)
+					console.log('订单详情',this.orderItem)
 				})
 			},
 			
@@ -282,7 +277,7 @@
 			// 工具箱模态框确定返回值
 			enSure(e){
 				if(e.type === 'GOODS'){
-					e.arr.forEach((i)=>{
+					e.toolArr.forEach((i)=>{
 						let orderItemGoods = {
 							name: i.name,
 							orderP: i.defaultP,
@@ -297,10 +292,10 @@
 							remark:null,
 							sort: null
 						}
-						this.orderItem[this.toolModalIndex].orderItemGoods.push(orderItemGoods)
+						this.orderItem[e.index].orderItemGoods.push(orderItemGoods)
 					})
 				}else if(e.type === 'DRESSINFO'){
-					e.arr.forEach((i)=>{
+					e.toolArr.forEach((i)=>{
 						let orderItemDressInfo = {
 							name: i.name,
 							count: 1,
@@ -308,20 +303,20 @@
 							salePrice: i.salePrice,
 							type: i.type
 						}
-						this.orderItem[this.toolModalIndex].orderItemDressInfo.push(orderItemDressInfo)
+						this.orderItem[e.index].orderItemDressInfo.push(orderItemDressInfo)
 					})
 				}else if(e.type === 'PLACE'){
-					e.arr.forEach((i)=>{
+					e.toolArr.forEach((i)=>{
 						let orderItemPlace = {
 							name:i.name,
 							placeId: i.id,
 							placeType:i.placeType,
 							salePrice:i.salePrice
 						}
-						this.orderItem[this.toolModalIndex].orderItemPlace.push(orderItemPlace)
+						this.orderItem[e.index].orderItemPlace.push(orderItemPlace)
 					})
-				}else if(e.type === 'SERVICE'){
-					e.arr.forEach((i)=>{
+				}else if(e.type === 'SERVICES'){
+					e.toolArr.forEach((i)=>{
 						let orderItemService = {
 							name: i.name,
 							serviceId: i.id,
@@ -329,7 +324,7 @@
 							peopleNumber: i.peopleNumber,
 							count: 1
 						}
-						this.orderItem[this.toolModalIndex].orderItemService.push(orderItemService)
+						this.orderItem[e.index].orderItemService.push(orderItemService)
 					})
 				}
 				this.toolModalIndex = null
@@ -360,20 +355,18 @@
 		
 			// 添加礼包
 			addGift(){
-				this.addGiftShow = true
+				uni.navigateTo({
+					url:'../../../../gift/gift?type=' + this.type +'&giveGift=' + this.giveGift + '&index=' + this.pIndex
+				})
 			},
-			// 礼包模态框关闭
-			closeAddGift(){
-				this.addGiftShow = false
-			},
+
 			// 礼包模态框返回内容
 			addGiftInfo(e){
-				this.addGiftShow = false
 				this.addGiftInfoData = e.info
 				this.pIndex = e.index
 				this.giveGift = e.show
 				
-				// console.log('礼包模态框返回长度',e.show.length)
+				// // console.log('礼包模态框返回长度',e.show.length)
 				this.giftPrice = e.info.giftPrice
 				
 				if(e.show.length > 0){
@@ -408,6 +401,12 @@
 					}
 				
 				}
+			},
+			toolInfo(){
+				this.enSure(this.toolInfo)
+			},
+			giftInfo(){
+				this.addGiftInfo(this.giftInfo)
 			}
 		}
 	}

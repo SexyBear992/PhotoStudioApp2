@@ -46,6 +46,11 @@
 					
 					<!-- 列表信息 -->
 					<view class="tableBox">		
+					<view class="refreshBox">
+						<view class="refresh" @click="resh(item.itemId)">
+							<i-icon type="refresh" size="20" color="#80848f" />
+						</view>
+					</view>
 						<assemblyTable v-if="showOrderItem.orderItemGoods.length > 0" :orderItem="showOrderItem.orderItemGoods" :type="'GOODS'"></assemblyTable>
 						<assemblyTable v-if="showOrderItem.orderItemDressInfo.length > 0" :orderItem="showOrderItem.orderItemDressInfo" :type="'DRESSINFO'"></assemblyTable>
 						<assemblyTable v-if="showOrderItem.orderItemPlace.length > 0" :orderItem="showOrderItem.orderItemPlace" :type="'PLACE'"></assemblyTable>
@@ -99,9 +104,12 @@
 					this.orderItem.push(obj)
 					this.showOrderItem = obj
 				})
+			},
+			// 刷新
+			resh(e){
+				this.getOrderItem(e)
 			}
 		},
-
 	}
 </script>
 
@@ -143,6 +151,12 @@
 	}
 	
 	.tableBox{
-	
+		.refreshBox{
+			display: flex;
+			flex-direction: row-reverse;
+		}
+		.refresh{
+			
+		}
 	}
 </style>

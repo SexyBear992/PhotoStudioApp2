@@ -1,7 +1,7 @@
 <template>
 	<view class="bigBox">
 		<view class="box">
-			<view class="text">确定需要删除吗</view>
+			<view class="text">确定需要{{title}}吗</view>
 			<view class="but">
 				<view class="cancel" @click="cancel">取消</view>
 				<view class="ok" @click="ok">确定</view>
@@ -12,6 +12,7 @@
 
 <script>
 	export default {
+		props:['title'],
 		data() {
 			return {
 				

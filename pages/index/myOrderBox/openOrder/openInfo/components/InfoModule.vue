@@ -54,18 +54,17 @@
 		/>
 		<!-- 喜爱风格 -->
 		<styleModal v-if="visibleStyle" @cancel="cancelStyle" @ok="enSureStyle" :faCurrent="faCurrent"></styleModal>
-		<!-- 联系人模态框 -->
-		<addressModal v-if="addressShow" :show="showTextFa" :type="addressType" @close="closeAddress" @ok="addressInfo"></addressModal>
+
 	</view>
 </template>
 
 <script>
 	import { mapGetters } from 'vuex'
 	import styleModal from './styleModal.vue'
-	import addressModal from './addressModal.vue'
 	import cell from '@/components/cell.vue'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	export default {	
+		props:['addressInfo'],
 		computed:{
 			...mapGetters('shopArr',[
 				'get_shopAllArr',
@@ -89,7 +88,6 @@
 			cell,
 			uniCalendar,
 			styleModal,
-			addressModal
 		},
 		data(){
 			return{
@@ -109,10 +107,7 @@
 				// 前端显示喜爱风格
 				likeStyleText:'喜爱风格',
 				
-				// 联系人类型
-				addressType:null,
-				// 联系人模块框
-				addressShow:null,
+
 				// 接单人员显示
 				peception:'接单人员',
 				// 客服人员显示
@@ -151,6 +146,7 @@
 				}
 			}
 		},
+
 		mounted(){
 			this.newShopList()
 			this.newchangTypeCategoryId()
@@ -257,47 +253,37 @@
 			/*********************************   联系人处理模块   **********************************/
 			// 打开模态框
 			gotEnterpriseAll(type){
-				this.addressType = type
-				this.addressShow = true
 				if(type === 'RECEPTION'){
 					this.showTextFa = this.peception
 				}else if(type === 'SERVICE'){
-					this.showTextFa = this.service
+					this.showTextFa = this.services
 				}else if(type === 'NETWORK_SALES'){
 					this.showTextFa = this.network
 				}
-				// uni.navigateTo({
-				// 	url:'../../../../EnterpriseAll/EnterpriseAll?type=' + type
-				// })
+				uni.navigateTo({
+					url:'../../../../address/address?type='+ type + '&show=' + this.showTextFa
+				})
 			},
 			
-			// 关闭模态框
-			closeAddress(){
-				this.addressShow = false
-				this.showTextFa = null
-			},
-			// 模态框返回值
-			addressInfo(e){
+			addressShow(e){
 				let arr = []
-				e.info.map((i)=>{
+				e.enArr.map((i)=>{
 					let a = {
 						actorId:i.id,
 						main:i.main || false
 					}
 					arr.push(a)
 				})
-				if(this.addressType === 'RECEPTION'){
+				if(e.type === 'RECEPTION'){
 					this.peception = e.show
 					this.infoValue.receptions = arr
-				}else if(this.addressType === 'SERVICE'){
+				}else if(e.type === 'SERVICE'){
 					this.service = e.show
 					this.infoValue.services = arr
-				}else if(this.addressType === 'NETWORK_SALES'){
+				}else if(e.type === 'NETWORK_SALES'){
 					this.network = e.show
 					this.infoValue.networkSales = arr
 				}
-				this.addressShow = false
-				this.showTextFa = null
 			},
 			
 			// 保存订单
@@ -310,6 +296,10 @@
 				this.newShopList()
 				this.newchangTypeCategoryId()
 				this.newGroupCategoryId()
+			},
+			addressInfo(){
+				this.addressShow(this.addressInfo)
+				// this.addressInfo(this.addressInfo)
 			},
 		}
 	}

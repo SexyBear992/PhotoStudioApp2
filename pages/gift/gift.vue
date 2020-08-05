@@ -1,14 +1,8 @@
-/*************************  添加礼物模态框  *************************/
+/****************************************  礼物添加页面 ***********************************************/
 <template>
-	<view class="bigBox">
+<view class="bigBox">
 		<view class="box">
-			<view class="titleBox">
-				<view class="title">礼包选择</view>
-				<view  @click="close">
-					<i-icon type="close" size="15" color="#80848f"/>
-				</view>
-			</view>
-			
+
 			<view class="pickerBox">
 				<view class="text">礼包名称</view>
 				<view class="picker">
@@ -20,7 +14,7 @@
 						:value="pickerIndex"
 					>
 						<view class="uni-input">
-							<view>{{array[1][pIndex[1]]}}</view>
+							<view>{{array[1][pickerIndex[1]]}}</view>
 							<i-icon type="unfold" size="15" color="#80848f"/>
 						</view>
 					</picker>
@@ -32,19 +26,20 @@
 			</view>
 			
 			<view class="mainBox">
-				<view class="topBox mainTitleBox">
-					<view class="text name">名称</view>
-					<view class="text">数量</view>
-					<view class="text">类型</view>
+				<view class="titleBox">
+					<view class="title"></view>
+					<view class="title">名称</view>
+					<view class="title">数量</view>
+					<view class="title">类型</view>
 				</view>
 				
 				<checkbox-group @change="checkboxChange">
-					<view class="topBox" v-for="(item ,index) in giftDetail" :key="index">
+					<view class="textBox" v-for="(item ,index) in giftDetail" :key="index">
 						<view class="check">
-							<checkbox :value="item.name" :checked="item.checked" style="transform:scale(0.7);margin-top: 8rpx"/>
+							<checkbox :value="item.name" :checked="item.checked" style="transform:scale(0.7)"/>
 						</view>
-						<view class="text name">{{item.name}}</view>
-						<view class="text">{{item.number}}</view>
+						<view class="text f">{{item.name}}</view>
+						<view class="text">{{item.number | num}}</view>
 						<view class="text">{{item.type}}</view>
 					</view>
 				</checkbox-group>
@@ -61,7 +56,6 @@
 	import { getGiftName, getGiftDetail } from '@/util/api/goods.js'
 	import { mapActions,mapGetters } from 'vuex'
 	export default{
-		props:['type','giveGift','pIndex'],
 		computed:{
 			...mapGetters('shopArr',[
 				'get_giftType'
@@ -80,23 +74,39 @@
 				}
 			}
 		},
-		data(){
-			return{
-				index:0,
-				// 类别选择
+		filters:{
+			num(number){
+				if(number === 'null' || number === null){
+					return 0
+				}else{
+					return number
+				}
+			}
+		},
+		data() {
+			return {
+				// 订单类型
+				type:null,
+				// picker选择
 				array:[[],[]],
-				// 类别选择下标
+				// picker选择下标
 				pickerIndex:[0,0],
+				
 				// 当前类别ID
 				giftTypeId:null,
 				// 当前礼包名称ID
 				giftNameId:null,
-				// 获得类名
-				giftName:null,
+				
+				// 礼物名称对象列表
+				giftNameList:null,
+				
 				// 礼包详情
 				giftDetail:null,
 				// 选择礼包
-				sureInfo:null,
+				sureInfo:[],
+				
+				// 已选
+				giveGift:null,
 				
 				// 总共
 				allData:null,
@@ -123,40 +133,57 @@
 					// 服务对象
 					orderItemService:[],
 				}
-			}
+			};
 		},
-		mounted(){
+		onLoad(option){
+			this.type = option.type
+			if(option.giveGift === 'null'){
+				this.giveGift = null
+			}else{
+				this.giveGift = option.giveGift.split(',')
+			}
+			this.pickerIndex = option.index.split(',').map(Number)
+			
+			// this.type = "WEDDING_DRESS"
+			// this.giveGift = null
+			// this.pickerIndex = [0,0]
 			this.act_giftType()
-		  this.pickerIndex = this.pIndex
 		},
 		methods:{
 			...mapActions('shopArr',[
 				'act_giftType'
 			]),
 			
-			// 获取礼物所有类名
+			// 获取礼物名字
 			getGiftName(){
 				getGiftName({shopId:this.shopId , type:this.type}).then(res=>{	
-					this.giftName = res.data.data
-					this.giftNameId = this.giftName[this.giftTypeId][this.pIndex[1]].id
+					this.giftNameList = res.data.data
+					// 获取礼物名字ID
+					this.giftNameId = res.data.data[this.giftTypeId][this.pickerIndex[1]].id
+					// 创建礼物名字数组
+					this.getArrayGiftName()
+					// 获取礼物详情
 					this.getGiftDetail()
 				})
 			},
 			
 			// 根据类别ID获取 类名
-			getGiftNameList(){
-				let giftNameArr = this.giftName[this.giftTypeId].map((i)=>{
+			getArrayGiftName(){
+				let arr = this.giftNameList[this.giftTypeId].map((i)=>{
 					return i.name
 				})
-				this.array[1] = giftNameArr
+				this.array[1] = arr
 			},
 			
 			// 获取礼物详情
 			getGiftDetail(){
 				getGiftDetail({id:this.giftNameId}).then(res=>{
+					console.log(res)
 					this.orderGiftDto.giftId = res.data.data.id
 					this.orderGiftDto.giftName = res.data.data.name
 					this.orderGiftDto.giftPrice = res.data.data.price
+					// 创建新的对象
+					// 入底/入册
 					let giftDetail = [
 						{
 							name:'入册',
@@ -169,6 +196,7 @@
 							type:'入底',
 						}
 					]
+					// 服装
 					res.data.data.giftItemDressInfos.forEach((i)=>{
 						let arr = {
 							name: i.name,
@@ -180,6 +208,7 @@
 						}
 						giftDetail.push(arr)
 					})
+					// 商品
 					res.data.data.giftItemGoods.forEach((i)=>{
 						let arr = {
 							name: i.name,
@@ -196,6 +225,7 @@
 						}
 						giftDetail.push(arr)
 					})
+					// 景点
 					res.data.data.giftItemPlaces.forEach((i)=>{
 						let arr = {
 							name: i.name,
@@ -207,6 +237,7 @@
 						}
 						giftDetail.push(arr)
 					})
+					// 服务
 					res.data.data.giftItemServices.forEach((i)=>{
 						let arr = {
 							name: i.name,
@@ -218,12 +249,14 @@
 						}
 						giftDetail.push(arr)
 					})
-
-					this.giftDetail = giftDetail
-					this.allData = this.giftDetail.length
-					this.canCheck = res.data.data.selectCount
 					
-					// 已选勾选
+					// 赋值详情
+					this.giftDetail = giftDetail
+					// 赋值总数
+					this.allData = this.giftDetail.length
+					// 赋值该礼包可选数量
+					this.canCheck = res.data.data.selectCount
+					// 勾选已选礼包
 					if(this.giveGift !== null){
 						this.giftDetail.forEach((i)=>{
 							if(this.giveGift.includes(i.name)){
@@ -231,11 +264,10 @@
 							}
 						})
 					}
-					
 				})
 			},
 			
-			// picker改变
+			// picker改变 通过选择类别 改变礼物名
 			changeList(e){
 				let name = this.array[e.detail.column][e.detail.value]
 				this.get_giftType.some((i)=>{
@@ -243,12 +275,15 @@
 						this.giftTypeId = i.id
 					}
 				})
+				// 重新获取礼物名列表
+				this.getArrayGiftName()
 			},
 			
 			// picker确定
 			enSystem(e){
 				this.pickerIndex = e.detail.value
-				this.giftName[this.giftTypeId].some((i)=>{
+				// 获取选择的礼物名称ID
+				this.giftNameList[this.giftTypeId].some((i)=>{
 					if(i.name === this.array[1][e.detail.value[1]]){
 						this.giftNameId = i.id
 					}
@@ -257,26 +292,21 @@
 			},
 			
 			// 多选返回
-			checkboxChange: function (e) {
+			checkboxChange(e) {
 				this.sureInfo = e.detail.value
-				
-			},
-			
-			// 关闭
-			close(){
-				this.$emit('closeAddGift')
 			},
 			
 			// 确定添加礼包
 			enGift(){
+				// 如果超出可选范围 提醒
 				if(this.sureInfo.length > this.canCheck && this.canCheck > 0){
 					uni.showToast({
 						title:'最多可选' + this.canCheck,
 						icon:'none'
 					})
 				}else{
-					this.giftDetail.forEach((i)=>{
-						if(this.sureInfo){
+					if(this.sureInfo){
+						this.giftDetail.forEach((i)=>{		
 							if(this.sureInfo.includes(i.name)){
 								if(i.type === '入册'){
 									this.orderGiftDto.bookCount = i.number
@@ -333,119 +363,125 @@
 									this.orderGiftDto.orderItemService.push(arr)
 								}
 							}
-						}
-					})
-					
-					this.$emit('addGiftInfo',{info:this.orderGiftDto,show:this.sureInfo,index:this.pickerIndex})
+						})
+						var pages = getCurrentPages();
+						var prevPage = pages[pages.length - 2]; //上一个页面
+						prevPage.setData({
+							gift: {
+								'info':this.orderGiftDto,
+								'show':this.sureInfo,
+								'index':this.pickerIndex
+							}
+						})
+						uni.navigateBack({//返回
+							delta: 1
+						})
+					}
 				}
-				// console.log('礼包名字',this.giftName[this.giftTypeId].name)
-			},
+			}
 		},
 		watch:{
 			get_giftType(){
+				// 获取礼物类别
 				let arr = this.get_giftType.map((i)=>{
 					return i.name
 				})
+				// 去除礼物第一个类别
 				arr.shift()
+				// 赋值到array数组下标0
 				this.array[0] = arr
+				
+				// 获取当前类别的ID
 				this.get_giftType.some((i)=>{
-					if(i.name === this.array[0][this.pIndex[0]]){
+					if(i.name === this.array[0][this.pickerIndex[0]]){
 						this.giftTypeId = i.id
 					}
 				})
+				// 获取礼包名字
 				this.getGiftName()
-			},
-			giftNameAndId(){
-				if(this.giftNameAndId.giftName !== null && this.giftNameAndId.giftTypeId !== null){
-					this.getGiftNameList()
-				}
-			},
+			}
+
+			// giftNameAndId(){
+			// 	if(this.giftNameAndId.giftName !== null && this.giftNameAndId.giftTypeId !== null){
+			// 		this.getGiftNameList()
+			// 	}
+			// 	console.log(this.array)
+			// },
 			
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.bigBox{
-		z-index: 9999999;
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0,0,0,0.5);
+.bigBox{
+	.box{
 		font-size: 28rpx;
-		top: 0;
-		.box{
-			width: 600rpx;
-			margin: 50% auto;
-			transform: translateY(-20%);
-			border-radius: 15rpx;
-			background-color: #FFFFFF;
-		}
-		.titleBox{
-			display: flex;
-			font-size: 32rpx;
-			justify-content: space-between;
-			padding: 30rpx;
-		}
+		margin-top: 30rpx;
 		.pickerBox{
-			padding: 0 30rpx;
 			display: flex;
-			.picker{
-				
+			.text{
+				margin: 10rpx 30rpx;
 			}
 			.uni-input{
-				display: flex;
-				justify-content: space-between;
-				border: 1rpx solid #61a3ff;
-				width: 200rpx;
-				margin-left: 15rpx;
+				padding: 10rpx;
+				border: 1rpx solid #61A3FF;
 				border-radius: 10rpx;
-				padding: 0 10rpx;
+				display: flex;
+				>view{
+					margin-right: 20rpx;
+				}
 			}
 		}
 		.prompt{
-			padding: 5rpx 30rpx;
+			margin: 30rpx;
 		}
 		.mainBox{
-			margin: 10rpx 0;
-			font-size: 28rpx;
-			max-height: 600rpx;
-			overflow-y: auto;
-			.topBox{
+			.titleBox{
 				display: flex;
-				margin: 0 30rpx;
-				border-bottom: 1rpx solid #F7F7F7;
-			}
-			.text{
-				height: 65rpx;
-				line-height: 65rpx;
-				width: 20%;
-			}
-			.name{
-				width: 60%;
-			}
-			.mainTitleBox{
-				text-align: center;
 				background-color: #f8f8f9;
-				.name{
-					width: 57%;
+				margin: 0 30rpx;
+				height: 80rpx;
+				line-height: 80rpx;
+				.title{
+					flex: 1; 
+					text-align: center;
+				}
+				.title:nth-child(1){
+					flex: 0.3;
+				}
+				.title:nth-child(2){
+					flex: 1.7;
 				}
 			}
-			
-		}
-		.enSureBox{
-			padding: 30rpx;
-			display: flex;
-			text-decoration: row-reverse;
-			.enGift{
-				background-color: #61a3ff;
-				color: #FFFFFF;
-				text-align: center;
-				width: 80rpx;
-				height: 50rpx;
-				line-height: 50rpx;
-				border-radius: 10rpx;
+			.textBox{
+				margin: 30rpx;
+				display: flex;
+				.check{
+					flex: 0.3;
+				}
+				.text{
+					text-align: center; 
+					flex: 1;
+				}
+				.f{
+					flex: 1.7;
+				}
 			}
 		}
+		.enGift{
+			position: fixed;
+			bottom: 30rpx;
+			width: 600rpx;
+			color: #FFFFFF;
+			background-color: #61A3FF;
+			height: 80rpx;
+			line-height: 80rpx;
+			text-align: center;
+			border-radius: 40rpx;
+			margin: 0 auto;
+			margin-left: 50%;
+			transform: translateX(-50%);
+		}
 	}
+}
 </style>

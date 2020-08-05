@@ -13,14 +13,18 @@
 			<view class="mainBox">
 				
 				<view class="listBox">
-					<view class="title">套系名称：</view>
+					<view class="titleB">
+						<view class="title">套系名称：</view>
+					</view>
 					<view class="textBox">
 						<view class="text">{{assemblyName}}</view>
 					</view>
 				</view>
 				
 				<view class="listBox">
-					<view class="title">服务级别：</view>
+					<view class="titleB">
+						<view class="title">服务级别：</view>
+					</view>
 					<picker @change="serviceChange" :value="serviceIndex" :range="serviceIdList">
 						<view class="textBox">
 							<view class="text">{{serviceIdList[serviceIndex]}}</view>
@@ -30,7 +34,9 @@
 				</view>
 				
 				<view class="listBox">
-					<view class="title">老师级别：</view>
+					<view class="titleB">
+						<view class="title">老师级别：</view>
+					</view>
 					<picker @change="teacherChange" :value="teacherIndex" :range="teacherIdList">
 						<view class="textBox">
 							<view class="text">{{teacherIdList[teacherIndex]}}</view>
@@ -178,69 +184,5 @@
 </script>
 
 <style lang="scss" scoped>
-	.bigBox{
-		z-index: 9999999;
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0,0,0,0.5);
-		top: 0;
-		color: #8d8d8d;
-		.box{
-			background-color: #FFFFFF;
-			width: 550rpx;
-			margin: 50% auto;
-			transform: translateY(-20%);
-			border-radius: 15rpx;
-			.titleBox{
-				display: flex;
-				justify-content: space-between;
-				color: #000000;
-				padding: 30rpx;
-				border-bottom: 1rpx solid #DDD
-			}
-			.mainBox{
-				padding: 50rpx;
-				.listBox{
-					font-size: 28rpx;
-					display: flex;
-					color: #000000;
-					padding: 20rpx 0;
-					.title{
-						width: 170rpx;
-					}
-					.textBox{
-						display: flex;
-						image{
-							width: 15rpx;
-							height: 15rpx;
-							margin: 18rpx 0 0 5rpx;
-						}
-						input{
-							width: 270rpx;
-							border: 1rpx solid #DDD;
-							border-radius: 10rpx;
-							padding: 0 10rpx;
-						}
-					}
-				}
-			}
-			
-			.but{
-				display: flex;
-				text-align: center;
-				height: 80rpx;
-				line-height: 80rpx;
-				border-top: 1rpx solid #f9f9f9;
-				.cancel{
-					width: 50%;
-				}
-				.ok{
-					width: 50%;
-					border-left: 1rpx solid #f9f9f9;
-					color: #61a3ff;
-				}
-			}
-		}
-	}
+	@import './updataModal.scss';
 </style>

@@ -106,7 +106,6 @@
 					if(res.data.data.type === 'BABY'){
 						this.showBaby = true
 					}
-					console.log(res.data.data)
 				})
 			},
 			
@@ -166,23 +165,23 @@
 						})
 						break
 					// 产品
-					case 'product':
+					case 'GOODS':
 						this.showOnItem = true
 						this.updataItemType = e
 						break
 					// 服装
-					case 'dress':
+					case 'DRESSINFO':
 						this.showOnItem = true
 						this.updataItemType = e
 						break
 					// 景点
-					case 'place':
+					case 'PLACE':
 						this.showOnItem = true
 						this.updataItemType = e
 						break
 					// 服务
 					// 服务
-					case 'service':
+					case 'SERVICES':
 						this.showOnItem = true
 						this.updataItemType = e
 						break

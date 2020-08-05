@@ -1,10 +1,12 @@
-  let base_dress = 'http://192.168.5.220/pro/api/dress'
-  let base_message = 'http://192.168.5.220/dev/api/message'
-  let base_user = 'http://192.168.5.220/dev/api/account'
-  let base_goods = 'http://192.168.5.220/dev/api/goods'
-  let base_common = 'http://192.168.5.220/dev/api/base'
-  let base_store = 'http://192.168.5.220/dev/api/store'
-  let base_auth = 'http://192.168.5.220/dev/api/auth'
+ // http://192.168.5.220.dev  napi.lyfz.net/pro
+	let test = true
+	let base_dress = test ? 'http://192.168.5.220/pro/api/dress' : 'https://napi.lyfz.net/proapi/dress'
+  let base_message = test ?  'http://192.168.5.220/dev/api/message' : 'https://napi.lyfz.net/pro/api/message'
+  let base_user = test ?  'http://192.168.5.220/dev/api/account' : 'https://napi.lyfz.net/pro/api/account'
+  let base_goods = test ?  'http://192.168.5.220/dev/api/goods' : 'https://napi.lyfz.net/pro/api/goods'
+  let base_common = test ?  'http://192.168.5.220/dev/api/base' : 'https://napi.lyfz.net/pro/api/base'
+  let base_store = test ?  'http://192.168.5.220/dev/api/store' : 'https://napi.lyfz.net/pro/api/store'
+  let base_auth = test ? 'http://192.168.5.220/dev/api/auth' : 'https://napi.lyfz.net/pro/api/auth'
 	
 let baseUrl = {
 	getToken: `${base_auth}/oauth/token` ,// post 获取token
@@ -25,8 +27,6 @@ let baseUrl = {
 	getDressInfoToolList: `${base_goods}/dressInfo/toolList`, // 获取服装工具箱
 	getGiftName: `${base_goods}/gift/getGiftName`, // 获取礼包名称
 	getGiftDetail: `${base_goods}/gift/detail`, // 获取礼包详情
-	
-	
 	
 	getCustomerMobileList: `${base_store}/customer/list/customerGroupPersonnelVo`, // 查找-通过手机查找客户组人员
 	
@@ -67,6 +67,11 @@ let baseUrl = {
 	updataOrderDress: `${base_store}/order/item/dress/update`,// 更新-子订单服装
 	updataOrderPlace: `${base_store}/order/item/place/update`,// 更新-子订单景点
 	updataOrderService: `${base_store}/order/item/service/update`,// 更新-子订单服务
+	
+	// 摄控
+	getAllOrderItem: `${base_store}/orderList/page/allOrderItem` ,//查找-所有订单子订单
+	getOrdetItemList: `${base_store}/order/item/process/photo/reservation/list`, // 查找-预约拍照列表
+	deletPhotoInfo: `${base_store}/order/item/process/photo/delete`// 删除-拍照记录
 }
 
 export default baseUrl

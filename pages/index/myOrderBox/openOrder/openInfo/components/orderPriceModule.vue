@@ -20,13 +20,20 @@
 					>
 						<view class="uni-input">
 							<view class="text">{{systemName}}</view>
-							<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
+							<i-icon class="icon" type="enter" size="16" color="#80848f"/>
 						</view>
 					</picker>
 				</view>
 			</view>
 			
-			<systemInfo ref="systemInfo" v-if="systemName !== '请选择'" :piceId="orderPriceValue.assemblyId" :type="type"></systemInfo>
+			<systemInfo 
+				ref="systemInfo" 
+				v-if="systemName !== '请选择'" 
+				:piceId="orderPriceValue.assemblyId" 
+				:type="type" 
+				:toolInfo="toolInfo"
+				:giftInfo="giftInfo"
+			></systemInfo>
 		</view>
 	</view>
 </template>
@@ -37,7 +44,7 @@
 	import cell from '@/components/cell.vue'
 	import systemInfo from './systemInfo.vue'
 	export default{
-		props:['type'],
+		props:['type','toolInfo','giftInfo'],
 		components:{
 			cell,
 			systemInfo
@@ -274,11 +281,6 @@
 			.piceTitle{
 				margin-right: 30rpx;
 			}
-		}
-		image{
-			width: 12rpx;
-			height: 18rpx;
-			padding: 33rpx 0;
 		}
 	}
 	.uni-input{

@@ -12,7 +12,7 @@
 												<view class="uni-input value" v-if="callIndex">{{array[callIndex]}}</view>
 												<view class="uni-input value" v-else>{{array[index]}}</view>
 											</view>
-											<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
+											<i-icon class="icon" type="enter" size="16" color="#80848f"/>
 										</view>
 									</picker>
 							</view>
@@ -25,7 +25,7 @@
 					<view class="value" v-if="time">{{time | time}}</view>
 					<view class="value" v-if="text">{{text}}</view>
 				</view>
-				<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/icon_hr@2x.png"></image>
+				<i-icon class="icon" type="enter" size="16" color="#80848f"/>
 			</view>
 	</view>
 </template>
@@ -48,15 +48,6 @@
 			callNameIndex:{
 				type: Number
 			}
-		},
-		filters:{
-			// times(times){
-			// 	let dt = new Date(Number(times))
-			// 	let y = dt.getFullYear()
-			// 	let m = (dt.getMonth() + 1).toString().padStart(2, 0)
-			// 	let d = dt.getDate().toString().padStart(2, 0)
-			// 	return `${y}-${m}-${d}`
-			// }
 		},
 		data() {
 			return {
@@ -119,11 +110,8 @@
 				color: #8d8d8d;
 			}
 		}
-		
-		image{
-			width: 12rpx;
-			height: 18rpx;
-			padding: 33rpx 0;
+		.icon{
+			margin-top: 18rpx;
 		}
 	}
 </style>

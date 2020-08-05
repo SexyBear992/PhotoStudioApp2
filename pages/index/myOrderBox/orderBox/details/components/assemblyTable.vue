@@ -3,7 +3,7 @@
 		<!-- 商品 -->
 		<view class="table">
 			<view class="topTitle">
-				<view class="title">商品</view>
+				<view class="title">{{type | title}}</view>
 			</view>
 			<!-- 标题 -->
 			<view class="titleBox">
@@ -45,6 +45,14 @@
 	export default{
 		props:['orderItem','type'],
 		filters:{
+			title(title){
+				const result = new Map([
+					['GOODS','商品'],
+					['DRESSINFO','服装'],
+					['PLACE','景点'],
+					['SERVICE','服务'],
+				])
+			},
 			type(type){
 				const result = new Map([
 					['INT', '内景'],

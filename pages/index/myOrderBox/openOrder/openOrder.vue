@@ -17,7 +17,7 @@
 	export default {
 		data() {
 			return {
-				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/',
+				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/openOrder/',
 			};
 		},
 		methods:{

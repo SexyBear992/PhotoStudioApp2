@@ -23,7 +23,7 @@
 				
 				<view class="listBox">
 					<view class="listTitle">手机</view>
-					<input  placeholder="手机" type="number" v-model="item.mobile" :disabled="!isChackMobile"/>
+					<input  placeholder="手机" type="number" v-model="item.mobile" @input="changinput($event,index)" :disabled="!isChackMobile"/>
 				</view>
 				
 				<view class="listBox">
@@ -207,28 +207,25 @@
 				}
 			},
 		
+			// 
+			changinput(e,index){
+				if(index === 0){
+					if(e.detail.value.length > 9){
+						getCustomerMobileList({mobile : e.detail.value}).then(res=>{
+							if(res.data.data.length > 0){
+								this.customerData = res.data.data
+								this.customerMadal = true
+							}
+						})
+					}
+				}
+			},
+			
 			// 保存订单
 			save(){
 				return this.newCustomerContactDtos
 			},
 		},
-		watch:{
-			newCustomerContactDtos:{
-				deep:true,
-				handler(){
-					if(this.newCustomerContactDtos[0].mobile){
-						if(this.newCustomerContactDtos[0].mobile.length === 11 && this.isChackMobile){
-							getCustomerMobileList({mobile : this.newCustomerContactDtos[0].mobile}).then(res=>{
-								if(res.data.data.length > 0){
-									this.customerData = res.data.data
-									this.customerMadal = true
-								}
-							})
-						}
-					}
-				}
-			}
-		}
 	}
 </script>
 

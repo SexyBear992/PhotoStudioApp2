@@ -1,239 +1,241 @@
 <template>
-	<view class="mainBox">
-		<!-- 顶部模块 -->
+	<view class="bigBox">
 		<view class="topBox">
-			<!-- 头像 搜索 -->
-			<view class="top">
-				<image :src="url+'img_tx@2x.png'" class="avatar"></image>
-				<view class="search">
-					<image :src="url+'icon_search@2x.png'" mode="" class="icon"></image>
-					<input placeholder="请输入订单号/手机号/姓名" placeholder-style="color: #FFFFFF; font-size:25rpx" />
-				</view>
-				<image :src="url+'icon_xx@2x.png'" mode="" class="ts"></image>
-			</view>
-		</view>
-		
-		<!-- 常用按键 -->
-		<view class="commonly">
-			<view class="listBox">
-				<view class="controlsList" @click="iconList('sy')">
-					<image :src="url+'icon_sy@2x.png'" mode="" class="icon"></image>
+			<!-- 常用按键背景 -->
+			<view class="commonlyBack"></view>
+			<!-- 常用按键 -->
+			<view class="commonly">
+				<view class="listBox" @click="iconList('sy')">
+					<image :src="url+'/changyong/money.png'" mode="aspectFill"></image>
 					<view class="text">收银</view>
 				</view>
-				<view class="controlsList" @click="iconList('kd')">
-					<image :src="url+'icon_kd@2x.png'" mode="" class="icon"></image>
+				
+				<view class="listBox" @click="iconList('kd')">
+					<image :src="url+'/changyong/billing.png'" mode="aspectFill"></image>
 					<view class="text">开单</view>
 				</view>
-				<view class="controlsList" @click="iconList('dk')">
-					<image :src="url+'icon_dk@2x.png'" mode="" class="icon"></image>
-					<view class="text">打卡</view>
+				
+				<view class="listBox" @click="iconList('ddcx')">
+					<image :src="url+'/changyong/search.png'" mode="aspectFill"></image>
+					<view class="text">订单查询</view>
 				</view>
-				<view class="controlsList" @click="iconList('sk')">
-					<image :src="url+'icon_sk@2x.png'" mode="" class="icon"></image>
-					<view class="text">摄控</view>
+				
+				<view class="listBox" @click="iconList('pzyy')">
+					<image :src="url+'/changyong/take_photo.png'" mode="aspectFill"></image>
+					<view class="text">拍照预约</view>
 				</view>
-				<view class="controlsList" @click="iconList('qj')">
-					<image :src="url+'icon_qj@2x.png'" mode="" class="icon"></image>
-					<view class="text">取件</view>
-				</view>
-			</view>	
-		</view>
-	
-		<!-- 分类按键 客资-->
-		<view class="classification">
-			<view class="title">客资</view>
-			<view class="iconBox">
-				<view class="list" @click="iconList('xzkz')">
-					<image :src="url+'icon_xzkz@2x.png'" mode="" class="icon"></image>
-					<view class="text">新增客资</view>
-				</view>
-				<view class="list" @click="iconList('wdkz')">
-					<image :src="url+'icon_wdkz@2x.png'" mode="" class="icon"></image>
-					<view class="text">我的客资</view>
-				</view>
-				<view class="list"  @click="iconList('tdkz')">
-					<image :src="url+'icon_tdkz@2x.png'" mode="" class="icon"></image>
-					<view class="text">团队客资</view>
-				</view>
-				<view class="list"  @click="iconList('qbkz')">
-					<image :src="url+'icon_qbkz@2x.png'" mode="" class="icon"></image>
-					<view class="text">全部客资</view>
-				</view>
-				<view class="list"  @click="iconList('kztj')">
-					<image :src="url+'icon_kztj@2x.png'" mode="" class="icon"></image>
-					<view class="text">客资统计</view>
+				
+				<view class="listBox" @click="iconList('xpyy')">
+					<image :src="url+'/changyong/photo.png'" mode="aspectFill"></image>
+					<view class="text">选片预约</view>
 				</view>
 			</view>
 		</view>
 		
-		<!-- 分类按键 订单-->
+		<!-- 客资系统 -->
 		<view class="classification">
-			<view class="title">订单</view>
-			<view class="iconBox">
+			<view class="title">客资系统</view>
+			<view class="listBox">
+				
+				<view class="list" @click="iconList('xzkz')">
+					<image :src="url+'/kezi/add.png'" mode="" class="xzkz"></image>
+					<view class="text">新增客资</view>
+				</view>
+				
+				<view class="list" @click="iconList('yxtg')">
+					<image :src="url+'/kezi/extension.png'" mode="" class="yxtg"></image>
+					<view class="text">营销推广</view>
+				</view>
+				
+				<view class="list" @click="iconList('yyzx')">
+					<image :src="url+'/kezi/invitation.png'" mode="" class="yyzx"></image>
+					<view class="text">邀约咨询</view>
+				</view>
+				
+				<view class="list" @click="iconList('msjd')">
+					<image :src="url+'/kezi/reception.png'" mode="" class="msjd"></image>
+					<view class="text">门市接待</view>
+				</view>
+			</view>
+		</view>
+
+		<!-- 订单管理 -->
+		<view class="classification">
+			<view class="title">订单管理</view>
+			<view class="listBox">
+				
 				<view class="list" @click="iconList('kd')">
-					<image :src="url+'icon_cy_kd@2x.png'" mode="" class="icon"></image>
+					<image :src="url+'/dingdan/billing.png'" mode="" class="dingdan"></image>
 					<view class="text">开单</view>
 				</view>
+				
 				<view class="list" @click="iconList('wddd')">
-					<image :src="url+'icon_wdd@2x.png'" mode="" class="icon"></image>
+					<image :src="url+'/dingdan/me.png'" mode="" class="dingdan"></image>
 					<view class="text">我的订单</view>
 				</view>
-				<view class="list"  @click="iconList('xsdd')">
-					<image :src="url+'icon_tcsj@2x.png'" mode="" class="icon"></image>
+				
+				<view class="list" @click="iconList('bmdd')">
+					<image :src="url+'/dingdan/department.png'" mode="" class="dingdan"></image>
+					<view class="text">部门订单</view>
+				</view>
+				
+				<view class="list" @click="iconList('xsdd')">
+					<image :src="url+'/dingdan/subordinate.png'" mode="" class="dingdan"></image>
 					<view class="text">下属订单</view>
 				</view>
-				<view class="list"  @click="iconList('bmdd')">
-					<image :src="url+'icon_tdd@2x.png'" mode="" class="icon"></image>
-					<view class="text">团队订单</view>
-				</view>
-				<view class="list"  @click="iconList('sydd')">
-					<image :src="url+'icon_wdd@2x.png'" mode="" class="icon"></image>
+				
+				<view class="list" @click="iconList('sydd')">
+					<image :src="url+'/dingdan/all.png'" mode="" class="dingdan"></image>
 					<view class="text">所有订单</view>
 				</view>
 			</view>
+			
 		</view>
-		
-		<!-- 分类按键 收银台-->
+	
+		<!-- 收银台 -->
 		<view class="classification">
 			<view class="title">收银台</view>
-			<view class="iconBox">
+			<view class="listBox">
+				
 				<view class="list" @click="iconList('ddsk')">
-					<image :src="url+'icon_syt_sk@2x.png'" mode="" class="icon"></image>
+					<image :src="url+'/shouying/money.png'" mode="" class="ddsk"></image>
 					<view class="text">订单收款</view>
 				</view>
+				
 				<view class="list" @click="iconList('sksk')">
-					<image :src="url+'icon_syt_sksk@2x.png'" mode="" class="icon"></image>
+					<image :src="url+'/shouying/customer.png'" mode="" class="sksk"></image>
 					<view class="text">散客收款</view>
 				</view>
-				<view class="list"  @click="iconList('zc')">
-					<image :src="url+'icon_zc@2x.png'" mode="" class="icon"></image>
+				
+				<view class="list" @click="iconList('zc')">
+					<image :src="url+'/shouying/income.png'" mode="" class="zc"></image>
 					<view class="text">支出</view>
 				</view>
-				<view class="list"  @click="iconList('blj')">
-					<image :src="url+'icon_blj@2x.png'" mode="" class="icon"></image>
+				
+				<view class="list" @click="iconList('blj')">
+					<image :src="url+'/shouying/deposit.png'" mode="" class="blj"></image>
 					<view class="text">保留金</view>
 				</view>
-				<view class="list"  @click="iconList('qtsr')">
-					<image :src="url+'icon_qtsr@2x.png'" mode="" class="icon"></image>
+				
+				<view class="list" @click="iconList('qtsr')">
+					<image :src="url+'/shouying/pay.png'" mode="" class="qtsr"></image>
 					<view class="text">其他收入</view>
 				</view>
+				
+			</view>
+		</view>
+		
+		<!-- 摄化 -->
+		<view class="classification">
+			<view class="title">摄化</view>
+			<view class="listBox">
+				
+				<view class="list" @click="iconList('pzyy')">
+					<image :src="url+'/shehua/take_photo.png'" mode="" class="pzyy"></image>
+					<view class="text">拍照预约</view>
+				</view>
+				
+				<view class="list" @click="iconList('shgz')">
+					<image :src="url+'/shehua/photinization.png'" mode="" class="shgz"></image>
+					<view class="text">摄化工作</view>
+				</view>
+				
+				<view class="list" @click="iconList('shdqcx')">
+					<image :src="url+'/shehua/calendar.png'" mode="" class="dqcx"></image>
+					<view class="text">档期查询</view>
+				</view>
+				
+			</view>	
+		</view>
+		
+		<!-- 数码 -->
+		<view class="classification">
+			<view class="title">数码</view>
+			<view class="listBox">
+				
+				<view class="list" @click="iconList('smap')">
+					<image :src="url+'/shuma/digital.png'" mode="" class="smap"></image>
+					<view class="text">数码安排</view>
+				</view>
+				
+				<view class="list" @click="iconList('smgz')">
+					<image :src="url+'/shuma/digital_work.png'" mode="" class="smgz"></image>
+					<view class="text">数码工作</view>
+				</view>
+				
+			</view>
+		</view>
+		
+		<!-- 选片 -->
+		<view class="classification">
+			<view class="title">选片</view>
+			<view class="listBox">
+				
+				<view class="list" @click="iconList('xpyy')">
+					<image :src="url+'/xuanpian/photo.png'" mode="" class="xpyy"></image>
+					<view class="text">选片预约</view>
+				</view>
+				
+				<view class="list" @click="iconList('xpgz')">
+					<image :src="url+'/xuanpian/photo_work.png'" mode="" class="xpgz"></image>
+					<view class="text">选片工作</view>
+				</view>
+				
+				<view class="list" @click="iconList('xpdqcx')">
+					<image :src="url+'/xuanpian/calendar.png'" mode="" class="dqcx"></image>
+					<view class="text">档期查询</view>
+				</view>
+				
+			</view>
+		</view>
+		
+		<!-- 看板 -->
+		<view class="classification">
+			<view class="title">看板</view>
+			<view class="listBox">
+				
+				<view class="list" @click="iconList('kbyy')">
+					<image :src="url+'/kanban/kanban.png'" mode="" class="kbyy"></image>
+					<view class="text">看板预约</view>
+				</view>
+				
+				<view class="list" @click="iconList('kbgz')">
+					<image :src="url+'/kanban/kanban_work.png'" mode="" class="kbgz"></image>
+					<view class="text">看板工作</view>
+				</view>
+				
+				<view class="list" @click="iconList('kbdqcx')">
+					<image :src="url+'/kanban/calendar.png'" mode="" class="dqcx"></image>
+					<view class="text">档期查询</view>
+				</view>
+				
+			</view>
+		</view>
+		
+		<!-- 取件 -->
+		<view class="classification">
+			<view class="title">取件</view>
+			<view class="listBox">
+				
+				<view class="list" @click="iconList('qjyy')">
+					<image :src="url+'/qvjian/take.png'" mode="" class="qjyy"></image>
+					<view class="text">取件预约</view>
+				</view>
+				
+				<view class="list" @click="iconList('qjgz')">
+					<image :src="url+'/qvjian/pick_up.png'" mode="" class="qjgz"></image>
+					<view class="text">取件工作</view>
+				</view>
+				
+				<view class="list" @click="iconList('qjdqcx')">
+					<image :src="url+'/qvjian/calendar.png'" mode="" class="dqcx"></image>
+					<view class="text">档期查询</view>
+				</view>
+				
 			</view>
 		</view>
 	
-		<!-- 分类按键 服装-->
-		<view class="classification">
-			<view class="title">服装</view>
-			<view class="iconBox">
-				<view class="list" @click="iconList('fzyy')">
-					<image :src="url+'icon_fzyy@2x.png'" mode="" class="icon"></image>
-					<view class="text">服装预约</view>
-				</view>
-				<view class="list" @click="iconList('fzdd')">
-					<image :src="url+'icon_fzdd@2x.png'" mode="" class="icon"></image>
-					<view class="text">服装订单</view>
-				</view>
-				<view class="list"  @click="iconList('fzcx')">
-					<image :src="url+'icon_fzcx@2x.png'" mode="" class="icon"></image>
-					<view class="text">服装查询</view>
-				</view>
-				<view class="list"  @click="iconList('fzsx')">
-					<image :src="url+'icon_fzsx@2x.png'" mode="" class="icon"></image>
-					<view class="text">服装送洗</view>
-				</view>
-				<view class="list"  @click="iconList('fzgl')">
-					<image :src="url+'icon_fzgl@2x.png'" mode="" class="icon"></image>
-					<view class="text">服装管理</view>
-				</view>
-			</view>
-		</view>
 		
-		<!-- 分类按键 排控-->
-		<view class="classification">
-			<view class="title">排控</view>
-			<view class="iconBox">
-				<view class="list" @click="iconList('cp')">
-					<image :src="url+'icon_cp@2x.png'" mode="" class="icon"></image>
-					<view class="text">催拍</view>
-				</view>
-				<view class="list" @click="iconList('sypd')">
-					<image :src="url+'icon_sypd@2x.png'" mode="" class="icon"></image>
-					<view class="text">摄影派单</view>
-				</view>
-				<view class="list"  @click="iconList('wdgz')">
-					<image :src="url+'icon_wwork@2x.png'" mode="" class="icon"></image>
-					<view class="text">我的工作</view>
-				</view>
-				<view class="list"  @click="iconList('skb')">
-					<image :src="url+'icon_pk_skb@2x.png'" mode="" class="icon"></image>
-					<view class="text">摄控表</view>
-				</view>
-				<view class="list"  @click="iconList('dqgl')">
-					<image :src="url+'icon_dqgl@2x.png'" mode="" class="icon"></image>
-					<view class="text">档期管理</view>
-				</view>
-			</view>
-		</view>
-		
-		<!-- 分类按键 数码-->
-		<view class="classification">
-			<view class="title">数码</view>
-			<view class="iconBox">
-				<view class="list" @click="iconList('smap')">
-					<image :src="url+'icon_smap@2x.png'" mode="" class="icon"></image>
-					<view class="text">数码安排</view>
-				</view>
-				<view class="list" @click="iconList('gzap')">
-					<image :src="url+'icon_gzap@2x.png'" mode="" class="icon"></image>
-					<view class="text">工作安排</view>
-				</view>
-				<view class="list"  @click="iconList('smyj')">
-					<image :src="url+'icon_smyj@2x.png'" mode="" class="icon"></image>
-					<view class="text">数码预警</view>
-				</view>
-			</view>
-		</view>
-		
-		<!-- 分类按键 发片取件-->
-		<view class="classification">
-			<view class="title">发片取件</view>
-			<view class="iconBox">
-				<view class="list" @click="iconList('fp')">
-					<image :src="url+'icon_fp@2x.png'" mode="" class="icon"></image>
-					<view class="text">发片</view>
-				</view>
-				<view class="list" @click="iconList('hjdj')">
-					<image :src="url+'icon_hjdj@2x.png'" mode="" class="icon"></image>
-					<view class="text">回件登记</view>
-				</view>
-				<view class="list"  @click="iconList('qj')">
-					<image :src="url+'icon_qj@2x.png'" mode="" class="icon"></image>
-					<view class="text">取件</view>
-				</view>
-				<view class="list"  @click="iconList('jd')">
-					<image :src="url+'icon_jd@2x.png'" mode="" class="icon"></image>
-					<view class="text">结单</view>
-				</view>
-			</view>
-		</view>
-		
-		<!-- 分类按键 客服-->
-		<view class="classification">
-			<view class="title">客服</view>
-			<view class="iconBox">
-				<view class="list" @click="iconList('hfdc')">
-					<image :src="url+'icon_hfdc@2x.png'" mode="" class="icon"></image>
-					<view class="text">回访调查</view>
-				</view>
-				<view class="list" @click="iconList('pjgl')">
-					<image :src="url+'icon_pjgl@2x.png'" mode="" class="icon"></image>
-					<view class="text">评价管理</view>
-				</view>
-				<view class="list"  @click="iconList('kfrl')">
-					<image :src="url+'icon_kfrl@2x.png'" mode="" class="icon"></image>
-					<view class="text">客服日历</view>
-				</view>
-			</view>
-		</view>
 		<!-- IOS手机底部留白 -->
 		<view class="bottomList"></view>
 		<tabBar :index="1"></tabBar>
@@ -242,11 +244,10 @@
 
 <script>
 	import { mapGetters, mapActions } from 'vuex'
-	import { getAllShopQY } from '@/util/api/user.js'
 	export default {
 		data() {
 			return {
-				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
+				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/index',
 			};
 		},
 		computed:{
@@ -264,159 +265,97 @@
 		methods:{
 			getUrl(name){
 				switch(name){
-					// 收银
-					case 'sy':
-					console.log('收银');
-					break;
-					// 打卡
-					case 'dk':
-					console.log('打卡');
-					break;
-					// 摄控
-					case 'sk':
-					console.log('摄控');
-					break;
-					// 开单
-					case 'kd':
+					case 'sy':					// 收银
+						console.log('收银');
+						break;
+					case 'kd':					// 开单
 						return 'myOrderBox/openOrder/openOrder'
 						break;
-					// 取件
-					case 'qj':
-					console.log('取件');
-					break;
-					
-					// 新增客资
-					case 'xzkz':
-					console.log('新增客资');
-					break;
-					// 我的客资
-					case 'wdkz':
-					console.log('我的客资');
-					break;
-					// 团队客资
-					case 'tdkz':
-					console.log('团队客资');
-					break;
-					// 全部客资
-					case 'qbkz':
-					console.log('全部客资');
-					break;
-					// 客资统计
-					case 'kztj':
-					console.log('客资统计');
-					break;		
-					// 我的订单
-					case 'wddd':
+					case 'ddcx':				// 订单查询
+						console.log('订单查询');
+						break;
+					case 'pzyy':				// 拍照预约
+						return './photographBox/appoint/appoint'
+						break;
+					case 'xpyy':				// 选片预约
+						console.log('选片预约');
+						break;
+					case 'xzkz':				// 新增客资
+						console.log('新增客资');
+						break;
+					case 'yxtg':				// 营销推广
+						console.log('营销推广');
+						break;
+					case 'yyzx':				// 邀约咨询
+						console.log('邀约咨询');
+						break;
+					case 'msjd':				// 门市接待
+						console.log('门市接待');
+						break;
+					case 'wddd':				// 我的订单
 						return './myOrderBox/orderBox/order/order?type=wddd&typeName=我的订单'
 						break;
-					// 下属订单
-					case 'xsdd':
+					case 'bmdd':				// 部门订单
+						return './myOrderBox/orderBox/order/order?type=bmdd&typeName=团队订单'
+						break;
+					case 'xsdd':				// 下属订单
 						return './myOrderBox/orderBox/order/order?type=xsdd&typeName=下属订单'
 						break;
-					// 部门订单
-					case 'bmdd':
-						return './myOrderBox/orderBox/order/order?type=tddd&typeName=团队订单'
-						break;
-					// 所有订单
-					case 'sydd':
+					case 'sydd':				// 所有订单
 						return './myOrderBox/orderBox/order/order?type=sydd&typeName=所有订单'
 						break;
-					// 订单收款
-					case 'ddsk':
-					console.log('订单收款');
-					break;
-					// 散客收款
-					case 'sksk':
-					console.log('散客收款');
-					break;
-					// 支出
-					case 'zc':
-						return './collectionBox/spending/spending'
+					case 'ddsk':				// 订单收款
+						console.log('订单收款');
 						break;
-					// 保留金
-					case 'blj':
-					console.log('保留金');
-					break;
-					// 其他收入
-					case 'qtsr':
-						return './collectionBox/spending/spending'
+					case 'sksk':				// 散客收款
+						console.log('散客收款');
 						break;
-					// 服装预约
-					case 'fzyy':
-					console.log('服装预约');
-					break;
-					// 服装订单
-					case 'fzdd':
-					console.log('服装订单');
-					break;
-					// 服装查询
-					case 'fzcx':
-					console.log('服装查询');
-					break;
-					// 服装送洗
-					case 'fzsx':
-					console.log('服装送洗');
-					break;
-					// 服装管理
-					case 'fzgl':
-					console.log('服装管理');
-					break;
-					// 催拍
-					case 'cp':
-					console.log('催拍');
-					break;
-					// 摄影派单
-					case 'sypd':
-					console.log('摄影派单');
-					break;
-					// 我的工作
-					case 'wdgz':
-					console.log('我的工作');
-					break;
-					// 摄控表
-					case 'skb':
-					console.log('摄控表');
-					break;
-					// 档期管理
-					case 'dqgl':
-					console.log('档期管理');
-					break;
-					// 数码安排
-					case 'smap':
-					console.log('数码安排');
-					break;
-					// 工作安排
-					case 'gzap':
-					console.log('工作安排');
-					break;
-					// 数码预警
-					case 'smyj':
-					console.log('数码预警');
-					break;
-					// 发片
-					case 'fp':
-					console.log('发片');
-					break;
-					// 回件登记
-					case 'hjdj':
-					console.log('回件登记');
-					break;
-					// 结单
-					case 'jd':
-					console.log('结单');
-					break;
-					// 回访调查
-					case 'hfdc':
-					console.log('回访调查');
-					break;
-					// 评价管理
-					case 'pjgl':
-					console.log('评价管理');
-					break;
-					// 客服日历
-					case 'kfrl':
-					console.log('客服日历');
-					break;
+					case 'zc':					// 支出
+						console.log('支出');
+						break;
+					case 'blj':					// 保留金
+						console.log('保留金');
+						break;
+					case 'qtsr':				// 其他收入
+						console.log('其他收入');
+						break;
+
+					case 'shgz':				// 摄化工作
+						console.log('摄化工作');
+						break;
+					case 'shdqcx':			// 摄化档期查询
+						console.log('摄化档期查询');
+						break;
+					case 'smap':				// 数码安排
+						console.log('数码安排');
+						break;
+					case 'smgz':				// 数码工作
+						console.log('数码工作');
+						break;
+					case 'xpgz':				// 选片工作
+						console.log('选片工作');
+						break;
+					case 'xpdqcx':			// 选片档期查询
+						console.log('选片档期查询');
+						break;
+					case 'kbyy':				// 看板预约
+						console.log('看板预约');
+						break;
+					case 'kbgz':				// 看板工作
+						console.log('看板工作');
+						break;
+					case 'kbdqcx':			// 看板档期查询
+						console.log('看板档期查询');
+						break;
+					case 'qjyy':				// 取件预约
+						console.log('取件预约');
+						break;
+					case 'qjgz':				// 取件工作
+						console.log('取件工作');
+						break;
+					case 'qjdqcx':			// 取件档期查询
+						console.log('取件档期查询');
+						break;
 				}
 			},
 			// 点击图标进入
@@ -424,115 +363,169 @@
 				uni.navigateTo({
 					url:this.getUrl(name)
 				})
+			},
+			
+			onPageScroll(e){
+				if(e.scrollTop<=0){
+					uni.pageScrollTo({
+					    scrollTop: 0,
+					});
+				}
 			}
 		},
 	}
 </script>
 <style>
 	page{
-		background-color: #F7F7F9;
+		background-color: #61A3FF;
 		height : 100%
 	}
 </style>
 <style lang="scss" scoped>
-	.mainBox{
-		height: 100%;
-		overflow: scroll
-	}
-	.topBox{
-		height: 240rpx;
-		background-color: #61A3FF;
-		.top{
-			margin: 0 20rpx;
-			display: flex;
-			.avatar{
-				width: 60rpx;
-				height: 60rpx;
+
+	.bigBox{
+		background-color: #F7F7F7;
+		.topBox{
+			.commonlyBack{
+				height: 170rpx;
+				border-bottom-left-radius: 50%;
+				border-bottom-right-radius: 50%;
+				background-color: #61A3FF;
 			}
-			.search{
-				width: 550rpx;
-				height: 60rpx;
-				background-color: #2B8BF1;
-				color: #FFFFFF;
+			.commonly{
+				margin-top: -160rpx;
+				margin-left: 50%;
+				transform: translateX(-50%);
+				width:650rpx;
+				background:#FFFFFF;
+				box-shadow:0rpx 14rpx 32rpx 0rpx rgba(25,137,249,0.07);
+				border-radius:10rpx;
 				display: flex;
-				margin-left: 26rpx;
-				font-size:25rpx;
-				.icon{
-					width: 26rpx;
-					height: 26rpx;
-					margin: 17rpx 26rpx;
-				}
-				input{
-					color: #FFFFFF;
-					width: 100%;
-					padding-top: 10rpx
-				}
-			}
-			.ts{
-				height: 45rpx;
-				width: 37rpx;
-				margin: auto 0;
-				margin-left: 30rpx;
-			}
-		}
-	}
-	.commonly{
-		width: 720rpx;
-		background-color: #FFFFFF;
-		border-radius: 8rpx;
-		margin: 0 auto;
-		margin-top: -118rpx;
-		.listBox{
-			display: flex;
-			justify-content: space-between;
-			padding: 43rpx;
-			.controlsList{
-				image{
-					width: 90rpx;
-					height: 90rpx;
-				}
-				.text{
-					font-size: 28rpx;
-					text-align: center;
+				justify-content: space-between;
+				padding: 40rpx 20rpx;
+				.listBox{
+					image{
+						width: 90rpx;
+						height: 90rpx;
+						margin-left: 50%;
+						transform: translateX(-50%);
+					}
+					.text{
+						font-size: 24rpx;
+						color: #666666;
+						text-align: center;
+					}
 				}
 			}
 		}
-		
-	}
-	.classification{
-		width: 720rpx;
-		background-color: #FFFFFF;
-		border-radius: 8rpx;
-		margin: 0 auto;
-		margin-top: 18rpx;
-		font-size: 28rpx;
-		.title{
-			font-weight: bold;
-			padding-top: 12rpx;
-			padding-left: 19rpx;
-		}
-		.iconBox{
-			display: flex;
-			padding: 28rpx;
-			padding-right: 0;
-			.list{
-				width: 96rpx;
-				margin-right: 45rpx;
-				image{
-					margin-left: 50%;
-					transform: translateX(-50%);
-					width: 50rpx;
-					height: 50rpx;
-				}
-				.text{
-					font-size: 24rpx;
-					text-align: center;
-					color: #979494;
-				}
+		.classification{
+			background-color: #FFFFFF;
+			padding: 30rpx;
+			margin-top: 30rpx;
+			.title{
+				font-size: 30rpx;
+				color: #000000;
+				font-weight: bold;
+				margin-bottom: 30rpx;
 			}
+			.listBox{
+				display: flex;
+				.list{
+					margin-right: 40rpx;
+					width: 100rpx;
+					height: 100rpx;
+					display: flex;
+					flex-direction:column;
+					justify-content: space-between;
+					image{
+						margin-left: 50%;
+						transform: translateX(-50%);
+					}
+					.xzkz{
+						width: 51rpx;
+						height: 48rpx;
+					}
+					.yxtg,.yyzx,.sksk{
+						width: 50rpx;
+						height: 48rpx;
+					}
+					.msjd{
+						width: 57rpx;
+						height: 48rpx;
+					}
+					.dingdan{
+						width: 44rpx;
+						height: 53rpx;
+					}
+					.ddsk{
+						width: 44rpx;
+						height: 48rpx;
+					}
+					.zc,.qtsr{
+						width: 48rpx;
+						height: 48rpx;
+					}
+					.blj{
+						width: 40rpx;
+						height: 46rpx;
+					}
+					.pzyy{
+						width: 47rpx;
+						height: 40rpx;
+					}
+					.shgz{
+						width: 50rpx;
+						height: 38rpx;
+					}
+					.dqcx{
+						width: 46rpx;
+						height: 42rpx;
+					}
+					.smap{
+						width: 48rpx;
+						height: 40rpx;
+					}
+					.smgz{
+						width: 44rpx;
+						height: 44rpx;
+					}
+					.xpyy{
+						width: 48rpx;
+						height: 41rpx;
+					}
+					.xpgz,.dqcx{
+						width: 46rpx;
+						height: 40rpx;
+					}
+					.kbyy{
+						width: 45rpx;
+						height: 40rpx;
+					}
+					.kbgz{
+						width: 43rpx;
+						height: 44rpx;
+					}
+					.qjyy{
+						width: 56rpx;
+						height: 48rpx;
+					}
+					.qjgz{
+						width: 42rpx;
+						height: 46rpx;
+					}
+					
+					
+					.text{
+						font-size: 24rpx;
+						color: #333333;
+						text-align: center;
+					}
+				}
+			}	
+		}
+		.bottomList{
+			height: 200rpx;
 		}
 	}
-	.bottomList{
-		height: 137rpx;
-	}
+	
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 开单信息模块 -->
-		<InfoModule ref="Info"></InfoModule>
+		<InfoModule ref="Info" :addressInfo="addressInfo"></InfoModule>
 		
 		<!-- 客户来源模板 -->
 		<sourceModule ref="source"></sourceModule>
@@ -16,7 +16,7 @@
 		<contactInfoModule ref="contactInfo" :type="type"></contactInfoModule>
 		
 		<!-- 订单套系内容 -->
-		<orderPriceModule ref="orderPrice":type="type"></orderPriceModule>
+		<orderPriceModule ref="orderPrice":type="type" :toolInfo="toolInfo" :giftInfo="giftInfo"></orderPriceModule>
 		
 		<view class="save" @click="saveBut">保存订单</view>
 		<view class="botBox"></view>
@@ -52,6 +52,13 @@
 				type:null,
 				// 是否显示宝宝信息
 				babyShow:false,
+				// 联系人
+				addressInfo:null,
+				// 工具箱
+				toolInfo:null,
+				// 礼包
+				giftInfo:null,
+				
 				openOrderData:{
 					// // 订单号
 					// orderNo:null,
@@ -115,6 +122,17 @@
 				this.babyShow = false
 			}
 		},
+		onShow(){
+			let that = this;
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length - 1]; //当前页面
+			let address = currPage.data.address;
+			let tool = currPage.data.tool;
+			let gift = currPage.data.gift;
+			this.addressInfo = address
+			this.toolInfo = tool
+			this.giftInfo = gift
+		},
 		mounted(){
 			// 赋值当前门店ID
 			this.openOrderData.shopId = this.shopId
@@ -173,36 +191,7 @@
 				}else{
 					data.orderGiftDto = null
 				}
-				/********************************  选择套系内容  *********************************/
-				orderItem.forEach((i)=>{
-					if(i.orderItemDressInfo){
-						if(i.orderItemDressInfo.length <= 0){
-							i.orderItemDressInfo = null
-						}
-					}
-					if(i.orderItemGoods){
-						if(i.orderItemGoods.length <= 0){
-							i.orderItemGoods = null
-						}
-					}
-					if(i.orderItemPlace){
-						if(i.orderItemPlace.length <= 0){
-							i.orderItemPlace = null
-						}
-					}
-					if(i.orderItemService){
-						if(i.orderItemService.length <= 0){
-							i.orderItemService = null
-						}
-					}
-				})
-				let newOrderItem = orderItem.filter((i)=>{
-					if(i.name !== null){
-						return i
-					}
-				})
-
-				data.orderItem = orderItem
+				
 				
 				/********************************  订单套系内容  *********************************/
 				data.serviceCategoryId = orderPrice.serviceCategoryId
@@ -216,6 +205,37 @@
 						title:'请选择套系',
 						icon:'none'
 					},2000)
+				}else{
+					/********************************  选择套系内容  *********************************/
+					orderItem.forEach((i)=>{
+						if(i.orderItemDressInfo){
+							if(i.orderItemDressInfo.length <= 0){
+								i.orderItemDressInfo = null
+							}
+						}
+						if(i.orderItemGoods){
+							if(i.orderItemGoods.length <= 0){
+								i.orderItemGoods = null
+							}
+						}
+						if(i.orderItemPlace){
+							if(i.orderItemPlace.length <= 0){
+								i.orderItemPlace = null
+							}
+						}
+						if(i.orderItemService){
+							if(i.orderItemService.length <= 0){
+								i.orderItemService = null
+							}
+						}
+					})
+					let newOrderItem = orderItem.filter((i)=>{
+						if(i.name !== null){
+							return i
+						}
+					})
+					
+					data.orderItem = orderItem
 				}
 			
 				/*******************************  客户联系人信息  ********************************/

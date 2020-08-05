@@ -1,13 +1,7 @@
 import baseUrl from './index.js'
 import { get, post, put, remove, postObj, } from './methos.js'
 
-// 获得所有门店
-export const getAllShopQY = (params) => {
-  return get(baseUrl.getAllShopQY, params)
-}
-export const getCategoryList = (params) => {
-  return get(baseUrl.getCategoryList, params)
-}
+
 // 通过手机号查找客户组
 export const getCustomerMobileList = (params) => {
 	return get(baseUrl.getCustomerMobileList, params)
@@ -138,5 +132,18 @@ export const updataOrderPlace = (params) => {
 // 更新-子订单服务
 export const updataOrderService = (params) => {
 	return put(baseUrl.updataOrderService, params)
+}
+
+//查找-所有订单子订单
+export const getAllOrderItem = (params) => {
+	return get(baseUrl.getAllOrderItem, params)
+}
+// 查找-预约拍照列表
+export const getOrdetItemList = (params) => {
+	return get(baseUrl.getOrdetItemList, params)
+}
+// 删除-拍照记录
+export const deletPhotoInfo = (params) => {
+	return remove(baseUrl.deletPhotoInfo, params)
 }
 	

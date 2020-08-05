@@ -7,99 +7,7 @@
 				
 				<view class="listBox" v-for="item in list" :key="item.orderId">
 					
-					<!-- 顶部 订单号 订单类型 -->
-					<view class="topNum">
-						<view class="topConLeft">
-							<view>订单号：</view>
-							<view>{{item.orderNo}}</view>
-						</view>
-						<view class="topConRight">
-							<image :src="item.type | img" mode=""></image>
-							<view class="text">
-								{{item.type | type}}
-							</view>
-						</view>
-					</view>
-					
-					<!-- 订单信息 -->
-					<view class="orderBox">
-						<!-- 联系人信息 -->
-						<view class="userInfo" v-for="user in item.customerContactBasicVos" :key="item.orderId">
-							<view class="userLeft">
-								<view class="callName">{{user.callName}}：</view>
-								<view class="name">{{user.name}}</view>
-							</view>
-							<view class="userRight">
-								<view>手机号：</view>
-								<view>{{user.mobile | noMobile}}</view>
-							</view>
-						</view>
-						
-						<!-- 宝宝信息 -->
-						<view class="babyInfo" v-for="baby in item.customerBabyBasicVos" :key="item.orderId">
-							<view class="callName">{{baby.callName}}：</view>
-							<view class="name">{{baby.name}}</view>
-						</view>
-						
-						<!-- 订单详情 -->
-						<view class="orderInfo">
-							<view class="list">
-								<view class="listLeft">
-									<view class="title">订单门店：</view>
-									<view class="text">{{shopIdMap.get(item.orderShopId)}}</view>
-								</view>
-								
-								<view class="listRight">
-									<view class="title">订单时间：</view>
-									<view class="text">{{item.orderTime}}</view>
-								</view>
-							</view>
-							
-							<view class="list">
-								<view class="listLeft">
-									<view class="title">订单分类：</view>
-									<view class="text">{{typeIdMap.get(item.orderCategoryId) | none}}</view>
-								</view>
-								
-								<view class="listRight">
-									<view class="title">订单分组：</view>
-									<view class="text">{{groupIdMap.get(item.groupCategoryId) | none}}</view>
-								</view>
-							</view>
-							
-							<view class="list">
-								<view class="listLeft">
-									<view class="title">套系名称：</view>
-									<view class="text">{{item.assemblyName}}</view>
-								</view>
-								
-								<view class="listRight">
-									<view class="title">套系金额：</view>
-									<view class="text">{{item.assemblyPrice}}</view>
-								</view>
-							</view>
-							
-							<view class="list">
-								<view class="listLeft">
-									<view class="title">服务等级：</view>
-									<view class="text">{{serviceIdMap.get(item.serviceCategoryId) | none}}</view>
-								</view>
-								
-								<view class="listRight">
-									<view class="title">老师级别：</view>
-									<view class="text">{{teacherIdMap.get(item.teacherCategoryId) | none}}</view>
-								</view>
-							</view>
-							
-							<view class="list">
-								<view class="listLeft">
-									<view class="title">接单人员：</view>
-									<view class="text">{{item.receptionist | reception}}</view>
-								</view>
-								
-							</view>
-						</view>
-					</view>
+					<detailMoudel :info="item"></detailMoudel>
 					
 					<view class="butBox">
 						<view class="scheduleBut" @click="schedule(item.orderNo)">进度查询</view>
@@ -115,62 +23,15 @@
 </template>
 
 <script>
-	import { mapGetters } from 'vuex'
-	import searchModul from './components/searchModul.vue'
+	import searchModul from '@/components/searchModul.vue'
 	import sPullScroll from '@/components/s-pull-scroll';
+	import detailMoudel from '@/components/detailMoudel.vue'
 	import {getMyOrder, getTeamOrder, getAllOrder, getSubordinatesOrder} from '@/util/api/shop.js'
 	export default {
-		components:{sPullScroll, searchModul},
-		computed:{
-			...mapGetters('shopArr',[
-				'get_shopAllArr',
-				'get_orderTypeArr',
-				'get_orderGroup',
-				'get_serviceCategory',
-				'get_teacherCategory'
-			])
-		},
-		filters:{
-			type(type){
-				const result = new Map([
-					['WEDDING_DRESS', '婚纱订单'],
-					['BABY', '儿童订单'],
-					['PREGNANT', '孕妈订单'],
-					['SERVICE', '服务订单'],
-					['PORTRAY', '写真订单'],
-					['WEDDING', '婚庆订单'],
-				])
-				return result.get(type)
-			},
-			img(type){
-				let url = 'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/'
-				const result = new Map([
-					['WEDDING_DRESS', url+ 'WEDDING_DRESS.png'],
-					['BABY', url+ 'BABY.png'],
-					['PREGNANT', url+ 'PREGNANT.png'],
-					['SERVICE', url+ 'SERVICE.png'],
-					['PORTRAY', url+ 'PORTRAY.png'],
-					['WEDDING', url+ 'WEDDING.png'],
-				])
-				return result.get(type)
-			},
-			reception(arr){
-				return arr.join('/')
-			},
-			none(data){
-				if(data){
-					return data
-				}else{
-					return '未选择'
-				}
-			},
-			noMobile(data){
-				if(data){
-					return data
-				}else{
-					return '未填写'
-				}
-			}
+		components:{
+			sPullScroll, 
+			searchModul,
+			detailMoudel
 		},
 		data() {
 			return {
@@ -184,19 +45,9 @@
 				// 没有更多
 				showNoMore:false,
 				
+
 				
-				// 过滤门店
-				shopIdMap: new Map(),
-				// 过滤分组
-				groupIdMap: new Map(),
-				// 过滤分类
-				typeIdMap: new Map(),
-				// 过滤服务
-				serviceIdMap: new Map(),
-				// 过滤老师
-				teacherIdMap: new Map(),
-				
-				parmas:{
+				params:{
 					isSearchCount:true,
 					limit:10,
 					page:1,
@@ -228,30 +79,33 @@
 			});
 			this.refresh();
 		},
-		mounted(){
-			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
-			this.groupIdMap = new Map(this.get_orderGroup.map(item => [item.id, item.name]))
-			this.typeIdMap = new Map(this.get_orderTypeArr.map(item => [item.id, item.name]))
-			this.serviceIdMap = new Map(this.get_serviceCategory.map(item => [item.id, item.name]))
-			this.teacherIdMap = new Map(this.get_teacherCategory.map(item => [item.id, item.name]))
+		onShow(){
+			this.getOrder().then(res=>{
+				const curList = res.records
+				let arr = []
+				curList.forEach((i)=>{
+					arr.push(i)
+				})
+				this.list = arr
+			})
 		},
 		methods:{
 			// 获取订单
 			getOrder(){
 				if(this.type === 'wddd'){
-					return getMyOrder(this.parmas).then(res=>{
+					return getMyOrder(this.params).then(res=>{
 						return Promise.resolve(res.data.data)
 					})
 				}else if(this.type === 'xsdd'){
-					return getSubordinatesOrder(this.parmas).then(res=>{
+					return getSubordinatesOrder(this.params).then(res=>{
 						return Promise.resolve(res.data.data)
 					})
 				}else if(this.type === 'bmdd'){
-					return getTeamOrder(this.parmas).then(res=>{
+					return getTeamOrder(this.params).then(res=>{
 						return Promise.resolve(res.data.data)
 					})
 				}else if(this.type === 'sydd'){
-					return getAllOrder(this.parmas).then(res=>{
+					return getAllOrder(this.params).then(res=>{
 						return Promise.resolve(res.data.data)
 					})
 				}
@@ -259,8 +113,8 @@
 
 			// 搜索
 			search(e){
-				this.parmas = e
-				// console.log(this.parmas)
+				this.params = e
+				// console.log(this.params)
 				this.list = [];
 				this.getOrder().then(res=>{
 					const curList = res.records
@@ -295,7 +149,7 @@
 			  }, 200);
 			},
 			loadData (pullScroll) {
-				this.parmas.page = pullScroll.page
+				
 				// console.log(pullScroll.page)
 				if (pullScroll.page == 1) {
 					this.list = [];
@@ -311,6 +165,9 @@
 					this.showNoMore = false
 				}else{
 					this.showNoMore = true
+				}
+				if(!this.showNoMore){
+					this.params.page = pullScroll.page
 				}
 				// if (this.list.length > 60) {
 				// 	// finish(boolean:是否显示finishText,默认显示)
@@ -337,64 +194,6 @@
 		box-shadow:0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
 		border-radius:10rpx;
 		font-size: 28rpx;
-		.topNum{
-			border-bottom: 1rpx solid #DDDDDD;
-			display: flex;
-			justify-content: space-between;
-			padding: 30rpx;
-			.topConLeft{
-				display: flex;
-			}
-			.topConRight{
-				display: flex;
-				image{
-					width: 28rpx;
-					height: 28rpx;
-					margin: 5rpx 10rpx 0 0;
-				}
-				.text{
-					color: #61A3FF;
-				}
-			}
-		}
-		.orderBox{
-			border-bottom: 1rpx solid #DDDDDD;
-			margin: 0 30rpx;
-			padding-top: 30rpx;
-			.userInfo{
-				font-size: 28rpx;
-				display: flex;
-				// justify-content: space-between;
-				margin-bottom: 30rpx;
-				.userLeft,.userRight{
-					flex: 1;
-					display: flex;
-				}
-				.userRight{
-					margin-left: 10rpx;
-				}
-			}
-			.babyInfo{
-				display: flex;
-				margin-bottom: 30rpx;
-			}
-			.orderInfo{
-				font-size: 24rpx;
-				color: #a2a2a2;
-				.list{
-					display: flex;
-					// justify-content: space-between;
-					margin-bottom: 30rpx;
-					.listLeft,.listRight{
-						flex: 1;
-						display: flex;
-					}	
-					.listRight{
-						margin-left: 10rpx;
-					}
-				}
-			}
-		}
 		.butBox{
 			display: flex;
 			flex-direction: row-reverse;

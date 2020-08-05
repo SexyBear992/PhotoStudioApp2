@@ -1,4 +1,4 @@
-import { getAllShopQY, getCategoryList } from '@/util/api/shop.js'
+import { getAllShopQY, getCategoryList } from '@/util/api/common.js'
 export default{
 	namespaced: true,
 	state:{
@@ -22,6 +22,10 @@ export default{
 		toolType:[],
 		// 礼包数组
 		giftType:[],
+		// 取件方式
+		pickUp:[],
+		// 预约档期
+		schedule:[],
 	},
 	getters:{
 		get_shopAllArr: state => state.shopAllArr,
@@ -34,6 +38,8 @@ export default{
 		get_piceList: state => state.piceList,
 		get_toolType: state => state.toolType,
 		get_giftType: state => state.giftType,
+		get_pickUp: state => state.pickUp,
+		get_schedule: state => state.schedule,
 	},
 	mutations:{
 		mut_shopAllArr (state, data) {
@@ -65,6 +71,12 @@ export default{
 		},
 		mut_giftType (state,data) {
 			state.giftType = data
+		},
+		mut_pickUp (state,data) {
+			state.pickUp = data
+		},
+		mut_schedule (state,data) {
+			state.schedule = data
 		}
 	},
 	actions:{
@@ -118,6 +130,16 @@ export default{
 		act_giftType ({ commit }) {
 			getCategoryList({type:'PACKAGE_GIFT'}).then(res => {
 				commit('mut_giftType', res.data.data)
+			})
+		},
+		act_pickUp ({ commit }) {
+			getCategoryList({type:'PICKUP_METHOD'}).then(res => {
+				commit('mut_pickUp', res.data.data)
+			})
+		},
+		act_schedule ({ commit }) {
+			getCategoryList({type:'TYPOGRAPHY_GROUP'}).then(res => {
+				commit('mut_schedule', res.data.data)
 			})
 		}
 	}

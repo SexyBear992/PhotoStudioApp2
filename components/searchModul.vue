@@ -1,3 +1,4 @@
+/*******************************   订单搜索   *****************************************/
 <template>
 	<view>
 		<view class="search">
@@ -15,19 +16,44 @@
 				<i-icon type="search" size="20" color="#80848f" />
 			</view>
 		</view>
+		
+		<view class="shopBox">
+			<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/shop.png" mode=""></image>		
+			<pickerModule my-img="imgMargin" :arrInfo="pickerArr" :nowName="nowPickerName" @getId="getShopId"></pickerModule>
+		</view>
 	</view>
 </template>
 
 <script>
+	import pickerModule from '@/components/pickerModule.vue'
+	import { mapGetters } from 'vuex'
 	export default {
+		components:{
+			pickerModule
+		},
+		computed:{
+			...mapGetters('app',[
+				'shopId'
+			]),
+			...mapGetters('shopArr',[
+				// 门店
+				'get_shopAllArr', 
+			])
+		},
 		data(){
 			return{
+				// 过滤来源
+				shopIdMap: new Map(),  
+				
 				// 搜索下拉选择
 				array:['姓名','手机号','订单号'],
 				// 下拉下标
 				index:0,
 				// 搜索
 				keyword:null,
+				
+				pickerArr:[],
+				nowPickerName:null,
 				
 				parmas:{
 					isSearchCount:true,
@@ -36,7 +62,30 @@
 				}
 			}
 		},
-		methods:{
+		mounted(){
+			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
+			this.getPickerArr()
+		},
+		methods:{	
+			getPickerArr(){
+				let arr = []
+				this.get_shopAllArr.forEach((i)=>{
+					let lis ={
+						id:i.shopId,
+						name:i.shopName
+					}
+					arr.push(lis)
+				})
+				this.pickerArr = arr
+				this.nowPickerName = this.shopIdMap.get(this.shopId)
+			},
+			
+			// 获取门店ID
+			getShopId(e){
+				this.parmas.orderShopId = e.id
+				this.$emit('search',this.parmas)
+			},
+			
 			// 下拉选择
 			bindPickerChange(e){
 				this.index = e.detail.value
@@ -105,5 +154,18 @@
 		.searchBut{
 			padding: 0 30rpx;
 		}
+	}
+	.shopBox{
+		width: 690rpx;
+		margin: 30rpx auto;
+		display: flex;
+		image{
+			width: 28rpx;
+			height: 28rpx;
+			margin: 6rpx 10rpx 0 0;
+		}
+	}
+	/deep/.imgMargin{
+		margin: 18rpx 0 0 5rpx !important;
 	}
 </style>

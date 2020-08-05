@@ -5,12 +5,7 @@
 			<!-- 昵称 -->
 			<view class="listBox">
 				<view class="title">昵称：</view>
-				<picker @change="personPicerChange" :value="personIndex" :range="personPicerList">
-					<view class="textBox">
-						<view class="text">{{personPicerList[personIndex]}}</view>
-						<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
-					</view>
-				</picker>
+				<pickerModule my-img="imgMargin" :arrInfo="pickerPerson" :nowName="nowPersonName" @getId="getPersonId"></pickerModule>
 			</view>
 			
 			<!-- 名字 -->
@@ -73,18 +68,20 @@
 
 <script>
 	import lunar from '../../components/lunar.vue'
+	import pickerModule from '@/components/pickerModule.vue'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	export default{
 		props:['info','callNameList'],
 		components:{
 			uniCalendar,
+			pickerModule,
 			lunar
 		},
 		data(){
 			return{
 				// 客户picker
-				personPicerList:[],
-				personIndex:0,
+				pickerPerson:[],
+				nowPersonName:null,
 				
 				// 日历选择值
 				calendarData:null,
@@ -99,27 +96,22 @@
 		methods:{
 			// 创建客户picker数组
 			newPersonPickerList(){
-				let arr = this.callNameList.map((i)=>{
-					return i.name
+				let arr = []
+				this.callNameList.forEach((i)=>{
+					let lis ={
+						id:i.sex,
+						name:i.name
+					}
+					arr.push(lis)
 				})
-				this.personPicerList = arr
-				
-				let nowPersonCallName = this.info.callName
-				this.personIndex = this.personPicerList.findIndex((i)=>{
-					return i === nowPersonCallName
-				})
+				this.pickerPerson = arr
+				this.nowPersonName = this.info.callName
 			},
 				
 			// 客户picker返回
-			personPicerChange(e){
-				this.personIndex = e.detail.value
-				this.callNameList.some((i)=>{
-					// console.log(i)
-					if(i.name === this.personPicerList[e.detail.value]){
-						this.thisPersonInfo.sex = i.sex
-						this.thisPersonInfo.callName = i.name
-					}
-				})
+			getPersonId(e){
+				this.thisPersonInfo.sex = e.id
+				this.thisPersonInfo.callName = e.name
 			},
 		
 			// 打开日历
@@ -188,5 +180,8 @@
 				width: 100%;
 			}
 		}
+	}
+	/deep/.imgMargin{
+		margin: 40rpx 0 0 5rpx !important;
 	}
 </style>

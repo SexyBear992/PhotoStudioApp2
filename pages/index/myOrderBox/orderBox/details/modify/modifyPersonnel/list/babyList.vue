@@ -6,12 +6,7 @@
 			<!-- 昵称 -->
 			<view class="listBox">
 				<view class="title">昵称：</view>
-				<picker @change="babyPicerChange" :value="babyIndex" :range="babyPickerList">
-					<view class="textBox">
-						<view class="text">{{babyPickerList[babyIndex]}}</view>
-						<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
-					</view>
-				</picker>
+				<pickerModule my-img="imgMargin" :arrInfo="pickerBaby" :nowName="nowBabyName" @getId="getBabyId"></pickerModule>
 			</view>
 			
 			<!-- 名字 -->
@@ -50,18 +45,20 @@
 
 <script>
 	import lunar from '../../components/lunar.vue'
+	import pickerModule from '@/components/pickerModule.vue'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	export default {
 		props:['info','callNameList'],
 		components:{
 			uniCalendar,
+			pickerModule,
 			lunar
 		},
 		data() {
 			return {	
 				// 宝宝picker
-				babyPickerList:[],
-				babyIndex:0,
+				pickerBaby:[],
+				nowBabyName:null,
 				
 				// 日历选择值
 				calendarData:null,
@@ -76,27 +73,22 @@
 		methods:{		
 			// 创建宝宝picker数组
 			newBabyPickerList(){
-				let arr = this.callNameList.map((i)=>{
-					return i.name
+				let arr = []
+				this.callNameList.forEach((i)=>{
+					let lis ={
+						id:i.sex,
+						name:i.name
+					}
+					arr.push(lis)
 				})
-				this.babyPickerList = arr
-				
-				let nowBabyCallName = this.info.callName
-				this.babyIndex = this.babyPickerList.findIndex((i)=>{
-					return i === nowBabyCallName
-				})
+				this.pickerBaby = arr
+				this.nowBabyName = this.info.callName
 			},
 				
 			// 宝宝picker返回
-			babyPicerChange(e){
-				this.babyIndex = e.detail.value
-				this.callNameList.some((i)=>{
-					// console.log(i)
-					if(i.name === this.babyPickerList[e.detail.value]){
-						this.thisBabyInfo.sex = i.sex
-						this.thisBabyInfo.callName = i.name
-					}
-				})
+			getBabyId(e){
+				this.thisBabyInfo.sex = e.id
+				this.thisBabyInfo.callName = e.name
 			},
 			
 			// 打开日历
@@ -120,8 +112,11 @@
 			}
 		},
 		watch:{
-			callNameList(){
-				this.newBabyPickerList()
+			thisBabyInfo:{
+				deep:true,
+				handler(){
+					console.log(this.thisBabyInfo)
+				}
 			}
 		}
 	}
@@ -163,5 +158,8 @@
 				width: 100%;
 			}
 		}
+	}
+	/deep/.imgMargin{
+		margin: 40rpx 0 0 5rpx !important;
 	}
 </style>

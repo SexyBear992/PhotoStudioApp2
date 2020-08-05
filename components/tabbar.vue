@@ -1,24 +1,19 @@
 <template>
 	<view class="tabbar">
 		<view class="list tabBarIndex" @click="tabBarIndex" :class="index===1?'tabBarAction':null">
-			<image class="icon icon1" :src="index===1?url+'gztA.png':url+'gzt.png'" mode=""></image>
+			<image class="icon icon1" :src="index===1?url+'/index_ac.png':url+'index.png'" mode=""></image>
 			<view class="text">工作台</view>
 		</view>
 		<view class="list tabBarAddressBook" @click="tabBarAddressBook"  :class="index===2?'tabBarAction':null">
-			<image class="icon icon2" :src="index===2?url+'tongxunluA.png':url+'tongxunlu.png'" mode=""></image>
+			<image class="icon icon2" :src="index===2?url+'/address_ac.png':url+'address.png'" mode=""></image>
 			<view class="text">通讯录</view>
 		</view>
-		<!-- <view class="tabBarMy" @click="tabBarMy"  :class="index===3?'tabBarAction':null"></view> -->
-		<view class="list add">
-			<image :src="url+'icon_tjfb@2x.png'" @click="add" mode=""></image>
-			<view class="plus">+</view>
-		</view>
 		<view class="list tabBarInformation" @click="tabBarInformation"  :class="index===4?'tabBarAction':null">
-			<image class="icon icon4" :src="index===4?url+'xinxiA.png':url+'xinxi.png'" mode=""></image>
+			<image class="icon icon4" :src="index===4?url+'/info_ac.png':url+'info.png'" mode=""></image>
 			<view class="text">消息</view>
 		</view>
 		<view class="list tabBarMy" @click="tabBarMy"  :class="index===5?'tabBarAction':null">
-			<image class="icon icon5" :src="index===5?url+'renA.png':url+'ren.png'" mode=""></image>
+			<image class="icon icon5" :src="index===5?url+'/my_ac.png':url+'my.png'" mode=""></image>
 			<view class="text">我的</view>
 		</view>
 	</view>
@@ -29,30 +24,29 @@
 		props:['index'],		
 		data() {
 			return {
-				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/'
+				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/tabbar/'
 			};
 		},
 		methods:{
+			// 进入工作台
 			tabBarIndex(){
 				uni.switchTab({
 					url:'/pages/index/index'
 				})
 			},
+			// 进入通讯录
 			tabBarAddressBook(){
 				uni.switchTab({
 					url:'/pages/addressBook/addressBook'
 				})
 			},
-			add(){
-				uni.switchTab({
-					url:'/pages/add/add'
-				})
-			},
+			// 进入消息
 			tabBarInformation(){
 				uni.switchTab({
 					url:'/pages/information/information'
 				})
 			},
+			// 进入我的
 			tabBarMy(){
 				uni.switchTab({
 					url:'/pages/my/my' 
@@ -64,38 +58,40 @@
 
 <style lang="scss" scoped>
 	.tabbar{
-		border-top: 2rpx solid #f7f7f9;
-		width: 100%;
-		height: 122rpx;
-		background-color: #fff;
 		position: fixed;
 		bottom: 0;
-		display: flex;
+		padding: 30rpx 0;
+		width: 750rpx;
+		border-top: 2rpx solid #f7f7f9;
+		background-color: #fff;
 		font-size: 28rpx;
 		text-align: center;
+		display: flex;
+		justify-content: space-around;
 		.list{
-			width: 20%;
-			margin: 20rpx 0 16rpx 0;
-			.icon1,.icon4,.icon5,.icon2{
-				width: 44rpx;
-				height: 44rpx;
-				margin-bottom: 2rpx;
-			}
-		}
-		.add{
-			position: relative;
-			image{
-				width: 77rpx;
-				height: 77rpx;
-			}
-			.plus{
-				position: absolute;
-				top: -5rpx;
-				// left: 54rpx;
-				color: #FFFFFF;
-				font-size: 60rpx;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			.icon{
 				margin-left: 50%;
 				transform: translateX(-50%);
+			}
+			.icon1{
+				width: 41rpx;
+				height: 37rpx;
+			}
+			.icon2{
+				width: 33rpx;
+				height: 39rpx;
+			}
+			.icon4{
+				width: 40rpx;
+				height: 36rpx;
+			}
+			.icon5{
+				width: 36rpx;
+				height: 36rpx;
 			}
 		}
 		.tabBarAction{

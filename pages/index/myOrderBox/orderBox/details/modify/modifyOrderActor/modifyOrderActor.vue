@@ -29,18 +29,14 @@
 	
 			<view class="save" @click="save">保存</view>
 	
-			<!-- 联系人模态框 -->
-			<addressModal v-if="addressShow" :show="showTextFa" :type="addressType" @close="closeAddress" @ok="addressInfo"></addressModal>
 		</view>
 	</view>
 </template>
 
 <script>
 	import { getOrderDetails, updataActor } from '@/util/api/shop.js'
-	import addressModal from '../../../../openOrder/openInfo/components/addressModal.vue'
 	export default {
 		components:{
-			addressModal
 		},
 		filters:{
 			actor(arr){
@@ -55,12 +51,11 @@
 		},
 		data() {
 			return {
-				// 显示模态框
-				addressShow:false,
-				// 联系人类型
-				addressType:null,
 				// 传给子组件
 				showTextFa:null,
+				
+				// 选择联系人
+				addressInfo:null,
 				
 				// 显示数据
 				showPeception:'请选择',
@@ -76,6 +71,7 @@
 			};
 		},
 		onLoad(option){
+			
 			this.actorInfo.orderId = Number(option.id)
 			getOrderDetails({orderId:Number(option.id)}).then(res=>{
 				let data = res.data.data
@@ -104,11 +100,16 @@
 				})
 			})
 		},
+		onShow(){
+			let that = this;
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length - 1]; //当前页面
+			let address = currPage.data.address;
+			this.addressInfo = address
+		},
 		methods:{
 			// 打开模态框
 			gotEnterpriseAll(type){
-				this.addressType = type
-				this.addressShow = true
 				if(type === 'RECEPTION'){
 					this.showTextFa = this.showPeception
 				}else if(type === 'SERVICE'){
@@ -116,12 +117,9 @@
 				}else if(type === 'NETWORK_SALES'){
 					this.showTextFa = this.showNetwork
 				}
-			},
-			
-			// 关闭模态框
-			closeAddress(){
-				this.addressShow = false
-				this.showTextFa = null
+				uni.navigateTo({
+					url:'../../../../../../address/address?type='+ type + '&show=' + this.showTextFa
+				})
 			},
 			
 			// 过去数据显示名字
@@ -136,27 +134,25 @@
 			},
 			
 			// 模态框返回值
-			addressInfo(e){
+			getAddressInfo(e){
 				let arr = []
-				e.info.map((i)=>{
+				e.enArr.map((i)=>{
 					let a = {
 						actorId:i.id,
 						main:i.main || false
 					}
 					arr.push(a)
 				})
-				if(this.addressType === 'RECEPTION'){
+				if(e.type === 'RECEPTION'){
 					this.showPeception = e.show
 					this.actorInfo.receptions = arr
-				}else if(this.addressType === 'SERVICE'){
+				}else if(e.type === 'SERVICE'){
 					this.showService = e.show
 					this.actorInfo.services = arr
-				}else if(this.addressType === 'NETWORK_SALES'){
+				}else if(e.type === 'NETWORK_SALES'){
 					this.showNetwork = e.show
 					this.actorInfo.networkSales = arr
 				}
-				this.addressShow = false
-				this.showTextFa = null
 			},
 			
 			// 保存
@@ -170,6 +166,14 @@
 				})
 			},
 		},
+		watch:{
+			addressInfo(){
+				console.log(this.addressInfo)
+				if(this.addressInfo){
+					this.getAddressInfo(this.addressInfo) 
+				} 
+			}
+		}
 	}
 </script>
 

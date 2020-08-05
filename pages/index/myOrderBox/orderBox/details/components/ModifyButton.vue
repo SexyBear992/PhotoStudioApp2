@@ -42,24 +42,24 @@
 				<view class="text">入册/入底</view>
 			</view>
 			<!-- 产品 -->
-			<view class="but" @click="onButtom('product')">
+			<view class="but" @click="onButtom('GOODS')">
 				<image :src="url+'product.png'" mode=""></image>
 				<view class="text">产品</view>
 			</view>
 			<!-- 服装 -->
-			<view class="but" @click="onButtom('dress')">
+			<view class="but" @click="onButtom('DRESSINFO')">
 				<image :src="url+'dress.png'" mode=""></image>
 				<view class="text">服装</view>	
 			</view>
 		</view>
 		<view class="list">
 			<!-- 景点 -->
-			<view class="but" @click="onButtom('place')">
+			<view class="but" @click="onButtom('PLACE')">
 				<image :src="url+'landscape.png'" mode=""></image>	
 				<view class="text">景点</view>
 			</view>
 			<!-- 服务 -->
-			<view class="but" @click="onButtom('service')">
+			<view class="but" @click="onButtom('SERVICES')">
 				<image :src="url+'like.png'" mode=""></image>
 				<view class="text">服务</view>
 			</view>

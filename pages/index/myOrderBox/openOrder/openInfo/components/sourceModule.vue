@@ -81,9 +81,6 @@
 			/*********************************   工作人员处理模块   **********************************/
 			// 跳转到通讯录
 			gotEnterpriseAll(type){
-				// uni.navigateTo({
-				// 	url:'../../../../EnterpriseAll/EnterpriseAll?type=' + type
-				// })
 			},
 		
 		
