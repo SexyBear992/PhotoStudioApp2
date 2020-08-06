@@ -63,6 +63,41 @@
 						<view class="cross"></view>
 					</view>
 					
+					<view class="personBox">
+						<view class="listBox">				
+							<view class="list">
+								<view class="text">摄影师：</view>
+								<view class="text arr">{{item.orderItemProcessActorVos | actor('PHOTOGRAPHER')}}</view>
+							</view>
+							<view class="list">
+								<view class="text">摄影师助理：</view>
+								<view class="text arr">{{item.orderItemProcessActorVos | actor('PHOTOGRAPHER_ASSISTANT')}}</view>
+							</view>		
+						</view>
+						
+						<view class="listBox">
+							<view class="list">
+								<view class="text">化妆师：</view>
+								<view class="text arr">{{item.orderItemProcessActorVos | actor('MAKEUP')}}</view>
+							</view>
+							<view class="list">
+								<view class="text">化妆师助理：</view>
+								<view class="text arr">{{item.orderItemProcessActorVos | actor('MAKEUP_ASSISTANT')}}</view>
+							</view>		
+						</view>
+						
+						<view class="listBox">
+							<view class="list">
+								<view class="text">引导师：</view>
+								<view class="text arr">{{item.orderItemProcessActorVos | actor('INSTRUCTOR')}}</view>
+							</view>
+							<view class="list">
+								<view class="text">引导师助理：</view>
+								<view class="text arr">{{item.orderItemProcessActorVos | actor('INSTRUCTOR_ASSISTANT')}}</view>
+							</view>		
+						</view>
+					</view>
+					
 				</view>
 				
 				<!-- 按键 -->
@@ -77,6 +112,7 @@
 		
 		<delModal :title="'取消档期'" v-if="delModalShow" @cancel="close" @ok="ok"></delModal>
 		<view class="button" @click="addPhoto">+添加拍照预约</view>
+		
 	</view>
 </template>
 
@@ -88,7 +124,7 @@
 	export default {
 		components:{
 			detailMoudel,
-			delModal
+			delModal,
 		},
 		computed:{
 			...mapGetters('shopArr',[
@@ -126,7 +162,6 @@
 				])
 				return result.get(type)
 			},
-			
 			// 服装 景点显示过滤
 			photoDataArr(arr){
 				if(arr.length <= 0){
@@ -139,6 +174,22 @@
 					return name
 				}
 			},
+			// 摄化人员
+			actor(arr,type){
+				if(arr){
+					let name = []
+					arr.map((i)=>{
+						if(i.positionType === type){
+							name.push(i.actorName)
+						}
+					})
+					if(name.length > 0){
+						return name
+					}else{
+						return '无'
+					}
+				}
+			}
 		},
 		data() {
 			return {
@@ -165,12 +216,9 @@
 		},
 		onLoad(options){
 			this.act_schedule()
+			this.getAllOrderItem(options.orderNo)
 			// options.orderNo
-			getAllOrderItem({ orderNo: "200703001" }).then(res=>{
-				this.detailInfo = res.data.data.records[0]
-				this.itemId = this.detailInfo.orderItemBasisVos[0].itemId
-				this.getOrdetItemList()
-			})
+			
 		},
 		mounted(){
 			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
@@ -180,6 +228,16 @@
 				'act_schedule'
 			]),
 			
+			// 获取订单信息
+			getAllOrderItem(e){
+				//  orderNo: e
+				getAllOrderItem({ orderNo: "200703001" }).then(res=>{
+					this.detailInfo = res.data.data.records[0]
+					this.itemId = this.detailInfo.orderItemBasisVos[0].itemId
+					this.getOrdetItemList()
+				})
+			},
+					
 			// 获取拍照预约列表
 			getOrdetItemList(){
 				getOrdetItemList({itemId:this.itemId}).then(res=>{
@@ -189,12 +247,16 @@
 			
 			// 增加拍照预约
 			addPhoto(){
-				console.log('增加拍照预约')
+				uni.navigateTo({
+					url:'./takingPictures/takingPictures?id=null'
+				})
 			},
 			
 			// 改期
 			change(id){
-				console.log('改期',id)
+				uni.navigateTo({
+					url:'./takingPictures/takingPictures?id=' + id
+				})
 			},
 			
 			// 安排摄化
@@ -288,16 +350,26 @@
 			.personnel{
 				margin-bottom: 30rpx;
 				.pTitleBox{
+					margin-bottom: 30rpx;
 					display: flex;
 					justify-content: space-between;
 					.cross{
 						width: 215rpx;
-						height: 1rpx;
+						height: 4rpx;
 						background-color: #DDDDDD;
-						margin-top: 20rpx;
+						margin-top: 22rpx;
 					}
 					.pTitle{
 						font-size: 32rpx;
+					}
+				}
+				.listBox{
+					.list{
+						flex: 1;
+						overflow: hidden;
+						.arr{
+							flex: 0.9;
+						}
 					}
 				}
 			}

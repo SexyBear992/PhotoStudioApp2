@@ -69,9 +69,12 @@ let baseUrl = {
 	updataOrderService: `${base_store}/order/item/service/update`,// 更新-子订单服务
 	
 	// 摄控
-	getAllOrderItem: `${base_store}/orderList/page/allOrderItem` ,//查找-所有订单子订单
+	getAllOrderItem: `${base_store}/orderList/page/allOrderItem`, //查找-所有订单子订单
 	getOrdetItemList: `${base_store}/order/item/process/photo/reservation/list`, // 查找-预约拍照列表
-	deletPhotoInfo: `${base_store}/order/item/process/photo/delete`// 删除-拍照记录
+	getCalendar: `${base_store}/order/item/process/photo/reservation/date`, // 查找-预约日历
+	
+	addPhotoInfo: `${base_store}/order/item/process/photo/add`, // 新增-拍照记录
+	deletPhotoInfo: `${base_store}/order/item/process/photo/delete`, // 删除-拍照记录
 }
 
 export default baseUrl

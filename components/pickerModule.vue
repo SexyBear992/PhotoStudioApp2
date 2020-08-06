@@ -39,7 +39,6 @@
 		methods:{
 			// 创建门店数组
 			newArr(){
-				console.log('nowName',this.nowName)
 				let arr = this.arrInfo.map((i)=>{
 					return i.name
 				})

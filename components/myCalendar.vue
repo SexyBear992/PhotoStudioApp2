@@ -1,19 +1,24 @@
 /****************************** 日历选期 *********************************/
 <template>
-	<view>
+	<view class="bigBox">
 		<!-- 日历年月 -->
 		<view class='calendar_title flex_nowrap'>
 		  <view class='icon' @tap='lastMonth'>
 				上
 		  </view>
-		  <view>{{year}}年{{month}}月</view>
+			<view class="uni-list-cell-db">
+				<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="DateChange">
+					<view class="uni-input">{{date}}</view>
+				</picker>
+			</view>
+		  <!-- <view>{{year}}年{{month}}月</view> -->
 		  <view class='icon' @tap='nextMonth'>
 				下
 		  </view>
 		</view>
 		
 		<!-- 日历主体 -->
-		<view class='calendar'>
+		<!-- <view class='calendar'>
 		  <view class='header'>
 		    <view v-for="(item,index) in date" :key="index" :class='(index == todayIndex) ? "weekMark" : ""'>{{item}}
 		      <view class="weekMarkBot"></view>
@@ -30,27 +35,36 @@
 		    </block>
 		  </view>
 		
-		</view>
+		</view> -->
 	</view>
 </template>
 
 <script>
+	import { getCalendar } from '@/util/api/shop.js'
 	export default {
 		components:{
 		},
 		data() {
 			return {
-				year: 0,
-				month: 0,
-				date: ['日', '一', '二', '三', '四', '五', '六'],
-				dateArr: [],
-				isToday: 0,
-				isTodayWeek: false,
-				todayIndex: 0
+				// picker
+				date:'2020-08-06',
+				startDate:'2010-01-01',
+				endDate:'2050-12-31',
+				
+				// year: 0,
+				// month: 0,
+				// date: ['日', '一', '二', '三', '四', '五', '六'],
+				// dateArr: [],
+				// isToday: 0,
+				// isTodayWeek: false,
+				// todayIndex: 0
 			};
 		},
 		mounted(){
 			this.backToday()
+			getCalendar({reservationShopId:14, endTime:1598803200000,startTime:1596211200000}).then(res=>{
+				console.log('日历',res)
+			})
 		},
 		methods:{
 			dateInit(setYear, setMonth) {
@@ -100,14 +114,20 @@
 				}
 			},
 			
+			// 日历选择返回
+			DateChange(e){
+				this.date = e.detail.value
+			},
+			
 			// 上月切换 
 			lastMonth() {
-				//全部时间的月份都是按0~11基准，显示月份才+1
-				let year = this.month - 2 < 0 ? this.year - 1 : this.year;
-				let month = this.month - 2 < 0 ? 11 : this.month - 2;
-				this.year = year,
-				this.month = (month + 1)
-				this.dateInit(year, month);
+				this.date = '2020-07-06'
+				// //全部时间的月份都是按0~11基准，显示月份才+1
+				// let year = this.month - 2 < 0 ? this.year - 1 : this.year;
+				// let month = this.month - 2 < 0 ? 11 : this.month - 2;
+				// this.year = year,
+				// this.month = (month + 1)
+				// this.dateInit(year, month);
 			},
 			
 			// 下月切换
@@ -144,6 +164,15 @@
 </script>
 
 <style lang="scss">
+.bigBox{
+	z-index: 9999999;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+	top: 0;
+	color: #8d8d8d;
+}
 .calendar_title{
 	width: 70%; 
 	margin: 10rpx auto; 

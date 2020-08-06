@@ -142,6 +142,14 @@ export const getAllOrderItem = (params) => {
 export const getOrdetItemList = (params) => {
 	return get(baseUrl.getOrdetItemList, params)
 }
+// 查找-预约日历
+export const getCalendar =  (params) => {
+	return postObj(baseUrl.getCalendar, params)
+}
+// 新增-拍照记录
+export const addPhotoInfo = (params) => {
+	return postObj(baseUrl.addPhotoInfo, params)
+}
 // 删除-拍照记录
 export const deletPhotoInfo = (params) => {
 	return remove(baseUrl.deletPhotoInfo, params)
