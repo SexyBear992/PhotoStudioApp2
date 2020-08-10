@@ -178,7 +178,6 @@
 			// 获取礼物详情
 			getGiftDetail(){
 				getGiftDetail({id:this.giftNameId}).then(res=>{
-					console.log(res)
 					this.orderGiftDto.giftId = res.data.data.id
 					this.orderGiftDto.giftName = res.data.data.name
 					this.orderGiftDto.giftPrice = res.data.data.price

@@ -26,6 +26,8 @@ export default{
 		pickUp:[],
 		// 预约档期
 		schedule:[],
+		// 档期标签
+		label:[],
 	},
 	getters:{
 		get_shopAllArr: state => state.shopAllArr,
@@ -40,6 +42,7 @@ export default{
 		get_giftType: state => state.giftType,
 		get_pickUp: state => state.pickUp,
 		get_schedule: state => state.schedule,
+		get_label: state => state.label,
 	},
 	mutations:{
 		mut_shopAllArr (state, data) {
@@ -77,6 +80,9 @@ export default{
 		},
 		mut_schedule (state,data) {
 			state.schedule = data
+		},
+		mut_label (state,data) {
+			state.label = data
 		}
 	},
 	actions:{
@@ -141,6 +147,11 @@ export default{
 			getCategoryList({type:'TYPOGRAPHY_GROUP'}).then(res => {
 				commit('mut_schedule', res.data.data)
 			})
-		}
+		},
+		act_label ({ commit }) {
+			getCategoryList({type:'TYPOGRAPHY_LABEL'}).then(res => {
+				commit('mut_label', res.data.data)
+			})
+		},
 	}
 }

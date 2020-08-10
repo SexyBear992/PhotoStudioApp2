@@ -275,10 +275,10 @@
 						console.log('订单查询');
 						break;
 					case 'pzyy':				// 拍照预约
-						return './photographBox/appoint/appoint'
+						return './convention/convention?type=pzyy'
 						break;
 					case 'xpyy':				// 选片预约
-						console.log('选片预约');
+						return './convention/convention?type=xpyy'
 						break;
 					case 'xzkz':				// 新增客资
 						console.log('新增客资');
@@ -339,7 +339,7 @@
 						console.log('选片档期查询');
 						break;
 					case 'kbyy':				// 看板预约
-						console.log('看板预约');
+						return './convention/convention?type=kbyy'
 						break;
 					case 'kbgz':				// 看板工作
 						console.log('看板工作');
@@ -348,7 +348,7 @@
 						console.log('看板档期查询');
 						break;
 					case 'qjyy':				// 取件预约
-						console.log('取件预约');
+						return './convention/convention?type=qjyy'
 						break;
 					case 'qjgz':				// 取件工作
 						console.log('取件工作');

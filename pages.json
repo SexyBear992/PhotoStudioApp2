@@ -1,16 +1,14 @@
 {
 	"pages": [
 		{
-			"path" : "pages/calendar/calendar",
+			"path" : "pages/index/pz/pzArrange/pzArrange",
 			"style" : {
-				"navigationBarTitleText": "日历"
+				"navigationBarTitleText": "拍照安排"
 			}
 		},
 		{
-			"path" : "pages/index/photographBox/appoint/arrange/arrange",
-			"style" : {
-				"navigationBarTitleText": "拍照预约"
-			}
+			"path" : "pages/index/pz/pzArrange/AddorUpdataItem/AddorUpdataItem",
+			"style" : {}
 		}
 		,{
 			"path": "pages/index/index",
@@ -20,6 +18,7 @@
 				// "disableScroll": true
 			}
 		}
+		
 		,{
 			"path": "pages/come/come",
 			"style": {}
@@ -131,16 +130,46 @@
 			}
 		}
 		,{
-			"path" : "pages/index/photographBox/appoint/appoint",
+			"path" : "pages/calendar/calendar",
 			"style" : {
-				"navigationBarTitleText": "拍照预约"
+				"navigationBarTitleText": "日历"
 			}
 		}
 		,{
-			"path" : "pages/index/photographBox/appoint/arrange/takingPictures/takingPictures",
+			"path" : "pages/index/convention/convention",
 			"style" : {}
 		}
 
+		,{
+			"path" : "pages/index/qj/qjArrange/qjArrange",
+			"style" : {
+				"navigationBarTitleText": "取件安排"
+			}
+		}
+		,{
+			"path" : "pages/index/xp/xpArrange/xpArrange",
+			"style" : {
+				"navigationBarTitleText": "选片安排"
+			}
+		}
+		,{
+			"path" : "pages/index/kb/kbArrange/kbArrange",
+			"style" : {
+				"navigationBarTitleText": "看板安排"
+			}
+		}
+		,{
+			"path" : "pages/index/pz/pzArrange/AddorUpdataItem/choosePlace/choosePlace",
+			"style" : {
+				"navigationBarTitleText": "选择预约景点"
+			}
+		}
+		,{
+			"path" : "pages/index/pz/pzArrange/AddorUpdataItem/chooseDress/chooseDress",
+			"style" : {
+				"navigationBarTitleText": "选择预约服装"	
+			}
+		}
     ],
 	"tabBar": {
 		// 隐藏tabBar
@@ -197,7 +226,8 @@
 		  "i-page": "/wxcomponents/page/index",
 			"i-collapse": "/wxcomponents/collapse/index",
 			"i-collapse-item": "/wxcomponents/collapse-item/index",
-			"i-notice-bar": "/wxcomponents/notice-bar/index"
+			"i-notice-bar": "/wxcomponents/notice-bar/index",
+			"i-message": "/wxcomponents/message/index"
 		}
 	}
 }

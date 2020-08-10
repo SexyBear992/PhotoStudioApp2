@@ -146,6 +146,32 @@ export const getOrdetItemList = (params) => {
 export const getCalendar =  (params) => {
 	return postObj(baseUrl.getCalendar, params)
 }
+//查找-预约模板
+export const getPhotoTemplate = (params) => {
+	return postObj(baseUrl.getPhotoTemplate, params)
+}
+// 查找-预约时间段
+export const getPhotoTime = (params) => {
+	return postObj(baseUrl.getPhotoTime, params)
+}
+//查找-子订单服装列表
+export const getPhotoDress = (params) => {
+	return get(baseUrl.getPhotoDress, params)
+}
+//查找-子订单景点列表
+export const getPhotoPlace = (params) => {
+	return get(baseUrl.getPhotoPlace, params)
+}
+//查找-礼包列表
+export const getGiftList = (params) => {
+	return postObj(baseUrl.getGiftList, params)
+}
+
+// 查找-预约拍照详情
+export const getPhotoDetail = (params) => {
+	return get(baseUrl.getPhotoDetail, params)
+}
+
 // 新增-拍照记录
 export const addPhotoInfo = (params) => {
 	return postObj(baseUrl.addPhotoInfo, params)

@@ -12,7 +12,7 @@
 			  </view>
 				<!-- 显示年月 -->
 				<view class="Y_M">
-					<picker mode="date" :value="pickerDate" :start="pickerStartDate" :end="pickerEndDate" @change="DateChange">
+					<picker mode="date" fields="month" :value="pickerDate" :start="pickerStartDate" :end="pickerEndDate" @change="DateChange">
 						<view class="showDate">{{pickerDate}}</view>
 					</picker>
 				</view>
@@ -28,12 +28,13 @@
 		</view>
 		
 		<!-- 日历主体 -->
-		<view class="calenarBox">
+		<view class="calenarBox" v-if="show">
 			<view v-for="(item,index) in dateArr" :key="index">
-				<!-- {{dateDetail | typographyNum(item.num)}} -->
 				<view class="list">
-					<!-- <span v-if="item.num">{{item.num}}</span> -->
-					<view>{{item.num}}</view>
+					<view class="bg" :class="noBg(dateDetail,(item.num-1)) ? (bgColor(dateDetail,(item.num-1)) ? 'optional' : 'ban' ) : 'noBg'" @click="enDate(item.date)">
+						<view class="day">{{item.num}}</view>
+						<view class="typographyNum">{{dateDetail | typographyNum(item.num-1)}}</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -47,21 +48,30 @@
 		},
 		filters:{
 			typographyNum(arr,i){
-				if(i){
+				if(i !== NaN){
 					if(arr[i]){
-						// 可预约时间
-						let can = arr[i].defaultTypographyNum
-						// 已预约时间
-						let ed = arr[i].inTypographyNum
-						// 剩余
-						let ing = can - ed
-						return `${can}/${ed}/${ing}`
+						// 是否休息
+						let isVacation = arr[i].isVacation
+						if(isVacation){
+							return '休息'
+						}else{
+							// 可预约时间
+							let can = arr[i].defaultTypographyNum
+							// 已预约时间
+							let ed = arr[i].inTypographyNum
+							// 剩余
+							let ing = can - ed
+							return `${can}/${ed}/${ing}`
+						}
 					}
 				}
-			}
+			},
 		},
 		data() {
 			return {
+				
+				show:false,
+				
 				// picker
 				pickerDate:'',
 				pickerStartDate:'2010-01-01',
@@ -75,20 +85,18 @@
 				dateDetail:[],
 				
 				dateParams:{
-					reservationShopId:14,
+					reservationShopId:null,
 					startTime:null,
 					endTime:null,
 				}
 			};
 		},
-		created(){
-			this.getNowDate()
+		onLoad(options){
+			this.dateParams.reservationShopId = options.id
 			this.dateInit()
 		},
-		mounted(){
-			// getCalendar({reservationShopId:14, endTime:1598803200000,startTime:1596211200000}).then(res=>{
-			// 	console.log('日历',res)
-			// })
+		created(){
+			this.getNowDate()
 		},
 		methods:{
 			// 获取当天日期
@@ -102,6 +110,7 @@
 			
 			// 获取日历本体
 			dateInit(){
+				this.show = false
 				let arr = this.pickerDate.split('-')
 				// 当前年份
 				let nowYear = Number(arr[0])
@@ -146,8 +155,43 @@
 				this.dateParams.endTime = Number(endTime) - 28800000 //减去8小时时间戳
 				getCalendar(this.dateParams).then(res=>{
 					this.dateDetail = res.data.data
-					console.log('日历信息',this.dateDetail)
+					this.show = true
 				})
+			},	
+			
+			// 判断是否需要背景色
+			noBg(arr,i){
+				if(i === NaN){
+					return false
+				}else{
+					if(arr[i]){
+						let isVacation = arr[i].isVacation
+						if(isVacation){
+							return false
+						}else{
+							return true
+						}
+					}
+				}
+			},
+			
+			// 判断可不可选背景色
+			bgColor(arr,i){
+				if(i !== NaN){
+					if(arr[i]){
+						// 可预约时间
+						let can = arr[i].defaultTypographyNum
+						// 已预约时间
+						let ed = arr[i].inTypographyNum
+						// 剩余
+						let ing = can - ed
+						if( ing > 0 ){
+							return true
+						}else{
+							return false
+						}
+					}
+				}
 			},
 			
 			// 日月补0
@@ -158,6 +202,7 @@
 			// 日历选择返回
 			DateChange(e){
 				this.pickerDate = e.detail.value
+				this.dateInit()
 			},
 			
 			// 切换上月
@@ -187,6 +232,21 @@
 				let newMonth = nowMonth > 11 ? 1 : nowMonth + 1
 				this.pickerDate = `${newYear}-${this.completeDate(newMonth)}-${arr[2]}`
 				this.dateInit()
+			},
+		
+			// 点击选择日期
+			enDate(date){
+				let timestamp = Number(Date.parse(new Date(date))) - 28800000;
+				var pages = getCurrentPages();
+				var prevPage = pages[pages.length - 2]; //上一个页面
+				prevPage.setData({
+					date: {
+						'date':timestamp,
+					}
+				})
+				uni.navigateBack({//返回
+					delta: 1
+				})
 			},
 		}
 	}
@@ -237,6 +297,28 @@
 				width: 78.57rpx;
 				text-align: center;
 				padding: 10rpx;
+				.bg{
+					border-radius: 10rpx;
+					.typographyNum{
+						font-size: 18rpx;
+						padding: 5rpx;
+					}
+				}
+				.noBg{
+					.typographyNum{
+						color: #FF0000;
+					}
+				}
+				.optional{
+					background-color: #61A3FF;
+					color: #FFFFFF;
+					box-shadow:0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
+				}
+				.ban{
+					background-color: #CCCCCC;
+					color: #FFFFFF;
+					box-shadow:0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
+				}
 			}
 		}
 	}
