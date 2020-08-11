@@ -142,6 +142,10 @@ export const getAllOrderItem = (params) => {
 export const getOrdetItemList = (params) => {
 	return get(baseUrl.getOrdetItemList, params)
 }
+// 查找-预选片列表
+export const getOrdetItemListChoose = (params) => {
+	return get(baseUrl.getOrdetItemListChoose, params)
+}
 // 查找-预约日历
 export const getCalendar =  (params) => {
 	return postObj(baseUrl.getCalendar, params)
@@ -171,13 +175,21 @@ export const getGiftList = (params) => {
 export const getPhotoDetail = (params) => {
 	return get(baseUrl.getPhotoDetail, params)
 }
-
 // 新增-拍照记录
 export const addPhotoInfo = (params) => {
 	return postObj(baseUrl.addPhotoInfo, params)
 }
+// 更新-预约拍照记录
+export const updataPhotoInfo = (params) => {
+	return put(baseUrl.updataPhotoInfo, params)
+}
 // 删除-拍照记录
 export const deletPhotoInfo = (params) => {
 	return remove(baseUrl.deletPhotoInfo, params)
+}
+
+//查找-预约选片详情
+export const getChooseDetail = (params) => {
+	return get(baseUrl.getChooseDetail, params)
 }
 	

@@ -32,7 +32,7 @@
 		
 		<!-- 选择修改套系 -->
 		<chooseItemModal :openInfo="openInfo" v-if="showOnItem" :updataItemType="updataItemType" @cancel="cancel"></chooseItemModal>
-		
+		<i-message id="message" />
 	</view>
 </template>
 

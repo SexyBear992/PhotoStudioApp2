@@ -25,7 +25,7 @@
 			</checkbox-group>
 		</view>
 		
-		
+		<i-message id="message" />
 		<view class="button" @click="enSure">确定选择</view>
 	</view>
 </template>

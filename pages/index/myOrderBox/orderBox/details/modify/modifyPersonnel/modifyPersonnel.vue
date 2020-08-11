@@ -28,11 +28,12 @@
 		</view>
 		
 		<view class="save" @click="save">保存</view>
-		
+		<i-message id="message" />
 	</view>
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import babyList from './list/babyList.vue'
 	import personList from './list/personList.vue'
 	import { getCallName } from '@/util/api/goods.js'
@@ -122,10 +123,10 @@
 					zodiac:null,
 				}
 				if(this.babyDtos.length >= 3){
-					uni.showToast({
-						title:'宝宝不能超过三个',
-						icon:'none'
-					})
+					$Message({
+						content: '宝宝不能超过三个',
+						type: 'warning'
+					});
 				}else{
 					this.babyDtos.push(info)
 				}
@@ -149,10 +150,10 @@
 					workUnit: null,
 				}
 				if(this.personDtos.length >= 2){
-					uni.showToast({
-						title:'客户不能超过两个',
-						icon:'none'
-					})
+					$Message({
+						content: '客户不能超过两个',
+						type: 'warning'
+					});
 				}else{
 					this.personDtos.push(info)
 				}

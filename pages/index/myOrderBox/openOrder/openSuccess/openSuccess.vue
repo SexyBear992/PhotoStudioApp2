@@ -2,6 +2,7 @@
 	<view>
 		<view class="title">开单成功</view>
 		<view class="ok" @click="ok">确定</view>
+		<i-message id="message" />
 	</view>
 </template>
 

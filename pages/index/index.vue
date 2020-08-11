@@ -235,7 +235,7 @@
 			</view>
 		</view>
 	
-		
+		<i-message id="message" />
 		<!-- IOS手机底部留白 -->
 		<view class="bottomList"></view>
 		<tabBar :index="1"></tabBar>

@@ -58,7 +58,7 @@
 			getShopId(e){
 				this.$emit('getId',e.id)
 			},
-		}
+		},
 	}
 </script>
 

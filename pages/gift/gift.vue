@@ -49,10 +49,12 @@
 				<view class="enGift" @click="enGift">确定</view>
 			</view>
 		</view>
+		<i-message id="message" />
 	</view>
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import { getGiftName, getGiftDetail } from '@/util/api/goods.js'
 	import { mapActions,mapGetters } from 'vuex'
 	export default{
@@ -299,10 +301,10 @@
 			enGift(){
 				// 如果超出可选范围 提醒
 				if(this.sureInfo.length > this.canCheck && this.canCheck > 0){
-					uni.showToast({
-						title:'最多可选' + this.canCheck,
-						icon:'none'
-					})
+					$Message({
+						content: '最多可选' + this.canCheck,
+						type: 'warning'
+					});
 				}else{
 					if(this.sureInfo){
 						this.giftDetail.forEach((i)=>{		

@@ -10,6 +10,7 @@
 		<image :src="url+'fwBut.png'" mode="" @click="goOpen('服务开单','SERVICE')"></image>
 		<image :src="url+'xzBut.png'" mode="" @click="goOpen('写真开单','PORTRAY')"></image>
 		<image :src="url+'hqBut.png'" mode="" @click="goOpen('婚庆开单','WEDDING')"></image>
+		<i-message id="message" />
 	</view>
 </template>
 

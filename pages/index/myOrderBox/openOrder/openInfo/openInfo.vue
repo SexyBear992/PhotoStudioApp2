@@ -20,10 +20,13 @@
 		
 		<view class="save" @click="saveBut">保存订单</view>
 		<view class="botBox"></view>
+		
+		<i-message id="message" />
 	</view>
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index.js');
 	import { mapGetters } from 'vuex'
 	import InfoModule from './components/InfoModule.vue'
 	import sourceModule from './components/sourceModule.vue'
@@ -106,7 +109,7 @@
 					// // 套系名称
 					// assemblyName:null,
 					// // 套系价格
-					// assemblyPrice:null
+					// assemblyPrice:null 
 				}
 			};
 		},
@@ -201,10 +204,10 @@
 				data.assemblyName = orderPrice.assemblyName
 				data.assemblyPrice = orderPrice.assemblyPrice
 				if(data.assemblyName === null){
-					uni.showToast({
-						title:'请选择套系',
-						icon:'none'
-					},2000)
+					$Message({
+							content: '请选择套系',
+							type: 'warning'
+					});
 				}else{
 					/********************************  选择套系内容  *********************************/
 					orderItem.forEach((i)=>{
@@ -242,15 +245,15 @@
 				data.customerGroup.newCustomerContactDtos = []
 				data.customerGroup.oldCustomerContactDtos = []
 				if(contactInfo[0].name === null){
-						uni.showToast({
-							title:'客户联系人姓名不能为空',
-							icon:'none'
-						})
+					$Message({
+						content: '客户联系人姓名不能为空',
+						type: 'warning'
+					});
 				}else if(contactInfo[0].mobile === null){
-					uni.showToast({
-						title:'客户联系人电话不能为空',
-						icon:'none'
-					})
+					$Message({
+						content: '客户联系人电话不能为空',
+						type: 'warning'
+					});
 				}
 				
 				// 如果名字不为空 则push入数组
@@ -276,10 +279,10 @@
 						}
 					})
 					if(baby[0].name === null){
-						uni.showToast({
-							title:'宝宝名字不能为空',
-							icon:'none'
-						})
+						$Message({
+							content: '宝宝名字不能为空',
+							type: 'warning'
+						});
 						babySave = false
 					}
 				}
@@ -293,20 +296,20 @@
 				/**********************************  客户来源 source ***********************************/
 				data.customerGroup.originId = source.originId
 				if(data.customerGroup.originId === null){
-					uni.showToast({
-						title:'客户来源不能为空',
-						icon:'none'
-					},2000)
+					$Message({
+						content: '客户来源不能为空',
+						type: 'warning'
+					});
 				}
 				data.customerGroup.referrerMobile = source.referrerMobile
 				data.customerGroup.referrerName = source.referrerName
 				
 				/**********************************  开单信息处理 Info ***********************************/ 
 				if(Info.receptions.length <= 0){
-					uni.showToast({
-						title:'接单人员不能为空',
-						icon:'none'
-					},2000)
+					$Message({
+						content: '接单人员不能为空',
+						type: 'warning'
+					});
 					data.receptions = Info.receptions
 				}else{
 					data.receptions = Info.receptions
@@ -323,10 +326,10 @@
 				data.orderCategoryId = Info.orderCategoryId
 				if(data.autoOrderNo === false && Info.orderNo === null){
 					canSave = false
-					uni.showToast({
-						title:'请输入订单号',
-						icon:'none'
-					},2000)
+					$Message({
+						content: '请输入订单号',
+						type: 'warning'
+					});
 				}else{
 					canSave = true
 					data.orderNo = Info.orderNo
@@ -350,7 +353,6 @@
 					contactInfo[0].name !== null && 
 					data.assemblyName !== null
 				){
-					console.log(this.openOrderData)
 					if(this.type === 'WEDDING_DRESS'){
 						openWeddingDress(this.openOrderData).then(res=>{
 							// console.log('婚纱开单',res)

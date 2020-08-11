@@ -19,6 +19,7 @@
 				<view class="noMove" v-if="showNoMore">没有更多数据</view>
 			</s-pull-scroll>
 		</section>
+		<i-message id="message" />
 	</view>
 </template>
 

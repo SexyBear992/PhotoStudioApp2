@@ -33,12 +33,17 @@
 				</checkbox-group>
 			</view>
 			
+			<view class="ts" v-if="showArr.length <= 0">暂无该联系人</view>
+			
 			<view @click="num" class="back">确定</view>
 		</view>
+		
+		<i-message id="message" />
 	</view>
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import { getAccountAllArr } from '@/util/api/user.js'
 	export default {
 		computed:{
@@ -71,7 +76,32 @@
 				showText:'',
 				
 				// picker数组
-				pickerArr:['摄影师','网销人员','摄影师助理','选片师','设计师','初修师','发片师','精修师','接单人','专服人员'],
+				pickerArr:[
+					'接单人',
+					'专服人员',
+					'网销人员',
+					'摄影师',
+					'摄影师助理',
+					'化妆师',
+					'化妆师助理',
+					'引导师',
+					'引导师助理',
+					'录像师',
+					'初修师',
+					'精修师',
+					'设计师',
+					'发片师',
+					'看版师',
+					'选片师',
+					'取件师',
+					'调色师',
+					'会计师',
+					'人事',
+					'店长',
+					'仓管员',
+					'剪辑师',
+					'选修师',
+				],
 				pickerIndex:0,
 				
 				// 搜索关键字
@@ -207,33 +237,42 @@
 			num(){
 				if(this.type === 'RECEPTION'){
 					if(this.enArr.length > 4){
-						uni.showToast({
-							title:'接单人不能超过4位',
-							icon:'none'
-						})
+						$Message({
+							content: '接单人不能超过4位',
+							type: 'warning'
+						});
 					}else{
 						this.enArr[0].main = true
 						this.back()
 					}
 				}else if(this.type === 'SERVICE'){
 					if(this.enArr.length > 1){
-						uni.showToast({
-							title:'专服人员不能超过1位',
-							icon:'none'
-						})
+						$Message({
+							content: '专服人员不能超过1位',
+							type: 'warning'
+						});
 					}else{
 						this.enArr[0].main = true
 						this.back()
 					}
 				}else if(this.type === 'NETWORK_SALES'){
 					if(this.enArr.length > 1){
-					uni.showToast({
-							title:'网销人员不能超过1位',
-							icon:'none'
-						})
+						$Message({
+							content: '网销人员不能超过1位',
+							type: 'warning'
+						});
 					}else{
 						this.enArr[0].main = true
 						this.back()
+					}
+				}else{
+					if(this.enArr.length > 0){
+						this.enArr[0].main = true
+						this.back()						
+					}else{
+						uni.navigateBack({//返回
+							delta: 1
+						})
 					}
 				}
 			},
@@ -293,6 +332,10 @@
 					line-height: 24px;
 				}
 			}
+		}
+		.ts{
+			text-align: center;
+			margin-top: 30rpx;
 		}
 		.back{
 			position: fixed;

@@ -26,6 +26,8 @@
 				<view class="noMove" v-if="showNoMore">没有更多数据</view>
 			</s-pull-scroll>
 		</section>
+		
+		<i-message id="message" />
 	</view>
 </template>
 
@@ -113,44 +115,13 @@
 		methods:{
 			// 获取摄化订单详情
 			getAllOrderItem(){
-				if(this.type === 'pzyy'){
-					// 拍照预约
-					getAllOrderItem(this.params).then(res=>{
-						this.total = res.data.data.total
-							const curList = res.data.data.records
-							curList.forEach((i)=>{
-								this.list.push(i)
-							})
-					})
-				}else if(this.type === 'kbyy'){
-					// 看板预约
-					getAllOrderItem(this.params).then(res=>{
-						this.total = res.data.data.total
-							const curList = res.data.data.records
-							curList.forEach((i)=>{
-								this.list.push(i)
-							})
-					})
-				}else if(this.type === 'xpyy'){
-					// 选片预约
-					getAllOrderItem(this.params).then(res=>{
-						this.total = res.data.data.total
-							const curList = res.data.data.records
-							curList.forEach((i)=>{
-								this.list.push(i)
-							})
-					})
-				}else if(this.type === 'qjyy'){
-					// 取件预约
-					getAllOrderItem(this.params).then(res=>{
-						this.total = res.data.data.total
-							const curList = res.data.data.records
-							curList.forEach((i)=>{
-								this.list.push(i)
-							})
-					})
-				}
-				
+				getAllOrderItem(this.params).then(res=>{
+					this.total = res.data.data.total
+						const curList = res.data.data.records
+						curList.forEach((i)=>{
+							this.list.push(i)
+						})
+				})
 			},
 			
 			// 搜索
@@ -182,7 +153,7 @@
 			// 安排取件
 			qj(e,index){
 				uni.navigateTo({
-					url:'../kb/kbArrange/kbArrange?orderNo=' + e + '&index=' + index
+					url:'../qj/qjArrange/qjArrange?orderNo=' + e + '&index=' + index
 				})
 			},
 		

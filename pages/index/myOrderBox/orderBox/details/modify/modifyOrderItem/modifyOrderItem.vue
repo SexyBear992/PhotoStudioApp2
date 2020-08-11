@@ -81,7 +81,7 @@
 			class="calendar"
 		/>
 		
-		
+		<i-message id="message" />
 	</view>
 </template>
 

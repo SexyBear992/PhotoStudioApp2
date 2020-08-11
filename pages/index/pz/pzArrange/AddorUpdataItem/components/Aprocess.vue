@@ -63,8 +63,7 @@
 			},
 			// 获取选择拍照类型
 			getProcess(e){
-				console.log(e)
-				// this.params.processType = e.id
+				this.$emit('getId',e.id)
 			},
 		},
 	}

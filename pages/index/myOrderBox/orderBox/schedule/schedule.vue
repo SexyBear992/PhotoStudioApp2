@@ -6,7 +6,7 @@
 		</view>
 		
 		<view class="back" @click="back">返回</view>
-		
+		<i-message id="message" />
 	</view>
 </template>
 

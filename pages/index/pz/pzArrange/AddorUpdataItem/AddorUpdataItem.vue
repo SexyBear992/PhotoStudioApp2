@@ -9,7 +9,7 @@
 		</view>
 		
 		<!-- 预约门店 -->
-		<shop :shopId="shopId" @getId="getShopId"></shop>
+		<shop :shopId="params.orderItemProcessReservation.reservationShopId" @getId="getShopId"></shop>
 		
 		<!-- 预约日期 -->
 		<view class="box">
@@ -37,7 +37,7 @@
 		></Atime>
 		
 		<!-- 拍照类型 -->
-		<Aprocess :process="params.processType"></Aprocess>
+		<Aprocess :process="params.processType"  @getId="getProcess"></Aprocess>
 		
 		<!-- 预约标签 -->
 		<Alabel :labelId="params.labelCategoryId" @getId="getLabelId"></Alabel>
@@ -86,7 +86,7 @@
 	import Aprocess from './components/Aprocess.vue'
 	import notice from './components/notice.vue'
 	import { mapGetters } from 'vuex'
-	import { addPhotoInfo, getPhotoDetail } from '@/util/api/shop.js'
+	import { addPhotoInfo, getPhotoDetail, updataPhotoInfo } from '@/util/api/shop.js'
 	export default {
 		components:{
 			shop,
@@ -175,9 +175,17 @@
 			this.name = option.name
 			this.oId = option.oId
 			this.type = option.type
+			
 			if(option.id){
 				this.isUpdata = true
 				this.getPhotoDetail(option.id)
+				uni.setNavigationBarTitle({
+					title:'修改拍照预约'
+				})
+			}else{
+				uni.setNavigationBarTitle({
+					title:'新增拍照预约'
+				})
 			}
 		},
 		onShow(){
@@ -201,7 +209,9 @@
 		mounted(){
 			// 赋值当前门店ID
 			this.params.shopId = this.shopId
-			this.params.orderItemProcessReservation.reservationShopId = this.shopId
+			if(!this.params.id){
+				this.params.orderItemProcessReservation.reservationShopId = this.shopId
+			}
 		},
 		methods:{
 			// 获得门店ID
@@ -227,6 +237,10 @@
 			// 获取标签ID
 			getLabelId(e){
 				this.params.labelCategoryId = e
+			},
+			// 获得拍照类型
+			getProcess(e){
+				this.params.processType = e
 			},
 			// 是否拍微视频
 			video(e){
@@ -258,12 +272,41 @@
 			// 修改 获取预约详情
 			getPhotoDetail(id){
 				getPhotoDetail({ id: id}).then(res=>{
+					this.isTime = true
+					this.contrast = JSON.parse(JSON.stringify(res.data.data.orderItemProcessReservation))
 					this.params = res.data.data
-					this.contrast = res.data.data
 					let place = this.params.completePhotoDataJson.photoDataPlaceJsons
 					this.enPlace = JSON.stringify(place)
 					let dress = this.params.completePhotoDataJson.photoDataDressJsons
 					this.enDress = JSON.stringify(dress)
+				})
+			},
+			
+			// 新增拍照预约
+			addPhotoInfo(){
+				addPhotoInfo(this.params).then(res=>{
+					if(res.data.code === 200){
+						uni.navigateBack({
+							delta:1
+						})
+					}
+				})
+			},
+			
+			// 修改拍照预约
+			updataPhotoInfo(params){
+				updataPhotoInfo(params).then(res=>{
+					if(res.data.code === 200){
+						$Message({
+							content: '修改成功',
+							type: 'success'
+						});
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta:1
+							})
+						},1000)
+					}
 				})
 			},
 			
@@ -291,27 +334,44 @@
 					});
 				}else{
 					if(this.isUpdata){
-						console.log(this.contrast)
-						console.log(this.params)
-					}else{
-						addPhotoInfo(this.params).then(res=>{
-							if(res.data.code === 200){
-								uni.navigateBack({
-									delta:1
-								})
+						let newParams = JSON.parse(JSON.stringify(this.params))
+						let contrast = this.contrast
+						let originally = this.params.orderItemProcessReservation
+						if(contrast.controlType === originally.controlType &&
+							 contrast.groupTypeCategoryId === originally.groupTypeCategoryId &&
+							 contrast.isOnline === originally.isOnline &&
+							 contrast.reservationDate === originally.reservationDate && 
+							 contrast.reservationShopId === originally.reservationShopId &&
+							 contrast.reservationTime === originally.reservationTime
+						){
+							// 如果都为true 则预约日期没修改
+							newParams.orderItemProcessReservation = null
+						}else{
+							// 如果其中一个为false 则重新赋值预约日期
+							let newO = {
+								reservationDate: originally.reservationDate,
+								reservationShopId: originally.reservationShopId,
+								reservationTime: originally.reservationTime,
+								typographyTypeId: originally.typographyTypeId
 							}
-						})
+							newParams.orderItemProcessReservation = newO
+						}
+						// 人员全为null
+						newParams.instructorAssistants = null
+						newParams.instructors = null
+						newParams.makeupAssistants = null
+						newParams.makeups = null
+						newParams.photographerAssistants = null
+						newParams.photographers = null
+						newParams.videographers = null
+						
+						this.updataPhotoInfo(newParams)
+						
+					}else{
+						this.addPhotoInfo()
 					}
 				}	
 			},
-		},
-		watch:{
-			params:{
-				deep:true,
-				handler(){
-					console.log('改变',this.params)
-				}
-			}
 		}
 	}
 </script>

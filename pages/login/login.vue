@@ -26,6 +26,8 @@
 		
 		<!-- 登录按键 -->
 		<view class="but" @click="login">登录</view>
+		
+		<i-message id="message" />
 	</view>
 </template>
 

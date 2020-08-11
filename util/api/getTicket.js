@@ -2,11 +2,12 @@
 	获取ticket值
 *******/
 
-
+const { $Message } = require('@/wxcomponents/base/index');
 let ticketUrl = 'https://api.lyfz.net/sso/v1/ticket/login'
 export const getTicket = (options) => {
 	uni.showLoading({
 	    title: '加载中',
+			mask:true
 	});
 	return new Promise((resolve,reject)=>{
 		uni.request({
@@ -19,30 +20,30 @@ export const getTicket = (options) => {
 			success :(res)=>{
 				uni.hideLoading();
 				if(res.data.code === 500){
-					uni.showToast({
-						title:'请输入账号或者密码',
-						icon:'none',
-						duration:2000
-					})
+					$Message({
+						content: '请输入账号或者密码',
+						type: 'warning'
+					});
 				}else if(res.data.code === 3101){
-					uni.showToast({
-						title:'请输入验证码',
-						icon:'none'
-					})
+					$Message({
+						content: '请输入验证码',
+						type: 'warning'
+					});
 				}else if(res.data.code !== 1000){
-					uni.showToast({
-						title:res.data.msg,
-						icon:'none',
-						duration:2000
-					})
+					$Message({
+						content: res.data.msg,
+						type: 'error'
+					});
 				}else{
 					resolve(res)
 				}
 			},
 			fail:(err)=>{
-				uni.showToast({
-					title:'请求接口失败'
-				})
+				uni.hideLoading();
+				$Message({
+					content: '请求接口失败',
+					type: 'error'
+				});
 				reject(err)
 			}
 		})

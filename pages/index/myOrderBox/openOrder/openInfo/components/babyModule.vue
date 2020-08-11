@@ -35,6 +35,7 @@
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import cell from '@/components/cell.vue'
 	import Lunar from '@/components/Lunar.vue'
 	import { getCallName } from '@/util/api/goods.js'
@@ -93,10 +94,10 @@
 					zodiac:null //生肖
 				}
 				if(this.newCustomerBabyDtos.length >= 3){
-					uni.showToast({
-						title:'宝宝不能超过三个',
-						icon:'none'
-					})
+					$Message({
+						content: '宝宝不能超过三个',
+						type: 'warning'
+					});
 				}else{
 					this.newCustomerBabyDtos.push(arr)
 				}

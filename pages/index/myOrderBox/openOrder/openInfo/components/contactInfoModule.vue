@@ -47,6 +47,7 @@
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import { getCustomerMobileList } from '@/util/api/shop.js'
 	import { getCallName } from '@/util/api/goods.js'
 	import Lunar from '@/components/Lunar.vue'
@@ -117,10 +118,10 @@
 					otherShow: false
 				}
 				if(this.newCustomerContactDtos.length >= 2){
-					uni.showToast({
-						title:'联系人不能超过两个',
-						icon:'none'
-					})
+					$Message({
+						content: '联系人不能超过两个',
+						type: 'warning'
+					});
 				}else{
 					this.newCustomerContactDtos.push(arr)
 				}

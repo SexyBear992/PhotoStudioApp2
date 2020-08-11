@@ -80,6 +80,7 @@
 				ref="calendar2"
 			/>
 		</view>
+		<i-message id="message" />
 	</view>
 </template>
 

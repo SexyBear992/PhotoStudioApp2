@@ -40,6 +40,7 @@
 			
 			<view class="save" @click="save">保存</view>
 		</view>
+		<i-message id="message" />
 	</view>
 </template>
 

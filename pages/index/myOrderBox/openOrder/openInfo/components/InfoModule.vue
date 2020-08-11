@@ -256,7 +256,7 @@
 				if(type === 'RECEPTION'){
 					this.showTextFa = this.peception
 				}else if(type === 'SERVICE'){
-					this.showTextFa = this.services
+					this.showTextFa = this.service
 				}else if(type === 'NETWORK_SALES'){
 					this.showTextFa = this.network
 				}

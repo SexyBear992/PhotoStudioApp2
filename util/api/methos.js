@@ -3,7 +3,7 @@
 	接口调用 通用
 
 **********/
-
+const { $Message } = require('@/wxcomponents/base/index');
 import app from '@/store/module/app.js'
 const request = (url, options) => {
 	uni.showLoading({
@@ -22,12 +22,12 @@ const request = (url, options) => {
 				'CurrentShopId' : app.state.shopId
 			},
 			success :(res)=>{
-				// uni.hideLoading();
+				uni.hideLoading();
 				if(res.data.code !== 200){
-					uni.showToast({
-						title:res.data.message,
-						icon:'none'
-					})
+					$Message({
+						content: res.data.message,
+						type: 'error'
+					});
 					resolve(res)
 				}else{
 					uni.hideLoading();
@@ -35,10 +35,11 @@ const request = (url, options) => {
 				}
 			},
 			fail:(err)=>{
-				// uni.hideLoading();
-				uni.showToast({
-					title:'请求接口失败'
-				})
+				uni.hideLoading();
+				$Message({
+					content: '请求接口失败',
+					type: 'error'
+				});
 				reject(err)
 			}
 		})

@@ -71,6 +71,7 @@ let baseUrl = {
 	// 摄控
 	getAllOrderItem: `${base_store}/orderList/page/allOrderItem`, //查找-所有订单子订单
 	getOrdetItemList: `${base_store}/order/item/process/photo/reservation/list`, // 查找-预约拍照列表
+	getOrdetItemListChoose: `${base_store}/order/item/process/choose/reservation/list`, // 查找-预选片列表
 	getCalendar: `${base_store}/order/item/process/photo/reservation/date`, // 查找-预约日历
 	getPhotoTemplate: `${base_store}/order/item/process/photo/reservation/template`, //查找-预约模板
 	getPhotoTime: `${base_store}/order/item/process/photo/reservation/time`,// 查找-预约时间段
@@ -79,9 +80,12 @@ let baseUrl = {
 	getGiftList: `${base_store}/order/gift/list`, //查找-礼包列表
 	
 	getPhotoDetail: `${base_store}/order/item/process/photo/reservation/details`,// 查找-预约拍照详情
-	
 	addPhotoInfo: `${base_store}/order/item/process/photo/reservation/add`, // 新增-预约拍照记录
+	updataPhotoInfo: `${base_store}/order/item/process/photo/reservation/update`, //更新-预约拍照记录
 	deletPhotoInfo: `${base_store}/order/item/process/photo/delete`, // 删除-拍照记录
+	
+	getChooseDetail: `${base_store}/order/item/process/choose/reservation/details`,  //查找-预约选片详情
+	
 }
 
 export default baseUrl
