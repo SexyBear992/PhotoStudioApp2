@@ -13,7 +13,7 @@
 		<list :title="'化妆师助理'" :show="showMAKEUP_ASSISTANT" :type="'MAKEUP_ASSISTANT'" @goAddress="goAddress"></list>
 		<list :title="'引导师'" :show="showINSTRUCTOR" :type="'INSTRUCTOR'" @goAddress="goAddress"></list>
 		<list :title="'引导式助理'" :show="showINSTRUCTOR_ASSISTANT" :type="'INSTRUCTOR_ASSISTANT'" @goAddress="goAddress"></list>
-		
+		<list v-if="params.isVideo" :title="'录像师'" :show="showVIDEOGRAPHER" :type="'VIDEOGRAPHER'" @goAddress="goAddress"></list>
 		
 		<view class="button" @click="button">{{but}}摄化人员</view>
 		
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-	import list from './components/list.vue'
+	import list from '../components/personList.vue'
 	const { $Message } = require('@/wxcomponents/base/index');
 	import { getPhotoDetail, updataPhotoInfo } from '@/util/api/shop.js'
 	export default {
@@ -46,7 +46,7 @@
 				showMAKEUP_ASSISTANT:'请选择',
 				showINSTRUCTOR:'请选择',
 				showINSTRUCTOR_ASSISTANT:'请选择',
-				
+				showVIDEOGRAPHER:'请选择',
 				params:{},
 				
 			};
@@ -96,6 +96,10 @@
 						this[show] = address.show
 						this.params.instructorAssistants = arr
 						break
+					case 'VIDEOGRAPHER':
+						this[show] = address.show
+						this.params.videographers = arr
+						break
 				}
 			}
 		},
@@ -127,19 +131,21 @@
 					this.showName(data.instructors,'showINSTRUCTOR')
 					// 摄影师助理
 					this.showName(data.instructorAssistants,'showINSTRUCTOR_ASSISTANT')
-					
+					// 录像师
+					this.showName(data.videographers,'showVIDEOGRAPHER')
 					this.params.photographers = null
 					this.params.photographerAssistants = null
 					this.params.makeups = null
 					this.params.makeupAssistants = null
 					this.params.instructors = null
 					this.params.instructorAssistants = null
+					this.params.videographers = null
 				})
 			},
 			goAddress(type){
 				let show = `show${type}`
 				uni.navigateTo({
-					url:'../../../../address/address?type=' + type + '&show=' + this[show]
+					url:'../../../address/address?type=' + type + '&show=' + this[show]
 				})
 			},
 			
@@ -165,7 +171,7 @@
 </script>
 
 <style lang="scss">
-	@import '../../button.scss';
+	@import '../components/component.scss';
 	.bigBox{
 		.titleBox{
 			display: flex;

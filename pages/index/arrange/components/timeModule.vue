@@ -15,9 +15,9 @@
 </template>
 
 <script>
-	import { getPhotoTime } from '@/util/api/shop.js'
+	import { getPhotoTime, getChooseTime } from '@/util/api/shop.js'
 	export default{
-		props:['date','shopId','typography','time'],
+		props:['date','shopId','typography','time','getType'],
 		data(){
 			return{
 				// picker预约时间段
@@ -32,12 +32,23 @@
 		},
 		methods:{
 			// 获取预约时间段
-			getPhotoTime(){
+			getTimePeriod(){
 				let params ={
 					reservationDate: this.date, //预约日期
 					reservationShopId: this.shopId,	//预约门店ID
 					typographyTypeId: this.typography //模板ID
 				}
+				switch(this.getType){
+					case 'pz':
+						this.getPhotoTime(params)
+						break
+					case 'xp':
+						this.getChooseTime(params)
+						break
+				}
+			},
+			// 拍照时间段
+			getPhotoTime(params){
 				getPhotoTime(params).then(res=>{
 					// timeFrameStr
 					let data = res.data.data
@@ -50,6 +61,21 @@
 					this.photoTimeArr = arr
 				})
 			},
+			// 选片时间段
+			getChooseTime(params){
+				getChooseTime(params).then(res=>{
+					// timeFrameStr
+					let data = res.data.data
+					this.timeArr = data
+					let arr = []
+					data.forEach((i)=>{
+						let name = `${i.timeFrameStr} ${i.typographyCount}/${i.useTypographyNum}`
+						arr.push(name)
+					})
+					this.photoTimeArr = arr
+				})
+			},
+			
 			// input监听
 			timeChange(e){
 				let result = []
@@ -86,7 +112,7 @@
 		},
 		watch:{
 			typography(){
-				this.getPhotoTime()
+				this.getTimePeriod()
 			},
 			time(){
 				this.sTime = this.time

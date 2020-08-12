@@ -139,25 +139,38 @@ export const getAllOrderItem = (params) => {
 	return get(baseUrl.getAllOrderItem, params)
 }
 // 查找-预约拍照列表
-export const getOrdetItemList = (params) => {
-	return get(baseUrl.getOrdetItemList, params)
+export const getOrdetItemListPhoto = (params) => {
+	return get(baseUrl.getOrdetItemListPhoto, params)
 }
 // 查找-预选片列表
 export const getOrdetItemListChoose = (params) => {
 	return get(baseUrl.getOrdetItemListChoose, params)
 }
-// 查找-预约日历
-export const getCalendar =  (params) => {
-	return postObj(baseUrl.getCalendar, params)
+// 查找-拍照预约日历
+export const getPhotoDate =  (params) => {
+	return postObj(baseUrl.getPhotoDate, params)
 }
-//查找-预约模板
+// 查找-选片预约日历
+export const getChooseDate =  (params) => {
+	return postObj(baseUrl.getChooseDate, params)
+}
+//查找-拍照预约模板
 export const getPhotoTemplate = (params) => {
 	return postObj(baseUrl.getPhotoTemplate, params)
 }
-// 查找-预约时间段
+//查找-选片预约模板
+export const getChooseTemplate = (params) => {
+	return postObj(baseUrl.getChooseTemplate, params)
+}
+// 查找-拍照预约时间段
 export const getPhotoTime = (params) => {
 	return postObj(baseUrl.getPhotoTime, params)
 }
+// 查找-选片预约时间段
+export const getChooseTime = (params) => {
+	return postObj(baseUrl.getChooseTime, params)
+}
+
 //查找-子订单服装列表
 export const getPhotoDress = (params) => {
 	return get(baseUrl.getPhotoDress, params)
@@ -183,7 +196,7 @@ export const addPhotoInfo = (params) => {
 export const updataPhotoInfo = (params) => {
 	return put(baseUrl.updataPhotoInfo, params)
 }
-// 删除-拍照记录
+// 删除-预约拍照记录
 export const deletPhotoInfo = (params) => {
 	return remove(baseUrl.deletPhotoInfo, params)
 }
@@ -192,4 +205,38 @@ export const deletPhotoInfo = (params) => {
 export const getChooseDetail = (params) => {
 	return get(baseUrl.getChooseDetail, params)
 }
+// 新增-预约选片记录
+export const addChooseInfo = (params) => {
+	return postObj(baseUrl.addChooseInfo, params)
+}
+// 更新-预约选片记录
+export const updataChooseInfo = (params) => {
+	return put(baseUrl.updataChooseInfo, params)
+}
+// 删除-预约选片记录
+export const deletChooseInfo = (params) => {
+	return remove(baseUrl.deletChooseInfo, params)
+} 
+
+
+// 查找-预约看板列表
+export const getOrdetItemListWatch = (params) => {
+	return get(baseUrl.getOrdetItemListWatch, params)
+}
+// 查找-看板预约日历
+export const getWatchDate = (params) => {
+	return postObj(baseUrl.getWatchDate, params)
+}
+
+
+// 查找-预约取件列表
+export const getOrdetItemListPickup = (params) => {
+	return get(baseUrl.getOrdetItemListPickup, params)
+}
+// 查找-取件预约日历
+export const getPickupDate = (params) => {
+	return postObj(baseUrl.getPickupDate, params)
+}
+
+
 	

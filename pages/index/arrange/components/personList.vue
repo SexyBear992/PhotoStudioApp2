@@ -29,15 +29,17 @@
 <style lang="scss" scoped>
 	.listBox{
 		display: flex;
-		margin: 30rpx;
-		padding: 20rpx;
-		font-size: 28rpx;
-		border-bottom: 1rpx solid #DDDDDD;
 		.title{
 			width: 270rpx;
 		}
 		.textBox{
 			display: flex;
+			.text{
+				max-width: 360rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
 			image{
 				width: 15rpx;
 				height: 15rpx;

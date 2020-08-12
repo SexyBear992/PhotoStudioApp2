@@ -135,25 +135,28 @@
 			pz(e,index){
 				// 该 index 为子订单下标
 				uni.navigateTo({
-					url:'../pz/pzArrange/pzArrange?orderNo=' + e + '&index=' + index
+					url:'../arrange/arrange?indexType=pz&orderNo=' + e + '&index=' + index
 				})
 			},
 			// 安排选片
 			xp(e,index){
 				uni.navigateTo({
-					url:'../xp/xpArrange/xpArrange?orderNo=' + e + '&index=' + index
+					// url:'../xp/xpArrange/xpArrange?orderNo=' + e + '&index=' + index
+					url:'../arrange/arrange?indexType=xp&orderNo=' + e + '&index=' + index
 				})
 			},
 			// 安排看板
 			kb(e,index){
 				uni.navigateTo({
-					url:'../kb/kbArrange/kbArrange?orderNo=' + e + '&index=' + index
+					// url:'../kb/kbArrange/kbArrange?orderNo=' + e + '&index=' + index,
+					url:'../arrange/arrange?indexType=kb&orderNo=' + e + '&index=' + index
 				})
 			},
 			// 安排取件
 			qj(e,index){
 				uni.navigateTo({
-					url:'../qj/qjArrange/qjArrange?orderNo=' + e + '&index=' + index
+					// url:'../qj/qjArrange/qjArrange?orderNo=' + e + '&index=' + index
+					url:'../arrange/arrange?indexType=qj&orderNo=' + e + '&index=' + index
 				})
 			},
 		

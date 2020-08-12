@@ -130,55 +130,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import '../../../button.scss';
-	.bigBox{
-		.titleBox{
-			display: flex;
-			justify-content: space-between;
-			padding: 30rpx;
-			font-size: 32rpx;
-			font-weight: bold;
-			border-bottom: 1rpx solid #DDDDDD;
-			.left{
-				display: flex;
-				>view{
-					margin-right: 20rpx;
-				}
-			}
-		}
-		.list{
-			font-size: 32rpx;
-			display: flex;
-			margin: 30rpx;
-			padding-bottom: 30rpx;
-			border-bottom: 1rpx solid #DDDDDD;
-			.text{
-				margin-left: 30rpx;
-				width: 300rpx;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-			input{
-				padding: 0 20rpx;
-				width: 150rpx;
-			}
-		}
-		.addBox{
-			display: flex;
-			flex-direction: row-reverse;
-			padding: 30rpx;
-			.add{
-				width:160rpx;
-				height:48rpx;
-				line-height: 48rpx;
-				text-align: center;
-				border: 2rpx dashed #61A3FF;
-				border-radius:24rpx;
-				font-size: 28rpx;
-				color: #61A3FF;
-				margin-left: 30rpx;
-			}
-		}
-	}
+	@import '../chooseStyle.scss';
 </style>

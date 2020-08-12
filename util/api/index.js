@@ -70,21 +70,34 @@ let baseUrl = {
 	
 	// 摄控
 	getAllOrderItem: `${base_store}/orderList/page/allOrderItem`, //查找-所有订单子订单
-	getOrdetItemList: `${base_store}/order/item/process/photo/reservation/list`, // 查找-预约拍照列表
-	getOrdetItemListChoose: `${base_store}/order/item/process/choose/reservation/list`, // 查找-预选片列表
-	getCalendar: `${base_store}/order/item/process/photo/reservation/date`, // 查找-预约日历
-	getPhotoTemplate: `${base_store}/order/item/process/photo/reservation/template`, //查找-预约模板
-	getPhotoTime: `${base_store}/order/item/process/photo/reservation/time`,// 查找-预约时间段
 	getPhotoDress: `${base_store}/order/item/dress/list`,//查找-子订单服装列表
 	getPhotoPlace: `${base_store}/order/item/place/list`,//查找-子订单景点列表
 	getGiftList: `${base_store}/order/gift/list`, //查找-礼包列表
 	
+	getOrdetItemListPhoto: `${base_store}/order/item/process/photo/reservation/list`, // 查找-预约拍照列表
+	getPhotoDate: `${base_store}/order/item/process/photo/reservation/date`, // 查找-拍照预约日历
+	getPhotoTemplate: `${base_store}/order/item/process/photo/reservation/template`, //查找-拍照预约模板
+	getPhotoTime: `${base_store}/order/item/process/photo/reservation/time`,// 查找-拍照预约时间段
 	getPhotoDetail: `${base_store}/order/item/process/photo/reservation/details`,// 查找-预约拍照详情
 	addPhotoInfo: `${base_store}/order/item/process/photo/reservation/add`, // 新增-预约拍照记录
 	updataPhotoInfo: `${base_store}/order/item/process/photo/reservation/update`, //更新-预约拍照记录
-	deletPhotoInfo: `${base_store}/order/item/process/photo/delete`, // 删除-拍照记录
+	deletPhotoInfo: `${base_store}/order/item/process/photo/delete`, // 删除-预约拍照记录
 	
+	getOrdetItemListChoose: `${base_store}/order/item/process/choose/reservation/list`, // 查找-预约选片列表
+	getChooseDate: `${base_store}/order/item/process/choose/reservation/date`, // 查找-选片预约日历
+	getChooseTemplate: `${base_store}/order/item/process/choose/reservation/template`, //查找-选片预约模板
+	getChooseTime: `${base_store}/order/item/process/choose/reservation/time`,// 查找-选片预约时间段
 	getChooseDetail: `${base_store}/order/item/process/choose/reservation/details`,  //查找-预约选片详情
+	addChooseInfo: `${base_store}/order/item/process/choose/reservation/add`, // 新增-预约选片记录
+	updataChooseInfo: `${base_store}/order/item/process/choose/reservation/update`, //更新-预约拍照记录
+	deletChooseInfo: `${base_store}/order/item/process/choose/reservation/delete`, // 删除-预约选片记录
+	
+	getOrdetItemListWatch: `${base_store}/order/item/process/watch/reservation/list`, // 查找-预约看板列表
+	getWatchDate: `${base_store}/order/item/process/watch/reservation/date`, // 查找-看板预约日历
+	
+	
+	getOrdetItemListPickup: `${base_store}/order/item/process/pickup/reservation/list`, // 查找-预约取件列表
+	getPickupDate: `${base_store}/order/item/process/pickup/reservation/date`, // 查找-取件预约日历
 	
 }
 

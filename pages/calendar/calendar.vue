@@ -38,11 +38,13 @@
 				</view>
 			</view>
 		</view>
+	
+		<i-message id="message" />
 	</view>
 </template>
 
 <script>
-	import { getCalendar } from '@/util/api/shop.js'
+	import { getPhotoDate, getChooseDate, getWatchDate, getPickupDate } from '@/util/api/shop.js'
 	export default {
 		components:{
 		},
@@ -70,6 +72,8 @@
 		data() {
 			return {
 				
+				// 请求日历类型
+				type:null,
 				show:false,
 				
 				// picker
@@ -92,6 +96,7 @@
 			};
 		},
 		onLoad(options){
+			this.type = options.type
 			this.dateParams.reservationShopId = options.id
 			this.dateInit()
 		},
@@ -153,11 +158,35 @@
 				// 结束时间
 				let endTime = Date.parse(new Date(`${nowYear}-${this.completeDate(nowMonth)}-${dayNums}`))
 				this.dateParams.endTime = Number(endTime) - 28800000 //减去8小时时间戳
-				getCalendar(this.dateParams).then(res=>{
+				switch(this.type){
+					case 'pz':
+						this.getPhotoDate()
+						break;
+					case 'xp':
+						this.getChooseDate()
+						break;
+					case 'kb':
+						this.getPhotoDate()
+						break;
+					case 'qj':
+						this.getPhotoDate()
+						break;
+				}
+			},	
+			// 获取拍照预约日历
+			getPhotoDate(){
+				getPhotoDate(this.dateParams).then(res=>{
 					this.dateDetail = res.data.data
 					this.show = true
 				})
-			},	
+			},
+			// 获取选片预约日历
+			getChooseDate(){
+				getChooseDate(this.dateParams).then(res=>{
+					this.dateDetail = res.data.data
+					this.show = true
+				})
+			},
 			
 			// 判断是否需要背景色
 			noBg(arr,i){
