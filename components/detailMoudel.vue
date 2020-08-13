@@ -45,7 +45,7 @@
 					
 					<view class="listRight">
 						<view class="title">订单时间：</view>
-						<view class="text">{{info.orderTime}}</view>
+						<view class="text">{{info.orderTime | time}}</view>
 					</view>
 				</view>
 				

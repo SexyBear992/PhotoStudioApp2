@@ -108,7 +108,7 @@
 					</view>
 					
 					<!-- 按键 -->
-					<view class="butBox">
+					<view class="butBox" v-if="item.processStatus !== 'COMPLETE'">
 						<view class="but" @click="addActor(item.id)" v-if="!item.orderItemProcessActorVos">安排摄化人员</view>
 						<view class="but" @click="updataActor(item.id)" v-else>修改摄化人员</view>
 						<view class="but" @click="change(item.id)">改期</view>
@@ -208,6 +208,10 @@
 				// 取消档期ID
 				cancleId:null,
 			}
+		},
+		mounted(){
+			this.scheduleMap = new Map(this.get_schedule.map(item => [item.id, item.name]))
+			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
 		},
 		methods:{
 			// 新增拍照预约

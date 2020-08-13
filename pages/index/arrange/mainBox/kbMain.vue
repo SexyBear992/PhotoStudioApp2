@@ -48,12 +48,12 @@
 				</view>
 				
 				<!-- 按键 -->
-				<view class="butBox" v-if="item.id">
+				<view class="butBox" v-if="item.id && item.processStatus !== 'COMPLETE'">
 					<view class="but" @click="updata(item.id)">修改看板档期</view>
 					<view class="but" @click="cancel(item.id)">取消档期</view>
 				</view>
 				
-				<view class="button" v-else @click="updata(item.id)">安排看板档期</view>
+				<view class="button" v-if="!item.id && item.processStatus !== 'COMPLETE'" @click="updata(item.id)">安排看板档期</view>
 
 			</view>
 		</view>
@@ -121,6 +121,8 @@
 			}
 		},
 		mounted(){
+			this.scheduleMap = new Map(this.get_schedule.map(item => [item.id, item.name]))
+			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
 		},
 		methods:{
 			// 修改
