@@ -35,8 +35,6 @@
 				itemNo:null,
 				// 子订单名
 				name:null,
-				// 订单类型
-				type:null,
 				// 按键名
 				but:null,
 				
@@ -51,14 +49,17 @@
 				
 			};
 		},
-		onLoad(option){
+		onLoad(op){
+			let pages = getCurrentPages()
+			let prvePage = pages[pages.length - 2]
+			let option = prvePage.data.options
+			
 			this.itemNo = option.itemNo
 			this.name = option.name
-			this.type = option.type
-			this.but = option.but
-			this.getPhotoDetail(option.id)
+			this.but = op.but
+			this.getPhotoDetail(op.id)
 			uni.setNavigationBarTitle({
-				title: option.but + '摄化人员'
+				title: op.but + '摄化人员'
 			})
 		},
 		onShow(){

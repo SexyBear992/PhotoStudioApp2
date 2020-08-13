@@ -189,14 +189,19 @@
 				}
 			}
 		},
-		onLoad(option){
+		onLoad(op){
+			let pages = getCurrentPages()
+			let prvePage = pages[pages.length - 2]
+			let option = prvePage.data.options
+			
+			
 			this.itemId = Number(option.itemId)
 			this.itemNo = option.itemNo
 			this.name = option.name
-			this.oId = option.oId
+			this.oId = op.oId
 			this.type = option.type
-			if(option.id){
-				this.getPhotoDetail(option.id)
+			if(op.id){
+				this.getPhotoDetail(op.id)
 				uni.setNavigationBarTitle({
 					title:'修改拍照预约'
 				})

@@ -9,7 +9,7 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">预约时间：</view>
-							<view class="text">{{item.reservationDate | time}}</view>
+							<view class="info">{{item.reservationDate | time}}</view>
 						</view>	
 					</view>
 					
@@ -17,11 +17,11 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">预约门店：</view>
-							<view class="text">{{shopIdMap.get(item.reservationShopId)}}</view>
+							<view class="info">{{shopIdMap.get(item.reservationShopId)}}</view>
 						</view>	
 						<view class="list">
 							<view class="text">档期分组：</view>
-							<view class="text">{{scheduleMap.get(item.groupTypeCategoryId)}}({{item.isOnline | isOnline}})</view>
+							<view class="info">{{scheduleMap.get(item.groupTypeCategoryId)}}({{item.isOnline | isOnline}})</view>
 						</view>	
 					</view>
 					
@@ -29,11 +29,11 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">看板状态：</view>
-							<view class="text">{{item.processStatus | processStatus}}</view>
+							<view class="info">{{item.processStatus | processStatus}}</view>
 						</view>	
 						<view class="list">
 							<view class="text">看板时间：</view>
-							<view class="text">{{item.reservationTime}}</view>
+							<view class="info">{{item.reservationTime}}</view>
 						</view>	
 					</view>
 					
@@ -41,7 +41,7 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">看板师：</view>
-							<view class="text arr">{{item.orderItemProcessActorVos | actor}}</view>
+							<view class="info arr">{{item.orderItemProcessActorVos | actor}}</view>
 						</view>	
 					</view>
 					
@@ -65,17 +65,13 @@
 
 <script>
 	const { $Message } = require('@/wxcomponents/base/index');
-	import { deletChooseInfo } from '@/util/api/shop.js'
+	import { deletWatchInfo } from '@/util/api/shop.js'
 	import delModal from '@/components/delModal.vue'
 	export default{
 		props:[
 			'listInfo',
 			'get_schedule',
 			'get_shopAllArr',
-			'nextItemNo',
-			'nextName',
-			'type',
-			'itemId',
 		],
 		components:{
 			delModal
@@ -130,7 +126,7 @@
 			// 修改
 			updata(id){
 				uni.navigateTo({
-					url:'./kbAddorUpdata/kbAddorUpdata?itemNo=' + this.nextItemNo + '&name=' + this.nextName + '&type=' + this.type + '&itemId=' + this.itemId + '&id=' + id
+					url:'./kbAddorUpdata/kbAddorUpdata?id=' + id
 				})
 			},
 			
@@ -141,7 +137,7 @@
 			},
 			// 确定取消档期
 			ok(){
-				deletChooseInfo({id:this.cancleId}).then(res=>{
+				deletWatchInfo({id:this.cancleId}).then(res=>{
 					if(res.data.code === 200){
 						this.cancleId = null
 						this.delModalShow = false
@@ -161,8 +157,15 @@
 		},
 		watch:{
 			get_schedule(){
-				this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
-				this.scheduleMap = new Map(this.get_schedule.map(item => [item.id, item.name]))
+				if(this.get_schedule){
+					this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
+					this.scheduleMap = new Map(this.get_schedule.map(item => [item.id, item.name]))
+				}else{
+					$Message({
+						content: '获取接口失败',
+						type: ''
+					});
+				}
 			},
 		}
 	}

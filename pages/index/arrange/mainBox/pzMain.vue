@@ -13,7 +13,7 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">预约时间：</view>
-							<view class="text">{{item.reservationDate | time}}</view>
+							<view class="info">{{item.reservationDate | time}} {{item.reservationTime}}</view>
 						</view>	
 					</view>
 								
@@ -21,11 +21,11 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">拍照类型：</view>
-							<view class="text">{{item.processType | processType}}</view>
+							<view class="info">{{item.processType | processType}}</view>
 						</view>
 						<view class="list">
 							<view class="text">预约门店：</view>
-							<view class="text">{{shopIdMap.get(item.reservationShopId)}}</view>
+							<view class="info">{{shopIdMap.get(item.reservationShopId)}}</view>
 						</view>
 					</view>
 					
@@ -33,11 +33,11 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">预约档期：</view>
-							<view class="text">{{scheduleMap.get(item.groupTypeCategoryId)}}({{item.isOnline | isOnline}})</view>
+							<view class="info">{{scheduleMap.get(item.groupTypeCategoryId)}}({{item.isOnline | isOnline}})</view>
 						</view>
 						<view class="list">
 							<view class="text">拍照状态：</view>
-							<view class="text">{{item.processStatus | processStatus}}</view>
+							<view class="info">{{item.processStatus | processStatus}}</view>
 						</view>
 					</view>
 					
@@ -45,7 +45,7 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">拍摄景点：</view>
-							<view class="text arr">{{item.completePhotoDataJson.photoDataPlaceJsons | photoDataArr}}</view>
+							<view class="info arr">{{item.completePhotoDataJson.photoDataPlaceJsons | photoDataArr}}</view>
 						</view>	
 					</view>
 					
@@ -53,7 +53,7 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">拍摄服装：</view>
-							<view class="text arr">{{item.completePhotoDataJson.photoDataDressJsons | photoDataArr}}</view>
+							<view class="info arr">{{item.completePhotoDataJson.photoDataDressJsons | photoDataArr}}</view>
 						</view>	
 					</view>
 					
@@ -72,11 +72,11 @@
 							<view class="listBox">
 								<view class="list">
 									<view class="text">摄影师：</view>
-									<view class="text arr">{{item.orderItemProcessActorVos | actor('PHOTOGRAPHER')}}</view>
+									<view class="info actor">{{item.orderItemProcessActorVos | actor('PHOTOGRAPHER')}}</view>
 								</view>
 								<view class="list">
 									<view class="text">摄影师助理：</view>
-									<view class="text arr">{{item.orderItemProcessActorVos | actor('PHOTOGRAPHER_ASSISTANT')}}</view>
+									<view class="info actor">{{item.orderItemProcessActorVos | actor('PHOTOGRAPHER_ASSISTANT')}}</view>
 								</view>		
 							</view>
 							
@@ -84,11 +84,11 @@
 							<view class="listBox">
 								<view class="list">
 									<view class="text">化妆师：</view>
-									<view class="text arr">{{item.orderItemProcessActorVos | actor('MAKEUP')}}</view>
+									<view class="info actor">{{item.orderItemProcessActorVos | actor('MAKEUP')}}</view>
 								</view>
 								<view class="list">
 									<view class="text">化妆师助理：</view>
-									<view class="text arr">{{item.orderItemProcessActorVos | actor('MAKEUP_ASSISTANT')}}</view>
+									<view class="info actor">{{item.orderItemProcessActorVos | actor('MAKEUP_ASSISTANT')}}</view>
 								</view>		
 							</view>
 							
@@ -96,11 +96,11 @@
 							<view class="listBox">
 								<view class="list">
 									<view class="text">引导师：</view>
-									<view class="text arr">{{item.orderItemProcessActorVos | actor('INSTRUCTOR')}}</view>
+									<view class="info actor">{{item.orderItemProcessActorVos | actor('INSTRUCTOR')}}</view>
 								</view>
 								<view class="list">
 									<view class="text">引导师助理：</view>
-									<view class="text arr">{{item.orderItemProcessActorVos | actor('INSTRUCTOR_ASSISTANT')}}</view>
+									<view class="info actor">{{item.orderItemProcessActorVos | actor('INSTRUCTOR_ASSISTANT')}}</view>
 								</view>		
 							</view>
 							
@@ -136,10 +136,6 @@
 			'get_schedule',
 			'get_shopAllArr',
 			'oId',
-			'nextItemNo',
-			'nextName',
-			'type',
-			'itemId',
 		],
 		components:{
 			delModal
@@ -217,25 +213,25 @@
 			// 新增拍照预约
 			addPhoto(){
 				uni.navigateTo({
-					url:'./pzAddorUpdata/pzAddorUpdata?itemNo=' + this.nextItemNo + '&name=' + this.nextName + '&type=' + this.type + '&oId=' +  this.oId + '&itemId=' + this.itemId
+					url:'./pzAddorUpdata/pzAddorUpdata?oId=' +  this.oId
 				})
 			},
 			// 修改拍照预约
 			change(id){
 				uni.navigateTo({
-					url:'./pzAddorUpdata/pzAddorUpdata?itemNo=' + this.nextItemNo + '&name=' + this.nextName + '&type=' + this.type + '&oId=' +  this.oId + '&itemId=' + this.itemId + '&id=' + id
+					url:'./pzAddorUpdata/pzAddorUpdata?oId=' +  this.oId + '&id=' + id
 				})
 			},
 			// 新增人员
 			addActor(id){
 				uni.navigateTo({
-					url:'./pzPerson/pzPerson?itemNo=' + this.nextItemNo + '&name=' + this.nextName + '&type=' + this.type + '&id=' + id + '&but=安排'
+					url:'./pzPerson/pzPerson?id=' + id + '&but=安排'
 				})
 			},
 			// 修改人员
 			updataActor(id){
 				uni.navigateTo({
-					url:'./pzPerson/pzPerson?itemNo=' + this.nextItemNo + '&name=' + this.nextName + '&type=' + this.type + '&id=' + id + '&but=修改'
+					url:'./pzPerson/pzPerson?id=' + id + '&but=修改'
 				})
 			},
 			

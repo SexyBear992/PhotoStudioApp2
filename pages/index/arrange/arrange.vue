@@ -9,10 +9,6 @@
 				:listInfo="listInfo" 
 				:get_shopAllArr="get_shopAllArr" 
 				:get_schedule="get_schedule"
-				:nextItemNo="nextItemNo"
-				:nextName="nextName"
-				:type="type"
-				:itemId="itemId"
 				:oId="detailInfo.orderId"
 				@refresh="getOrdetItemList"
 			></pzMain>
@@ -21,10 +17,6 @@
 				:listInfo="listInfo"
 				:get_shopAllArr="get_shopAllArr" 
 				:get_schedule="get_schedule"
-				:nextItemNo="nextItemNo"
-				:nextName="nextName"
-				:type="type"
-				:itemId="itemId"
 				@refresh="getOrdetItemList"
 			></xpMain>
 			<kbMain 
@@ -32,13 +24,15 @@
 				:listInfo="listInfo"
 				:get_shopAllArr="get_shopAllArr" 
 				:get_schedule="get_schedule"
-				:nextItemNo="nextItemNo"
-				:nextName="nextName"
-				:type="type"
-				:itemId="itemId"
 				@refresh="getOrdetItemList"
 			></kbMain>
-			<qjMain v-if="indexType === 'qj'"></qjMain>
+			<qjMain 
+				v-if="indexType === 'qj'"
+				:listInfo="listInfo"
+				:get_shopAllArr="get_shopAllArr" 
+				:get_schedule="get_schedule"
+				@refresh="getOrdetItemList"
+			></qjMain>
 			
 		</view>
 		<i-message id="message" />
@@ -86,16 +80,10 @@
 				itemIndex:null,
 				
 				/**************  获取订单信息赋值 ***************/
-				// 订单类型
-				type:null,
 				// 订单详情
 				detailInfo:null,
 				// 子订单ID
 				itemId:null,
-				// 传给下一页
-				nextItemNo:null,
-				nextName:null,
-				nextStatus:null,
 				
 				// 取消档期模态框
 				delModalShow:false,
@@ -109,8 +97,7 @@
 		onLoad(option){
 			this.orderNo = option.orderNo
 			this.itemIndex = option.index
-			// this.indexType = option.indexType
-			this.indexType = 'kb' 
+			this.indexType = option.indexType
 			let title 
 			switch(this.indexType){
 				case 'pz':
@@ -132,8 +119,8 @@
 			this.act_schedule()
 		},
 		onShow(){
-			// this.getAllOrderItem(this.orderNo,this.itemIndex)
-			this.getAllOrderItem('200727003','0')
+			this.getAllOrderItem(this.orderNo,this.itemIndex)
+			// this.getAllOrderItem('200727003','0')
 		},
 		methods:{
 			...mapActions('shopArr',[
@@ -141,22 +128,27 @@
 			]),
 			// 获取订单信息
 			getAllOrderItem(e,index){
-				getAllOrderItem({ orderNo: e }).then(res=>{
-					let data = res.data.data.records[0]
-					// 传给下一页订单号
-					this.nextItemNo = data.orderItemBasisVos[index].itemNo
-					// 传给下一页订单名
-					this.nextName = data.orderItemBasisVos[index].name
-					// 传给下一页状态
-					this.nextStatus = data.orderItemBasisVos[index].pickupStatus
-					// 通过订单号获取下标为0的唯一信息内容
-					// 赋值订单类型
-					this.type = data.type
-					// 赋值订单详情
-					this.detailInfo = data
-					// 赋值子订单详情
-					this.itemId = data.orderItemBasisVos[index].itemId
-					this.getOrdetItemList()
+				getAllOrderItem({ orderNo: e }).then(res=>{ 
+					if(res.data.code === 200){
+						let data = res.data.data.records[0]
+						// 通过订单号获取下标为0的唯一信息内容
+						// 赋值订单详情
+						this.detailInfo = data
+						// 赋值子订单详情
+						this.itemId = data.orderItemBasisVos[index].itemId
+						this.getOrdetItemList()
+						
+						let pages = getCurrentPages()
+						let currPage = pages[pages.length - 1]
+						currPage.setData({
+							options: {
+								'itemNo': data.orderItemBasisVos[index].itemNo,
+								'name': data.orderItemBasisVos[index].name,
+								'type': data.type,
+								'itemId': data.orderItemBasisVos[index].itemId
+							}
+						})
+					}
 				})
 			},
 		

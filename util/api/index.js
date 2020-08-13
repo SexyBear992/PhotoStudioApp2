@@ -1,5 +1,5 @@
  // http://192.168.5.220.dev  napi.lyfz.net/pro
-	let test = true
+	let test = false
 	let base_dress = test ? 'http://192.168.5.220/pro/api/dress' : 'https://napi.lyfz.net/proapi/dress'
   let base_message = test ?  'http://192.168.5.220/dev/api/message' : 'https://napi.lyfz.net/pro/api/message'
   let base_user = test ?  'http://192.168.5.220/dev/api/account' : 'https://napi.lyfz.net/pro/api/account'
@@ -89,19 +89,28 @@ let baseUrl = {
 	getChooseTime: `${base_store}/order/item/process/choose/reservation/time`,// 查找-选片预约时间段
 	getChooseDetail: `${base_store}/order/item/process/choose/reservation/details`,  //查找-预约选片详情
 	addChooseInfo: `${base_store}/order/item/process/choose/reservation/add`, // 新增-预约选片记录
-	updataChooseInfo: `${base_store}/order/item/process/choose/reservation/update`, //更新-预约拍照记录
+	updataChooseInfo: `${base_store}/order/item/process/choose/reservation/update`, //更新-预约选片记录
 	deletChooseInfo: `${base_store}/order/item/process/choose/reservation/delete`, // 删除-预约选片记录
 	
 	getOrdetItemListWatch: `${base_store}/order/item/process/watch/reservation/list`, // 查找-预约看板列表
 	getWatchDate: `${base_store}/order/item/process/watch/reservation/date`, // 查找-看板预约日历
 	getWatchTemplate: `${base_store}/order/item/process/watch/reservation/template`, //查找-看板预约模板
 	getWatchTime: `${base_store}/order/item/process/watch/reservation/time`,// 查找-看板预约时间段
+	getWatchDetail: `${base_store}/order/item/process/watch/reservation/details`,  //查找-看板预约详情
+	addWatchInfo: `${base_store}/order/item/process/watch/reservation/add`, // 新增-预约看板记录
+	updataWatchInfo: `${base_store}/order/item/process/watch/reservation/update`, //更新-预约看板记录
+	deletWatchInfo: `${base_store}/order/item/process/watch/reservation/delete`, // 删除-预约看板记录
 	
 	getOrdetItemListPickup: `${base_store}/order/item/process/pickup/reservation/list`, // 查找-预约取件列表
 	getPickupDate: `${base_store}/order/item/process/pickup/reservation/date`, // 查找-取件预约日历
 	getPickupTemplate: `${base_store}/order/item/process/pickup/reservation/template`, //查找-取件预约模板
 	getPickupTime: `${base_store}/order/item/process/pickup/reservation/time`,// 查找-取件预约时间段
-	
+	getPickupDetail: `${base_store}/order/item/process/pickup/reservation/details`,  //查找-取件预约详情
+	addPickupInfo: `${base_store}/order/item/process/pickup/reservation/add`, // 新增-预约取件记录
+	updataPickupInfo: `${base_store}/order/item/process/pickup/reservation/update`, //更新-预约取件记录
+	deletPickupInfo: `${base_store}/order/item/process/pickup/reservation/delete`, // 删除-预约取件记录
+	getPickupGOODS: `${base_store}/order/item/goods/list/pickup/reservation`,// 查找-商品取件预约列表
+	getPickupStatus: `${base_store}/order/item/goods/list/pickup/status`,// 查找-子订单商品状态
 }
 
 export default baseUrl

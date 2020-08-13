@@ -9,7 +9,7 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">预约时间：</view>
-							<view class="text">{{item.reservationDate | time}}</view>
+							<view class="info">{{item.reservationDate | time}}</view>
 						</view>	
 					</view>
 					
@@ -17,11 +17,11 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">预约门店：</view>
-							<view class="text">{{shopIdMap.get(item.reservationShopId)}}</view>
+							<view class="info">{{shopIdMap.get(item.reservationShopId)}}</view>
 						</view>	
 						<view class="list">
 							<view class="text">档期分组：</view>
-							<view class="text">{{scheduleMap.get(item.groupTypeCategoryId)}}({{item.isOnline | isOnline}})</view>
+							<view class="info">{{scheduleMap.get(item.groupTypeCategoryId)}}({{item.isOnline | isOnline}})</view>
 						</view>	
 					</view>
 					
@@ -29,11 +29,11 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">选片状态：</view>
-							<view class="text">{{item.processStatus | processStatus}}</view>
+							<view class="info">{{item.processStatus | processStatus}}</view>
 						</view>	
 						<view class="list">
 							<view class="text">选片时间：</view>
-							<view class="text">{{item.reservationTime}}</view>
+							<view class="info">{{item.reservationTime}}</view>
 						</view>	
 					</view>
 					
@@ -41,7 +41,7 @@
 					<view class="listBox">
 						<view class="list">
 							<view class="text">选片师：</view>
-							<view class="text arr">{{item.orderItemProcessActorVos | actor}}</view>
+							<view class="info arr">{{item.orderItemProcessActorVos | actor}}</view>
 						</view>	
 					</view>
 					
@@ -72,10 +72,6 @@
 			'listInfo',
 			'get_schedule',
 			'get_shopAllArr',
-			'nextItemNo',
-			'nextName',
-			'type',
-			'itemId',
 		],
 		components:{
 			delModal
@@ -130,7 +126,7 @@
 			// 修改
 			updata(id){
 				uni.navigateTo({
-					url:'./xpAddorUpdata/xpAddorUpdata?itemNo=' + this.nextItemNo + '&name=' + this.nextName + '&type=' + this.type + '&itemId=' + this.itemId + '&id=' + id
+					url:'./xpAddorUpdata/xpAddorUpdata?id=' + id
 				})
 			},
 			

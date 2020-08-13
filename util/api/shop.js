@@ -235,6 +235,22 @@ export const getWatchTemplate = (params) => {
 export const getWatchTime = (params) => {
 	return postObj(baseUrl.getWatchTime, params)
 }
+//查找-看板预约详情
+export const getWatchDetail = (params) => {
+	return get(baseUrl.getWatchDetail, params)
+}
+// 新增-预约看板记录
+export const addWatchInfo = (params) => {
+	return postObj(baseUrl.addWatchInfo, params)
+}
+// 更新-预约看板记录
+export const updataWatchInfo = (params) => {
+	return put(baseUrl.updataWatchInfo, params)
+}
+// 删除-预约看板记录
+export const deletWatchInfo = (params) => {
+	return remove(baseUrl.deletWatchInfo, params)
+} 
 
 
 // 查找-预约取件列表
@@ -253,5 +269,28 @@ export const getPickupTemplate = (params) => {
 export const getPickupTime = (params) => {
 	return postObj(baseUrl.getPickupTime, params)
 }
-
+//查找-取件预约详情
+export const getPickupDetail = (params) => {
+	return get(baseUrl.getPickupDetail, params)
+}
+// 新增-预约取件记录
+export const addPickupInfo = (params) => {
+	return postObj(baseUrl.addPickupInfo, params)
+}
+// 更新-预约取件记录
+export const updataPickupInfo = (params) => {
+	return put(baseUrl.updataPickupInfo, params)
+}
+// 删除-预约取件记录
+export const deletPickupInfo = (params) => {
+	return remove(baseUrl.deletPickupInfo, params)
+} 
+// 查找-商品取件预约列表
+export const getPickupGOODS = (params) => {
+	return get(baseUrl.getPickupGOODS, params)
+}
+// 查找-子订单商品状态
+export const getPickupStatus = (params) => {
+	return get(baseUrl.getPickupStatus, params)
+}
 	

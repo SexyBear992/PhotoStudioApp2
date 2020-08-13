@@ -1,22 +1,17 @@
 <template>
 	<view>
 		<view class="bigBox">
+			<!-- 标题 -->
 			<view class="titleBox">
 				<view class="left">
 					<view>{{itemNo}}</view>
 					<view>{{name}}</view>
 				</view>
 			</view>
-		
-			<!-- 预约门店 -->
-			<shopModule
-			 :shopId="params.orderItemProcessReservation.reservationShopId" 
-				@getId="getShopId" 
-			></shopModule>
 			
 			<!-- 预约日期 -->
 			<dateModule
-				:getType="'xp'"
+				:getType="'qj'"
 				:reservationDate="params.orderItemProcessReservation.reservationDate"
 				:shopId="params.orderItemProcessReservation.reservationShopId"
 			></dateModule>
@@ -24,7 +19,7 @@
 			<!-- 档期分组 -->
 			<scheduleModule
 				:type="type" 
-				:getType="'xp'"
+				:getType="'qj'"
 				:date="params.orderItemProcessReservation.reservationDate" 
 				:shopId="params.orderItemProcessReservation.reservationShopId" 
 				@getId="getTypographyTypeId"
@@ -32,26 +27,33 @@
 			
 			<!-- 预约时间 -->
 			<timeModule
-				:getType="'xp'"
+				:getType="'qj'"
 				:date="params.orderItemProcessReservation.reservationDate" 
 				:shopId="params.orderItemProcessReservation.reservationShopId" 
 				:typography="params.orderItemProcessReservation.typographyTypeId" 
 				:time="params.orderItemProcessReservation.reservationTime" 
 				@getTime="getTime"
 			></timeModule>
+			
 			<!-- 预约标签 -->
 			<labelModule
 				:labelId="params.labelCategoryId" 
 				@getId="getLabelId"
 			></labelModule>
 			
-			<!-- 选片师 -->
+			<!-- 取件师 -->
 			<list
-				:title="'选片师'" 
-				:show="showCHOOSEGRAPHER" 
-				:type="'CHOOSEGRAPHER'"
+				:title="'取件师'" 
+				:show="showPICKUPGRAPHER" 
+				:type="'PICKUPGRAPHER'"
 				@goAddress="goAddress"
 			></list>
+			
+			<!-- 取件商品 -->
+			<pickupGoods
+				:ids="params.reservationPickupDataJson"
+				@goGetGoods="goGetGoods"
+			></pickupGoods>
 			
 			<!-- 通知状态 -->
 			<noticeModule 
@@ -63,6 +65,7 @@
 			<textarea v-model="params.remark" placeholder="预约备注"></textarea>
 			
 			<view class="button" @click="button">{{buttonText}}</view>
+			
 		</view>
 		<i-message id="message" />
 	</view>
@@ -78,7 +81,8 @@
 	import labelModule from '../components/labelModule.vue'
 	import list from '../components/personList.vue'
 	import noticeModule from '../components/noticeModule.vue'
-	import { getChooseDetail, addChooseInfo, updataChooseInfo } from '@/util/api/shop.js'
+	import pickupGoods from'../components/pickupGoods.vue'
+	import { addPickupInfo, getPickupDetail, updataPickupInfo } from '@/util/api/shop.js'
 	export default {
 		components:{
 			shopModule,
@@ -86,8 +90,9 @@
 			scheduleModule,
 			timeModule,
 			labelModule,
+			list,
 			noticeModule,
-			list
+			pickupGoods
 		},
 		computed:{
 			...mapGetters('app',[
@@ -109,30 +114,32 @@
 				// 时间在不在范围内
 				isTime:null,
 				
-				// 按键名字
-				buttonText:null,
-				
 				// 修改 用来对比数据是否修改
 				contrast:{},
 				
-				// 选片师
-				showCHOOSEGRAPHER:'请选择',
+				// showGoods:'请选择',
+				
+				// 按键名字
+				buttonText:null,
+				
+				// 取件师
+				showPICKUPGRAPHER:'请选择',
 				
 				params:{
-					choosegraphers:null, //选片师
-					itemId:null,
+					itemId:null,	//子订单ID
 					labelCategoryId:null,	//标签类别
-					noticeStatus:true,	//通知状态
-					orderItemProcessReservation:{//	预约信息
-						reservationDate:null,	//预约日期
+					noticeStatus:true, //通知状态
+					orderItemProcessReservation:{	//预约信息
+						reservationDate:null,	//预约时间
 						reservationShopId:null,	//预约门店ID
-						reservationTime:null, //预约时间
-						typographyTypeId:null, //模板ID
+						reservationTime:null,	//预约日期
+						typographyTypeId:null,	//模板ID
 					},
-					remark:null, //备注
-					shopId:null
-				},
-				
+					pickupgraphers:null,	//取件师
+					remark:null,	//备注
+					reservationPickupDataJson:null,	//预约取件数据	
+					shopId:null,	//操作门店
+				}
 			};
 		},
 		onLoad(op){
@@ -140,29 +147,30 @@
 			let prvePage = pages[pages.length - 2]
 			let option = prvePage.data.options
 			
+			this.itemId = Number(option.itemId)
 			this.itemNo = option.itemNo
-			this.itemId = option.itemId
 			this.name = option.name
 			this.type = option.type
-			if(JSON.parse(op.id)){
-				this.getChooseDetail(op.id)
+			if(op.id){
+				this.getPickupDetail(op.id)
 				uni.setNavigationBarTitle({
-					title:'修改选片预约'
+					title:'修改取件预约'
 				})
-				this.buttonText = '修改选片预约'
+				this.buttonText = '修改取件预约'
 			}else{
 				this.params.itemId = Number(option.itemId)
 				uni.setNavigationBarTitle({
-					title:'新增选片预约'
+					title:'新增取件预约'
 				})
-				this.buttonText = '保存选片预约'
+				this.buttonText = '保存取件预约'
 			}
 		},
 		onShow(){
-			let pages = getCurrentPages();
-			let currPage = pages[pages.length - 1]; //当前页面
+			let pages = getCurrentPages()
+			let currPage = pages[pages.length - 1]
 			let date = currPage.data.date
 			let address = currPage.data.address
+			let pickupGoods = currPage.data.pickupGoods
 			if(date){
 				this.params.orderItemProcessReservation.reservationDate = date.date
 			}
@@ -173,12 +181,23 @@
 					arr.push(i.id)
 				})
 				this[show] = address.show
-				this.params.choosegraphers = arr
+				this.params.pickupgraphers = arr
+			}
+			if(pickupGoods){
+				let arr = pickupGoods.arr
+				if(arr.length > 0){
+					this.params.reservationPickupDataJson = arr.map(Number)
+					// this.showGoods = pickupGoods.show
+				}else{
+					this.params.reservationPickupDataJson = null
+					// this.showGoods = '请选择'
+				}
 			}
 		},
 		mounted(){
 			// 赋值当前门店ID
 			this.params.shopId = this.shopId
+			// 如果不为修改预约拍照 则赋值预约门店
 			if(!this.params.id){
 				this.params.orderItemProcessReservation.reservationShopId = this.shopId
 			}
@@ -194,13 +213,13 @@
 				}
 			},
 			// 获得详情
-			getChooseDetail(id){
-				getChooseDetail({id:id}).then(res=>{
+			getPickupDetail(id){
+				getPickupDetail({id:id}).then(res=>{
 					this.isTime = true
 					this.contrast = JSON.parse(JSON.stringify(res.data.data.orderItemProcessReservation))
 					this.params = res.data.data
-					this.showName(res.data.data.choosegraphers,'showCHOOSEGRAPHER')
-					this.params.choosegraphers = null
+					this.showName(res.data.data.pickupgraphers,'showPICKUPGRAPHER')
+					this.params.pickupgraphers = null
 				})
 			},
 			
@@ -228,21 +247,34 @@
 			getLabelId(e){
 				this.params.labelCategoryId = e
 			},
-			// 获取选片师
+			// 获取看版师
 			goAddress(type){
 				let show = `show${type}`
 				uni.navigateTo({
 					url:'../../../address/address?type=' + type + '&show=' + this[show]
 				})
 			},
+			// 选择取件商品
+			goGetGoods(){
+				let idArr = this.params.reservationPickupDataJson
+				let ids
+				if(idArr){
+					ids = idArr.join()
+				}else{
+					ids = ''
+				}
+				uni.navigateTo({
+					url:'./getGoods/getGoods?itemId=' + this.itemId + '&ids=' + ids
+				})
+			},
 			// 获取通知状态
 			getNotice(e){
 				this.params.noticeStatus = e
 			},
-			
+		
 			// 更新
-			updataChooseInfo(params){
-				updataChooseInfo(params).then(res=>{
+			updataPickupInfo(params){
+				updataPickupInfo(params).then(res=>{
 					if(res.data.code === 200){
 						$Message({
 							content: '修改成功',
@@ -257,8 +289,8 @@
 				})
 			},
 			// 新增
-			addChooseInfo(){
-				addChooseInfo(this.params).then(res=>{
+			addPickupInfo(){
+				addPickupInfo(this.params).then(res=>{
 					if(res.data.code === 200){
 						$Message({
 							content: '保存成功',
@@ -294,6 +326,11 @@
 							content: '预约标签不能为空',
 							type: 'warning'
 					});
+				}else if(this.params.reservationPickupDataJson === null){
+					$Message({
+							content: '取件商品不能为空',
+							type: 'warning'
+					});
 				}else{
 					if(this.params.id){
 						let newParams = JSON.parse(JSON.stringify(this.params))
@@ -318,9 +355,9 @@
 							}
 							newParams.orderItemProcessReservation = newO
 						}
-						this.updataChooseInfo(newParams)
+						this.updataPickupInfo(newParams)
 					}else{
-						this.addChooseInfo()
+						this.addPickupInfo()
 					}
 				}
 			}

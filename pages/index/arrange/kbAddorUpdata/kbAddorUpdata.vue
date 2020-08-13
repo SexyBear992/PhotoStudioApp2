@@ -46,6 +46,14 @@
 				@getId="getLabelId"
 			></labelModule>
 			
+			<!-- 看版师 -->
+			<list 
+				:title="'看版师'" 
+				:show="showWATCHGRAPHER" 
+				:type="'WATCHGRAPHER'"
+				@goAddress="goAddress"
+			></list>
+			
 			<!-- 通知状态 -->
 			<noticeModule 
 				:notice="params.noticeStatus" 
@@ -69,8 +77,9 @@
 	import scheduleModule from '../components/scheduleModule.vue'
 	import timeModule from '../components/timeModule.vue'
 	import labelModule from '../components/labelModule.vue'
+	import list from '../components/personList.vue'
 	import noticeModule from '../components/noticeModule.vue'
-	import { getChooseDetail, addChooseInfo, updataChooseInfo } from '@/util/api/shop.js'
+	import { getWatchDetail, addWatchInfo, updataWatchInfo } from '@/util/api/shop.js'
 	export default {
 		components:{
 			shopModule,
@@ -78,6 +87,7 @@
 			scheduleModule,
 			timeModule,
 			labelModule,
+			list,
 			noticeModule
 		},
 		computed:{
@@ -107,10 +117,10 @@
 				contrast:{},
 				
 				// 看板师
-				showCHOOSEGRAPHER:'请选择',
+				showWATCHGRAPHER:'请选择',
 				
 				params:{
-					choosegraphers:null, //看板师
+					watchgraphers:null, //看板师
 					itemId:null,
 					labelCategoryId:null,	//标签类别
 					noticeStatus:true,	//通知状态
@@ -126,12 +136,17 @@
 				
 			};
 		},
-		onLoad(option){
+		onLoad(op){
+			let pages = getCurrentPages()
+			let prvePage = pages[pages.length - 2]
+			let option = prvePage.data.options
+			
 			this.itemNo = option.itemNo
 			this.name = option.name
 			this.type = option.type
-			if(JSON.parse(option.id)){
-				this.getChooseDetail(option.id)
+			this.itemId = option.itemId
+			if(JSON.parse(op.id)){
+				this.getWatchDetail(op.id)
 				uni.setNavigationBarTitle({
 					title:'修改看板预约'
 				})
@@ -159,7 +174,7 @@
 					arr.push(i.id)
 				})
 				this[show] = address.show
-				this.params.choosegraphers = arr
+				this.params.watchgraphers = arr
 			}
 		},
 		mounted(){
@@ -180,13 +195,13 @@
 				}
 			},
 			// 获得详情
-			getChooseDetail(id){
-				getChooseDetail({id:id}).then(res=>{
+			getWatchDetail(id){
+				getWatchDetail({id:id}).then(res=>{
 					this.isTime = true
 					this.contrast = JSON.parse(JSON.stringify(res.data.data.orderItemProcessReservation))
 					this.params = res.data.data
-					this.showName(res.data.data.choosegraphers,'showCHOOSEGRAPHER')
-					this.params.choosegraphers = null
+					this.showName(res.data.data.watchgraphers,'showWATCHGRAPHER')
+					this.params.watchgraphers = null
 				})
 			},
 			
@@ -214,14 +229,21 @@
 			getLabelId(e){
 				this.params.labelCategoryId = e
 			},
+			// 获取看版师
+			goAddress(type){
+				let show = `show${type}`
+				uni.navigateTo({
+					url:'../../../address/address?type=' + type + '&show=' + this[show]
+				})
+			},
 			// 获取通知状态
 			getNotice(e){
 				this.params.noticeStatus = e
 			},
 			
 			// 更新
-			updataChooseInfo(params){
-				updataChooseInfo(params).then(res=>{
+			updataWatchInfo(params){
+				updataWatchInfo(params).then(res=>{
 					if(res.data.code === 200){
 						$Message({
 							content: '修改成功',
@@ -236,8 +258,8 @@
 				})
 			},
 			// 新增
-			addChooseInfo(){
-				addChooseInfo(this.params).then(res=>{
+			addWatchInfo(){
+				addWatchInfo(this.params).then(res=>{
 					if(res.data.code === 200){
 						$Message({
 							content: '保存成功',
@@ -297,9 +319,9 @@
 							}
 							newParams.orderItemProcessReservation = newO
 						}
-						this.updataChooseInfo(newParams)
+						this.updataWatchInfo(newParams)
 					}else{
-						this.addChooseInfo()
+						this.addWatchInfo()
 					}
 				}
 			}

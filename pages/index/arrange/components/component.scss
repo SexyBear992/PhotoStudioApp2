@@ -12,6 +12,12 @@
 	}
 	.text{
 		display: flex;
+		>view{
+			max-width: 350rpx;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
 	}
 	.arr{
 		max-width: 350rpx;
