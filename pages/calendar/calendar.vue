@@ -166,10 +166,10 @@
 						this.getChooseDate()
 						break;
 					case 'kb':
-						this.getPhotoDate()
+						this.getWatchDate()
 						break;
 					case 'qj':
-						this.getPhotoDate()
+						this.getPickupDate()
 						break;
 				}
 			},	
@@ -186,7 +186,22 @@
 					this.dateDetail = res.data.data
 					this.show = true
 				})
+			},			
+			// 获取看板预约日历
+			getWatchDate(){
+				getWatchDate(this.dateParams).then(res=>{
+					this.dateDetail = res.data.data
+					this.show = true
+				})
+			},		
+			// 获取取件预约日历
+			getPickupDate(){
+				getPickupDate(this.dateParams).then(res=>{
+					this.dateDetail = res.data.data
+					this.show = true
+				})
 			},
+
 			
 			// 判断是否需要背景色
 			noBg(arr,i){

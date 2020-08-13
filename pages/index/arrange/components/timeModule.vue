@@ -15,7 +15,7 @@
 </template>
 
 <script>
-	import { getPhotoTime, getChooseTime } from '@/util/api/shop.js'
+	import { getPhotoTime, getChooseTime, getWatchTime, getPickupTime } from '@/util/api/shop.js'
 	export default{
 		props:['date','shopId','typography','time','getType'],
 		data(){
@@ -45,6 +45,12 @@
 					case 'xp':
 						this.getChooseTime(params)
 						break
+					case 'kb':
+						this.getWatchTime(params)
+						break
+					case 'qj':
+						this.getPickupTime(params)
+						break
 				}
 			},
 			// 拍照时间段
@@ -64,6 +70,34 @@
 			// 选片时间段
 			getChooseTime(params){
 				getChooseTime(params).then(res=>{
+					// timeFrameStr
+					let data = res.data.data
+					this.timeArr = data
+					let arr = []
+					data.forEach((i)=>{
+						let name = `${i.timeFrameStr} ${i.typographyCount}/${i.useTypographyNum}`
+						arr.push(name)
+					})
+					this.photoTimeArr = arr
+				})
+			},
+			// 看板时间段
+			getWatchTime(params){
+				getWatchTime(params).then(res=>{
+					// timeFrameStr
+					let data = res.data.data
+					this.timeArr = data
+					let arr = []
+					data.forEach((i)=>{
+						let name = `${i.timeFrameStr} ${i.typographyCount}/${i.useTypographyNum}`
+						arr.push(name)
+					})
+					this.photoTimeArr = arr
+				})
+			},
+			// 取件时间段
+			getPickupTime(params){
+				getPickupTime(params).then(res=>{
 					// timeFrameStr
 					let data = res.data.data
 					this.timeArr = data

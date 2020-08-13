@@ -39,6 +39,7 @@
 				:time="params.orderItemProcessReservation.reservationTime" 
 				@getTime="getTime"
 			></timeModule>
+			
 			<!-- 预约标签 -->
 			<labelModule
 				:labelId="params.labelCategoryId" 

@@ -227,6 +227,14 @@ export const getOrdetItemListWatch = (params) => {
 export const getWatchDate = (params) => {
 	return postObj(baseUrl.getWatchDate, params)
 }
+//查找-看板预约模板
+export const getWatchTemplate = (params) => {
+	return postObj(baseUrl.getWatchTemplate, params)
+}
+// 查找-看板预约时间段
+export const getWatchTime = (params) => {
+	return postObj(baseUrl.getWatchTime, params)
+}
 
 
 // 查找-预约取件列表
@@ -237,6 +245,13 @@ export const getOrdetItemListPickup = (params) => {
 export const getPickupDate = (params) => {
 	return postObj(baseUrl.getPickupDate, params)
 }
-
+//查找-取件预约模板
+export const getPickupTemplate = (params) => {
+	return postObj(baseUrl.getPickupTemplate, params)
+}
+// 查找-取件预约时间段
+export const getPickupTime = (params) => {
+	return postObj(baseUrl.getPickupTime, params)
+}
 
 	

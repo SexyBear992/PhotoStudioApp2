@@ -121,7 +121,7 @@
 			
 			<view class="button" @click="addPhoto">添加拍照预约</view>
 		</view>
-		
+		<i-message id="message" />
 		<delModal :title="'取消档期'" v-if="delModalShow" @cancel="close" @ok="ok"></delModal>
 	</view>
 </template>

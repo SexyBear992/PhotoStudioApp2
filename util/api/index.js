@@ -94,10 +94,13 @@ let baseUrl = {
 	
 	getOrdetItemListWatch: `${base_store}/order/item/process/watch/reservation/list`, // 查找-预约看板列表
 	getWatchDate: `${base_store}/order/item/process/watch/reservation/date`, // 查找-看板预约日历
-	
+	getWatchTemplate: `${base_store}/order/item/process/watch/reservation/template`, //查找-看板预约模板
+	getWatchTime: `${base_store}/order/item/process/watch/reservation/time`,// 查找-看板预约时间段
 	
 	getOrdetItemListPickup: `${base_store}/order/item/process/pickup/reservation/list`, // 查找-预约取件列表
 	getPickupDate: `${base_store}/order/item/process/pickup/reservation/date`, // 查找-取件预约日历
+	getPickupTemplate: `${base_store}/order/item/process/pickup/reservation/template`, //查找-取件预约模板
+	getPickupTime: `${base_store}/order/item/process/pickup/reservation/time`,// 查找-取件预约时间段
 	
 }
 

@@ -11,7 +11,7 @@
 <script>
 	import { mapGetters } from 'vuex'
 	import pickerModule from '@/components/pickerModule.vue'
-	import { getPhotoTemplate, getChooseTemplate } from '@/util/api/shop.js'
+	import { getPhotoTemplate, getChooseTemplate, getWatchTemplate, getPickupTemplate } from '@/util/api/shop.js'
 	export default{
 		props:['type','date','shopId','getType'],
 		components:{
@@ -62,6 +62,12 @@
 					case 'xp':
 						this.getChooseTemplate(params)
 						break;
+					case 'kb':
+						this.getWatchTemplate(params)
+						break;
+					case 'qj':
+						this.getPickupTemplate(params)
+						break;
 				}
 			},
 			getSchedule(e){
@@ -109,7 +115,48 @@
 					this.$emit('getId',arr[0].id)
 				})
 			},
-		
+			// 看板模板
+			getWatchTemplate(params){
+				getWatchTemplate(params).then(res=>{
+					let data = res.data.data
+					const online = new Map([
+						[true,'线上'],
+						[false,'线下'],
+					])
+					let arr = []
+					data.forEach((i)=>{
+						let lis = {
+							id:i.id,
+							name:`${this.scheduleMap.get(i.groupTypeCategoryId)}[${online.get(i.isOnline)}]${this.templateMap.get(i.controlType)}`
+						}
+						arr.push(lis)
+					})
+					this.scheduleArr = arr
+					// 赋值默认模板ID
+					this.$emit('getId',arr[0].id)
+				})
+			},
+			// 取件模板
+			getPickupTemplate(params){
+				getPickupTemplate(params).then(res=>{
+					let data = res.data.data
+					const online = new Map([
+						[true,'线上'],
+						[false,'线下'],
+					])
+					let arr = []
+					data.forEach((i)=>{
+						let lis = {
+							id:i.id,
+							name:`${this.scheduleMap.get(i.groupTypeCategoryId)}[${online.get(i.isOnline)}]${this.templateMap.get(i.controlType)}`
+						}
+						arr.push(lis)
+					})
+					this.scheduleArr = arr
+					// 赋值默认模板ID
+					this.$emit('getId',arr[0].id)
+				})
+			},
 		},
 		watch:{
 			date(){
