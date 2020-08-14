@@ -293,4 +293,73 @@ export const getPickupGOODS = (params) => {
 export const getPickupStatus = (params) => {
 	return get(baseUrl.getPickupStatus, params)
 }
+
+// 工作 
+//查询-我的摄化工作
+export const getWorkPhotoMy = (params) => {
+	return get(baseUrl.getWorkPhotoMy, params)
+}
+//查询-我的部门摄化工作
+export const getWorkPhotoDepartment = (params) => {
+	return get(baseUrl.getWorkPhotoDepartment, params)
+}
+//查询-所有摄化工作
+export const getWorkPhotoAll = (params) => {
+	return get(baseUrl.getWorkPhotoAll, params)
+}
+// 查找-拍照列表
+export const getWorkPhotoList = (params) => {
+	return get(baseUrl.getWorkPhotoList, params)
+}
+//查询-我的选片工作
+export const getWorkChooseMy = (params) => {
+	return get(baseUrl.getWorkChooseMy, params)
+}
+//查询-我的部门选片工作
+export const getWorkChooseDepartment = (params) => {
+	return get(baseUrl.getWorkChooseDepartment, params)
+}
+//查询-所有选片工作
+export const getWorkChooseAll = (params) => {
+	return get(baseUrl.getWorkChooseAll, params)
+}
+// 查找-选片列表
+export const getWorkChooseList = (params) => {
+	return get(baseUrl.getWorkChooseList, params)
+}
+
+//查询-我的看板工作
+export const getWorkWatchMy = (params) => {
+	return get(baseUrl.getWorkWatchMy, params)
+}
+//查询-我的部门看板工作
+export const getWorkWatchDepartment = (params) => {
+	return get(baseUrl.getWorkWatchDepartment, params)
+}
+//查询-所有看板工作
+export const getWorkWatchAll = (params) => {
+	return get(baseUrl.getWorkWatchAll, params)
+}
+// 查找-看板列表
+export const getWorkWatchList = (params) => {
+	return get(baseUrl.getWorkWatchList, params)
+}
+
+//查询-我的取件工作
+export const getWorkPickupMy = (params) => {
+	return get(baseUrl.getWorkPickupMy, params)
+}
+//查询-我的部门取件工作
+export const getWorkPickupDepartment = (params) => {
+	return get(baseUrl.getWorkPickupDepartment, params)
+}
+//查询-所有取件工作
+export const getWorkPickupAll = (params) => {
+	return get(baseUrl.getWorkPickupAll, params)
+}
+// 查找-取件列表
+export const getWorkPickupList = (params) => {
+	return get(baseUrl.getWorkPickupList, params)
+}
+
 	

@@ -3,7 +3,7 @@
 	import { mapGetters, mapActions } from 'vuex'
 	export default {
 		onLaunch: function() {
-			this.getStorageTicket()
+			// this.getStorageTicket()
 		},
 		onShow: function() {
 
@@ -25,7 +25,7 @@
 			])
 		},
 		mounted(){
-			// this.setToken(`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZWZhdWx0U2hvcElkIjoxNCwic2NvcGUiOlsiYWxsIl0sIm5hbWUiOiJhZG1pbiIsImFub3RoZXJOYW1lIjoi6LaF57qn566h55CG5ZGYIiwiZW50ZXJwcmlzZUlkIjo0NCwiZXhwIjoxNTk1NTc2ODg0LCJ1c2VySWQiOjcsImpvYk51bWJlciI6IjAwMSIsImp0aSI6ImJhMTAzMmQ1LTVmNGYtNGE1OS05NDk1LTQ3NjViYjU1NzkwZSIsImNsaWVudF9pZCI6IlMzMDI4MSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.YgmoorLhDamPCq8I4Ro_ePkHFxOZi4bXKYHxxGlwlAs`)
+			this.setToken(`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZWZhdWx0U2hvcElkIjoxNCwic2NvcGUiOlsiYWxsIl0sIm5hbWUiOiJhZG1pbiIsImFub3RoZXJOYW1lIjoi6LaF57qn566h55CG5ZGYIiwiZW50ZXJwcmlzZUlkIjo0NCwiZXhwIjoxNTk1NTc2ODg0LCJ1c2VySWQiOjcsImpvYk51bWJlciI6IjAwMSIsImp0aSI6ImJhMTAzMmQ1LTVmNGYtNGE1OS05NDk1LTQ3NjViYjU1NzkwZSIsImNsaWVudF9pZCI6IlMzMDI4MSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.YgmoorLhDamPCq8I4Ro_ePkHFxOZi4bXKYHxxGlwlAs`)
 		},
 		methods: {
 			...mapActions('app',[
@@ -40,7 +40,8 @@
 				'act_category',
 				'act_serviceCategory',
 				'act_teacherCategory',
-				'act_piceList'
+				'act_piceList',
+				'act_schedule'
 			]),
 			// 获取本地缓存ticket
 			getStorageTicket() {
@@ -99,6 +100,7 @@
 				this.act_serviceCategory()
 				this.act_teacherCategory()
 				this.act_piceList()
+				this.act_schedule()
 			}
 		}
 	};

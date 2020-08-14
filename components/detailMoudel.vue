@@ -88,7 +88,8 @@
 				<view class="list">
 					<view class="listLeft">
 						<view class="title">接单人员：</view>
-						<view class="text">{{info.receptionist | reception}}</view>
+						<view class="text" v-if="info.receptionist">{{info.receptionist | reception}}</view>
+						<view class="text" v-else>{{info.receptions | reception}}</view>
 					</view>
 					
 				</view>
@@ -136,7 +137,8 @@
 				return result.get(type)
 			},
 			reception(arr){
-				return arr.join('/')
+				// return arr.join('/')
+				return arr
 			},
 			none(data){
 				if(data){

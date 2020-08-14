@@ -17,7 +17,7 @@
 			</view>
 		</view>
 		
-		<view class="shopBox">
+		<view class="shopBox" v-if="showShop">
 			<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/shop.png" mode=""></image>		
 			<pickerModule my-img="imgMargin" :arrInfo="pickerArr" :nowName="nowPickerName" @getId="getShopId"></pickerModule>
 		</view>
@@ -28,6 +28,7 @@
 	import pickerModule from '@/components/pickerModule.vue'
 	import { mapGetters } from 'vuex'
 	export default {
+		props:['needShop'],
 		components:{
 			pickerModule
 		},
@@ -52,6 +53,8 @@
 				// 搜索
 				keyword:null,
 				
+				showShop:true,
+				
 				pickerArr:[],
 				nowPickerName:null,
 				
@@ -63,6 +66,9 @@
 			}
 		},
 		mounted(){
+			if(this.needShop !== null){
+				this.showShop = false
+			}
 			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
 			this.getPickerArr()
 		},

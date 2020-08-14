@@ -1,5 +1,5 @@
  // http://192.168.5.220.dev  napi.lyfz.net/pro
-	let test = false
+	let test = true
 	let base_dress = test ? 'http://192.168.5.220/pro/api/dress' : 'https://napi.lyfz.net/proapi/dress'
   let base_message = test ?  'http://192.168.5.220/dev/api/message' : 'https://napi.lyfz.net/pro/api/message'
   let base_user = test ?  'http://192.168.5.220/dev/api/account' : 'https://napi.lyfz.net/pro/api/account'
@@ -111,6 +111,27 @@ let baseUrl = {
 	deletPickupInfo: `${base_store}/order/item/process/pickup/reservation/delete`, // 删除-预约取件记录
 	getPickupGOODS: `${base_store}/order/item/goods/list/pickup/reservation`,// 查找-商品取件预约列表
 	getPickupStatus: `${base_store}/order/item/goods/list/pickup/status`,// 查找-子订单商品状态
+	
+	// 工作
+	getWorkPhotoMy: `${base_store}/work/photo/page/my`, //查询-我的摄化工作
+	getWorkPhotoDepartment: `${base_store}/work/photo/page/department`, //查询-我的部门摄化工作
+	getWorkPhotoAll: `${base_store}/work/photo/page/all`, //查询-所有摄化工作
+	getWorkPhotoList: `${base_store}/order/item/process/photo/list`,// 查找-拍照列表
+	
+	getWorkChooseMy: `${base_store}/work/choose/page/my`, //查询-我的选片工作
+	getWorkChooseDepartment: `${base_store}/work/choose/page/department`, //查询-我的部门选片工作
+	getWorkChooseAll: `${base_store}/work/choose/page/all`, //查询-所有选片工作
+	getWorkChooseList: `${base_store}/order/item/process/choose/list`,// 查找-选片列表
+	
+	getWorkWatchMy: `${base_store}/work/watch/page/my`, //查询-我的看板工作
+	getWorkWatchDepartment: `${base_store}/work/watch/page/department`, //查询-我的部门看板工作
+	getWorkWatchAll: `${base_store}/work/watch/page/all`, //查询-所有看板工作
+	getWorkWatchList: `${base_store}/order/item/process/watch/list`,// 查找-看板列表
+	
+	getWorkPickupMy: `${base_store}/work/pickup/page/my`, //查询-我的取件工作
+	getWorkPickupDepartment: `${base_store}/work/pickup/page/department`, //查询-我的部门取件工作
+	getWorkPickupAll: `${base_store}/work/pickup/page/all`, //查询-所有取件工作
+	getWorkPickupList: `${base_store}/order/item/goods/list/pickup`,// 查找-取件列表
 }
 
 export default baseUrl

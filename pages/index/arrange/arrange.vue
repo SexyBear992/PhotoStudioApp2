@@ -7,30 +7,22 @@
 			<pzMain 
 				v-if="indexType === 'pz'" 
 				:listInfo="listInfo" 
-				:get_shopAllArr="get_shopAllArr" 
-				:get_schedule="get_schedule"
 				:oId="detailInfo.orderId"
 				@refresh="getOrdetItemList"
 			></pzMain>
 			<xpMain
 				v-if="indexType === 'xp'"
 				:listInfo="listInfo"
-				:get_shopAllArr="get_shopAllArr" 
-				:get_schedule="get_schedule"
 				@refresh="getOrdetItemList"
 			></xpMain>
 			<kbMain 
 				v-if="indexType === 'kb'"
 				:listInfo="listInfo"
-				:get_shopAllArr="get_shopAllArr" 
-				:get_schedule="get_schedule"
 				@refresh="getOrdetItemList"
 			></kbMain>
 			<qjMain 
 				v-if="indexType === 'qj'"
 				:listInfo="listInfo"
-				:get_shopAllArr="get_shopAllArr" 
-				:get_schedule="get_schedule"
 				@refresh="getOrdetItemList"
 			></qjMain>
 			
@@ -116,16 +108,12 @@
 			uni.setNavigationBarTitle({
 				title:title
 			})
-			this.act_schedule()
 		},
 		onShow(){
 			this.getAllOrderItem(this.orderNo,this.itemIndex)
 			// this.getAllOrderItem('200727003','0')
 		},
 		methods:{
-			...mapActions('shopArr',[
-				'act_schedule'
-			]),
 			// 获取订单信息
 			getAllOrderItem(e,index){
 				getAllOrderItem({ orderNo: e }).then(res=>{ 

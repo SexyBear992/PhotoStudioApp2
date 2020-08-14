@@ -321,7 +321,7 @@
 						break;
 
 					case 'shgz':				// 摄化工作
-						console.log('摄化工作');
+						return './checkWork/checkWork?type=shgz'
 						break;
 					case 'shdqcx':			// 摄化档期查询
 						console.log('摄化档期查询');
@@ -333,7 +333,7 @@
 						console.log('数码工作');
 						break;
 					case 'xpgz':				// 选片工作
-						console.log('选片工作');
+						return './checkWork/checkWork?type=xpgz'
 						break;
 					case 'xpdqcx':			// 选片档期查询
 						console.log('选片档期查询');
@@ -342,7 +342,7 @@
 						return './convention/convention?type=kbyy'
 						break;
 					case 'kbgz':				// 看板工作
-						console.log('看板工作');
+						return './checkWork/checkWork?type=kbgz'
 						break;
 					case 'kbdqcx':			// 看板档期查询
 						console.log('看板档期查询');
@@ -351,7 +351,7 @@
 						return './convention/convention?type=qjyy'
 						break;
 					case 'qjgz':				// 取件工作
-						console.log('取件工作');
+						return './checkWork/checkWork?type=qjgz'
 						break;
 					case 'qjdqcx':			// 取件档期查询
 						console.log('取件档期查询');
