@@ -1,9 +1,6 @@
 {
 	"pages": [
-		{
-			"path" : "pages/index/checkWork/checkWork",
-			"style" : {}
-		},
+		
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -174,6 +171,14 @@
 			"style" : {
 				"navigationBarTitleText": "选择取件商品"
 			}
+		},
+		{
+			"path" : "pages/index/checkWork/checkWork",
+			"style" : {}
+		},
+		{
+			"path" : "pages/index/checkWork/completePhoto/completePhoto",
+			"style" : {}
 		}
     ],
 	"tabBar": {

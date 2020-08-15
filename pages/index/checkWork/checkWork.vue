@@ -79,8 +79,8 @@
 			};
 		},
 		onLoad(option){
-			// this.type = option.type
-			this.type = 'qjgz'
+			this.type = option.type
+			// this.type = 'qjgz'
 			let title
 			switch(this.type){
 				case 'shgz':
@@ -100,6 +100,10 @@
 				title:title + '工作'
 			})
 			this.refresh();
+		},
+		onShow(){
+			this.list = []
+			this.getAllOrderItem()
 		},
 		methods:{
 			// 切换数据

@@ -219,6 +219,7 @@
 			}
 		}
 		.babyInfo{
+			font-size: 28rpx;
 			display: flex;
 			margin-bottom: 30rpx;
 		}

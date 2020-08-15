@@ -61,5 +61,6 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
+		margin-bottom: 5rpx;
 	}
 </style>

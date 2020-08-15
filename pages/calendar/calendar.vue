@@ -1,73 +1,35 @@
 /****************************** 日历选期 *********************************/
 <template>
 	<view class="bigBox">
+		<searchModul v-if="isCheck" ref="searchModul" @search="search"></searchModul>
 		
-		<!-- 头部 -->
-		<view class="header">
-			<!-- 日历年月 -->
-			<view class="Y_M_Box">
-				<!-- 上个月 -->
-			  <view class='icon' @tap='lastMonth'>
-					<i-icon type="enterinto_fill" size="20" color="#92c0ff" />
-			  </view>
-				<!-- 显示年月 -->
-				<view class="Y_M">
-					<picker mode="date" fields="month" :value="pickerDate" :start="pickerStartDate" :end="pickerEndDate" @change="DateChange">
-						<view class="showDate">{{pickerDate}}</view>
-					</picker>
-				</view>
-			  <!-- 下个月 -->
-			  <view class='icon' @tap='nextMonth'>
-					<i-icon type="enterinto_fill" size="20" color="#92c0ff" />
-			  </view>
-			</view>
-			<!-- 星期 -->
-			<view class="weekBox">
-				<view v-for="(item,index) in weekArr" :key="index">{{item}}</view>
-			</view>
-		</view>
-		
-		<!-- 日历主体 -->
-		<view class="calenarBox" v-if="show">
-			<view v-for="(item,index) in dateArr" :key="index">
-				<view class="list">
-					<view class="bg" :class="noBg(dateDetail,(item.num-1)) ? (bgColor(dateDetail,(item.num-1)) ? 'optional' : 'ban' ) : 'noBg'" @click="enDate(item.date)">
-						<view class="day">{{item.num}}</view>
-						<view class="typographyNum">{{dateDetail | typographyNum(item.num-1)}}</view>
-					</view>
-				</view>
-			</view>
-		</view>
+		<calendarBody :dateDetail="dateDetail" @getDate="getDate" @enDate="enDate"></calendarBody>
+
+		<pageDetails :pageDetails="pageDetails" :type="type"></pageDetails>
 	
 		<i-message id="message" />
 	</view>
 </template>
 
 <script>
-	import { getPhotoDate, getChooseDate, getWatchDate, getPickupDate } from '@/util/api/shop.js'
+	import { 
+		getPhotoDate, 
+		getChooseDate, 
+		getWatchDate, 
+		getPickupDate,
+		getPhotoPage,
+		getChoosePage,
+		getWatchPage,
+		getPickupPage
+		} from '@/util/api/shop.js'
+	import calendarBody from './components/calendarBody.vue'
+	import pageDetails from './components/pageDetails.vue'
+	import searchModul from '@/components/searchModul.vue'
 	export default {
 		components:{
-		},
-		filters:{
-			typographyNum(arr,i){
-				if(i !== NaN){
-					if(arr[i]){
-						// 是否休息
-						let isVacation = arr[i].isVacation
-						if(isVacation){
-							return '休息'
-						}else{
-							// 可预约时间
-							let can = arr[i].defaultTypographyNum
-							// 已预约时间
-							let ed = arr[i].inTypographyNum
-							// 剩余
-							let ing = can - ed
-							return `${can}/${ed}/${ing}`
-						}
-					}
-				}
-			},
+			calendarBody,
+			searchModul,
+			pageDetails
 		},
 		data() {
 			return {
@@ -75,72 +37,50 @@
 				// 请求日历类型
 				type:null,
 				show:false,
-				
-				// picker
-				pickerDate:'',
-				pickerStartDate:'2010-01-01',
-				pickerEndDate:'2050-12-31',
-				
-				weekArr:['日', '一', '二', '三', '四', '五', '六'],
-				
-				// 日历
-				dateArr:[],
+				isCheck:false,
 				// 日历详情
 				dateDetail:[],
+				
+				pageDetails:null,
+				
+				pickerDate:'',
 				
 				dateParams:{
 					reservationShopId:null,
 					startTime:null,
 					endTime:null,
+				},
+			
+				params:{
+					// contactMobile:null,	//订单主联系人电话
+					// contactName:null,	//订单主联系人姓名
+					// orderNo:null,	//订单号
+					reservationShopId:null,	//预约门店
+					endTime:null,	//结束时间
+					isSearchCount:true,
+					limit:10,
+					page:1,
+					startTime:null,	//开始时间
 				}
 			};
 		},
 		onLoad(options){
 			this.type = options.type
-			this.dateParams.reservationShopId = options.id
-			this.dateInit()
+			this.dateParams.reservationShopId = Number(options.id)
+			this.params.reservationShopId = Number(options.id)
+			if(options.check){
+				this.isCheck = JSON.parse(options.check)
+			}
 		},
-		created(){
-			this.getNowDate()
-		},
-		methods:{
-			// 获取当天日期
-			getNowDate(){
-				let date = new Date()
-				let year = date.getFullYear()
-				let month = date.getMonth() + 1
-				let day = date.getDate()
-				this.pickerDate = `${year}-${this.completeDate(month)}-${this.completeDate(day)}`
-			},
-			
-			// 获取日历本体
-			dateInit(){
-				this.show = false
-				let arr = this.pickerDate.split('-')
-				// 当前年份
-				let nowYear = Number(arr[0])
-				// 当前月份
-				let nowMonth = Number(arr[1])
-				// 获得当月多少天
-				let dayNums = new Date(nowYear, nowMonth, 0).getDate();
-				// 获取当月1号对应的星期
-				let startWeek = new Date(nowYear + ',' + nowMonth + ',' + 1).getDay()
-				let dateArr = []
-				let obj = [];
-				for (let i = 0; i < startWeek + dayNums ; i++){
-					if(i >= startWeek){
-						obj = {
-							num: i-startWeek + 1,
-							date: `${nowYear}-${this.completeDate(nowMonth)}-${this.completeDate(i-startWeek+1)}`,
-							data:null
-						}
-					} else {
-						obj = []
-					}
-					dateArr[i] = obj
-				}
-				this.dateArr = dateArr
+		methods:{	
+			// 获取时间
+			getDate(e){
+				this.pickerDate = e
 				this.getCalendar()
+				let timestamp = Date.parse(new Date(this.pickerDate)) - 28800000
+				this.params.startTime = timestamp
+				this.params.endTime = timestamp
+				this.getPage()
 			},
 			
 			// 获取日历信息
@@ -201,172 +141,95 @@
 					this.show = true
 				})
 			},
-
-			
-			// 判断是否需要背景色
-			noBg(arr,i){
-				if(i === NaN){
-					return false
-				}else{
-					if(arr[i]){
-						let isVacation = arr[i].isVacation
-						if(isVacation){
-							return false
-						}else{
-							return true
-						}
-					}
-				}
-			},
-			
-			// 判断可不可选背景色
-			bgColor(arr,i){
-				if(i !== NaN){
-					if(arr[i]){
-						// 可预约时间
-						let can = arr[i].defaultTypographyNum
-						// 已预约时间
-						let ed = arr[i].inTypographyNum
-						// 剩余
-						let ing = can - ed
-						if( ing > 0 ){
-							return true
-						}else{
-							return false
-						}
-					}
-				}
-			},
-			
+	
 			// 日月补0
 			completeDate(value) {
 				return value < 10 ? "0" + value:value;
 			},
 			
-			// 日历选择返回
-			DateChange(e){
-				this.pickerDate = e.detail.value
-				this.dateInit()
+			// 搜索返回
+			search(e){
+				// 姓名
+				if(e.contactName){
+					this.params.contactName = e.contactName
+				}
+				if(e.contactMobile){
+					this.params.contactMobile = e.contactMobile
+				}
+				if(e.orderNo){
+					this.params.orderNo = e.orderNo
+				}
+				if(e.orderShopId){
+					this.params.reservationShopId = e.orderShopId
+				}
 			},
 			
-			// 切换上月
-			lastMonth(){
-				let arr = this.pickerDate.split('-')
-				// 获得当前年份
-				let nowYear = Number(arr[0])
-				// 获得当前月份
-				let nowMonth = Number(arr[1])
-				// 判断需不需要减去年份
-				let newYear = nowMonth < 2 ? nowYear - 1 : nowYear
-				// 获取新月份
-				let newMonth = nowMonth < 2 ? 12 : nowMonth -1
-				this.pickerDate = `${newYear}-${this.completeDate(newMonth)}-${arr[2]}`
-				this.dateInit()
-			},
-			// 切换下月
-			nextMonth(){
-				let arr = this.pickerDate.split('-')
-				// 获得当前年份
-				let nowYear = Number(arr[0])
-				// 获得当前月份
-				let nowMonth = Number(arr[1])
-				// 判断需不需要增加年份
-				let newYear = nowMonth > 11 ? nowYear + 1 : nowYear
-				// 获取新月份
-				let newMonth = nowMonth > 11 ? 1 : nowMonth + 1
-				this.pickerDate = `${newYear}-${this.completeDate(newMonth)}-${arr[2]}`
-				this.dateInit()
-			},
-		
 			// 点击选择日期
 			enDate(date){
-				let timestamp = Number(Date.parse(new Date(date))) - 28800000;
-				var pages = getCurrentPages();
-				var prevPage = pages[pages.length - 2]; //上一个页面
-				prevPage.setData({
-					date: {
-						'date':timestamp,
-					}
-				})
-				uni.navigateBack({//返回
-					delta: 1
+				if(this.isCheck){
+					let timestamp = Number(Date.parse(new Date(date))) - 28800000;
+					this.params.startTime = timestamp
+					this.params.endTime = timestamp
+					this.getPage()
+				}else{
+					let timestamp = Number(Date.parse(new Date(date))) - 28800000;
+					var pages = getCurrentPages();
+					var prevPage = pages[pages.length - 2]; //上一个页面
+					prevPage.setData({
+						date: {
+							'date':timestamp,
+						}
+					})
+					uni.navigateBack({//返回
+						delta: 1
+					})
+				}
+			},
+		
+			// 获取表格
+			getPage(){
+				switch(this.type){
+					case 'pz':
+						this.getPhotoPage()
+						break;
+					case 'xp':
+						this.getChoosePage()
+						break;
+					case 'kb':
+						this.getWatchPage()
+						break;
+					case 'qj':
+						this.getPickupPage()
+						break;
+				}
+			},
+			// 获取拍照表格
+			getPhotoPage(){
+				getPhotoPage(this.params).then(res=>{
+					this.pageDetails = res.data.data.records
 				})
 			},
-		}
+			// 获取选片表格
+			getChoosePage(){
+				getChoosePage(this.params).then(res=>{
+					this.pageDetails = res.data.data.records
+				})
+			},
+			// 获取看板表格
+			getWatchPage(){
+				getWatchPage(this.params).then(res=>{
+					this.pageDetails = res.data.data.records
+				})
+			},
+			// 获取取件表格
+			getPickupPage(){
+				getPickupPage(this.params).then(res=>{
+					this.pageDetails = res.data.data.records
+				})
+			},
+		},
 	}
 </script>
 
 <style lang="scss" scoped>
-	.bigBox{
-		font-size: 32rpx;
-		.header{
-			width: 690rpx;
-			margin: 30rpx;
-			margin-bottom: 0rpx;
-			border-radius: 10rpx 10rpx 0 0 ;
-			color: #FFFFFF;
-			background-color: #61A3FF;
-			.Y_M_Box{
-				padding: 30rpx 0 ;
-				width: 300rpx;
-				display: flex;
-				justify-content: space-between;
-				margin-left: 50%;
-				transform: translateX(-50%);
-				.icon:nth-child(1){
-					transform:rotateY(180deg)
-				}
-				.Y_M{
-					.showDate{
-						padding: 0 15rpx;
-					}
-				}
-			}
-			.weekBox{
-				display: flex;
-				justify-content: space-around;
-				padding-bottom: 20rpx;
-			}
-		}
-		.calenarBox{
-			width: 690rpx;
-			margin: 30rpx;
-			margin-top: 0rpx;
-			display: flex;
-			flex-wrap:wrap;
-			background-color: #FFFFFF;
-			box-shadow:0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
-			border-radius:0 0 10rpx 10rpx;
-			.list{
-				width: 78.57rpx;
-				text-align: center;
-				padding: 10rpx;
-				.bg{
-					border-radius: 10rpx;
-					.typographyNum{
-						font-size: 18rpx;
-						padding: 5rpx;
-					}
-				}
-				.noBg{
-					.typographyNum{
-						color: #FF0000;
-					}
-				}
-				.optional{
-					background-color: #61A3FF;
-					color: #FFFFFF;
-					box-shadow:0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
-				}
-				.ban{
-					background-color: #CCCCCC;
-					color: #FFFFFF;
-					box-shadow:0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
-				}
-			}
-		}
-	}
-
-
-
 </style>

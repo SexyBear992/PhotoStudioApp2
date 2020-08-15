@@ -121,14 +121,18 @@
 		filters:{
 			// 服装景点
 			photoData(arr){
-				if(arr.length <= 0){
-					return '请选择'
+				if(arr){
+					if(arr.length <= 0){
+						return '请选择'
+					}else{
+						let newArr = []
+						arr.forEach((i)=>{
+							newArr.push(i.name)
+						})
+						return newArr.join()
+					}
 				}else{
-					let newArr = []
-					arr.forEach((i)=>{
-						newArr.push(i.name)
-					})
-					return newArr.join()
+					return '请选择'
 				}
 			}
 		},

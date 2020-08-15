@@ -30,3 +30,11 @@ Vue.filter('time',function(dataStr,pattern = ''){
 		return '未选定时间'
 	}
 })
+// 预约时间
+Vue.filter('reservationTime',function(dataStr,pattern = ''){
+	if(dataStr){
+		return dataStr
+	}else{
+		return ''
+	}
+})

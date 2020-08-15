@@ -324,7 +324,7 @@
 						return './checkWork/checkWork?type=shgz'
 						break;
 					case 'shdqcx':			// 摄化档期查询
-						console.log('摄化档期查询');
+						return '../calendar/calendar?type=pz&check=true&id=' + this.shopId
 						break;
 					case 'smap':				// 数码安排
 						console.log('数码安排');
@@ -336,7 +336,7 @@
 						return './checkWork/checkWork?type=xpgz'
 						break;
 					case 'xpdqcx':			// 选片档期查询
-						console.log('选片档期查询');
+						return '../calendar/calendar?type=xp&check=true&id=' + this.shopId
 						break;
 					case 'kbyy':				// 看板预约
 						return './convention/convention?type=kbyy'
@@ -345,7 +345,7 @@
 						return './checkWork/checkWork?type=kbgz'
 						break;
 					case 'kbdqcx':			// 看板档期查询
-						console.log('看板档期查询');
+						return '../calendar/calendar?type=kb&check=true&id=' + this.shopId
 						break;
 					case 'qjyy':				// 取件预约
 						return './convention/convention?type=qjyy'
@@ -354,7 +354,7 @@
 						return './checkWork/checkWork?type=qjgz'
 						break;
 					case 'qjdqcx':			// 取件档期查询
-						console.log('取件档期查询');
+						return '../calendar/calendar?type=qj&check=true&id=' + this.shopId
 						break;
 				}
 			},

@@ -6,7 +6,7 @@
 			<view class="listBox">
 				<view class="list">
 					<view class="text">预约时间：</view>
-					<view class="info">{{item.reservationDate | time}} {{item.reservationTime}}</view>
+					<view class="info">{{item.reservationDate | time}} {{item.reservationTime | reservationTime}}</view>
 				</view>	
 			</view>
 			
@@ -27,7 +27,6 @@
 				<view class="list">
 					<view class="text">取件商品：</view>
 					<pickupStatus :item="item.reservationPickupDataJson"></pickupStatus>
-					<!-- <view class="text">{{this.getPickupStatus(item.reservationPickupDataJson)}}</view> -->
 				</view>	
 			</view>
 			

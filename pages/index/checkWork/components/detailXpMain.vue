@@ -6,7 +6,7 @@
 				<view class="listBox">
 					<view class="list">
 						<view class="text">预约时间：</view>
-						<view class="info">{{item.reservationDate | time}} {{item.reservationTime}}</view>
+						<view class="info">{{item.reservationDate | time}} {{item.reservationTime | reservationTime}}</view>
 					</view>	
 				</view>
 				

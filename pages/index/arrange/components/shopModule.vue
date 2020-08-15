@@ -2,7 +2,8 @@
 <template>
 	<view>
 		<view class="box">
-			<view class="title">预约门店</view>
+			<view class="title" v-if="title">{{title}}</view>
+			<view class="title" v-else>预约门店</view>
 			<pickerModule my-img="imgMargin" :arrInfo="shopArr" :nowName="nowShopName" @getId="getShopId"></pickerModule>
 		</view>
 	</view>
@@ -12,7 +13,7 @@
 	import { mapGetters } from 'vuex'
 	import pickerModule from '@/components/pickerModule.vue'
 	export default{
-		props:['shopId'],
+		props:['shopId','title'],
 		components:{
 			pickerModule,
 		},

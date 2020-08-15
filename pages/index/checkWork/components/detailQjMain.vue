@@ -6,7 +6,7 @@
 				<view class="listBox">
 					<view class="list">
 						<view class="text">预约时间：</view>
-						<view class="info">{{item.reservationDate | time}} {{item.reservationTime}}</view>
+						<view class="info">{{item.reservationDate | time}} {{item.reservationTime | reservationTime}}</view>
 					</view>	
 				</view>
 				
@@ -41,6 +41,15 @@
 						<view class="info arr">{{item.actorNameVo | actor}}</view>
 					</view>	
 				</view>
+			
+				<!-- 取件商品 -->
+				<view class="listBox">
+					<view class="list">
+						<view class="text">取件商品：</view>
+						<pickupStatus :item="item.reservationPickupDataJson"></pickupStatus>
+					</view>	
+				</view>
+				
 			</view>
 		</view>
 		
@@ -48,11 +57,14 @@
 		<i-message id="message" />
 	</view>
 </template>
-
 <script>
+	import pickupStatus from '@/pages/index/arrange/components/getPickupStatus.vue'
 	import { mapGetters } from 'vuex'
 	export default{
 		props:['item'],
+		components:{
+			pickupStatus
+		},
 		computed:{
 			...mapGetters('shopArr',[
 				// 门店

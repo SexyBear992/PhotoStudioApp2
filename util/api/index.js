@@ -117,6 +117,10 @@ let baseUrl = {
 	getWorkPhotoDepartment: `${base_store}/work/photo/page/department`, //查询-我的部门摄化工作
 	getWorkPhotoAll: `${base_store}/work/photo/page/all`, //查询-所有摄化工作
 	getWorkPhotoList: `${base_store}/order/item/process/photo/list`,// 查找-拍照列表
+	updataWorkPhotoStatus: `${base_store}/order/item/update/photoProcessStatus`, //更新-子订单拍照流程状态
+	getPhotoDetails: `${base_store}/order/item/process/photo/details`,//查找-拍照详情
+	updataPhoto: `${base_store}/order/item/process/photo/update`, //更新-拍照记录
+	
 	
 	getWorkChooseMy: `${base_store}/work/choose/page/my`, //查询-我的选片工作
 	getWorkChooseDepartment: `${base_store}/work/choose/page/department`, //查询-我的部门选片工作
@@ -132,6 +136,12 @@ let baseUrl = {
 	getWorkPickupDepartment: `${base_store}/work/pickup/page/department`, //查询-我的部门取件工作
 	getWorkPickupAll: `${base_store}/work/pickup/page/all`, //查询-所有取件工作
 	getWorkPickupList: `${base_store}/order/item/goods/list/pickup`,// 查找-取件列表
+
+	getPhotoPage: `${base_store}/order/item/process/photo/reservation/page`, //查询-预约拍照表格
+	getChoosePage: `${base_store}/order/item/process/choose/reservation/page`, //查询-预约选片表格
+	getWatchPage: `${base_store}/order/item/process/watch/reservation/page`, //查询-预约看板表格
+	getPickupPage: `${base_store}/order/item/process/pickup/reservation/page`, //查询-预约取件表格
+
 }
 
 export default baseUrl

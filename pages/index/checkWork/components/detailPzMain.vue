@@ -6,7 +6,7 @@
 				<view class="listBox">
 					<view class="list">
 						<view class="text">预约时间：</view>
-						<view class="info">{{item.reservationDate | time}} {{item.reservationTime}}</view>
+						<view class="info">{{item.reservationDate | time}} {{item.reservationTime | reservationTime}}</view>
 					</view>	
 					<view class="list">
 						<view class="text">拍照类型：</view>
@@ -30,7 +30,7 @@
 				<view class="listBox">
 					<view class="list">
 						<view class="text">拍照状态：</view>
-						<view class="info">{{item.processStatus | status}}</view>
+						<view class="info">{{processStatus | status}}</view>
 					</view>	
 					<view class="list">
 						<view class="text">拍照时间：</view>
@@ -105,8 +105,8 @@
 				</view>
 				
 				
-				<view class="butBox">
-					<view class="but">完成拍照</view>
+				<view class="butBox" v-if="showBut">
+					<view class="but" @click="overPhoto(item.id)">完成拍照</view>
 				</view>
 				
 			</view>
@@ -167,15 +167,20 @@
 			},
 			// 服装 景点显示过滤
 			photoDataArr(arr){
-				if(arr.length <= 0){
-					return '无'
+				if(arr){
+					if(arr.length <= 0){
+						return '无'
+					}else{
+						let name = []
+						arr.forEach((i)=>{
+							name.push(i.name)
+						})
+						return name.join()
+					}
 				}else{
-					let name = []
-					arr.forEach((i)=>{
-						name.push(i.name)
-					})
-					return name.join()
+					return '无'
 				}
+				
 			},
 			// 摄化人员
 			actor(arr,type){
@@ -196,6 +201,9 @@
 		},
 		data(){
 			return{
+				showBut:true,
+				// 拍照状态
+				processStatus:null,
 				shopIdMap: new Map(),
 				scheduleMap: new Map(),
 			}
@@ -203,6 +211,20 @@
 		mounted(){
 			this.scheduleMap = new Map(this.get_schedule.map(item => [item.id, item.name]))
 			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
+			this.processStatus = this.item.processStatus
+			if(this.item.processStatus === 'COMPLETE'){
+				this.showBut = false
+			}
+		},
+		methods:{
+			// 完成拍照
+			overPhoto(id){
+				// this.processStatus = 'COMPLETE'
+				// this.showBut = false
+				uni.navigateTo({
+					url:'./completePhoto/completePhoto?id=' + id
+				})
+			}
 		}
 	}
 </script>

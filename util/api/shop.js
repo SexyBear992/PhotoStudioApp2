@@ -200,6 +200,10 @@ export const updataPhotoInfo = (params) => {
 export const deletPhotoInfo = (params) => {
 	return remove(baseUrl.deletPhotoInfo, params)
 }
+//更新-拍照记录
+export const updataPhoto = (params) => {
+	return put(baseUrl.updataPhoto, params)
+}
 
 //查找-预约选片详情
 export const getChooseDetail = (params) => {
@@ -311,6 +315,15 @@ export const getWorkPhotoAll = (params) => {
 export const getWorkPhotoList = (params) => {
 	return get(baseUrl.getWorkPhotoList, params)
 }
+//更新-子订单拍照流程状态
+export const updataWorkPhotoStatus = (params) => {
+	return put(baseUrl.updataWorkPhotoStatus, params)
+}
+//查找-拍照详情
+export const getPhotoDetails = (params) => {
+	return get(baseUrl.getPhotoDetails, params)
+}
+
 //查询-我的选片工作
 export const getWorkChooseMy = (params) => {
 	return get(baseUrl.getWorkChooseMy, params)
@@ -361,5 +374,20 @@ export const getWorkPickupAll = (params) => {
 export const getWorkPickupList = (params) => {
 	return get(baseUrl.getWorkPickupList, params)
 }
-
+//查询-预约拍照表格
+export const getPhotoPage = (params) => {
+	return get(baseUrl.getPhotoPage, params)
+}
+//查询-预约选片表格
+export const getChoosePage = (params) => {
+	return get(baseUrl.getChoosePage, params)
+}
+//查询-预约看板表格
+export const getWatchPage = (params) => {
+	return get(baseUrl.getWatchPage, params)
+}
+//查询-预约取件表格
+export const getPickupPage = (params) => {
+	return get(baseUrl.getPickupPage, params)
+}
 	

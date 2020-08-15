@@ -6,7 +6,7 @@
 			<view class="listBox">
 				<view class="list">
 					<view class="text">预约时间：</view>
-					<view class="info">{{item.reservationDate | time}}</view>
+					<view class="info">{{item.reservationDate | time}} {{item.reservationTime | reservationTime}}</view>
 				</view>	
 			</view>
 			
@@ -30,7 +30,7 @@
 				</view>	
 				<view class="list">
 					<view class="text">看板时间：</view>
-					<view class="info">{{item.reservationTime}}</view>
+					<view class="info">{{item.successTime | time}}</view>
 				</view>	
 			</view>
 			
@@ -68,7 +68,7 @@
 					return '线下'
 				}
 			},
-			// 拍照状态
+			// 看板状态
 			processStatus (type) {
 				const result = new Map([
 					['NOT_PROCESSING', '未开始'],

@@ -1,35 +1,40 @@
 <template>
 	<view>
 		<view class="mainBox">
-			<!-- 预约时间 -->
+			<!-- 预约时间 拍照类型-->
 			<view class="listBox">
 				<view class="list">
 					<view class="text">预约时间：</view>
-					<view class="info">{{item.reservationDate | time}} {{item.reservationTime}}</view>
+					<view class="info">{{item.reservationDate | time}} {{item.reservationTime | reservationTime}}</view>
 				</view>	
-			</view>
-						
-			<!-- 拍照类型  预约门店 -->
-			<view class="listBox">
 				<view class="list">
 					<view class="text">拍照类型：</view>
 					<view class="info">{{item.processType | processType}}</view>
 				</view>
+			</view>
+						
+			<!--   预约门店  预约档期-->
+			<view class="listBox">
+				
 				<view class="list">
 					<view class="text">预约门店：</view>
 					<view class="info">{{shopIdMap.get(item.reservationShopId)}}</view>
 				</view>
-			</view>
-			
-			<!-- 预约档期  拍照状态 -->
-			<view class="listBox">
 				<view class="list">
 					<view class="text">预约档期：</view>
 					<view class="info">{{scheduleMap.get(item.groupTypeCategoryId)}}({{item.isOnline | isOnline}})</view>
 				</view>
+			</view>
+			
+			<!--   拍照状态 拍照时间 -->
+			<view class="listBox">
 				<view class="list">
 					<view class="text">拍照状态：</view>
 					<view class="info">{{item.processStatus | processStatus}}</view>
+				</view>
+				<view class="list">
+					<view class="text">拍照时间：</view>
+					<view class="info">{{item.successTime | time}}</view>
 				</view>
 			</view>
 			
@@ -146,14 +151,18 @@
 			},
 			// 服装 景点显示过滤
 			photoDataArr(arr){
-				if(arr.length <= 0){
-					return '无'
+				if(arr){
+					if(arr.length <= 0){
+						return '无'
+					}else{
+						let name = []
+						arr.forEach((i)=>{
+							name.push(i.name)
+						})
+						return name.join()
+					}
 				}else{
-					let name = []
-					arr.forEach((i)=>{
-						name.push(i.name)
-					})
-					return name.join()
+					return '无'
 				}
 			},
 			// 摄化人员
