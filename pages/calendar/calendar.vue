@@ -152,16 +152,22 @@
 				// 姓名
 				if(e.contactName){
 					this.params.contactName = e.contactName
+					this.getPage()
 				}
 				if(e.contactMobile){
 					this.params.contactMobile = e.contactMobile
+					this.getPage()
 				}
 				if(e.orderNo){
 					this.params.orderNo = e.orderNo
+					this.getPage()
 				}
 				if(e.orderShopId){
+					this.dateParams.reservationShopId = e.orderShopId
 					this.params.reservationShopId = e.orderShopId
+					this.getCalendar()
 				}
+				console.log(e)
 			},
 			
 			// 点击选择日期

@@ -29,18 +29,19 @@
 		<view class="calenarBox">
 			<view v-for="(item,index) in dateArr" :key="index">
 				<view class="list">
-					<view class="bg" :class="noBg(dateDetail,(item.num - 1)) ? (bgColor(dateDetail,(item.num-1)) ? 'optional' : 'ban' ) :'noBg'" @click="enDate(item.date)">
+					<view class="bg" :class="noBg(dateDetail,(item.num - 1)) ? (bgColor(dateDetail,(item.num-1)) ? 'optional' : 'ban' ) :'noBg'" @click="enDate(dateDetail,item.num,item.date)">
 						<view class="day">{{item.num}}</view>
 						<view class="typographyNum">{{dateDetail | typographyNum(item.num-1)}}</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		
+	<i-message id="message" />	
 	</view>
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	export default{
 		props:['dateDetail'],
 		filters:{
@@ -196,8 +197,17 @@
 				this.dateInit()
 			},		
 		
-			enDate(time){
-				this.$emit('enDate',time)
+			enDate(detail,num,time){
+				// this.$emit('enDate',time)
+				let isVacation = detail[num-1].isVacation
+				if(!isVacation){
+					this.$emit('enDate',time)
+				}else{
+					$Message({
+						content: '该时间为休息日',
+						type: 'warning'
+					});
+				}
 			}
 		},
 		watch:{

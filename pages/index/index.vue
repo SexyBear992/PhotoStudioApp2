@@ -327,7 +327,7 @@
 						return '../calendar/calendar?type=pz&check=true&id=' + this.shopId
 						break;
 					case 'smap':				// 数码安排
-						console.log('数码安排');
+						return './digitalBox/digitalList/digitalList'
 						break;
 					case 'smgz':				// 数码工作
 						console.log('数码工作');

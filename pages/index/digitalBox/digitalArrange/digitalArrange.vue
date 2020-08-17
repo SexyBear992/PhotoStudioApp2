@@ -1,0 +1,204 @@
+/*********************************  数码安排操作  ***************************************/
+<template>
+	<view>
+		<detailMoudel v-if="info" :info="info"></detailMoudel>
+		<view v-for="(item,index) in list" :key="item.itemId" class="mainBox">
+			<view class="index">第{{index + 1}}次</view>
+			<digitalArrangeList :type="type" :item='item' @onButton="onButton"></digitalArrangeList>
+		</view>
+		
+		<digitalUpdataOrAdd 
+			v-if="showModal" 
+			:info="listInfo" 
+			:type="type" 
+			:showName="showName"
+			:calendarTime="calendarTime"
+			@openCalendar="openCalendar"
+			@ok="getDigitalItem"
+			@close="closeModal"
+		></digitalUpdataOrAdd>
+		
+		<!-- 日历 -->
+		<uni-calendar 
+			:insert="false"
+			:lunar="true" 
+			:clearDate='true'
+			@confirm="enSure"
+			ref="calendar"
+		/>
+		
+		<i-message id="message" />
+	</view>
+</template>
+
+<script>
+	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
+	import digitalUpdataOrAdd from './components/digitalUpdataOrAdd.vue'
+	import detailMoudel from '@/components/detailMoudel.vue'
+	import digitalArrangeList from './components/digitalArrangeList.vue'
+	import { getDigitalItem } from '@/util/api/shop.js'
+	export default {
+		components:{
+			uniCalendar,
+			detailMoudel,
+			digitalArrangeList,
+			digitalUpdataOrAdd
+		},
+		data() {
+			return {
+				// 类型
+				type:null,
+				// 详情
+				info:null,
+				// 所有子订单内容
+				list:null,
+				showModal:false,
+				// 选择修改的子订单内容
+				listInfo:null,
+				showName:null,
+				// 日历返回时间
+				calendarTime:null,
+			};
+		},
+		onLoad(op){
+			// this.type = op.type
+			this.type = 'jx'
+			// let pages = getCurrentPages();
+			// let prvePage = pages[pages.length - 3]; //当前页面
+			// let digitalInfo = prvePage.data.digitalInfo
+			// this.info = digitalInfo
+			let title 
+			switch(this.type){
+				case 'cx':
+					title = '安排初修工作'
+					break
+				case 'jx':
+					title = '安排精修工作'
+					break
+				case 'sj':
+					title = '安排设计工作'
+					break
+				case 'fp':
+					title = '安排发片工作'
+					break
+			}
+			uni.setNavigationBarTitle({
+				title: title
+			})
+			
+			let info = {
+				assemblyName: "9000国庆优化包",
+				assemblyPrice: 9000,
+				bookCount: 25,
+				bottomCount: 50,
+				chooseStatus: "NOT_PROCESSING",
+				chooseUpdateTime: null,
+				customerBabyBasicVos: [
+					{
+						birthdayLunar: false,
+						birthdayStr: null,
+						birthdayTime: 1594915200000,
+						callName: "男宝",
+						name: "吴宝宝",
+						sex: true,
+					}
+				],
+				customerContactBasicVos: [
+					{
+						birthdayLunar: false,
+						birthdayStr: 0,
+						birthdayTime: 1594742400000,
+						callName: "妈妈",
+						mobile: "13824225152",
+						name: "大哥",
+						sex: true,
+					}
+				],
+				designStatus: "NOT_PROCESSING",
+				designUpdateTime: null,
+				groupCategoryId: null,
+				itemId: 171,
+				itemNo: "200717008-02",
+				orderCategoryId: null,
+				orderId: 243,
+				orderNo: "200717008",
+				orderShopId: 14,
+				orderTime: 1594980043235,
+				photoStatus: "NOT_PROCESSING",
+				photoUpdateTime: null,
+				pickupStatus: "NOT_PROCESSING",
+				pickupUpdateTime: null,
+				receptions: ["小欢"],
+				refineStatus: "NOT_PROCESSING",
+				refineUpdateTime: null,
+				repairStatus: "NOT_PROCESSING",
+				repairUpdateTime: null,
+				returnStatus: "NOT_PROCESSING",
+				returnUpdateTime: null,
+				senderStatus: "NOT_PROCESSING",
+				senderUpdateTime: null,
+				serviceCategoryId: 296,
+				teacherCategoryId: 297,
+				type: "BABY",
+				watchStatus: "NOT_PROCESSING",
+				watchUpdateTime: null,
+			}
+			this.info = info
+		},
+		onShow(){
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length - 1]; //当前页面
+			let address = currPage.data.address;
+			if(address){
+				this.showName = address
+			}
+		},
+		methods:{
+			getDigitalItem(){
+				getDigitalItem({ itemId: this.info.itemId}).then(res=>{
+					this.list = res.data.data
+					this.showModal = false
+				})
+			},
+			onButton(e){
+				this.listInfo = e
+				this.showModal = true
+			},
+			// 打开日历
+			openCalendar(){
+				this.$refs.calendar.open()
+			},
+			enSure(e){
+				this.calendarTime = e.fulldate
+			},
+			// 关闭模态框
+			closeModal(){
+				this.showModal = false
+			}
+		},
+		watch:{
+			info(){
+				this.getDigitalItem()
+			}
+		}
+	}
+</script>
+
+<style>
+	page{
+		background-color: #fdfdfd;
+	}
+</style>
+<style lang="scss">
+	.mainBox{
+		margin: 30rpx;
+		.index{
+			background-color: #61A3FF;
+			color: #FFFFFF;
+			border-radius: 10rpx 10rpx 0 0 ;
+			font-size: 32rpx;
+			padding: 20rpx;
+		}
+	}
+
+</style>

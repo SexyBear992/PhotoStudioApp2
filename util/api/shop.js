@@ -390,4 +390,11 @@ export const getWatchPage = (params) => {
 export const getPickupPage = (params) => {
 	return get(baseUrl.getPickupPage, params)
 }
-	
+// 查询-数码分页列表
+export const getDigitalPage = (params) => {
+	return get(baseUrl.getDigitalPage, params)
+}
+//查询-安排数码列表
+export const getDigitalItem = (params) => {
+	return get(baseUrl.getDigitalItem, params)
+}

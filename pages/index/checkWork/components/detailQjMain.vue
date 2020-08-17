@@ -38,7 +38,8 @@
 				<view class="listBox">
 					<view class="list">
 						<view class="text">取件师：</view>
-						<view class="info arr">{{item.actorNameVo | actor}}</view>
+						<view class="info arr" v-if="item.actorNameVo">{{item.actorNameVo | actor}}</view>
+						<view class="info arr" v-else>{{item.actorNameVos | actor}}</view>
 					</view>	
 				</view>
 			

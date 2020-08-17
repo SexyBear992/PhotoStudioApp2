@@ -141,7 +141,9 @@ let baseUrl = {
 	getChoosePage: `${base_store}/order/item/process/choose/reservation/page`, //查询-预约选片表格
 	getWatchPage: `${base_store}/order/item/process/watch/reservation/page`, //查询-预约看板表格
 	getPickupPage: `${base_store}/order/item/process/pickup/reservation/page`, //查询-预约取件表格
-
+	
+	getDigitalPage: `${base_store}/order/item/process/digital/page`,// 查询-数码分页列表
+	getDigitalItem: `${base_store}/order/item/process/digital/list/item`,//查询-安排数码列表
 }
 
 export default baseUrl
