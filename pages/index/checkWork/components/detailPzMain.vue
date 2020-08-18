@@ -229,9 +229,6 @@
 	}
 </script>
 
-<style lang="scss">
-	@import '@/pages/index/arrange/mainBox/mainStyle.scss';
-	.mainBox{
-		box-shadow: 0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.06);
-	}
+<style lang="scss" scoped>
+	@import  './detailMainStyle.scss';
 </style>

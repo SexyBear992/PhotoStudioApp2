@@ -2,7 +2,7 @@
 	<view class="bigBox">
 		<view class="listInfo">
 			<view class="mainBox">
-				<!-- 预约时间 选片类型 -->
+				<!-- 预约时间 -->
 				<view class="listBox">
 					<view class="list">
 						<view class="text">预约时间：</view>
@@ -119,8 +119,5 @@
 </script>
 
 <style lang="scss">
-	@import '@/pages/index/arrange/mainBox/mainStyle.scss';
-	.mainBox{
-		box-shadow: 0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.06);
-	}
+	@import  './detailMainStyle.scss';
 </style>

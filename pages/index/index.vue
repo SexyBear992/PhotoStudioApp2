@@ -305,7 +305,7 @@
 						return './myOrderBox/orderBox/order/order?type=sydd&typeName=所有订单'
 						break;
 					case 'ddsk':				// 订单收款
-						console.log('订单收款');
+						return './cashier/orderCashier/orderCashier'
 						break;
 					case 'sksk':				// 散客收款
 						console.log('散客收款');
@@ -330,7 +330,7 @@
 						return './digitalBox/digitalList/digitalList'
 						break;
 					case 'smgz':				// 数码工作
-						console.log('数码工作');
+						return './checkWork/checkWork?type=smgz'
 						break;
 					case 'xpgz':				// 选片工作
 						return './checkWork/checkWork?type=xpgz'

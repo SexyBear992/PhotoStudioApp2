@@ -41,7 +41,9 @@
 				'act_serviceCategory',
 				'act_teacherCategory',
 				'act_piceList',
-				'act_schedule'
+				'act_schedule',
+				'act_consumeType',
+				'act_pay'
 			]),
 			// 获取本地缓存ticket
 			getStorageTicket() {
@@ -101,6 +103,8 @@
 				this.act_teacherCategory()
 				this.act_piceList()
 				this.act_schedule()
+				this.act_consumeType()
+				this.act_pay()
 			}
 		}
 	};

@@ -6,7 +6,7 @@
 				
 				<searchModul ref="searchModul" @search="search"></searchModul>
 				
-				<view class="listBox" v-for="item in list" :key="item.orderId">
+				<view class="listBox" v-for="(item,index) in list" :key="index">
 					
 					<detailMoudel :info="item"></detailMoudel>
 					
@@ -187,41 +187,49 @@
 		}
 	}
 </script>
-
+<style>
+	page{
+		background-color: #FDFDFD;
+	}
+</style>
 <style lang="scss" scoped>
-	.butBox{
-		display: flex;
-		justify-content: space-between;
-		margin: 0 30rpx;
-		padding: 30rpx 0;
-		border-bottom: 1rpx solid #DDDDDD;
-		.textBox{
-			font-size: 32rpx;
-			font-weight: bold;
-			margin-left: 30rpx;
-			.text{
-				width: 360rpx;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
+	.listBox{
+		margin: 30rpx;
+		box-shadow: 0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
+		background-color: #FFFFFF;
+		.butBox{
+			display: flex;
+			justify-content: space-between;
+			margin: 0 30rpx;
+			padding: 30rpx 0;
+			border-bottom: 1rpx solid #DDDDDD;
+			.textBox{
+				font-size: 32rpx;
+				font-weight: bold;
+				.text{
+					width: 360rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+			.arrange{
+				width: 180rpx;
+				height: 60rpx;
+				font-size: 28rpx;
+				line-height: 60rpx;
+				text-align: center;
+				border-radius: 30rpx;
+				background-color: #61a3ff;
+				color: #FFFFFF;
+				border: 1rpx solid #61a3ff;
+				box-shadow:0rpx 7rpx 14rpx 1rpx rgba(97,163,255,0.27);
+				margin-top: 15rpx;
 			}
 		}
-		.arrange{
-			width: 180rpx;
-			height: 60rpx;
-			font-size: 28rpx;
-			line-height: 60rpx;
-			text-align: center;
-			border-radius: 30rpx;
-			background-color: #61a3ff;
-			color: #FFFFFF;
-			border: 1rpx solid #61a3ff;
-			box-shadow:0rpx 7rpx 14rpx 1rpx rgba(97,163,255,0.27);
-			margin-top: 15rpx;
+		.butBox:last-child{
+			border-bottom: none;
 		}
-	}
-	.butBox:nth-child(1){
-		border-bottom: none;
 	}
 	.noMove{
 		font-size: 28rpx;

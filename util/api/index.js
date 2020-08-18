@@ -144,6 +144,13 @@ let baseUrl = {
 	
 	getDigitalPage: `${base_store}/order/item/process/digital/page`,// 查询-数码分页列表
 	getDigitalItem: `${base_store}/order/item/process/digital/list/item`,//查询-安排数码列表
+	getWorkDigitalAll: `${base_store}/work/digital/page/all`, // 查询-所有数码工作
+	getWorkDigitalDepartment: `${base_store}/work/digital/page/department`, // 查询-我的部门数码工作
+	getWorkDigitalMy: `${base_store}/work/digital/page/my`, // 查询-我的数码工作
+	
+	
+	getReceiptList: `${base_store}/financia/order/receipt/list`, //查找-收款明细列表
+	
 }
 
 export default baseUrl

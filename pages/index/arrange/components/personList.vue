@@ -1,9 +1,9 @@
 <template>
 	<view class="box">
 		<view class="listBox">
-			<view class="title">{{title}}</view>
+			<view class="title fa-title">{{title}}</view>
 			<view class="textBox">
-				<view class="text" @click="goAddress">{{show}}</view>
+				<view class="text fa-text" @click="goAddress">{{show}}</view>
 				<image class="my-img" src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
 			</view>
 		</view>
@@ -12,6 +12,7 @@
 
 <script>
 	export default{
+		externalClasses:['fa-title','fa-text'],
 		props:['title','show','type'],
 		data(){
 			return{

@@ -1,6 +1,7 @@
 <template>
 	<view class="bg">
 		欢迎
+		<i-message id="message" />
 	</view>
 </template>
 

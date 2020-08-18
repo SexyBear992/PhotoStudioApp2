@@ -1,4 +1,4 @@
-/******************* 摄化 选片 看板 取件 查看工作 ********************/
+/******************* 摄化 选片 看板 取件 数码 查看工作 ********************/
 <template>
 	<view>
 		<section class="PullScroll-Page">
@@ -8,12 +8,13 @@
 				
 				<changeList @changeType="getChangeType"></changeList>
 				
-				<view class="listBox" v-for="item in list" :key="item.orderId">	
+				<view class="listBigBox" v-for="item in list" :key="item.orderId">	
 					<detailMoudel :info="item"></detailMoudel>
 					<detailPzMain v-if="type === 'shgz'" :item="item"></detailPzMain>
 					<detailXpMain v-if="type === 'xpgz'" :item="item"></detailXpMain>
 					<detailKbMain v-if="type === 'kbgz'" :item="item"></detailKbMain>
 					<detailQjMain v-if="type === 'qjgz'" :item="item"></detailQjMain>
+					<detailSmMain v-if="type === 'smgz'" :item="item"></detailSmMain>	
 				</view>
 				
 				<view class="noMove" v-if="showNoMore || list.length <= 0">没有更多数据</view>
@@ -32,6 +33,7 @@
 	import detailXpMain from './components/detailXpMain.vue'
 	import detailKbMain from './components/detailKbMain.vue'
 	import detailQjMain from './components/detailQjMain.vue'
+	import detailSmMain from './components/detailSmMain.vue'
 	import {
 		getWorkPhotoMy, //查询-我的摄化工作
 		getWorkPhotoDepartment, //查询-我的部门摄化工作
@@ -45,6 +47,9 @@
 		getWorkPickupMy, //查询-我的取件工作
 		getWorkPickupDepartment, //查询-我的部门取件工作
 		getWorkPickupAll, //查询-所有取件工作
+		getWorkDigitalMy, // 查询-我的数码工作
+		getWorkDigitalDepartment, // 查询-我的部门数码工作
+		getWorkDigitalAll, // 查询-所有数码工作
 	} from '@/util/api/shop.js'
 	export default {
 		components:{
@@ -55,7 +60,8 @@
 			detailPzMain,
 			detailXpMain,
 			detailKbMain,
-			detailQjMain
+			detailQjMain,
+			detailSmMain
 		},
 		data() {
 			return {
@@ -94,6 +100,9 @@
 					break;
 				case 'qjgz':
 					title = '取件'
+					break;
+				case 'smgz':
+					title = '数码'
 					break;
 			}
 			uni.setNavigationBarTitle({
@@ -134,6 +143,9 @@
 						break;
 					case 'qjgz':
 						this.getPickupWork()
+						break;
+					case 'smgz':
+						this.getDigitalWork()
 						break;
 				}
 			},
@@ -190,6 +202,20 @@
 						break
 					case 'all':
 						this.getWorkPickupAll()
+						break				
+				}
+			},
+			// 获取数码工作
+			getDigitalWork(){
+				switch(this.changeType){
+					case 'my':
+						this.getWorkDigitalMy()
+						break
+					case 'department':
+						this.getWorkDigitalDepartment()
+						break
+					case 'all':
+						this.getWorkDigitalAll()
 						break				
 				}
 			},
@@ -318,6 +344,37 @@
 				})
 			},
 			
+			// 获取 我的数码工作
+			getWorkDigitalMy(){
+				getWorkDigitalMy(this.params).then(res=>{
+					this.total = res.data.data.total
+					const curList = res.data.data.records
+					curList.forEach((i)=>{
+						this.list.push(i)
+					})
+				})
+			},
+			// 获取 部门数码工作
+			getWorkDigitalDepartment(){
+				getWorkDigitalDepartment(this.params).then(res=>{
+					this.total = res.data.data.total
+					const curList = res.data.data.records
+					curList.forEach((i)=>{
+						this.list.push(i)
+					})
+				})
+			},
+			// 获取 所有数码工作
+			getWorkDigitalAll(){
+				getWorkDigitalAll(this.params).then(res=>{
+					this.total = res.data.data.total
+					const curList = res.data.data.records
+					curList.forEach((i)=>{
+						this.list.push(i)
+					})
+				})
+			},
+			
 			// 组件
 			refresh () {
 			  this.$nextTick(() => {
@@ -349,7 +406,17 @@
 	}
 </script>
 
+<style>
+	page{
+		background-color: #FDFDFD
+	}
+</style>
 <style lang="scss">
+	.listBigBox{
+		margin: 30rpx;
+		box-shadow: 0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
+		background-color: #FFFFFF;
+	}
 	.noMove{
 		font-size: 28rpx;
 		color: #a2a2a2;

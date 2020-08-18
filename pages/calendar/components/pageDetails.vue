@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view v-for="item in pageDetails" :key="item.id">
+		<view class="listBigBox" v-for="item in pageDetails" :key="item.id">
 			<detailMoudel :info="item"></detailMoudel>
 			<detailPzMain v-if="type === 'pz'" :item="item"></detailPzMain>
 			<detailXpMain v-if="type === 'xp'" :item="item"></detailXpMain>
@@ -40,6 +40,11 @@
 </script>
 
 <style lang="scss" scoped>
+	.listBigBox{
+		margin: 30rpx;
+		box-shadow: 0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
+		background-color: #FFFFFF;
+	}
 	.ts{
 		font-size: 28rpx;
 		text-align: center;

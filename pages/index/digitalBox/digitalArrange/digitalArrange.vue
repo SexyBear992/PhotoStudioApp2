@@ -66,7 +66,9 @@
 			// let pages = getCurrentPages();
 			// let prvePage = pages[pages.length - 3]; //当前页面
 			// let digitalInfo = prvePage.data.digitalInfo
-			// this.info = digitalInfo
+			// if(digitalInfo){
+			// 	this.info = digitalInfo
+			// }
 			let title 
 			switch(this.type){
 				case 'cx':
@@ -160,6 +162,7 @@
 					this.showModal = false
 				})
 			},
+			// 显示模态框
 			onButton(e){
 				this.listInfo = e
 				this.showModal = true
@@ -168,6 +171,7 @@
 			openCalendar(){
 				this.$refs.calendar.open()
 			},
+			// 确定时间
 			enSure(e){
 				this.calendarTime = e.fulldate
 			},

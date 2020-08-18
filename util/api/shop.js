@@ -398,3 +398,20 @@ export const getDigitalPage = (params) => {
 export const getDigitalItem = (params) => {
 	return get(baseUrl.getDigitalItem, params)
 }
+// 查询-所有数码工作
+export const getWorkDigitalAll = (params) => {
+	return get(baseUrl.getWorkDigitalAll, params)
+}
+// 查询-我的部门数码工作
+export const getWorkDigitalDepartment = (params) => {
+	return get(baseUrl.getWorkDigitalDepartment, params)
+}
+// 查询-我的数码工作
+export const getWorkDigitalMy = (params) => {
+	return get(baseUrl.getWorkDigitalMy, params)
+}
+
+//查找-收款明细列表
+export const getReceiptList = (params) => {
+	return get(baseUrl.getReceiptList, params)
+}
