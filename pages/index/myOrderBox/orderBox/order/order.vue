@@ -81,48 +81,118 @@
 			this.refresh();
 		},
 		onShow(){
-			this.getOrder().then(res=>{
-				const curList = res.records
-				let arr = []
-				curList.forEach((i)=>{
-					arr.push(i)
-				})
-				this.list = arr
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length - 1]; //当前页
+			let change = currPage.data.isChange
+			if(change){
+				this.refreshData()
+				console.log('刷新数据')
+			}
+			currPage.setData({
+				isChange: false
 			})
 		},
 		methods:{
+			// 刷新页面
+			refreshData(){
+				let maxPage = this.params.page
+				let params = { 
+					isSearchCount:true,
+					limit:10 * maxPage,
+					page:1,
+				}
+				switch(this.type){
+					case 'wddd':
+						getMyOrder(params).then(res=>{
+							this.total = res.data.data.total
+							this.list = res.data.data.records
+						})
+						break;
+					case 'xsdd':
+						getSubordinatesOrder(params).then(res=>{
+							this.total = res.data.data.total
+							this.list = res.data.data.records
+						})
+						break;
+					case 'bmdd':
+						getTeamOrder(params).then(res=>{
+							this.total = res.data.data.total
+							this.list = res.data.data.records
+						})
+						break;
+					case 'sydd':
+						getAllOrder(params).then(res=>{
+							this.total = res.data.data.total
+							this.list = res.data.data.records
+						})
+						break
+				}
+			},
 			// 获取订单
-			getOrder(){
-				if(this.type === 'wddd'){
-					return getMyOrder(this.params).then(res=>{
-						return Promise.resolve(res.data.data)
-					})
-				}else if(this.type === 'xsdd'){
-					return getSubordinatesOrder(this.params).then(res=>{
-						return Promise.resolve(res.data.data)
-					})
-				}else if(this.type === 'bmdd'){
-					return getTeamOrder(this.params).then(res=>{
-						return Promise.resolve(res.data.data)
-					})
-				}else if(this.type === 'sydd'){
-					return getAllOrder(this.params).then(res=>{
-						return Promise.resolve(res.data.data)
-					})
+			getOrder(params){
+				switch(this.type){
+					case 'wddd':
+						this.getMyOrder()
+						break;
+					case 'xsdd':
+						this.getSubordinatesOrder()
+						break;
+					case 'bmdd':
+						this.getTeamOrder()
+						break;
+					case 'sydd':
+						this.getAllOrder()
+						break
 				}
 			},
 
+			// 获取我的订单
+			getMyOrder(){
+				getMyOrder(this.params).then(res=>{
+					this.total = res.data.data.total
+					const curList = res.data.data.records
+					curList.forEach((i)=>{
+						this.list.push(i)
+					})
+				})
+			},
+			// 获取下属订单
+			getSubordinatesOrder(){
+				getSubordinatesOrder(this.params).then(res=>{
+					this.total = res.data.data.total
+					const curList = res.data.data.records
+					curList.forEach((i)=>{
+						this.list.push(i)
+					})
+				})
+			},
+			// 获取部门订单
+			getTeamOrder(){
+				getTeamOrder(this.params).then(res=>{
+					this.total = res.data.data.total
+					const curList = res.data.data.records
+					curList.forEach((i)=>{
+						this.list.push(i)
+					})
+				})
+			},
+			// 获取所有订单
+			getAllOrder(){
+				getAllOrder(this.params).then(res=>{
+					this.total = res.data.data.total
+					const curList = res.data.data.records
+					curList.forEach((i)=>{
+						this.list.push(i)
+					})
+				})
+			},
+			
 			// 搜索
 			search(e){
 				this.params = e
 				// console.log(this.params)
 				this.list = [];
-				this.getOrder().then(res=>{
-					const curList = res.records
-					curList.forEach((i)=>{
-						this.list.push(i)
-					})
-				})
+				this.getOrder(this.params)
 			},
 			// 订单详情
 			orderDetails(orderId){
@@ -150,33 +220,19 @@
 			  }, 200);
 			},
 			loadData (pullScroll) {
-				
-				// console.log(pullScroll.page)
 				if (pullScroll.page == 1) {
 					this.list = [];
-				}
-				if(this.list.length < this.total){
-					this.getOrder().then(res=>{
-						this.total = res.total
-						const curList = res.records
-						curList.forEach((i)=>{
-							this.list.push(i)
-						})
-					})
-					this.showNoMore = false
-				}else{
-					this.showNoMore = true
 				}
 				if(!this.showNoMore){
 					this.params.page = pullScroll.page
 				}
-				// if (this.list.length > 60) {
-				// 	// finish(boolean:是否显示finishText,默认显示)
-				// 	pullScroll.finish(this.list.length > 5);
-				// } else {
-					pullScroll.success();
-				// }
-			  // }, 500);
+				if(this.list.length < this.total){
+					this.getOrder(this.params)
+					this.showNoMore = false
+				}else{
+					this.showNoMore = true
+				}
+				pullScroll.success();
 			}
 		},
 		watch:{

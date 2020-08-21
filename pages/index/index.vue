@@ -252,7 +252,6 @@
 		},
 		computed:{
 			...mapGetters('app',[
-				'token',
 				'shopId'
 			]),
 			...mapGetters('shopArr',[

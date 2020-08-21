@@ -106,6 +106,11 @@
 					if(res.data.data.type === 'BABY'){
 						this.showBaby = true
 					}
+					let pages = getCurrentPages();
+					let prevPage = pages[pages.length - 2]; //上一个页面
+					prevPage.setData({
+						isChange: true
+					})
 				})
 			},
 			

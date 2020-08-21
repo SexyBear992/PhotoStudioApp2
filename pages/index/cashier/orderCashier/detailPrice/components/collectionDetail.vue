@@ -128,53 +128,5 @@
 </script>
 
 <style lang="scss" scoped>
-	.bigBox{
-		padding: 30rpx 55rpx;
-		border-bottom: 1rpx solid #DDDDDD;
-		font-size: 28rpx;
-		.listBox{
-			display: flex;
-			margin-bottom: 30rpx;
-			.list{
-				display: flex;
-				.info{
-					width: 130rpx;
-					text-overflow: ellipsis;
-					overflow: hidden;
-					white-space: nowrap;
-				}
-			}
-			.list:nth-child(1){
-				width: 370rpx;
-				.info{
-					width: 200rpx;
-					text-overflow: ellipsis;
-					overflow: hidden;
-					white-space: nowrap;
-				}
-			}
-			.time{
-				width: 400rpx;
-			}
-			.remark{
-				width: 500rpx;
-			}
-		}
-		.onlyListBox{
-			display: flex;
-			margin-bottom: 30rpx;
-			.list{
-				display: flex;
-				.remark{
-					width: 500rpx;
-					overflow : hidden;
-					text-overflow: ellipsis;
-					display: -webkit-box;
-					-webkit-line-clamp: 2;
-					-webkit-box-orient: vertical;
-				}
-			}
-		}
-	}
-	
+ @import '../../components/cashierDetailStyle.scss';
 </style>

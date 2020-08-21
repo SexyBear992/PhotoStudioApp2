@@ -1,6 +1,12 @@
 {
 	"pages": [
 		{
+			"path" : "pages/index/cashier/orderCashier/orderCashier",
+			"style" : {
+				"navigationBarTitleText": "订单收款"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "工作台",
@@ -194,18 +200,25 @@
 			"path" : "pages/index/digitalBox/digitalArrange/digitalArrange",
 			"style" : {}
 		},
-		{
-			"path" : "pages/index/cashier/orderCashier/orderCashier",
-			"style" : {
-				"navigationBarTitleText": "订单收款"
-			}
-		},
+
 		{
 			"path" : "pages/index/cashier/orderCashier/detailPrice/detailPrice",
 			"style" : {
 				"navigationBarTitleText": "收款详情"
 			}
 		}
+		,{
+			"path" : "pages/index/cashier/orderCashier/collection/collection",
+			"style" : {}
+		}
+		,{
+			"path" : "pages/index/cashier/orderCashier/collection/updataLatePrice/updataLatePrice",
+			"style" : {}
+		}
+        ,{
+            "path" : "pages/index/cashier/orderCashier/collection/updataEarlyPrice/updataEarlyPrice",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		// 隐藏tabBar

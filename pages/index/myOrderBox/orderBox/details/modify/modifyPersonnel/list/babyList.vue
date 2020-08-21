@@ -111,14 +111,6 @@
 				return this.thisBabyInfo
 			}
 		},
-		watch:{
-			thisBabyInfo:{
-				deep:true,
-				handler(){
-					console.log(this.thisBabyInfo)
-				}
-			}
-		}
 	}
 </script>
 

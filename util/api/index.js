@@ -9,9 +9,9 @@
   let base_auth = test ? 'http://192.168.5.220/dev/api/auth' : 'https://napi.lyfz.net/pro/api/auth'
 	
 let baseUrl = {
-	getToken: `${base_auth}/oauth/token` ,// post 获取token
 	getUserInfo: `${base_user}/account/list/shopIds`, // get 获得用户信息
 	getAccountAllArr: `${base_user}/account/getEnterpriseAll`, // 查找-全部员工
+	getAuthorization: `${base_user}/account/getAuthorization`, // 查找-授权员工信息
 
 	
 	getAllShopQY: `${base_common}/shop/list/shopNameVo`, // 查找-所有门店
@@ -150,7 +150,17 @@ let baseUrl = {
 	
 	
 	getReceiptList: `${base_store}/financia/order/receipt/list`, //查找-收款明细列表
+	getOrderBasic: `${base_store}/order/find/basic`,// 查找-订单基本信息
+	getLatePriceList: `${base_store}/financia/order/entry/list`, //查找-前期录入记录列表  前期收款列表
+	updataReceipt: `${base_store}/financia/order/entry/receipt`, //更新-前期录入收款
+	refund: `${base_store}/financia/order/entry/refund`, //更新-前期退款
 	
+	getEarlyPriceList: `${base_store}/financia/order/late/list`, //查找-后期录入记录列表
+	deleteFinancia: `${base_store}/financia/order/late/delete`, //删除-后期录入记录
+	updataLateReceipt: `${base_store}/financia/order/late/receipt`, //更新-后期录入收款
+	lateRefund: `${base_store}/financia/order/late/refund`, //更新-后期退款
+	addLateReceipt: `${base_store}/financia/order/late/addEntryReceipt`, //新增-后期录入记录和收款
+	getItemNo: `${base_store}/order/item/list/itmeNo`, //查找-子订单编号
 }
 
 export default baseUrl

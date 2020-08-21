@@ -33,16 +33,19 @@
 
 <script>
 	import { getTicket } from '../../util/api/getTicket.js'
-	import { getToken } from '../../util/api/user.js'
 	import { mapGetters, mapActions } from 'vuex'
 	export default {
+		computed:{
+			...mapActions('app',[
+				'get_userInfo'
+			]),
+			
+		},
 		data() {
 			return {
 				// 获取ticket的包体
 				ticketBody: {
-					// "15816447772"
 					unumber:null,
-					// "123456"
 					password:null,
 					service:"",
 					code:"",
@@ -57,7 +60,7 @@
 		},
 		methods:{
 			...mapActions('app',[
-				'setToken'
+				'act_ticket'
 			]),
 			
 			// 清空输入框input
@@ -72,34 +75,13 @@
 			},
 			// 登录
 			login(){
-				let that = this
-				
 				getTicket(this.ticketBody).then(res=>{
 					uni.setStorage({
 						key:'ticket',
 						data:res.data.data.ticket
 					})
-					let ticket = {
-						grant_type: 'ticket',
-						ticket: res.data.data.ticket
-					}
-					getToken(ticket).then(resquest => {
-						if (resquest.data.code === 200) {
-							// 将返回的token存入vuex中
-							that.setToken(resquest.data.data.access_token)
-							// 并跳转到首页
-							uni.switchTab({
-								url: '/pages/index/index'
-							})
-						}else{
-							// 如果登录失败跳转入登录页
-							uni.redirectTo({
-								url:'/pages/login/login'
-							})
-						}
-					})
+					this.act_ticket(res.data.data.ticket)
 				})
-
 			},
 		}
 	}

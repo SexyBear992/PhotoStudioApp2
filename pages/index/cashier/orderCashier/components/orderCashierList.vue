@@ -32,8 +32,8 @@
 		</view>
 		
 		<view class="butBox">
-			<view class="but" @click="earlyPrice">后期收款</view>
-			<view class="but" @click="latePrice">前期收款</view>
+			<view class="but" @click="collection('earlyPrice')">后期收款</view>
+			<view class="but" @click="collection('latePrice')">前期收款</view>
 			<view class="but" @click="detailPrice">收款详情</view>
 		</view>
 	</view>
@@ -48,33 +48,27 @@
 			}
 		},
 		methods:{
-			// 收款详情
-			detailPrice(){
+			// 存储当页信息
+			saveInfo(){
 				let pages = getCurrentPages();
 				let currPage = pages[pages.length - 1]; //当前页
 				currPage.setData({
-					cashierDetail:{
-						'orderNo': this.info.orderNo,
-						'orderTime': this.info.orderTime,
-						'assemblyName': this.info.assemblyName,
-						'assemblyPrice': this.info.assemblyPrice,
-						'latePrice': this.info.latePrice,
-						'earlyPrice': this.info.earlyPrice,
-						'incomePrice': this.info.incomePrice,
-						'financeId': this.info.financeId
-					}
+					cashierDetail:this.info
 				})
+			},
+			
+			// 收款详情
+			detailPrice(){
+				this.saveInfo()
 				uni.navigateTo({
 					url:'./detailPrice/detailPrice'
 				})
 			},
-			// 前期收款
-			latePrice(){
-				console.log('前期收款')
-			},
-			// 后期收款
-			earlyPrice(){
-				console.log('后期收款')
+			// 收款
+			collection(type){
+				uni.navigateTo({
+					url:'./collection/collection?recordId=' + this.info.financeId + '&oId=' + this.info.orderId + '&type=' + type
+				})
 			},
 		},
 	}

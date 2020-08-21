@@ -5,6 +5,7 @@
 **********/
 const { $Message } = require('@/wxcomponents/base/index');
 import app from '@/store/module/app.js'
+let cancaelRes = false
 const request = (url, options) => {
 	uni.showLoading({
 	    title: '加载中',
@@ -12,22 +13,41 @@ const request = (url, options) => {
 			mask:true,
 	});
 	return new Promise((resolve,reject)=>{
-		uni.request({
+		var task = uni.request({
 			url:url,
 			method:options.method,
 			data:options.data,
 			header: {
 				'content-type': options.isObj ? 'application/json': 'application/x-www-form-urlencoded',
-				'Authorization':'bearer '+ app.state.token,
+				'ticket': app.state.ticket ,
+				'ccId': '00000000737f5b5a01737fbfce600000',
 				'CurrentShopId' : app.state.shopId
 			},
 			success :(res)=>{
 				uni.hideLoading();
+				if(cancaelRes){
+					return
+				}
+				
 				if(res.data.code !== 200){
+					cancaelRes = true
 					$Message({
 						content: res.data.message,
-						type: 'error'
+						type: 'error',
+						// duration:
 					});
+					
+					let code = res.data.code
+					switch(code){
+						case 407: //登录超时
+							setTimeout(()=>{
+								uni.reLaunch({
+									url:'/pages/login/login'
+								})
+							},1000)
+							break;
+					}			
+						
 					resolve(res)
 				}else{
 					uni.hideLoading();
@@ -41,15 +61,16 @@ const request = (url, options) => {
 					type: 'error'
 				});
 				reject(err)
+			},
+			complete:(com)=>{
 			}
 		})
 	})
 }
- 
 const get = (url, options = {}) => {
     return request(url, { method: 'GET', data: options })
 }
- 
+
 //post对象
 const postObj = (url, options) => {
     return request(url, { method: 'POST', data: options, isObj: true })

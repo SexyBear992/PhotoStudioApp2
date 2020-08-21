@@ -2,30 +2,37 @@ import base64url from 'base64url'
 export default{
 	namespaced: true,
 	state:{
-		// access_tokenֵ值
-		token:null,
-		// token解析参数
-		tokenParsing:null,
+		// ticket
+		ticket:null,
 		// 商店ID
-		shopId:null
+		shopId:null,
+		// 员工信息
+		userInfo:null,
 	},
 	getters:{
-		token:state => state.token,
-		shopId:state => state.shopId
+		get_ticket:state => state.ticket,
+		get_userInfo: state => state.userInfo,
+		shopId:state => state.shopId,
 	},
 	mutations:{
-		token(state,data){
-			state.token = data
+		mut_ticket(state,data){
+			state.ticket = data
 		},
-		tokenParsing(state,data){
-			state.shopId = data.defaultShopId
+		mut_userInfo(state,data){
+			state.userInfo = data
+		},
+		mut_shopId(state,data){
+			state.shopId = data
 		}
 	},
   actions: {
-		setToken({ commit }, data){
-			let userInfo = JSON.parse(base64url.toBuffer(data.split('.')[1], 'utf8'))
-			commit('token', data)
-			commit('tokenParsing', userInfo)
+		act_ticket({ commit }, data) {
+			commit('mut_ticket', data)
 		},
+		act_userInfo({ commit }, data) {
+			commit('mut_userInfo', data)
+			commit('mut_shopId', data.defaultShopId)
+		},
+		
   }
 }

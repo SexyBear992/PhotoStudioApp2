@@ -32,6 +32,8 @@ export default{
 		consumeType:[],
 		// 付款方式
 		pay:[],
+		// 收款项目
+		receipt:[],
 	},
 	getters:{
 		get_shopAllArr: state => state.shopAllArr,
@@ -49,6 +51,7 @@ export default{
 		get_label: state => state.label,
 		get_consumeType: state => state.consumeType,
 		get_pay: state => state.pay,
+		get_receipt: state => state.receipt,
 	},
 	mutations:{
 		mut_shopAllArr (state, data) {
@@ -95,6 +98,9 @@ export default{
 		},
 		mut_pay (state,data) {
 			state.pay = data
+		},
+		mut_receipt (state,data) {
+			state.receipt = data
 		}
 	},
 	actions:{
@@ -174,6 +180,12 @@ export default{
 			getCategoryList({type:'PAY_METHOD'}).then(res => {
 				commit('mut_pay', res.data.data)
 			})
-		}
+		},
+		act_receipt ({ commit }) {
+			getCategoryList({type:'RECEIPT_NAME'}).then(res => {
+				commit('mut_receipt', res.data.data)
+			})
+		},
+		
 	}
 }

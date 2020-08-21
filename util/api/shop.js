@@ -415,3 +415,44 @@ export const getWorkDigitalMy = (params) => {
 export const getReceiptList = (params) => {
 	return get(baseUrl.getReceiptList, params)
 }
+// 查找-订单基本信息
+export const getOrderBasic = (params) => {
+	return get(baseUrl.getOrderBasic, params)
+}
+
+//查找-前期录入记录列表  前期收款列表 
+export const getLatePriceList = (params) => {
+	return get(baseUrl.getLatePriceList, params)
+}
+//更新-前期录入收款
+export const updataReceipt = (params) => {
+	return put(baseUrl.updataReceipt, params)
+}
+//更新-前期退款
+export const refund = (params) => {
+	return put(baseUrl.refund, params)
+}
+//查找-后期录入记录列表
+export const getEarlyPriceList = (params) => {
+	return get(baseUrl.getEarlyPriceList, params)
+}
+//删除-后期录入记录
+export const deleteFinancia = (params) => {
+	return remove(baseUrl.deleteFinancia, params)
+}
+//更新-后期录入收款
+export const updataLateReceipt = (params) => {
+	return put(baseUrl.updataLateReceipt, params)
+}
+//更新-后期退款
+export const lateRefund = (params) => {
+	return put(baseUrl.lateRefund, params)
+}
+//新增-后期录入记录和收款
+export const addLateReceipt = (params) => {
+	return put(baseUrl.addLateReceipt, params)
+}
+//查找-子订单编号
+export const getItemNo = (params) => {
+	return get(baseUrl.getItemNo, params)
+}

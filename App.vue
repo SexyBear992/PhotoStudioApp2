@@ -1,9 +1,9 @@
 <script>
-	import { getToken } from './util/api/user.js'
+	import { getAuthorization } from '@/util/api/user.js'
 	import { mapGetters, mapActions } from 'vuex'
 	export default {
 		onLaunch: function() {
-			// this.getStorageTicket()
+			this.getStorageTicket()
 		},
 		onShow: function() {
 
@@ -13,24 +13,21 @@
 		},
 		data() {
 			return {
-				ticket:{
-					grant_type: 'ticket',
-					ticket:null
-				}
+
 			};
 		},
 		computed: {
 			...mapGetters('app',[
-				'token',
+				'get_ticket',
+				'get_userInfo'
 			])
 		},
 		mounted(){
-			this.setToken(`eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZWZhdWx0U2hvcElkIjoxNCwic2NvcGUiOlsiYWxsIl0sIm5hbWUiOiJhZG1pbiIsImFub3RoZXJOYW1lIjoi6LaF57qn566h55CG5ZGYIiwiZW50ZXJwcmlzZUlkIjo0NCwiZXhwIjoxNTk1NTc2ODg0LCJ1c2VySWQiOjcsImpvYk51bWJlciI6IjAwMSIsImp0aSI6ImJhMTAzMmQ1LTVmNGYtNGE1OS05NDk1LTQ3NjViYjU1NzkwZSIsImNsaWVudF9pZCI6IlMzMDI4MSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.YgmoorLhDamPCq8I4Ro_ePkHFxOZi4bXKYHxxGlwlAs`)
 		},
 		methods: {
 			...mapActions('app',[
-				'setToken',
-				'getUserInfo'
+				'act_ticket',
+				'act_userInfo'
 			]),
 			...mapActions('shopArr',[
 				'act_shopAllArr',
@@ -43,7 +40,8 @@
 				'act_piceList',
 				'act_schedule',
 				'act_consumeType',
-				'act_pay'
+				'act_pay',
+				'act_receipt'
 			]),
 			// 获取本地缓存ticket
 			getStorageTicket() {
@@ -52,7 +50,7 @@
 				uni.getStorage({
 					key: 'ticket',
 					success: function(res) {
-						that.ticket.ticket = res.data
+						that.act_ticket(res.data)
 					},
 					fail: function(err) {
 						uni.redirectTo({
@@ -61,39 +59,21 @@
 					}
 				})
 			},
-			// 获取token，并且存入vuex
-
-			// 测试屏蔽
-			getToken(ticket){
-				getToken(ticket).then(res =>{
-					if (res.data.code === 200) {
-						// 将返回的token存入vuex中
-						this.setToken(res.data.data.access_token)
-						// 并跳转到首页
-						uni.switchTab({
-							url: '/pages/index/index'
-						})
-					}else{
-						// 如果登录失败跳转入登录页
-						setTimeout(()=>{
-							uni.redirectTo({
-								url:'/pages/login/login'
-							})
-						},2000)
-					}
+		
+			// 获取员工信息
+			getAuthorization(){
+				getAuthorization().then(res=>{
+					// console.log('员工信息',res.data.data)
+					this.act_userInfo(res.data.data)
 				})
-			},
+			}
 		},
 		watch:{
-			// 获得ticket请求token
-			ticket:{
-				deep:true,
-				handler(val){
-					this.getToken(val)
-				}
+			get_ticket(){
+				this.getAuthorization()
+				
 			},
-			// 获取token 请求商店
-			token(){
+			get_userInfo(){
 				this.act_shopAllArr()
 				this.act_orderTypeArr()
 				this.act_orderGroup()
@@ -105,6 +85,10 @@
 				this.act_schedule()
 				this.act_consumeType()
 				this.act_pay()
+				this.act_receipt()
+				// uni.switchTab({
+				// 	url:'/pages/index/index'
+				// })
 			}
 		}
 	};

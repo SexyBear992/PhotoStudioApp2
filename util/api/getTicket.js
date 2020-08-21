@@ -3,7 +3,9 @@
 *******/
 
 const { $Message } = require('@/wxcomponents/base/index');
-let ticketUrl = 'https://api.lyfz.net/sso/v1/ticket/login'
+// https://api.lyfz.net/sso/v1/ticket/login 线上
+// https://api.27yn.cn/sso/v1/ticket/login 线下
+let ticketUrl = 'https://api.27yn.cn/sso/v1/ticket/login'
 export const getTicket = (options) => {
 	uni.showLoading({
 	    title: '加载中',
