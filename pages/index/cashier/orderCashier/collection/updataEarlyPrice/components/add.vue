@@ -1,11 +1,68 @@
 <template>
-	<view>
-		<view>收款人{{get_userInfo.anotherName}}</view>
-		<list :title="'接单人'" :show="reception" :type="'RECEPTION'" @goAddress="goAddress"></list>
-		<pickerModule my-img="imgMargin" :arrInfo="pickerShopArr" :nowName="nowShopName" @getId="getShopId"></pickerModule>
-		<pickerModule my-img="imgMargin" :arrInfo="pickerConsumeArr"  @getId="getConsumeId"></pickerModule>
-		<pickerModule my-img="imgMargin" :arrInfo="pickerPayArr"  @getId="getPayId"></pickerModule>
-		<pickerModule my-img="imgMargin" :arrInfo="pickerItemArr"  @getId="getItemId"></pickerModule>
+	<view class="bigBox">
+		<!-- 收款门店 -->
+		<view class="listBox">
+			<view class="title">收款门店</view>
+			<pickerModule my-img="imgMargin" :arrInfo="pickerShopArr" :nowName="nowShopName" @getId="getShopId"></pickerModule>
+		</view>
+		<!-- 收款人 -->
+		<view class="listBox">
+			<view class="title">收款人</view>
+			<view class="text">{{get_userInfo.anotherName}}</view>
+		</view>
+		<!-- 消费订单 -->
+		<view class="listBox">
+			<view class="title">消费订单</view>
+			<pickerModule my-img="imgMargin" :arrInfo="pickerItemArr"  @getId="getItemId"></pickerModule>
+		</view>
+		<!-- 消费类别 -->
+		<view class="listBox">
+			<view class="title">消费类别</view>
+			<pickerModule my-img="imgMargin" :arrInfo="pickerConsumeArr"  @getId="getConsumeId"></pickerModule>
+		</view>
+		<!-- 消费项目 -->
+		<view class="listBox">
+			<view class="title">消费项目</view>
+			<input type="text" v-model="params.name" placeholder="请输入"/>
+		</view>
+		<!-- 消费金额 -->
+		<view class="listBox">
+			<view class="title">消费金额</view>
+			<input type="number" v-model="params.sumPrice" placeholder="请输入"/>
+		</view>
+		<!-- 收款时间 -->
+		<view class="listBox">
+			<view class="title">收款时间</view>
+			<view class="text" @click="openCalendar">
+				<view>{{params.receiptTime | time}}</view>
+				<image class="my-img" src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+			</view>
+		</view>
+		<!-- 接单人 -->
+		<view class="listBox">
+			<list :title="'接单人'" :show="reception" :type="'RECEPTION'" @goAddress="goAddress"></list>
+		</view>
+		<!-- 支付方式 -->
+		<view class="listBox">
+			<view class="title">支付方式</view>
+			<pickerModule my-img="imgMargin" :arrInfo="pickerPayArr"  @getId="getPayId"></pickerModule>
+		</view>
+		<!-- 支付金额 -->
+		<view class="listBox">
+			<view class="title">支付金额</view>
+			<input @input="money" @blur="moneyBlur" type="number" v-model="params.billEntryReceiptDtos[0].incomePrice" placeholder="请输入"/>
+		</view>
+		<!-- 收款凭证 -->
+		<view class="listBox">
+			<view class="title">收款凭证</view>
+			<input type="text" placeholder="收款凭证" v-model="params.billEntryReceiptDtos[0].credentials"/>
+		</view>	
+		<!-- 收款备注 -->
+		<view class="remarkBox">
+			<textarea placeholder="收款备注:" v-model="params.remark"/>
+		</view>
+		
+		<view class="button" @click="add">添加退款</view>
 	</view>
 </template>
 
@@ -16,7 +73,7 @@
 	import list from '@/pages/index/arrange/components/personList.vue'
 	import { addLateReceipt, getItemNo } from '@/util/api/shop.js'
 	export default{
-		props:['calendarTime','recordId','oId'],
+		props:['calendarTime','recordId','oId','enAddressInfo'],
 		components:{
 			pickerModule,
 			list
@@ -186,18 +243,46 @@
 			getPayId(e){
 				this.params.billEntryReceiptDtos[0].payCategoryId = e.id
 				this.params.billEntryReceiptDtos[0].payName = e.name
-			},
-		
+			},		
 			// 接单人
 			goAddress(){
 				uni.navigateTo({
 					url:'./../../../../../address/address?type=RECEPTION' + '&show=' + this.reception
 				})
 			},
-		
 			// 打开日历
 			openCalendar(){
 				this.$emit('openCalendar')
+			},
+			// 收款金额
+			money(e){
+				if(this.params.sumPrice === null){
+					$Message({
+						content: '请填写消费金额',
+						type: 'warning'
+					});
+				}else if(Number(this.params.sumPrice) < Number(e.detail.value)){
+					$Message({
+						content: '收款金额不得大约消费金额',
+						type: 'warning'
+					});
+				}
+			},
+			moneyBlur(){
+				let money = this.params.billEntryReceiptDtos[0].incomePrice
+				if(Number(this.params.sumPrice) < money){
+					this.params.billEntryReceiptDtos[0].incomePrice = Number(this.params.sumPrice)
+				}
+			},
+			// 添加收款
+			add(){
+				addLateReceipt(this.params).then(res=>{
+					if(res.data.code === 200){
+						uni.navigateBack({
+							delta:1
+						})
+					}
+				})
 			},
 		},
 		watch:{
@@ -206,25 +291,18 @@
 				this.params.receiptTime = this.calendarTime
 			},
 			// 接单人
-			addressFa(){
-				// console.log(this.addressFa)
-				// this.reception = this.addressFa.show
-				// let arr = []
-				// this.addressFa.enArr.forEach((i)=>{
-				// 	let lis = {
-				// 		actorId: i.id,
-				// 		resultsRatio: 1
-				// 	}
-				// 	arr.push(lis)
-				// })
-				// this.params.employeePerformances = arr
+			enAddressInfo(){
+				this.reception = this.enAddressInfo.show
+				let arr = []
+				this.enAddressInfo.enArr.forEach((i)=>{
+					let lis = {
+						actorId: i.id,
+						resultsRatio: 1
+					}
+					arr.push(lis)
+				})
+				this.params.employeePerformances = arr
 			},
-			params:{
-				deep:true,
-				handler(){
-					console.log('监听',this.params)
-				}
-			}
 		}
 	}
 </script>

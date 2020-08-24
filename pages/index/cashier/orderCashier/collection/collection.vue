@@ -12,6 +12,7 @@
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import delModal from '@/components/delModal.vue'
 	import basicInfo from './components/basicInfo.vue'
 	import latePriceList from './components/latePriceList.vue'
@@ -104,10 +105,14 @@
 				deleteFinancia({id: this.delId}).then(res=>{
 					if(res.data.code === 200){
 						this.getList()
-						this.delModalShow = false
-						this.delId = null
+						$Message({
+							content: '删除成功',
+							type: 'success'
+						});
 					}
 				})
+				this.delModalShow = false
+				this.delId = null
 			},
 		},
 	}

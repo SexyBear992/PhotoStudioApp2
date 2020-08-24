@@ -1,12 +1,6 @@
 {
 	"pages": [
 		{
-			"path" : "pages/index/cashier/orderCashier/orderCashier",
-			"style" : {
-				"navigationBarTitleText": "订单收款"
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "工作台",
@@ -14,6 +8,11 @@
 				// "disableScroll": true
 			}
 		},
+		{
+			"path" : "pages/index/cashier/individualOrder/addOrUpdataIndividual/addOrUpdataIndividual",
+			"style" : {}
+		},
+
 		{
 			"path": "pages/come/come",
 			"style": {}
@@ -200,25 +199,43 @@
 			"path" : "pages/index/digitalBox/digitalArrange/digitalArrange",
 			"style" : {}
 		},
-
+		{
+			"path" : "pages/index/cashier/orderCashier/orderCashier",
+			"style" : {
+				"navigationBarTitleText": "订单收款"
+			}
+		},
 		{
 			"path" : "pages/index/cashier/orderCashier/detailPrice/detailPrice",
 			"style" : {
 				"navigationBarTitleText": "收款详情"
 			}
-		}
-		,{
+		},
+		{
 			"path" : "pages/index/cashier/orderCashier/collection/collection",
 			"style" : {}
-		}
-		,{
+		},
+		{
 			"path" : "pages/index/cashier/orderCashier/collection/updataLatePrice/updataLatePrice",
 			"style" : {}
+		},
+		{
+			"path" : "pages/index/cashier/orderCashier/collection/updataEarlyPrice/updataEarlyPrice",
+			"style" : {}
+		},
+		{
+			"path" : "pages/index/cashier/individualOrder/individualOrder",
+			"style" : {
+				"navigationBarTitleText": "散客订单"
+			}
+		},
+		{
+			"path" : "pages/index/cashier/individualOrder/individualCashier/individualCashier",
+			"style" : {
+				"navigationBarTitleText": "散客收款"
+			}
 		}
-        ,{
-            "path" : "pages/index/cashier/orderCashier/collection/updataEarlyPrice/updataEarlyPrice",
-            "style" : {}
-        }
+
     ],
 	"tabBar": {
 		// 隐藏tabBar

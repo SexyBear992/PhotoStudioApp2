@@ -122,6 +122,15 @@
 				}
 				this.$emit('search',this.parmas)
 			},
+		},
+		watch:{
+			get_shopAllArr(){
+				if(this.needShop !== null){
+					this.showShop = false
+				}
+				this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
+				this.getPickerArr()
+			}
 		}
 	
 	}

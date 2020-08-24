@@ -307,7 +307,7 @@
 						return './cashier/orderCashier/orderCashier'
 						break;
 					case 'sksk':				// 散客收款
-						console.log('散客收款');
+						return './cashier/individualOrder/individualOrder'
 						break;
 					case 'zc':					// 支出
 						console.log('支出');

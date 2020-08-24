@@ -1,3 +1,4 @@
+/******************* 收款明细  **********************/
 <template>
 	<view>
 		<basicInfo v-if="cashierDetail" :info="cashierDetail"></basicInfo>

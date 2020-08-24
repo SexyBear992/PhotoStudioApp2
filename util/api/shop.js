@@ -456,3 +456,19 @@ export const addLateReceipt = (params) => {
 export const getItemNo = (params) => {
 	return get(baseUrl.getItemNo, params)
 }
+//查找-散客订单列表
+export const getOrderIndividual = (params) => {
+	return get(baseUrl.getOrderIndividual, params)
+}
+//删除-散客订单
+export const delOrderIndividual = (params) => {
+	return remove(baseUrl.delOrderIndividual, params)
+}
+//新增-散客订单
+export const addOrderIndividual = (params) => {
+	return postObj(baseUrl.addOrderIndividual, params)
+}
+//查找-散客订单详情
+export const getOrderIndividualDetials = (params) => {
+	return get(baseUrl.getOrderIndividualDetials, params)
+}

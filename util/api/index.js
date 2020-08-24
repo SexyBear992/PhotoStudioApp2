@@ -161,6 +161,11 @@ let baseUrl = {
 	lateRefund: `${base_store}/financia/order/late/refund`, //更新-后期退款
 	addLateReceipt: `${base_store}/financia/order/late/addEntryReceipt`, //新增-后期录入记录和收款
 	getItemNo: `${base_store}/order/item/list/itmeNo`, //查找-子订单编号
+	
+	getOrderIndividual: `${base_store}/orderGoods/list`, //查找-散客订单列表
+	delOrderIndividual: `${base_store}/orderGoods/delete`, //删除-散客订单
+	addOrderIndividual: `${base_store}/orderGoods/add`, //新增-散客订单
+	getOrderIndividualDetials: `${base_store}/orderGoods/details`, //查找-散客订单详情
 }
 
 export default baseUrl

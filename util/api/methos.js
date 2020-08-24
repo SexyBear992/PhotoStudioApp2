@@ -25,12 +25,12 @@ const request = (url, options) => {
 			},
 			success :(res)=>{
 				uni.hideLoading();
-				if(cancaelRes){
-					return
-				}
+				// if(cancaelRes){
+				// 	cancaelRes = false
+				// 	return
+				// }
 				
 				if(res.data.code !== 200){
-					cancaelRes = true
 					$Message({
 						content: res.data.message,
 						type: 'error',
@@ -40,6 +40,7 @@ const request = (url, options) => {
 					let code = res.data.code
 					switch(code){
 						case 407: //登录超时
+							// cancaelRes = true
 							setTimeout(()=>{
 								uni.reLaunch({
 									url:'/pages/login/login'

@@ -4,6 +4,7 @@
 			v-if="type === 'add' "
 			:recordId="recordId"
 			:oId="oId"
+			:enAddressInfo="enAddressInfo"
 			:calendarTime="calendarTime"
 			@openCalendar="openCalendar"
 		></add>
@@ -14,6 +15,7 @@
 			:type="type"
 			@openCalendar="openCalendar"
 		></updata>
+		
 		<i-message id="message" />
 		<!-- 日历 -->
 		<uni-calendar 
@@ -49,8 +51,6 @@
 				earlyBasic:null,
 				// 日历返回时间
 				calendarTime:null,
-				// 接单人显示
-				showAddress:null,
 				// 接单人信息
 				enAddressInfo:null,
 			};
@@ -85,10 +85,7 @@
 			let currPages = pages[pages.length - 1]
 			let address = currPages.data.address
 			if(address){
-				// this.addressFa = address
-				console.log(address)
-				this.showAddress = address.show
-				this.enAddressInfo = address.enArr
+				this.enAddressInfo = address
 			}
 		},
 		mounted(){
