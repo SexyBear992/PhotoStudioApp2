@@ -10,7 +10,7 @@
 			<!-- 收款人 -->
 			<view class="listBox">
 				<view class="title">收款人</view>
-				<view class="text">admin</view>
+				<view class="text">{{get_userInfo.anotherName}}</view>
 			</view>
 			
 			<!-- 接单人 -->
@@ -106,7 +106,8 @@
 		},
 		computed:{
 			...mapGetters('app',[
-				'shopId'
+				'shopId',
+				'get_userInfo'
 			]),
 			...mapGetters('shopArr',[
 				'get_receipt',
@@ -195,7 +196,7 @@
 				// 收款门店
 				this.params.shopId = this.shopId
 				this.params.receiptShopId = this.shopId
-				this.params.receiptUser = 7
+				this.params.receiptUser = this.get_userInfo.userId
 				// 接单人
 				let receptions = []
 				let name = []

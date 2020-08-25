@@ -34,6 +34,8 @@ export default{
 		pay:[],
 		// 收款项目
 		receipt:[],
+		// 支出项目
+		spending:[],
 	},
 	getters:{
 		get_shopAllArr: state => state.shopAllArr,
@@ -52,6 +54,7 @@ export default{
 		get_consumeType: state => state.consumeType,
 		get_pay: state => state.pay,
 		get_receipt: state => state.receipt,
+		get_spending: state => state.spending,
 	},
 	mutations:{
 		mut_shopAllArr (state, data) {
@@ -101,6 +104,9 @@ export default{
 		},
 		mut_receipt (state,data) {
 			state.receipt = data
+		},
+		mut_spending (state,data) {
+			state.spending = data
 		}
 	},
 	actions:{
@@ -184,6 +190,11 @@ export default{
 		act_receipt ({ commit }) {
 			getCategoryList({type:'RECEIPT_NAME'}).then(res => {
 				commit('mut_receipt', res.data.data)
+			})
+		},
+		act_spending ({ commit }) {
+			getCategoryList({type:'FINANCE_EXPENDITURE'}).then(res => {
+				commit('mut_spending', res.data.data)
 			})
 		},
 		

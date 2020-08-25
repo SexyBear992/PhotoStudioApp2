@@ -34,7 +34,7 @@
 			<!-- 项目类别 -->
 			<view class="listBox">
 				<view class="title">项目类别</view>
-				<pickerModule my-img="imgMargin" :arrInfo="pickerConsumeArr"  @getId="getConsumeId"></pickerModule>
+				<pickerModule my-img="imgMargin" :arrInfo="pickerConsumeArr" @getId="getConsumeId"></pickerModule>
 			</view>
 			
 			<!-- 订单金额 -->
@@ -136,8 +136,6 @@
 				}
 			};
 		},
-		onLoad(op){
-		},
 		onShow(){
 			let pages = getCurrentPages()
 			let currPages = pages[pages.length - 1]
@@ -152,7 +150,6 @@
 				this.params.receptions = ids
 			}
 			if(tool){
-				let arr = []
 				tool.toolArr.forEach((i)=>{
 					let lis ={
 						countNum:1,
@@ -163,10 +160,14 @@
 						remark:null,
 						salePrice:i.salePrice,
 					}
-					arr.push(lis)
+					this.params.orderGoodsItemDtos.push(lis)
 				})
-				this.params.orderGoodsItemDtos = arr
 			}
+			// 清空
+			currPages.setData({
+				tool:null,
+				address:null,
+			})
 		},
 		mounted(){
 			this.getConsumeArr()

@@ -84,7 +84,7 @@
 		
 			<!-- 按键 -->
 			<view class="butBox">
-				<view class="butS refund" @click="cashier(info.id)">收款</view>
+				<view class="butS refund" v-if="Number(info.sumPrice - info.incomePrice) > 0 " @click="cashier(info.id)">收款</view>
 				<view class="butS collection" @click="updata(info.id)">修改</view>
 				<view class="butS delete" @click="del(info.id)">删除</view>
 			</view>
@@ -135,13 +135,18 @@
 		},
 		methods:{
 			cashier(id){
+				let pages = getCurrentPages()
+				let currPage = pages[pages.length - 1]
+				currPage.setData({
+					basic:this.info
+				})
 				uni.navigateTo({
 					url:'./individualCashier/individualCashier?id=' + id,
 				})
 			},
 			updata(id){
 				uni.navigateTo({
-					url:'./addOrUpdataIndividual/addOrUpdataIndividual?id=' + id
+					url:'./updataIndividual/updataIndividual?id=' + id
 				})
 			},
 			del(id){

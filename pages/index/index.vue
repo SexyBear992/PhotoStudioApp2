@@ -310,13 +310,13 @@
 						return './cashier/individualOrder/individualOrder'
 						break;
 					case 'zc':					// 支出
-						console.log('支出');
+						return './cashier/SpendingAndIncome/SpendingAndIncome?type=spending'
 						break;
 					case 'blj':					// 保留金
 						console.log('保留金');
 						break;
 					case 'qtsr':				// 其他收入
-						console.log('其他收入');
+						return './cashier/SpendingAndIncome/SpendingAndIncome?type=income'
 						break;
 
 					case 'shgz':				// 摄化工作

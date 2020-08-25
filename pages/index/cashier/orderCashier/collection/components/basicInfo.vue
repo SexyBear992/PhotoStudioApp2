@@ -39,7 +39,6 @@
 				<view class="info">{{shopIdMap.get(info.orderShopId)}}</view>
 			</view>
 		</view>
-
 	</view>
 </template>
 
@@ -83,4 +82,5 @@
 
 <style lang="scss">
 	@import '../../components/cashierDetailStyle.scss';
+
 </style>

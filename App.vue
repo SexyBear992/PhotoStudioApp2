@@ -41,7 +41,8 @@
 				'act_schedule',
 				'act_consumeType',
 				'act_pay',
-				'act_receipt'
+				'act_receipt',
+				'act_spending'
 			]),
 			// 获取本地缓存ticket
 			getStorageTicket() {
@@ -86,6 +87,7 @@
 				this.act_consumeType()
 				this.act_pay()
 				this.act_receipt()
+				this.act_spending()
 				// uni.switchTab({
 				// 	url:'/pages/index/index'
 				// })

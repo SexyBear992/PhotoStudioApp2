@@ -28,7 +28,7 @@
 	import pickerModule from '@/components/pickerModule.vue'
 	import { mapGetters } from 'vuex'
 	export default {
-		props:['needShop'],
+		props:['needShop','sai'],
 		components:{
 			pickerModule
 		},
@@ -66,6 +66,9 @@
 			}
 		},
 		mounted(){
+			if(this.sai !== null){
+				this.array = ['项目名']
+			}
 			if(this.needShop !== null){
 				this.showShop = false
 			}
@@ -101,6 +104,7 @@
 				delete this.parmas.contactMobile
 				delete this.parmas.orderNo
 				delete this.parmas.contactName
+				delete this.parmas.itemName
 			},
 			// 搜索
 			search(){
@@ -116,6 +120,9 @@
 					}else if(value === '订单号'){
 						this.clearParmas()
 						this.parmas.orderNo = this.keyword
+					}else if(value === '项目名'){
+						this.clearParmas()
+						this.parmas.itemName = this.keyword
 					}
 				}else{
 					this.clearParmas()

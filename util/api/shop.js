@@ -468,7 +468,15 @@ export const delOrderIndividual = (params) => {
 export const addOrderIndividual = (params) => {
 	return postObj(baseUrl.addOrderIndividual, params)
 }
+//更新-散客订单
+export const updateOrderIndividual = (params) => {
+	return put(baseUrl.updateOrderIndividual, params)
+}
 //查找-散客订单详情
 export const getOrderIndividualDetials = (params) => {
 	return get(baseUrl.getOrderIndividualDetials, params)
+}
+//按条件分页查询
+export const getExpenditureList = (params) => {
+	return get(baseUrl.getExpenditureList, params)
 }

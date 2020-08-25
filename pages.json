@@ -9,11 +9,6 @@
 			}
 		},
 		{
-			"path" : "pages/index/cashier/individualOrder/addOrUpdataIndividual/addOrUpdataIndividual",
-			"style" : {}
-		},
-
-		{
 			"path": "pages/come/come",
 			"style": {}
 		},
@@ -234,8 +229,23 @@
 			"style" : {
 				"navigationBarTitleText": "散客收款"
 			}
+		},
+		{
+			"path" : "pages/index/cashier/individualOrder/addIndividual/addIndividual",
+			"style" : {
+				"navigationBarTitleText": "新增散客订单"
+			}
+		},
+		{
+			"path" : "pages/index/cashier/individualOrder/updataIndividual/updataIndividual",
+			"style" : {
+				"navigationBarTitleText": "修改散客订单"
+			}
 		}
-
+        ,{
+            "path" : "pages/index/cashier/SpendingAndIncome/SpendingAndIncome",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		// 隐藏tabBar

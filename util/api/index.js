@@ -165,7 +165,9 @@ let baseUrl = {
 	getOrderIndividual: `${base_store}/orderGoods/list`, //查找-散客订单列表
 	delOrderIndividual: `${base_store}/orderGoods/delete`, //删除-散客订单
 	addOrderIndividual: `${base_store}/orderGoods/add`, //新增-散客订单
+	updateOrderIndividual: `${base_store}/orderGoods/update`, //更新-散客订单
 	getOrderIndividualDetials: `${base_store}/orderGoods/details`, //查找-散客订单详情
+	getExpenditureList: `${base_store}/expenditure/list`, //按条件分页查询
 }
 
 export default baseUrl
