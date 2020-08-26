@@ -1,15 +1,14 @@
-/******************** 支出与收入 ************************/
+/********************  保留金 ***********************/
 <template>
 	<view>
 		<section class="PullScroll-Page">
 		  <s-pull-scroll ref="pullScroll" :back-top="true" :pullDown="pullDown" :pullUp="loadData">
-				<searchModul ref="searchModul" :sai="true" @search="search"></searchModul>
+				<retentionSearch ref="searchModul" @search="search"></retentionSearch>
 				<view class="listBigBox" v-for="(item,index) in list" :key="index">
-					<spendingDetail v-if="type === 'spending'" :info="item"></spendingDetail>
-					<IncomeDetail v-if="type === 'income'" :info="item" @del="del"></IncomeDetail>
+					<retentionDetail :info="item" @del="del"></retentionDetail>
 				</view>
 				<view class="noMove"v-if="showNoMore">没有更多数据</view>
-				<view class="button" @click="add">+添加订单</view>
+				<view class="button" @click="add">+添加散客订单</view>
 			</s-pull-scroll>
 		</section>
 		<delModal :title="'删除'" v-if="delModalShow" @cancel="close" @ok="ok"></delModal>
@@ -19,55 +18,39 @@
 
 <script>
 	const { $Message } = require('@/wxcomponents/base/index');
-	import delModal from '@/components/delModal.vue'
+	import retentionSearch from './components/retentionSearch.vue'
 	import sPullScroll from '@/components/s-pull-scroll';
-	import searchModul from '@/components/searchModul.vue'
-	import spendingDetail from './conponents/spendingDetail.vue'
-	import IncomeDetail from './conponents/IncomeDetail.vue'
-	import { getExpenditureList, getOtherReceiptList, delOtherReceiptList } from '@/util/api/shop.js'
+	import delModal from '@/components/delModal.vue'
+	import retentionDetail from './components/retentionDetail.vue'
+	import { getRetentionList } from '@/util/api/shop.js'
 	export default {
 		components:{
-			searchModul,
+			retentionSearch,
 			sPullScroll,
-			spendingDetail,
-			IncomeDetail,
-			delModal
+			delModal,
+			retentionDetail
 		},
 		data() {
 			return {
-				// 类型
-				type:null,
-				
 				// 总数量
 				total:11,
 				// 列表
 				list: [],
 				// 没有更多
 				showNoMore:false,
-				
-				// 删除模态框
+				// 删除
 				delModalShow:false,
+				// 删除Id
 				delId:null,
 				
 				params:{
-					expenditureType:1,
 					isSearchCount:true,
 					limit:10,
 					page:1,
 				},
 			};
 		},
-		onLoad(op){
-			this.type = op.type
-			let title
-			if(this.type == 'spending'){
-				title = '店面支出'
-			}else{
-				title = '其他收入'
-			}
-			uni.setNavigationBarTitle({
-				title:title
-			})
+		onLoad(){
 			this.refresh();
 		},
 		onShow(){
@@ -81,40 +64,25 @@
 				isChange: false
 			})
 		},
+		
 		methods:{
-			// 获取页面
+			// 重新获取列表
 			getPage(){
 				let maxPage = this.params.page
 				let params = {
-					expenditureType:1,
 					isSearchCount:true,
 					limit:10 * maxPage,
 					page: 1,
 				}
-				if(this.type === 'spending'){
-					getExpenditureList(params).then(res=>{
-						this.total = res.data.data.total
-						this.list = res.data.data.records
-					})
-				}else{
-					getOtherReceiptList(params).then(res=>{
-						this.total = res.data.data.total
-						this.list = res.data.data.records
-					})
-				}
-				
+				getRetentionList(params).then(res=>{
+					this.total = res.data.data.total
+					this.list = res.data.data.records
+				})
 			},
 			
-			getList(){
-				if(this.type === 'spending'){
-					this.getExpenditureList()
-				}else{
-					this.getOtherReceiptList()
-				}
-			},
-			// 获取店面支出列表
-			getExpenditureList(){
-				getExpenditureList(this.params).then(res=>{
+			// 获取保留金列表
+			getRetentionList(){
+				getRetentionList(this.params).then(res=>{
 					this.total = res.data.data.total
 					const curList = res.data.data.records
 					curList.forEach((i)=>{
@@ -122,58 +90,36 @@
 					})
 				})
 			},
-			// 获取其他收入列表
-			getOtherReceiptList(){
-				getOtherReceiptList(this.params).then(res=>{
-					this.total = res.data.data.total
-					const curList = res.data.data.records
-					curList.forEach((i)=>{
-						this.list.push(i)
-					})
-				})
-			},
+			
+			// 搜索
 			search(e){
 				this.params = e
-				this.params.expenditureType = 1
-				this.getList()
-			},
-					
-			add(){
-				if(this.type === 'spending'){
-					uni.navigateTo({
-						url:'./addOrUpdataSpending/addOrUpdataSpending'
-					})
-				}else{
-					uni.navigateTo({
-						url:'./addIncome/addIncome'
-					})
-				}
-			
+				this.list = [];
+				this.getRetentionList()
 			},
 			
 			// 删除
 			del(e){
-				this.delId = e
 				this.delModalShow = true
+				this.delId = e
 			},
 			close(){
-				this.delId = null
 				this.delModalShow = false
 			},
 			ok(){
-				delOtherReceiptList({id: this.delId}).then(res=>{
+				delOrderIndividual({id:this.delId}).then(res=>{
 					if(res.data.code === 200){
-						this.delId = null
+						this.getPage()
 						$Message({
 							content: '删除成功',
 							type: 'success'
 						});
-						this.getPage()
 					}
 				})
 				this.delModalShow = false
+				this.delId = null
 			},
-					
+			
 			// 组件
 			refresh () {
 				this.$nextTick(() => {
@@ -193,7 +139,7 @@
 					this.params.page = pullScroll.page
 				}
 				if(this.list.length < this.total){
-					this.getList()
+					this.getRetentionList()
 					this.showNoMore = false
 				}else{
 					this.showNoMore = true

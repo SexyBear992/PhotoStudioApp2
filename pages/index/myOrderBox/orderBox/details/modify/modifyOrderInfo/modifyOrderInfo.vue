@@ -20,7 +20,7 @@
 				<view class="title">订单时间</view>
 				<view class="textBox" @click="openCalendar">
 					<view class="text">{{openInfo.orderTime | time}}</view>
-					<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+					<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 				</view>
 			</view>
 
@@ -41,7 +41,7 @@
 				<view class="title">喜爱风格</view>
 				<view class="textBox" @click="openModal">
 					<view class="text">{{likeStyleText | like}}</view>
-					<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+					<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 				</view>
 			</view>
 

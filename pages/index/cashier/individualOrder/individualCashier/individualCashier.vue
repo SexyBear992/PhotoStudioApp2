@@ -52,7 +52,7 @@
 				<view class="title">收款时间</view>
 				<view class="text" @click="openCalendar">
 					<view>{{params.receiptTime | time}}</view>
-					<image class="my-img" src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+					<image class="my-img" src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 				</view>
 			</view>
 			

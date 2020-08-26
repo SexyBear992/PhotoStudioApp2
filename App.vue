@@ -64,8 +64,9 @@
 			// 获取员工信息
 			getAuthorization(){
 				getAuthorization().then(res=>{
-					// console.log('员工信息',res.data.data)
-					this.act_userInfo(res.data.data)
+					if(res.data.code === 200){
+						this.act_userInfo(res.data.data)
+					}
 				})
 			}
 		},
@@ -88,9 +89,9 @@
 				this.act_pay()
 				this.act_receipt()
 				this.act_spending()
-				// uni.switchTab({
-				// 	url:'/pages/index/index'
-				// })
+				uni.switchTab({
+					url:'/pages/index/index'
+				})
 			}
 		}
 	};

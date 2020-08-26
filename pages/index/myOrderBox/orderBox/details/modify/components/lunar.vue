@@ -6,7 +6,7 @@
 				<view class="textBox" @click="openCalendar">
 					<view class="text" v-if="timeData.typeLunar">{{timeData.typeStr | typeStr}}</view>
 					<view class="text" v-else>{{timeData.typeTime | typeTime}}</view>
-					<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+					<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 				</view>
 			</view>
 			

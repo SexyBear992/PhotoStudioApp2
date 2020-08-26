@@ -7,7 +7,7 @@
 				<view class="title">接单人员：</view>
 				<view class="textBox" @click="gotEnterpriseAll('RECEPTION')">
 					<view class="text">{{showPeception}}</view>
-					<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+					<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 专服人员 -->
@@ -15,7 +15,7 @@
 				<view class="title">专服人员：</view>
 				<view class="textBox" @click="gotEnterpriseAll('SERVICE')">
 					<view class="text">{{showService}}</view>
-					<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+					<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 网销人员 -->
@@ -23,7 +23,7 @@
 				<view class="title">网销人员：</view>
 				<view class="textBox" @click="gotEnterpriseAll('NETWORK_SALES')">
 					<view class="text">{{showNetwork}}</view>
-					<image src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+					<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 				</view>
 			</view>
 	

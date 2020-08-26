@@ -215,7 +215,6 @@
 					})
 					this.orderItem[0].orderItemService = assemblyItemServicesArr
 					
-					console.log('订单详情',this.orderItem)
 				})
 			},
 			

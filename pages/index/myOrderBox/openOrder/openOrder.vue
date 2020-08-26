@@ -18,7 +18,7 @@
 	export default {
 		data() {
 			return {
-				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/openOrder/',
+				url:'https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/openOrder/',
 			};
 		},
 		methods:{

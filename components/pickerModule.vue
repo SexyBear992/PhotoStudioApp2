@@ -4,7 +4,7 @@
 		<picker @change="change" :value="index" :range="list">
 			<view class="textBox">
 				<view class="text">{{list[index]}}</view>
-				<image class="my-img" src="https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/down.png" mode=""></image>
+				<image class="my-img" src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 			</view>
 		</picker>
 	</view>

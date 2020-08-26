@@ -98,27 +98,27 @@
 			<view class="listBox">
 				
 				<view class="list" @click="iconList('ddsk')">
-					<image :src="url+'/shouying/money.png'" mode="" class="ddsk"></image>
+					<image :src="url+'/shouyin/money.png'" mode="" class="ddsk"></image>
 					<view class="text">订单收款</view>
 				</view>
 				
 				<view class="list" @click="iconList('sksk')">
-					<image :src="url+'/shouying/customer.png'" mode="" class="sksk"></image>
+					<image :src="url+'/shouyin/customer.png'" mode="" class="sksk"></image>
 					<view class="text">散客收款</view>
 				</view>
 				
 				<view class="list" @click="iconList('zc')">
-					<image :src="url+'/shouying/income.png'" mode="" class="zc"></image>
+					<image :src="url+'/shouyin/income.png'" mode="" class="zc"></image>
 					<view class="text">支出</view>
 				</view>
 				
 				<view class="list" @click="iconList('blj')">
-					<image :src="url+'/shouying/deposit.png'" mode="" class="blj"></image>
+					<image :src="url+'/shouyin/deposit.png'" mode="" class="blj"></image>
 					<view class="text">保留金</view>
 				</view>
 				
 				<view class="list" @click="iconList('qtsr')">
-					<image :src="url+'/shouying/pay.png'" mode="" class="qtsr"></image>
+					<image :src="url+'/shouyin/pay.png'" mode="" class="qtsr"></image>
 					<view class="text">其他收入</view>
 				</view>
 				
@@ -247,7 +247,7 @@
 	export default {
 		data() {
 			return {
-				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/index',
+				url:'https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/index',
 			};
 		},
 		computed:{
@@ -313,7 +313,7 @@
 						return './cashier/SpendingAndIncome/SpendingAndIncome?type=spending'
 						break;
 					case 'blj':					// 保留金
-						console.log('保留金');
+						return './cashier/retention/retention'
 						break;
 					case 'qtsr':				// 其他收入
 						return './cashier/SpendingAndIncome/SpendingAndIncome?type=income'

@@ -1,4 +1,3 @@
-import base64url from 'base64url'
 export default{
 	namespaced: true,
 	state:{

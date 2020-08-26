@@ -125,7 +125,7 @@
 				return result.get(type)
 			},
 			img(type){
-				let url = 'https://7068-photostudioapp-1302515241.tcb.qcloud.la/newIcon/orderDetail/'
+				let url = 'https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/orderDetail/'
 				const result = new Map([
 					['WEDDING_DRESS', url+ 'WEDDING_DRESS.png'],
 					['BABY', url+ 'BABY.png'],

@@ -167,7 +167,15 @@ let baseUrl = {
 	addOrderIndividual: `${base_store}/orderGoods/add`, //新增-散客订单
 	updateOrderIndividual: `${base_store}/orderGoods/update`, //更新-散客订单
 	getOrderIndividualDetials: `${base_store}/orderGoods/details`, //查找-散客订单详情
+	
 	getExpenditureList: `${base_store}/expenditure/list`, //按条件分页查询
+	addExpenditure: `${base_store}/expenditure/add`, //新增支出
+	updateExpenditure: `${base_store}/expenditure/update`, //修改支出信息
+	getOtherReceiptList: `${base_store}/otherReceipt/list`,//其他收入-分页查询
+	delOtherReceiptList: `${base_store}/otherReceipt/del`,//其他收入-删除
+	addOtherReceiptList: `${base_store}/otherReceipt/add`,//其他收入-新增
+	
+	getRetentionList: `${base_store}/retention/money/list`, //保留金-列表查询
 }
 
 export default baseUrl

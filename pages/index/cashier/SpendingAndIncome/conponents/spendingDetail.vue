@@ -43,9 +43,14 @@
 				</view>		
 			</view>
 			
-			
-			
+			<!-- 按键 -->
+			<view class="butBox">
+				<view class="butS collection" @click="updata(info.id)">修改</view>
+			</view>
 		</view>
+		
+		
+			
 	</view>
 </template>
 
@@ -84,6 +89,18 @@
 			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
 			this.payMap = new Map(this.get_pay.map(item => [item.id,item.name]))
 		},
+		methods:{
+			updata(id){
+				let pages = getCurrentPages()
+				let currPages = pages[pages.length - 1]
+				currPages.setData({
+					spendingDetail:this.info
+				})
+				uni.navigateTo({
+					url:'./addOrUpdataSpending/addOrUpdataSpending?id=' + id
+				})
+			}
+		},
 	}
 </script>
 
@@ -97,11 +114,17 @@
 	}
 	.orderInfo{
 		padding: 30rpx;
+		padding-bottom: 0;
 		font-size: 24rpx;
 		color: #a2a2a2;
 		.listBox{
 			display: flex;
 			margin-bottom: 20rpx;
+			.title{
+				width: 120rpx;
+				white-space: nowrap;
+				overflow: hidden;
+			}
 			.list{
 				display: flex;
 				.info{
@@ -120,6 +143,24 @@
 					width: 160rpx;
 				}
 			}
+		}
+	}
+	.butBox{
+		border-top: 1rpx solid #DDDDDD;
+		display: flex;
+		flex-direction: row-reverse;
+		padding: 30rpx 0;
+		font-size: 28rpx;
+		.butS{
+			padding: 10rpx 20rpx;
+			margin-left: 30rpx;
+			font-size: 28rpx;
+			box-shadow:0rpx 7rpx 14rpx 1rpx rgba(97,163,255,0.27);
+			border-radius:30rpx;
+		}
+		.collection{
+			color: #FFFFFF;
+			background-color: #61A3FF;
 		}
 	}
 </style>

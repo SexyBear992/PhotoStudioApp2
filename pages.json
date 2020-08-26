@@ -242,8 +242,22 @@
 				"navigationBarTitleText": "修改散客订单"
 			}
 		}
+		,{
+			"path" : "pages/index/cashier/SpendingAndIncome/SpendingAndIncome",
+			"style" : {}
+		}
+		,{
+			"path" : "pages/index/cashier/SpendingAndIncome/addOrUpdataSpending/addOrUpdataSpending",
+			"style" : {}
+		}
+		,{
+			"path" : "pages/index/cashier/SpendingAndIncome/addIncome/addIncome",
+			"style" : {
+				"navigationBarTitleText": "录入其他收入"
+			}
+		}
         ,{
-            "path" : "pages/index/cashier/SpendingAndIncome/SpendingAndIncome",
+            "path" : "pages/index/cashier/retention/retention",
             "style" : {}
         }
     ],

@@ -28,7 +28,7 @@
 	import pickerModule from '@/components/pickerModule.vue'
 	import { mapGetters } from 'vuex'
 	export default {
-		props:['needShop','sai'],
+		props:['needShop'],
 		components:{
 			pickerModule
 		},
@@ -47,7 +47,7 @@
 				shopIdMap: new Map(),  
 				
 				// 搜索下拉选择
-				array:['姓名','手机号','订单号'],
+				array:['姓名','手机号'],
 				// 下拉下标
 				index:0,
 				// 搜索
@@ -66,12 +66,6 @@
 			}
 		},
 		mounted(){
-			if(this.sai !== null){
-				this.array = ['项目名']
-			}
-			if(this.needShop !== null){
-				this.showShop = false
-			}
 			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
 			this.getPickerArr()
 		},
@@ -101,29 +95,15 @@
 			},
 			// 清空所有选择
 			clearParmas(){
-				delete this.parmas.contactMobile
-				delete this.parmas.orderNo
-				delete this.parmas.contactName
-				delete this.parmas.itemName
+				delete this.parmas.searchKey
 			},
 			// 搜索
 			search(){
 				this.parmas.page = 1
 				if(this.keyword && this.keyword !== ''){
 					let value = this.array[this.index]
-					if(value === '姓名'){
-						this.clearParmas()
-						this.parmas.contactName = this.keyword
-					}else if(value === '手机号'){
-						this.clearParmas()
-						this.parmas.contactMobile = this.keyword
-					}else if(value === '订单号'){
-						this.clearParmas()
-						this.parmas.orderNo = this.keyword
-					}else if(value === '项目名'){
-						this.clearParmas()
-						this.parmas.itemName = this.keyword
-					}
+					this.clearParmas()
+					this.parmas.searchKey = this.keyword
 				}else{
 					this.clearParmas()
 				}

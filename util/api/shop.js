@@ -480,3 +480,27 @@ export const getOrderIndividualDetials = (params) => {
 export const getExpenditureList = (params) => {
 	return get(baseUrl.getExpenditureList, params)
 }
+//新增支出
+export const addExpenditure = (params) => {
+	return postObj(baseUrl.addExpenditure, params)
+}
+//修改支出信息
+export const updateExpenditure = (params) => {
+	return put(baseUrl.updateExpenditure, params)
+}
+//其他收入-分页查询
+export const getOtherReceiptList = (params) => {
+	return get(baseUrl.getOtherReceiptList, params)
+}
+//其他收入-删除
+export const delOtherReceiptList = (params) => {
+	return remove(baseUrl.delOtherReceiptList, params)
+}
+//其他收入-新增
+export const addOtherReceiptList = (params) => {
+	return postObj(baseUrl.addOtherReceiptList, params)
+}
+//保留金-列表查询
+export const getRetentionList = (params) => {
+	return get(baseUrl.getRetentionList, params)
+}
