@@ -1,19 +1,19 @@
 <template>
 	<view class="tabbar">
 		<view class="list tabBarIndex" @click="tabBarIndex" :class="index===1?'tabBarAction':null">
-			<image class="icon icon1" :src="index===1?url+'/index_ac.png':url+'index.png'" mode=""></image>
+			<image class="icon icon1" :src="index===1?url+'index_ac.png':url+'index.png'" mode=""></image>
 			<view class="text">工作台</view>
 		</view>
 		<view class="list tabBarAddressBook" @click="tabBarAddressBook"  :class="index===2?'tabBarAction':null">
-			<image class="icon icon2" :src="index===2?url+'/address_ac.png':url+'address.png'" mode=""></image>
+			<image class="icon icon2" :src="index===2?url+'address_ac.png':url+'address.png'" mode=""></image>
 			<view class="text">通讯录</view>
 		</view>
 		<view class="list tabBarInformation" @click="tabBarInformation"  :class="index===4?'tabBarAction':null">
-			<image class="icon icon4" :src="index===4?url+'/info_ac.png':url+'info.png'" mode=""></image>
+			<image class="icon icon4" :src="index===4?url+'info_ac.png':url+'info.png'" mode=""></image>
 			<view class="text">消息</view>
 		</view>
 		<view class="list tabBarMy" @click="tabBarMy"  :class="index===5?'tabBarAction':null">
-			<image class="icon icon5" :src="index===5?url+'/my_ac.png':url+'my.png'" mode=""></image>
+			<image class="icon icon5" :src="index===5?url+'my_ac.png':url+'my.png'" mode=""></image>
 			<view class="text">我的</view>
 		</view>
 	</view>

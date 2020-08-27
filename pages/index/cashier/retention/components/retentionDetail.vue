@@ -42,12 +42,13 @@
 			</view>
 			<!-- 按键 -->
 			<view class="butBox">
-				<view class="but">充值</view>
-				<view class="but">删除</view>
-				<view class="but">退款</view>
-				<view class="but">保留金记录</view>
+				<view class="but" @click="topUp(info.id)">充值</view>
+				<view class="but" @click="del(info.id)">删除</view>
+				<view class="but" @click="refund(info.id)">退款</view>
+				<view class="but" @click="goRecord(info.id)">保留金记录</view>
 			</view>
 		</view>
+		<i-message id="message" />
 	</view>
 </template>
 
@@ -67,6 +68,42 @@
 		},
 		mounted(){
 			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
+		},
+		methods:{
+			getBasic(){
+				let pages = getCurrentPages()
+				let currPages = pages[pages.length - 1]
+				currPages.setData({
+					retentionBasic:{
+						'name': this.info.name,
+						'mobile': this.info.mobile
+					}
+				})
+			},
+			// 充值
+			topUp(id){
+				this.getBasic()
+				uni.navigateTo({
+					url:'./retentionChange/retentionChange?type=topUp&id=' + id
+				})
+			},
+			// 退款
+			refund(id){
+				this.getBasic()
+				uni.navigateTo({
+					url:'./retentionChange/retentionChange?type=refund&id=' + id
+				})
+			},
+			// 删除
+			del(id){
+				this.$emit('del',id)
+			},
+			// 前往保留金记录
+			goRecord(id){
+				uni.navigateTo({
+					url:'./retentionRecord/retentionRecord?id=' + id
+				})
+			}
 		},
 	}
 </script>

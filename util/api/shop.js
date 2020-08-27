@@ -504,3 +504,19 @@ export const addOtherReceiptList = (params) => {
 export const getRetentionList = (params) => {
 	return get(baseUrl.getRetentionList, params)
 }
+//保留金-新增
+export const addRetention = (params) => {
+	return postObj(baseUrl.addRetention, params)
+}
+ //保留金-删除
+export const delRetention = (params) => {
+	return remove(baseUrl.delRetention, params)
+}
+//保留金-操作记录查询
+export const retentionDetail = (params) => {
+	return get(baseUrl.retentionDetail, params)
+}
+//添加充值记录
+export const addRetentionRecord = (params) => {
+	return postObj(baseUrl.addRetentionRecord, params)
+}

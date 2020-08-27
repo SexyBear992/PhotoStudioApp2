@@ -1,7 +1,4 @@
-/***
-	开单页面
-***/
-
+/*********************** 开单选择页面 **************************/
 <template>
 	<view>
 		<image :src="url+'hsBut.png'" mode="" @click="goOpen('婚纱开单','WEDDING_DRESS')"></image>

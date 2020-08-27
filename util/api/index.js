@@ -176,6 +176,10 @@ let baseUrl = {
 	addOtherReceiptList: `${base_store}/otherReceipt/add`,//其他收入-新增
 	
 	getRetentionList: `${base_store}/retention/money/list`, //保留金-列表查询
+	addRetention: `${base_store}m/retention/money/add`, //保留金-新增
+	delRetention: `${base_store}/retention/money/del`, //保留金-删除
+	retentionDetail: `${base_store}m/retention/record/list`, //保留金-操作记录查询
+	addRetentionRecord: `${base_store}m/retention/record/add`, //添加充值记录
 }
 
 export default baseUrl

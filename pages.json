@@ -256,10 +256,22 @@
 				"navigationBarTitleText": "录入其他收入"
 			}
 		}
-        ,{
-            "path" : "pages/index/cashier/retention/retention",
-            "style" : {}
-        }
+		,{
+			"path" : "pages/index/cashier/retention/retention",
+			"style" : {
+				"navigationBarTitleText": "保留金"
+			}
+		},
+		{
+			"path" : "pages/index/cashier/retention/retentionRecord/retentionRecord",
+			"style" : {
+				"navigationBarTitleText": "保留金记录"	
+			}
+		}
+		,{
+			"path" : "pages/index/cashier/retention/retentionChange/retentionChange",
+			"style" : {}
+		}
     ],
 	"tabBar": {
 		// 隐藏tabBar

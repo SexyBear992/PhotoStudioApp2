@@ -2,14 +2,10 @@
 <template>
 	<view>
 		<section class="PullScroll-Page">
-		  <s-pull-scroll ref="pullScroll" :back-top="true" :pullDown="pullDown" :pullUp="loadData">
-				
-				<searchModul ref="searchModul" @search="search"></searchModul>
-				
-				<view class="listBox" v-for="(item,index) in list" :key="index">
-					
-					<detailMoudel :info="item"></detailMoudel>
-					
+		  <s-pull-scroll ref="pullScroll" :back-top="true" :pullDown="pullDown" :pullUp="loadData">		
+				<searchModul ref="searchModul" @search="search"></searchModul>			
+				<view class="listBox" v-for="(item,index) in list" :key="index">				
+					<detailMoudel :info="item"></detailMoudel>			
 					<view class="butBox" v-for="(list, index) in item.orderItemBasisVos" :key="list.itemId">
 						<view class="textBox">
 							<view class="text">{{list.itemNo}} {{list.name}}</view>
@@ -19,10 +15,8 @@
 						<view class="arrange" v-if="type === 'xpyy'" @click="xp(item.orderNo,index)">安排选片</view>
 						<view class="arrange" v-if="type === 'kbyy'" @click="kb(item.orderNo,index)">安排看板</view>
 						<view class="arrange" v-if="type === 'qjyy'" @click="qj(item.orderNo,index)">安排取件</view>
-					</view>
-					
-				</view>
-		  
+					</view>		
+				</view>  
 				<view class="noMove" v-if="showNoMore">没有更多数据</view>
 			</s-pull-scroll>
 		</section>
@@ -69,23 +63,6 @@
 					isSearchCount:true,
 					limit:10,
 					page:1,
-					// assemblyCategoryId:null,	//套系类别
-					// assemblyName:null,	//套系名称
-					// categoryId:null,	//客户区域	
-					// contactMobile:null,	//订单主联系人电话
-					// contactName:null,	//订单主联系人姓名
-					// createUser:null,	//录入人	
-					// endAssemblyPrice:null,	//结束套系金额
-					// endCreateTime:null,	//结束创建时间	
-					// endOrderTime:null,	//结束订单时间	
-					// orderCategoryId:null,	//订单类别	
-					// orderNo:null,	//订单号	
-					// orderShopId:null,	//订单门店	
-					// originId:null,	//客户来源	
-					// reception:null,	//接单人ID	
-					// startAssemblyPrice:null,	//开始套系金额	
-					// startCreateTime:null,	//开始创建时间	
-					// startOrderTime:null,	//开始订单时间	
 				}
 			};
 		},

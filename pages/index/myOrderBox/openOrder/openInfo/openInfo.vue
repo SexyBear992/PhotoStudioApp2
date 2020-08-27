@@ -18,7 +18,8 @@
 		<!-- 订单套系内容 -->
 		<orderPriceModule ref="orderPrice":type="type" :toolInfo="toolInfo" :giftInfo="giftInfo"></orderPriceModule>
 		
-		<view class="save" @click="saveBut">保存订单</view>
+		<!-- <view class="save" @click="saveBut">保存订单</view> -->
+		<view class="save" @click="saveButCS">（测试）保存订单</view>
 		<view class="botBox"></view>
 		
 		<i-message id="message" />
@@ -34,7 +35,15 @@
 	import contactInfoModule from './components/contactInfoModule.vue'
 	import orderPriceModule from './components/orderPriceModule.vue'
 	import baby from './components/babyModule.vue'
-	import { openWedding, openBaby, openPortray, openPregnant, openService, openWeddingDress} from '@/util/api/shop.js'
+	
+	import { 
+		openWedding, 
+		openBaby, 
+		openPortray,
+		openPregnant, 
+		openService, 
+		openWeddingDress
+	} from '@/util/api/shop.js'
 	export default {	
 		components:{
 			InfoModule,
@@ -42,7 +51,8 @@
 			userInfoModule,
 			contactInfoModule,
 			orderPriceModule,
-			baby
+			baby,
+			
 		},
 		computed:{
 			...mapGetters('app',[
@@ -61,56 +71,7 @@
 				toolInfo:null,
 				// 礼包
 				giftInfo:null,
-				
-				openOrderData:{
-					// // 订单号
-					// orderNo:null,
-					// // 是否自动生产订单号
-					// autoOrderNo:false,
-					// // 当前商店ID
-					// shopId:null,
-					// // 选择商店ID
-					// orderShopId:null,
-					// // 订单分组ID
-					// groupCategoryId:null,
-					// // 订单分类ID
-					// orderCategoryId:null,
-					// // 下单时间
-					// orderTime:null,
-					// // 风格
-					// likeStyle:null,
-					// // 备注
-					// remark:null,
-					// // 客户组信息
-					// customerGroup:{
-					// 	// 客户来源ID
-					// 	originId:null,
-					// 	// 介绍人
-					// 	referrerName:null,
-					// 	// 介绍人手机号码
-					// 	referrerMobile:null,
-					// 	// 客户区域
-					// 	categoryId:null,
-					// },
-					// // 订单类型时间
-					// typeTime:null,
-					// // 	订单类型时间是否农历
-					// typeLunar:null,
-					// // 时间为农历传
-					// typeStr:null,
-					// // 服务等级
-					// serviceCategoryId:null,
-					// // 老师级别
-					// teacherCategoryId:null,
-					// // 套系类别ID
-					// assemblyCategoryId:null,
-					// // 套系ID
-					// assemblyId:null,
-					// // 套系名称
-					// assemblyName:null,
-					// // 套系价格
-					// assemblyPrice:null 
-				}
+				openOrderData:{}
 			};
 		},
 		onLoad(option){
@@ -126,7 +87,6 @@
 			}
 		},
 		onShow(){
-			let that = this;
 			let pages = getCurrentPages();
 			let currPage = pages[pages.length - 1]; //当前页面
 			let address = currPage.data.address;
@@ -139,7 +99,6 @@
 		mounted(){
 			// 赋值当前门店ID
 			this.openOrderData.shopId = this.shopId
-		
 		},
 		methods:{
 			// 保存订单
@@ -411,13 +370,10 @@
 				}
 			},
 			
-		},
-		watch:{
-			shopId(){
-				// 赋值当前门店ID
-				this.openOrderData.shopId = this.shopId
+			saveButCS(){
+				console.log('测试保存')
 			}
-		}
+		},
 	}
 </script>
 
