@@ -18,8 +18,7 @@
 		<!-- 订单套系内容 -->
 		<orderPriceModule ref="orderPrice":type="type" :toolInfo="toolInfo" :giftInfo="giftInfo"></orderPriceModule>
 		
-		<!-- <view class="save" @click="saveBut">保存订单</view> -->
-		<view class="save" @click="saveButCS">（测试）保存订单</view>
+		<view class="save" @click="saveBut">保存订单</view>
 		<view class="botBox"></view>
 		
 		<i-message id="message" />
@@ -369,10 +368,6 @@
 					}
 				}
 			},
-			
-			saveButCS(){
-				console.log('测试保存')
-			}
 		},
 	}
 </script>
