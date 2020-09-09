@@ -19,7 +19,7 @@ export const getOrderAssembly = (params) => {
 }
 // 获取商店工具箱
 export const getGoodsToolList = (params) => {
-	return get(baseUrl.getGoodsToolList, params)
+	return postObj(baseUrl.getGoodsToolList, params)
 }
 // 获取景点工具箱
 export const getPlaceToolList = (params) => {

@@ -1,21 +1,15 @@
 {
 	"pages": [
 		{
+			"path": "pages/come/come",
+			"style": {}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "工作台",
 				"enablePullDownRefresh": false
 				// "disableScroll": true
-			}
-		},
-		{
-			"path": "pages/come/come",
-			"style": {}
-		},
-		{
-			"path" : "pages/index/myOrderBox/openOrder/openOrder",
-			"style" : {
-				"navigationBarTitleText": "开单"
 			}
 		},
 		{
@@ -46,60 +40,7 @@
 				// "disableScroll": true
 			}
 		},
-		{
-    	"path" : "pages/index/myOrderBox/openOrder/openInfo/openInfo",
-    	"style" : {}
-    }
-		,{
-			"path" : "pages/index/myOrderBox/openOrder/openSuccess/openSuccess",
-			"style" : {
-				"navigationBarTitleText": "开单成功"
-			}
-		},
-		{
-			"path" : "pages/index/myOrderBox/orderBox/order/order",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/myOrderBox/orderBox/details/details",
-			"style" : {
-				"navigationBarTitleText": "订单详情"
-			}
-		},
-		{
-			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyOrderInfo/modifyOrderInfo",
-			"style" : {
-				"navigationBarTitleText": "编辑开单信息"
-			}
-		},
-		{
-			"path" : "pages/index/myOrderBox/orderBox/schedule/schedule",
-			"style" : {
-				"navigationBarTitleText": "订单进度"
-			}
-		}
-		,{
-			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyItemInfo/modifyItemInfo",
-			"style" : {
-				"navigationBarTitleText": "编辑子套系信息"
-			}
-		},
-		{
-			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyOrderActor/modifyOrderActor",
-			"style" : {
-				"navigationBarTitleText": "编辑服务人员"
-			}
-		},
-		{
-			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyPersonnel/modifyPersonnel",
-			"style" : {
-				"navigationBarTitleText": "编辑客户信息"
-			}
-		},
-		{
-			"path" : "pages/index/myOrderBox/orderBox/details/modify/modifyOrderItem/modifyOrderItem",
-			"style" : {}
-		},
+		
 		{
 			"path" : "pages/address/address",
 			"style" : {
@@ -123,76 +64,6 @@
 			"style" : {
 				"navigationBarTitleText": "日历"
 			}
-		},
-		{
-			"path" : "pages/index/convention/convention",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/arrange/arrange",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/arrange/pzAddorUpdata/pzAddorUpdata",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/arrange/pzPerson/pzPerson",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/arrange/pzAddorUpdata/chooseDress/chooseDress",
-			"style" : {
-				"navigationBarTitleText": "选择预约服装"
-			}
-		},
-		{
-			"path" : "pages/index/arrange/pzAddorUpdata/choosePlace/choosePlace",
-			"style" : {
-				"navigationBarTitleText": "选择预约景点"
-			}
-		},
-		{
-			"path" : "pages/index/arrange/xpAddorUpdata/xpAddorUpdata",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/arrange/kbAddorUpdata/kbAddorUpdata",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/arrange/qjAddorUpdata/qjAddorUpdata",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/arrange/qjAddorUpdata/getGoods/getGoods",
-			"style" : {
-				"navigationBarTitleText": "选择取件商品"
-			}
-		},
-		{
-			"path" : "pages/index/checkWork/checkWork",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/checkWork/completePhoto/completePhoto",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/digitalBox/digitalChange/digitalChange",
-			"style" : {
-				"navigationBarTitleText": "选择安排"
-			}
-		},
-		{
-			"path" : "pages/index/digitalBox/digitalList/digitalList",
-			"style" : {
-				"navigationBarTitleText": "数码安排"
-			}
-		},
-		{
-			"path" : "pages/index/digitalBox/digitalArrange/digitalArrange",
-			"style" : {}
 		},
 		{
 			"path" : "pages/index/cashier/orderCashier/orderCashier",
@@ -256,11 +127,178 @@
 				"navigationBarTitleText": "录入其他收入"
 			}
 		}
-        ,{
-            "path" : "pages/index/cashier/retention/retention",
-            "style" : {}
-        }
-    ],
+		,{
+			"path" : "pages/index/cashier/retention/retention",
+			"style" : {
+				"navigationBarTitleText": "保留金"
+			}
+		},
+		{
+			"path" : "pages/index/cashier/retention/retentionRecord/retentionRecord",
+			"style" : {
+				"navigationBarTitleText": "保留金记录"	
+			}
+		},
+		{
+			"path" : "pages/index/cashier/retention/retentionChange/retentionChange",
+			"style" : {}
+		}
+    
+  ],
+	"subPackages": [
+		{
+	    "root": "pagesOrder",
+	    "pages": [
+				{
+					"path" : "openOrder/openOrder",
+					"style" : {
+						"navigationBarTitleText": "开单"
+					}
+				},
+				{
+					"path" : "openOrder/openUser/openUser",
+					"style" : {
+						"navigationBarTitleText": "录入客资"
+					}
+				},
+				{
+					"path" : "openOrder/openInfo/openInfo",
+					"style" : {}
+				},
+				{
+					"path" : "openOrder/openSuccess/openSuccess",
+					"style" : {
+						"navigationBarTitleText": "开单成功"
+					}
+				},
+				{
+					"path" : "openOrder/openUser/repeat/repeat",
+					"style" : {
+						"navigationBarTitleText": "重复客资提醒"
+					}
+				},
+				{
+					"path" : "orderBox/order/order",
+					"style" : {}
+				},
+				{
+					"path" : "orderBox/details/details",
+					"style" : {
+						"navigationBarTitleText": "订单详情"
+					}
+				},
+				{
+					"path" : "orderBox/details/modify/modifyOrderInfo/modifyOrderInfo",
+					"style" : {
+						"navigationBarTitleText": "编辑开单信息"
+					}
+				},
+				{
+					"path" : "orderBox/schedule/schedule",
+					"style" : {
+						"navigationBarTitleText": "订单进度"
+					}
+				}
+				,{
+					"path" : "orderBox/details/modify/modifyItemInfo/modifyItemInfo",
+					"style" : {
+						"navigationBarTitleText": "编辑子套系信息"
+					}
+				},
+				{
+					"path" : "orderBox/details/modify/modifyOrderActor/modifyOrderActor",
+					"style" : {
+						"navigationBarTitleText": "编辑服务人员"
+					}
+				},
+				{
+					"path" : "orderBox/details/modify/modifyPersonnel/modifyPersonnel",
+					"style" : {
+						"navigationBarTitleText": "编辑客户信息"
+					}
+				},
+				{
+					"path" : "orderBox/details/modify/modifyOrderItem/modifyOrderItem",
+					"style" : {}
+				}
+			]
+		},
+		{
+			"root":"pagesWork",
+			"pages":[
+				{
+					"path" : "arrange/arrange",
+					"style" : {}
+				},
+				{
+					"path" : "arrange/pzAddorUpdata/pzAddorUpdata",
+					"style" : {}
+				},
+				{
+					"path" : "arrange/pzPerson/pzPerson",
+					"style" : {}
+				},
+				{
+					"path" : "arrange/pzAddorUpdata/chooseDress/chooseDress",
+					"style" : {
+						"navigationBarTitleText": "选择预约服装"
+					}
+				},
+				{
+					"path" : "arrange/pzAddorUpdata/choosePlace/choosePlace",
+					"style" : {
+						"navigationBarTitleText": "选择预约景点"
+					}
+				},
+				{
+					"path" : "arrange/xpAddorUpdata/xpAddorUpdata",
+					"style" : {}
+				},
+				{
+					"path" : "arrange/kbAddorUpdata/kbAddorUpdata",
+					"style" : {}
+				},
+				{
+					"path" : "arrange/qjAddorUpdata/qjAddorUpdata",
+					"style" : {}
+				},
+				{
+					"path" : "arrange/qjAddorUpdata/getGoods/getGoods",
+					"style" : {
+						"navigationBarTitleText": "选择取件商品"
+					}
+				},
+				{
+					"path" : "checkWork/checkWork",
+					"style" : {}
+				},
+				{
+					"path" : "checkWork/completePhoto/completePhoto",
+					"style" : {}
+				},
+				{
+					"path" : "convention/convention",
+					"style" : {}
+				},
+				{
+					"path" : "digitalBox/digitalChange/digitalChange",
+					"style" : {
+						"navigationBarTitleText": "选择安排"
+					}
+				},
+				{
+					"path" : "digitalBox/digitalList/digitalList",
+					"style" : {
+						"navigationBarTitleText": "数码安排"
+					}
+				},
+				{
+					"path" : "digitalBox/digitalArrange/digitalArrange",
+					"style" : {}
+				}
+			]
+		}
+	],
 	"tabBar": {
 		// 隐藏tabBar
 		"custom": true,

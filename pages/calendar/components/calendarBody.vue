@@ -260,7 +260,7 @@
 			box-shadow:0rpx 7rpx 29rpx 6rpx rgba(0, 0, 0, 0.03);
 			border-radius:0 0 10rpx 10rpx;
 			.list{
-				width: 78.57rpx;
+				width: 39px;
 				text-align: center;
 				padding: 10rpx;
 				.bg{

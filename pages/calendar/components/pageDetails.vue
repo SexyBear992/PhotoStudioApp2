@@ -13,10 +13,10 @@
 
 <script>
 	import detailMoudel from '@/components/detailMoudel.vue'
-	import detailKbMain from '@/pages/index/checkWork/components/detailKbMain.vue'
-	import detailPzMain from '@/pages/index/checkWork/components/detailPzMain.vue'
-	import detailQjMain from '@/pages/index/checkWork/components/detailQjMain.vue'
-	import detailXpMain from '@/pages/index/checkWork/components/detailXpMain.vue'
+	import detailKbMain from '../../../pagesWork/checkWork/components/detailKbMain.vue'
+	import detailPzMain from '../../../pagesWork/checkWork/components/detailPzMain.vue'
+	import detailQjMain from '../../../pagesWork/checkWork/components/detailQjMain.vue'
+	import detailXpMain from '../../../pagesWork/checkWork/components/detailXpMain.vue'
 	export default{
 		props:['pageDetails','type'],
 		components:{

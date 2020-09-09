@@ -5,7 +5,7 @@
 		
 		<calendarBody :dateDetail="dateDetail" @getDate="getDate" @enDate="enDate"></calendarBody>
 
-		<pageDetails :pageDetails="pageDetails" :type="type"></pageDetails>
+		<pageDetails v-if="isCheck" :pageDetails="pageDetails" :type="type"></pageDetails>
 	
 		<i-message id="message" />
 	</view>

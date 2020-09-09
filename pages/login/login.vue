@@ -32,7 +32,7 @@
 </template>
 
 <script>
-	import { getTicket } from '../../util/api/getTicket.js'
+	import { getTicket } from '@/util/api/common.js'
 	import { mapGetters, mapActions } from 'vuex'
 	export default {
 		computed:{

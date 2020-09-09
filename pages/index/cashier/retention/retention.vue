@@ -8,7 +8,7 @@
 					<retentionDetail :info="item" @del="del"></retentionDetail>
 				</view>
 				<view class="noMove"v-if="showNoMore">没有更多数据</view>
-				<view class="button" @click="add">+添加散客订单</view>
+				<view class="button" @click="add">+添加保留金</view>
 			</s-pull-scroll>
 		</section>
 		<delModal :title="'删除'" v-if="delModalShow" @cancel="close" @ok="ok"></delModal>
@@ -22,7 +22,7 @@
 	import sPullScroll from '@/components/s-pull-scroll';
 	import delModal from '@/components/delModal.vue'
 	import retentionDetail from './components/retentionDetail.vue'
-	import { getRetentionList } from '@/util/api/shop.js'
+	import { getRetentionList, delRetention } from '@/util/api/shop.js'
 	export default {
 		components:{
 			retentionSearch,
@@ -98,6 +98,13 @@
 				this.getRetentionList()
 			},
 			
+			// 添加保留金
+			add(){
+				uni.navigateTo({
+					url:'./retentionChange/retentionChange?type=add'
+				})
+			},
+			
 			// 删除
 			del(e){
 				this.delModalShow = true
@@ -107,7 +114,7 @@
 				this.delModalShow = false
 			},
 			ok(){
-				delOrderIndividual({id:this.delId}).then(res=>{
+				delRetention({id:this.delId}).then(res=>{
 					if(res.data.code === 200){
 						this.getPage()
 						$Message({

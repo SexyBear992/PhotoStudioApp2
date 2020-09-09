@@ -7,8 +7,11 @@
   let base_common = test ?  'http://192.168.5.220/dev/api/base' : 'https://napi.lyfz.net/pro/api/base'
   let base_store = test ?  'http://192.168.5.220/dev/api/store' : 'https://napi.lyfz.net/pro/api/store'
   let base_auth = test ? 'http://192.168.5.220/dev/api/auth' : 'https://napi.lyfz.net/pro/api/auth'
-	
+	let base_other = test ? 'https://api.27yn.cn': 'https://api.lyfz.net'
 let baseUrl = {
+	getTicket: `${base_other}/sso/v1/ticket/login`, //登录
+	getOrigin: `${base_other}/crmData/v1/channel/getAllChannel`,// 客户来源
+	
 	getUserInfo: `${base_user}/account/list/shopIds`, // get 获得用户信息
 	getAccountAllArr: `${base_user}/account/getEnterpriseAll`, // 查找-全部员工
 	getAuthorization: `${base_user}/account/getAuthorization`, // 查找-授权员工信息
@@ -176,6 +179,15 @@ let baseUrl = {
 	addOtherReceiptList: `${base_store}/otherReceipt/add`,//其他收入-新增
 	
 	getRetentionList: `${base_store}/retention/money/list`, //保留金-列表查询
+	addRetention: `${base_store}m/retention/money/add`, //保留金-新增
+	delRetention: `${base_store}/retention/money/del`, //保留金-删除
+	retentionDetail: `${base_store}m/retention/record/list`, //保留金-操作记录查询
+	addRetentionRecord: `${base_store}m/retention/record/add`, //添加充值记录
+	
+	addCustomer: `${base_other}/crmData/v1/customer/addCustomer`,//新增客资
+	updateCustomer: `${base_other}/crmData/v1/customer/updateCustomer`, //修改客资
+	getSecondContact: `${base_other}/crmData/v1/customerContact/list`,// 获取客资次联系人
+	getMainContact: `${base_other}/crmData/v1/customer/getCustomerData`, //获得主联系人信息
 }
 
 export default baseUrl

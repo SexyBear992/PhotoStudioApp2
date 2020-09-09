@@ -1,4 +1,4 @@
-import { getAllShopQY, getCategoryList } from '@/util/api/common.js'
+import { getAllShopQY, getCategoryList, getOrigin } from '@/util/api/common.js'
 export default{
 	namespaced: true,
 	state:{
@@ -128,8 +128,8 @@ export default{
 			})
 		},
 		act_origin ({ commit }) {
-			getCategoryList({type:'CUSTOMER_SOURCE'}).then(res => {
-				commit('mut_origin', res.data.data)
+			getOrigin().then(res => {
+				commit('mut_origin', res.data.data.list)
 			})
 		},
 		act_category ({ commit }) {

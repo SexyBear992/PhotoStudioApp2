@@ -33,7 +33,7 @@
 		</view>
 		
 		<!-- 客资系统 -->
-		<view class="classification">
+<!-- 		<view class="classification">
 			<view class="title">客资系统</view>
 			<view class="listBox">
 				
@@ -57,7 +57,7 @@
 					<view class="text">门市接待</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 
 		<!-- 订单管理 -->
 		<view class="classification">
@@ -268,16 +268,16 @@
 						console.log('收银');
 						break;
 					case 'kd':					// 开单
-						return 'myOrderBox/openOrder/openOrder'
+						return '/pagesOrder/openOrder/openOrder'
 						break;
 					case 'ddcx':				// 订单查询
 						console.log('订单查询');
 						break;
 					case 'pzyy':				// 拍照预约
-						return './convention/convention?type=pzyy'
+						return '/pagesWork/convention/convention?type=pzyy'
 						break;
 					case 'xpyy':				// 选片预约
-						return './convention/convention?type=xpyy'
+						return '/pagesWork/convention/convention?type=xpyy'
 						break;
 					case 'xzkz':				// 新增客资
 						console.log('新增客资');
@@ -292,16 +292,16 @@
 						console.log('门市接待');
 						break;
 					case 'wddd':				// 我的订单
-						return './myOrderBox/orderBox/order/order?type=wddd&typeName=我的订单'
+						return '/pagesOrder/orderBox/order/order?type=wddd&typeName=我的订单'
 						break;
 					case 'bmdd':				// 部门订单
-						return './myOrderBox/orderBox/order/order?type=bmdd&typeName=团队订单'
+						return '/pagesOrder/orderBox/order/order?type=bmdd&typeName=团队订单'
 						break;
 					case 'xsdd':				// 下属订单
-						return './myOrderBox/orderBox/order/order?type=xsdd&typeName=下属订单'
+						return '/pagesOrder/orderBox/order/order?type=xsdd&typeName=下属订单'
 						break;
 					case 'sydd':				// 所有订单
-						return './myOrderBox/orderBox/order/order?type=sydd&typeName=所有订单'
+						return '/pagesOrder/orderBox/order/order?type=sydd&typeName=所有订单'
 						break;
 					case 'ddsk':				// 订单收款
 						return './cashier/orderCashier/orderCashier'
@@ -320,37 +320,37 @@
 						break;
 
 					case 'shgz':				// 摄化工作
-						return './checkWork/checkWork?type=shgz'
+						return '/pagesWork/checkWork/checkWork?type=shgz'
 						break;
 					case 'shdqcx':			// 摄化档期查询
-						return '../calendar/calendar?type=pz&check=true&id=' + this.shopId
+						return '/pages/calendar/calendar?type=pz&check=true&id=' + this.shopId
 						break;
 					case 'smap':				// 数码安排
-						return './digitalBox/digitalList/digitalList'
+						return '/pagesWork/digitalBox/digitalList/digitalList'
 						break;
 					case 'smgz':				// 数码工作
-						return './checkWork/checkWork?type=smgz'
+						return '/pagesWork/checkWork/checkWork?type=smgz'
 						break;
 					case 'xpgz':				// 选片工作
-						return './checkWork/checkWork?type=xpgz'
+						return '/pagesWork/checkWork/checkWork?type=xpgz'
 						break;
 					case 'xpdqcx':			// 选片档期查询
-						return '../calendar/calendar?type=xp&check=true&id=' + this.shopId
+						return '/pages/calendar/calendar?type=xp&check=true&id=' + this.shopId
 						break;
 					case 'kbyy':				// 看板预约
-						return './convention/convention?type=kbyy'
+						return '/pagesWork/convention/convention?type=kbyy'
 						break;
 					case 'kbgz':				// 看板工作
-						return './checkWork/checkWork?type=kbgz'
+						return '/pagesWork/checkWork/checkWork?type=kbgz'
 						break;
 					case 'kbdqcx':			// 看板档期查询
-						return '../calendar/calendar?type=kb&check=true&id=' + this.shopId
+						return '/pages/calendar/calendar?type=kb&check=true&id=' + this.shopId
 						break;
 					case 'qjyy':				// 取件预约
-						return './convention/convention?type=qjyy'
+						return '/pagesWork/convention/convention?type=qjyy'
 						break;
 					case 'qjgz':				// 取件工作
-						return './checkWork/checkWork?type=qjgz'
+						return '/pagesWork/checkWork/checkWork?type=qjgz'
 						break;
 					case 'qjdqcx':			// 取件档期查询
 						return '../calendar/calendar?type=qj&check=true&id=' + this.shopId

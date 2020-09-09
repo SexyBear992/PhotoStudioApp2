@@ -5,12 +5,6 @@
 		onLaunch: function() {
 			this.getStorageTicket()
 		},
-		onShow: function() {
-
-		},
-		onHide: function() {
-
-		},
 		data() {
 			return {
 
@@ -42,7 +36,8 @@
 				'act_consumeType',
 				'act_pay',
 				'act_receipt',
-				'act_spending'
+				'act_spending',
+				'act_giftType'
 			]),
 			// 获取本地缓存ticket
 			getStorageTicket() {
@@ -89,9 +84,13 @@
 				this.act_pay()
 				this.act_receipt()
 				this.act_spending()
+				this.act_giftType()
 				uni.switchTab({
 					url:'/pages/index/index'
 				})
+				// uni.redirectTo({
+				// 	url:'/pagesOrder/openOrder/openUser/openUser'					
+				// })
 			}
 		}
 	};

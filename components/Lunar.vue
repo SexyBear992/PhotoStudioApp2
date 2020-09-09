@@ -1,3 +1,4 @@
+/**  待删除 ***/
 <template>
 	<view>
 		<view class="box">	

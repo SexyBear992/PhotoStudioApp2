@@ -21,14 +21,14 @@
 			// 上一页
 			prev(){
 				if(this.current>1){
-					this.$emit('pageChange','prev')
+					this.$emit('pageChange',this.current - 1)
 				}
 				
 			},
 			// 下一页
 			next(){
 				if(this.current<this.total){
-					this.$emit('pageChange','next')
+					this.$emit('pageChange',this.current + 1)
 				}
 			},
 		}
@@ -37,7 +37,7 @@
 
 <style lang="scss" scoped>
 	.bigBox{
-		margin-top: 30rpx;
+		margin: 30rpx;
 		display: flex;
 		justify-content: space-between;
 		.page{

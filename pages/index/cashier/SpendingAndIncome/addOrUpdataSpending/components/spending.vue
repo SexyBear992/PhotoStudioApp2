@@ -53,7 +53,7 @@
 	import { mapGetters } from 'vuex'
 	import { addExpenditure, updateExpenditure } from '@/util/api/shop.js'
 	import pickerModule from '@/components/pickerModule.vue'
-	import list from '@/pages/index/arrange/components/personList.vue'
+	import list from '@/pagesWork/arrange/components/personList.vue'
 	export default {
 		props:['spendingDetail','addressSpending','calendarTime'],
 		components:{

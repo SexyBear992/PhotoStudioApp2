@@ -70,7 +70,7 @@
 	const { $Message } = require('@/wxcomponents/base/index');
 	import { mapGetters } from 'vuex'
 	import pickerModule from '@/components/pickerModule.vue'
-	import list from '@/pages/index/arrange/components/personList.vue'
+	import list from '@/pagesWork/arrange/components/personList.vue'
 	import { addLateReceipt, getItemNo } from '@/util/api/shop.js'
 	export default{
 		props:['calendarTime','recordId','oId','enAddressInfo'],

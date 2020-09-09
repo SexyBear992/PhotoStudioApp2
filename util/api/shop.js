@@ -1,5 +1,6 @@
 import baseUrl from './index.js'
 import { get, post, put, remove, postObj, } from './methos.js'
+import { get2, post2, put2, remove2, postObj2, } from './methos2.js'
 
 
 // 通过手机号查找客户组
@@ -503,4 +504,20 @@ export const addOtherReceiptList = (params) => {
 //保留金-列表查询
 export const getRetentionList = (params) => {
 	return get(baseUrl.getRetentionList, params)
+}
+//保留金-新增
+export const addRetention = (params) => {
+	return postObj(baseUrl.addRetention, params)
+}
+ //保留金-删除
+export const delRetention = (params) => {
+	return remove(baseUrl.delRetention, params)
+}
+//保留金-操作记录查询
+export const retentionDetail = (params) => {
+	return get(baseUrl.retentionDetail, params)
+}
+//添加充值记录
+export const addRetentionRecord = (params) => {
+	return postObj(baseUrl.addRetentionRecord, params)
 }

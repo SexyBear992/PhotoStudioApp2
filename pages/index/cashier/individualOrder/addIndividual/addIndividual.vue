@@ -93,7 +93,7 @@
 	import goodsBox from './components/goodsBox.vue'
 	import pickerModule from '@/components/pickerModule.vue'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
-	import list from '@/pages/index/arrange/components/personList.vue'
+	import list from '@/pagesWork/arrange/components/personList.vue'
 	export default {
 		components:{
 			pickerModule,

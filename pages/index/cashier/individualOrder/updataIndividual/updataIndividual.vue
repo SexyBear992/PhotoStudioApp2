@@ -79,7 +79,7 @@
 	const { $Message } = require('@/wxcomponents/base/index');
 	import goodsBox from '../addIndividual/components/goodsBox.vue'
 	import pickerModule from '@/components/pickerModule.vue'
-	import list from '@/pages/index/arrange/components/personList.vue'
+	import list from '@/pagesWork/arrange/components/personList.vue'
 	import { mapGetters } from 'vuex'
 	import { updateOrderIndividual, getOrderIndividualDetials } from '@/util/api/shop.js'
 	export default {

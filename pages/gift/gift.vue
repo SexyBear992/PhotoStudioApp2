@@ -1,53 +1,47 @@
 /****************************************  礼物添加页面 ***********************************************/
 <template>
-<view class="bigBox">
+	<view class="bigBox">
 		<view class="box">
-
-			<view class="pickerBox">
+			<view class="searchBox">
 				<view class="text">礼包名称</view>
-				<view class="picker">
+				<view>
 					<picker
-						@columnchange="changeList" 
 						:range="array"
+						:value="index"
 						mode = multiSelector
-						@change="enSystem"
-						:value="pickerIndex"
+						@change="enList"
+						@columnchange="changeList"
 					>
-						<view class="uni-input">
-							<view>{{array[1][pickerIndex[1]]}}</view>
+						<view class="picker">
+							<view>{{show}}</view>
 							<i-icon type="unfold" size="15" color="#80848f"/>
 						</view>
 					</picker>
 				</view>
 			</view>
-			
 			<view class="prompt">
-				<view>总共({{allData}})个 <span v-if="canCheck > 0">可选({{canCheck}})个</span></view>
+				<view>总共({{list.length}})个 <span v-if="canCheck > 0">可选({{canCheck}})个</span></view>
 			</view>
-			
-			<view class="mainBox">
+			<view class="mainBox" v-if="list.length > 0">
+				<!-- 标题 -->
 				<view class="titleBox">
-					<view class="title"></view>
 					<view class="title">名称</view>
 					<view class="title">数量</view>
 					<view class="title">类型</view>
 				</view>
-				
-				<checkbox-group @change="checkboxChange">
-					<view class="textBox" v-for="(item ,index) in giftDetail" :key="index">
+				<checkbox-group @change="enChange">
+					<view class="textBox" v-for="(item ,index) in list" :key="index">
 						<view class="check">
-							<checkbox :value="item.name" :checked="item.checked" style="transform:scale(0.7)"/>
+							<checkbox :value="item.id" :checked="item.checked" style="transform:scale(0.7)"/>
 						</view>
-						<view class="text f">{{item.name}}</view>
-						<view class="text">{{item.number | num}}</view>
-						<view class="text">{{item.type}}</view>
+						<view class="fText">{{item.name}}</view>
+						<view class="text">{{item.count}}</view>
+						<view class="text">{{item.myType | type}}</view>
 					</view>
 				</checkbox-group>
-			</view>
-			
-			<view class="enSureBox">
-				<view class="enGift" @click="enGift">确定</view>
-			</view>
+			</view>	
+			<view v-else>暂无数据</view>
+			<view class="button" @click="en">确定</view>
 		</view>
 		<i-message id="message" />
 	</view>
@@ -65,24 +59,28 @@
 			...mapGetters('app',[
 				'shopId'
 			]),
-			giftNameAndId(){
-				const{
-					giftName,
-					giftTypeId
+			dateRange(){
+				const {
+					get_giftType,
+					giftNameList
 				} = this 
-				return {
-					giftName,
-					giftTypeId
+				return{
+					get_giftType,
+					giftNameList
 				}
 			}
 		},
 		filters:{
-			num(number){
-				if(number === 'null' || number === null){
-					return 0
-				}else{
-					return number
-				}
+			type(type){
+				const result =new Map([
+					['bookCount','入册'],
+					['bottomCount','入底'],
+					['dress','服装'],
+					['good','商品'],
+					['place','景点'],
+					['service','服务'],
+				])
+				return result.get(type)
 			}
 		},
 		data() {
@@ -92,30 +90,26 @@
 				// picker选择
 				array:[[],[]],
 				// picker选择下标
-				pickerIndex:[0,0],
-				
-				// 当前类别ID
-				giftTypeId:null,
-				// 当前礼包名称ID
-				giftNameId:null,
-				
-				// 礼物名称对象列表
+				index:[0,0],
+				// 一级数组内容
+				firstArr:[],
+				// 二级数组内容
+				secondArr:[],
+				// 显示
+				show:'请选择',
+				// 礼物名字列表
 				giftNameList:null,
-				
-				// 礼包详情
-				giftDetail:null,
-				// 选择礼包
-				sureInfo:[],
-				
-				// 已选
-				giveGift:null,
-				
-				// 总共
-				allData:null,
-				// 可选
-				canCheck:null,
-				
-				orderGiftDto:{
+				// 第二项 类别Id
+				secondId:null,
+				// 礼物详情
+				list:[],
+				// 可选数量
+				canCheck:0,
+				// 选择
+				enGift:null,
+				// 上页数据
+				prveData:null,
+				params:{
 					// 	礼包入册
 					bookCount:null,
 					// 礼包入底
@@ -137,352 +131,232 @@
 				}
 			};
 		},
-		onLoad(option){
-			this.type = option.type
-			if(option.giveGift === 'null'){
-				this.giveGift = null
-			}else{
-				this.giveGift = option.giveGift.split(',')
-			}
-			this.pickerIndex = option.index.split(',').map(Number)
-			
-			// this.type = "WEDDING_DRESS"
-			// this.giveGift = null
-			// this.pickerIndex = [0,0]
-			this.act_giftType()
+		onLoad(op){
+			this.type = op.type
+			// this.type = 'WEDDING_DRESS'
+			this.getGiftName()
+			let pages = getCurrentPages()
+			let prvePages = pages[pages.length - 2]
+			this.prveData = prvePages.data.gift
 		},
 		methods:{
-			...mapActions('shopArr',[
-				'act_giftType'
-			]),
-			
-			// 获取礼物名字
+			// 获取礼物名字列表 用于一级项
 			getGiftName(){
-				getGiftName({shopId:this.shopId , type:this.type}).then(res=>{	
+				getGiftName({shopId:this.shopId , type:this.type}).then(res=>{
 					this.giftNameList = res.data.data
-					// 获取礼物名字ID
-					this.giftNameId = res.data.data[this.giftTypeId][this.pickerIndex[1]].id
-					// 创建礼物名字数组
-					this.getArrayGiftName()
-					// 获取礼物详情
-					this.getGiftDetail()
 				})
 			},
-			
-			// 根据类别ID获取 类名
-			getArrayGiftName(){
-				let arr = this.giftNameList[this.giftTypeId].map((i)=>{
-					return i.name
-				})
-				this.array[1] = arr
-			},
-			
 			// 获取礼物详情
 			getGiftDetail(){
-				getGiftDetail({id:this.giftNameId}).then(res=>{
-					this.orderGiftDto.giftId = res.data.data.id
-					this.orderGiftDto.giftName = res.data.data.name
-					this.orderGiftDto.giftPrice = res.data.data.price
-					// 创建新的对象
-					// 入底/入册
-					let giftDetail = [
-						{
+				getGiftDetail({id:this.secondId}).then(res=>{
+					let data = res.data.data
+					this.params.giftId = data.id
+					this.params.giftName = data.name
+					this.params.giftPrice = data.price
+					this.canCheck = data.selectCount
+					if(data.bookCount){
+						this.list.push({
+							id:-1,
 							name:'入册',
-							number:res.data.data.bookCount,
-							type:'入册',
-						},
-						{
+							count:data.bookCount,
+							myType:'bookCount',
+						})
+					}
+					if(data.bottomCount){
+						this.list.push({
+							id:-2,
 							name:'入底',
-							number:res.data.data.bottomCount,
-							type:'入底',
-						}
-					]
-					// 服装
-					res.data.data.giftItemDressInfos.forEach((i)=>{
+							count:data.bottomCount,
+							myType:'bottomCount',
+						})
+					}
+					data.giftItemDressInfos.forEach((i)=>{
 						let arr = {
-							name: i.name,
-							number: i.count,
-							type:'服装',
-							id: i.dressInfoId,
-							salePrice:i.salePrice,
-							typeB:i.type
+							count:i.count, //服装套数	
+							dressInfoId: i.id, //服装ID
+							name: i.name,	//服装名称	
+							remark: null,	//服装备注	
+							salePrice: i.salePrice,//销售价格	
+							sort:null,	//排序
+							type:i.type,
+							myType:'dress',
+							id: i.id,
 						}
-						giftDetail.push(arr)
+						this.list.push(arr)
 					})
-					// 商品
-					res.data.data.giftItemGoods.forEach((i)=>{
+					data.giftItemGoods.forEach((i)=>{
 						let arr = {
-							name: i.name,
-							number: i.count,
-							type:'商品',
-							id: i.goodsId,
-							pSalePrice:i.pSalePrice,
-							defaultP: i.defaultP,
-							isSelect: i.isSelect,
-							orderNum: i.count,
-							orderP: i.countP,
-							stockStatus: i.stockStatus,
-							salePrice:i.salePrice
+							defaultP:i.countP,	//商品默认P数	
+							expeditedTime:null,	//加急日期	
+							goodsId: i.id, //商品ID	
+							isSelect: i.isSelect,	//商品选片状态
+							name: i.name, //商品名
+							orderNum:i.count, //订单商品数量
+							orderP:i.countP, //订单商品P数
+							pSalePrice: i.pSalePrice, //P销售价格	
+							pickupModeCategoryId:null, //取件方式	
+							psalePrice: i.pSalePrice, 		
+							remark:null,	//商品备注	
+							salePrice:i.salePrice,	//商品销售价
+							sort:null,	//排序
+							stockStatus:false,
+							count: i.count,
+							myType:'good',
+							id: i.id,
 						}
-						giftDetail.push(arr)
+						this.list.push(arr)
 					})
-					// 景点
-					res.data.data.giftItemPlaces.forEach((i)=>{
+					data.giftItemPlaces.forEach((i)=>{
 						let arr = {
-							name: i.name,
-							number: '',
-							id: i.placeId,
-							type:'景点',
-							salePrice:i.salePrice,
-							typeB:i.placeType
+							name: i.name,	//景点名	
+							placeId: i.id,	//景点ID
+							placeType:i.placeType,	//内外景
+							remark:null, //景点备注	
+							salePrice:i.salePrice,	//景点销售价	
+							sort:null, 
+							count: 1,
+							id: i.id,
+							myType:'place',
 						}
-						giftDetail.push(arr)
+						this.list.push(arr)
 					})
-					// 服务
-					res.data.data.giftItemServices.forEach((i)=>{
+					data.giftItemServices.forEach((i)=>{
 						let arr = {
-							name: i.name,
-							number: i.count,
-							id: i.serviceId,
-							type:'服务',
-							salePrice:i.salePrice,
-							peopleNumber:i.peopleNumber
+							count: i.count, //服务数量	
+							name: i.name, //服务名	
+							peopleNumber:i.peopleNumber, //服务人数	
+							remark:null, //服务备注	
+							salePrice:i.salePrice, //服务销售价
+							serviceId: i.id, //服务ID
+							sort:null,
+							id: i.id,
+							myType:'service',
 						}
-						giftDetail.push(arr)
+						this.list.push(arr)
 					})
-					
-					// 赋值详情
-					this.giftDetail = giftDetail
-					// 赋值总数
-					this.allData = this.giftDetail.length
-					// 赋值该礼包可选数量
-					this.canCheck = res.data.data.selectCount
-					// 勾选已选礼包
-					if(this.giveGift !== null){
-						this.giftDetail.forEach((i)=>{
-							if(this.giveGift.includes(i.name)){
+					if(this.prveData){
+						this.list.forEach((i)=>{
+							if(this.prveData.enId.includes(String(i.id))){
 								this.$set(i,'checked',true)
 							}
 						})
 					}
 				})
 			},
-			
-			// picker改变 通过选择类别 改变礼物名
+			// 获取 二级 项
+			getSecond(){
+				// 第一项下标
+				let firstIndex = this.index[0]
+				// 获取当前一级 项的ID
+				let firstId = this.firstArr[firstIndex].id
+				// 获取二级项 
+				this.secondArr = this.giftNameList[firstId]
+				// 赋值给二级项 
+				this.array[1] = this.secondArr.map((i)=>{ return i.name })
+				// 第二项下标
+				let secondIndex = this.index[1]
+				// 获取二级项Id
+				this.secondId = this.secondArr[secondIndex].id
+			},	
 			changeList(e){
-				let name = this.array[e.detail.column][e.detail.value]
-				this.get_giftType.some((i)=>{
-					if(i.name === name){
-						this.giftTypeId = i.id
-					}
-				})
-				// 重新获取礼物名列表
-				this.getArrayGiftName()
+				let ind = e.detail.column
+				this.index[ind] = e.detail.value
+				this.getSecond()
+				this.getShow()
 			},
-			
-			// picker确定
-			enSystem(e){
-				this.pickerIndex = e.detail.value
-				// 获取选择的礼物名称ID
-				this.giftNameList[this.giftTypeId].some((i)=>{
-					if(i.name === this.array[1][e.detail.value[1]]){
-						this.giftNameId = i.id
-					}
-				})
+			// 确定选择
+			enList(e){
 				this.getGiftDetail()
+				this.getShow()
 			},
-			
-			// 多选返回
-			checkboxChange(e) {
-				this.sureInfo = e.detail.value
+			// 获取显示名字
+			getShow(){
+				let first = this.firstArr[this.index[0]]
+				let second = this.secondArr[this.index[1]]
+				this.show = `${first.name}/${second.name}`
 			},
-			
-			// 确定添加礼包
-			enGift(){
+			// 多选
+			enChange(e){
+				this.enGift = e.detail.value
+			},
+			// 确定
+			en(){
+				let needArr = this.list.filter((i)=>{
+					if(this.enGift.includes(String(i.id))){ return i }
+				})	
 				// 如果超出可选范围 提醒
-				if(this.sureInfo.length > this.canCheck && this.canCheck > 0){
+				if(needArr.length > this.canCheck && this.canCheck > 0){
 					$Message({
 						content: '最多可选' + this.canCheck,
 						type: 'warning'
 					});
 				}else{
-					if(this.sureInfo){
-						this.giftDetail.forEach((i)=>{		
-							if(this.sureInfo.includes(i.name)){
-								if(i.type === '入册'){
-									this.orderGiftDto.bookCount = i.number
-								}else if(i.type === '入底'){
-									this.orderGiftDto.bottomCount = i.number
-								}else if(i.type === '服装'){
-									let arr = {
-										count: i.number,
-										dressInfoId: i.id,
-										name: i.name,
-										remark: null,
-										salePrice: i.salePrice,
-										sort: null,
-										type: i.typeB
-									}
-									this.orderGiftDto.orderItemDressInfo.push(arr)
-								}else if(i.type === '商品'){
-									let arr = {
-										defaultP: i.defaultP,
-										expeditedTime: new Date().getTime(),
-										goodsId: i.id,
-										isSelect: i.isSelect,
-										name: i.name,
-										orderNum: i.orderNum,
-										orderP: i.orderP,
-										pSalePrice: i.pSalePrice,
-										pickupModeCategoryId:null,
-										remark:null,
-										sort:null,
-										stockStatus:i.stockStatus,
-										salePrice: i.salePrice,
-									}
-									this.orderGiftDto.orderItemGoods.push(arr)
-								}else if(i.type === '景点'){
-									let arr ={
-										name:i.name,
-										placeId:i.id,
-										placeType:i.typeB,
-										remark:null,
-										salePrice:i.salePrice,
-										sort:null
-									}
-									this.orderGiftDto.orderItemPlace.push(arr)
-								}else if(i.type === '服务'){
-									let arr ={
-										name:i.name,
-										servicesId:i.id,
-										count:i.number,
-										remark:null,
-										salePrice:i.salePrice,
-										sort:null,
-										peopleNumber:i.peopleNumber
-									}
-									this.orderGiftDto.orderItemService.push(arr)
-								}
-							}
-						})
-						var pages = getCurrentPages();
-						var prevPage = pages[pages.length - 2]; //上一个页面
-						prevPage.setData({
-							gift: {
-								'info':this.orderGiftDto,
-								'show':this.sureInfo,
-								'index':this.pickerIndex
-							}
-						})
-						uni.navigateBack({//返回
-							delta: 1
-						})
-					}
+					needArr.forEach((i)=>{
+						switch(i.type){
+							case 'bookCount':
+								this.params.bookCount = i.count
+								break
+							case 'bottomCount':
+								this.params.bottomCount = i.count
+								break
+							case 'dress':
+								this.params.orderItemDressInfo.push(i)
+								break
+							case 'good':
+								this.params.orderItemGoods.push(i)
+								break
+							case 'place':
+								this.params.orderItemPlace.push(i)
+								break
+							case 'service':
+								this.params.orderItemService.push(i)
+								break
+						}
+					})
+					var pages = getCurrentPages();
+					var prevPage = pages[pages.length - 2]; //上一个页面
+					prevPage.setData({
+						gift: {
+							'params':this.params,
+							'index':this.index,
+							'enId':this.enGift,
+						}
+					})
+					uni.navigateBack({//返回
+						delta: 1
+					})
 				}
 			}
 		},
 		watch:{
-			get_giftType(){
-				// 获取礼物类别
-				let arr = this.get_giftType.map((i)=>{
-					return i.name
-				})
-				// 去除礼物第一个类别
-				arr.shift()
-				// 赋值到array数组下标0
-				this.array[0] = arr
-				
-				// 获取当前类别的ID
-				this.get_giftType.some((i)=>{
-					if(i.name === this.array[0][this.pickerIndex[0]]){
-						this.giftTypeId = i.id
+			// 获取礼物名字列表
+			dateRange(){
+				// 一级项
+				let arr = this.get_giftType.filter((i)=>{ return i.level === 2 })
+				let needId = Object.keys(this.giftNameList).map(i => parseInt(i, 0))
+				// 一级项 内容
+				let firstArr = []
+				arr.forEach((i)=>{
+					if(needId.includes(i.id)){
+						firstArr.push(i)
 					}
 				})
-				// 获取礼包名字
-				this.getGiftName()
-			}
-
-			// giftNameAndId(){
-			// 	if(this.giftNameAndId.giftName !== null && this.giftNameAndId.giftTypeId !== null){
-			// 		this.getGiftNameList()
-			// 	}
-			// 	console.log(this.array)
-			// },
-			
+				this.firstArr = firstArr
+				// 赋值给一级项
+				this.array[0] = this.firstArr.map((i)=>{ return i.name })
+				// 执行 获取二级项
+				this.getSecond()
+				if(this.prveData){
+					this.index = this.prveData.index
+					this.getSecond()
+					this.getShow()
+					this.getGiftDetail()
+				}
+			},
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-.bigBox{
-	.box{
-		font-size: 28rpx;
-		margin-top: 30rpx;
-		.pickerBox{
-			display: flex;
-			.text{
-				margin: 10rpx 30rpx;
-			}
-			.uni-input{
-				padding: 10rpx;
-				border: 1rpx solid #61A3FF;
-				border-radius: 10rpx;
-				display: flex;
-				>view{
-					margin-right: 20rpx;
-				}
-			}
-		}
-		.prompt{
-			margin: 30rpx;
-		}
-		.mainBox{
-			.titleBox{
-				display: flex;
-				background-color: #f8f8f9;
-				margin: 0 30rpx;
-				height: 80rpx;
-				line-height: 80rpx;
-				.title{
-					flex: 1; 
-					text-align: center;
-				}
-				.title:nth-child(1){
-					flex: 0.3;
-				}
-				.title:nth-child(2){
-					flex: 1.7;
-				}
-			}
-			.textBox{
-				margin: 30rpx;
-				display: flex;
-				.check{
-					flex: 0.3;
-				}
-				.text{
-					text-align: center; 
-					flex: 1;
-				}
-				.f{
-					flex: 1.7;
-				}
-			}
-		}
-		.enGift{
-			position: fixed;
-			bottom: 30rpx;
-			width: 600rpx;
-			color: #FFFFFF;
-			background-color: #61A3FF;
-			height: 80rpx;
-			line-height: 80rpx;
-			text-align: center;
-			border-radius: 40rpx;
-			margin: 0 auto;
-			margin-left: 50%;
-			transform: translateX(-50%);
-		}
-	}
-}
+	@import './giftStyle.scss';
 </style>

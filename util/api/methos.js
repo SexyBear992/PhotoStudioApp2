@@ -20,8 +20,8 @@ const request = (url, options) => {
 			header: {
 				'content-type': options.isObj ? 'application/json': 'application/x-www-form-urlencoded',
 				'ticket': app.state.ticket ,
-				'ccId': '00000000737f5b5a01737fbfce600000',
-				'CurrentShopId' : app.state.shopId
+				'ccId': app.state.ccId,
+				'CurrentShopId' : app.state.shopId,
 			},
 			success :(res)=>{
 				uni.hideLoading();

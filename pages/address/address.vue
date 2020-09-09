@@ -3,7 +3,7 @@
 	<view>
 		<view class="bigBox">
 			<view class="serach">
-				<picker @change="bindPickerChange" :value="pickerIndex" :range="pickerArr">
+				<picker @change="change" :value="pickerIndex" :range="pickerArr">
 					<view class="uni-input">
 						<view class="text">{{pickerArr[pickerIndex]}}</view>
 						<i-icon type="unfold" size="15" color="#80848f"/>
@@ -16,7 +16,7 @@
 			
 			<view class="contentBox" v-if="!keyWork">
 				<checkbox-group @change="checkboxChange">
-					<view class="checkBox" v-for="item in showArr" :key="item.id">
+					<view class="checkBox" v-for="item in list" :key="item.id">
 						<checkbox :value="item.id" :checked="item.checked" />
 						<view class="text">{{ item.anotherName }}</view>
 					</view>
@@ -33,7 +33,7 @@
 				</checkbox-group>
 			</view>
 			
-			<view class="ts" v-if="showArr.length <= 0">暂无该联系人</view>
+			<view class="ts" v-if="list.length <= 0">暂无该联系人</view>
 			
 			<view @click="num" class="back">确定</view>
 		</view>
@@ -50,7 +50,7 @@
 			// 搜索数组
 			serachArr() {
 				let serachArr = []
-				this.showArr.forEach((i)=>{
+				this.list.forEach((i)=>{
 					if(i.anotherName.indexOf(this.keyWork) !== -1){
 						serachArr.push(i)
 					}
@@ -60,20 +60,20 @@
 		},
 		data() {
 			return {
-				// 类型
-				type:null,
-				// 员工类型
-				addressType:null,
+				// 类型 英文
+				typeEN:null,
+				// 类型 中文
+				typeCN:null,
 				// 所有员工
-				allArr:[],
+				allEmployees:[],
 				// 已选员工
 				show:null,
 				// 显示员工
-				showArr:[],
+				list:[],
 				// 已选择员工
 				enArr:[],
-				// 组件显示
-				showText:'',
+				// 数量
+				numMax:null,
 				
 				// picker数组
 				pickerArr:[
@@ -109,49 +109,60 @@
 			};
 		},
 		onLoad(option){
-			this.type = option.type
-			this.addressType = this.typefilterCN(option.type)
+			// 选人最大数
+			this.numMax = option.num
+			// 英文类型
+			this.typeEN = option.type
+			// 中文类型
+			this.typeCN = this.typefilterCN(this.typeEN)
+			// 已选显示
 			this.show = option.show
-		},
-		mounted(){
+			// 获取picker下标
+			this.pickerIndex = this.pickerArr.findIndex((i)=>{return i === this.typeCN})
+			// 获取所有员工列表
 			this.getAccountAllArr()
 		},
 		methods:{
 			// 获取员工列表信息
 			getAccountAllArr(){
-				for( let i = 0; i<this.pickerArr.length ; i++){
-					if( this.addressType === this.pickerArr[i]){
-						this.pickerIndex = i
-						break
-					}
-				}
 				getAccountAllArr().then(res=>{
-					this.allArr = res.data.data
-					this.filterArr(this.typefilter(this.addressType))
+					this.allEmployees = res.data.data // 所有员工
+					this.filterArr(this.typeEN)
 				})
-			},
-			
+			},	
+			// 筛选员工
+			filterArr(type){
+				// 过滤掉无关员工
+				let newArr =this.allEmployees.filter((i)=>{
+				 return	i.positionTypes.includes(type)
+				})
+				newArr.forEach((i)=>{
+					if(this.show.split('/').includes(i.anotherName)){
+						this.$set(i,'checked',true)
+						this.enArr.push(i)
+					}
+				})
+				this.list = newArr
+			},	
 			// 筛选条件
-			bindPickerChange(e){
+			change(e){
 				this.pickerIndex = e.detail.value
 				let filterName = this.pickerArr[e.detail.value]
 				this.filterArr(this.typefilter(filterName))
-			},
-			
+			},	
 			// 选择联系人返回
 			checkboxChange(e){
-				let arr = this.allArr.filter((i)=>{
+				// 获取已选联系人数组
+				let arr = this.allEmployees.filter((i)=>{
 					return e.detail.value.includes(String(i.id))
 				})
 				this.enArr = arr
 				let show = this.enArr.map((i)=>{
 					return i.anotherName
 				})
-				
-				this.showText = show.join('/')
-			},
-			
-			// 过滤类型
+				this.show = show.join('/')
+			},	
+			// 过滤 获取英文
 			typefilter(type){
 				const result = new Map([
 					[ '接单人', 'RECEPTION'],
@@ -180,8 +191,7 @@
 					[ '选修师', 'ELECTIVEGRAPHER' ]
 				])
 					return result.get(type)
-			},
-			
+			},		
 			// 获取中文类型
 			typefilterCN(type){
 				const result = new Map([
@@ -211,72 +221,21 @@
 					[ 'ELECTIVEGRAPHER', '选修师' ]
 				])
 					return result.get(type)
-			},
-			
-			// 筛选员工
-			filterArr(data){
-				// 过滤掉无关员工
-				let newArr =this.allArr.filter((i)=>{
-				 return	i.positionTypes.includes(data)
-				})
-				newArr.forEach((i)=>{
-					if(this.show.split('/').includes(i.anotherName)){
-						this.$set(i,'checked',true)
-						this.enArr.push(i)
-					}
-				})
-				this.showArr = newArr
-				let show = this.enArr.map((i)=>{
-					return i.anotherName
-				})
-				
-				this.showText = show.join('/')
-			},
-			
+			},			
 			// 判断数量
 			num(){
-				if(this.type === 'RECEPTION'){
-					if(this.enArr.length > 4){
-						$Message({
-							content: '接单人不能超过4位',
-							type: 'warning'
-						});
-					}else{
-						this.enArr[0].main = true
-						this.back()
-					}
-				}else if(this.type === 'SERVICE'){
-					if(this.enArr.length > 1){
-						$Message({
-							content: '专服人员不能超过1位',
-							type: 'warning'
-						});
-					}else{
-						this.enArr[0].main = true
-						this.back()
-					}
-				}else if(this.type === 'NETWORK_SALES'){
-					if(this.enArr.length > 1){
-						$Message({
-							content: '网销人员不能超过1位',
-							type: 'warning'
-						});
-					}else{
-						this.enArr[0].main = true
-						this.back()
-					}
+				if(this.enArr.length > this.numMax){
+					$Message({
+						content: this.typeCN + '不能超过'+ this.numMax +'位',
+						type: 'warning'
+					});
 				}else{
 					if(this.enArr.length > 0){
 						this.enArr[0].main = true
-						this.back()						
-					}else{
-						uni.navigateBack({//返回
-							delta: 1
-						})
 					}
+					this.back()	
 				}
-			},
-			
+			},	
 			// 返回
 			back(){
 				var pages = getCurrentPages();
@@ -284,8 +243,8 @@
 				prevPage.setData({
 					address: {
 						'enArr':this.enArr,
-						'show':this.showText,
-						'type':this.type
+						'show':this.show,
+						'type':this.typeEN
 					}
 				})
 				uni.navigateBack({//返回
@@ -315,7 +274,7 @@
 			}
 			input{
 				flex: 3;
-				padding: 8rpx;
+				padding: 5rpx 10rpx;
 				border: 1rpx solid #61A3FF;
 				border-radius: 10rpx;
 				margin-left: 30rpx;
