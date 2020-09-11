@@ -22,7 +22,7 @@
 </template>
 
 <script>
-	import list from '../components/personList.vue'
+	import list from '@/components/detailWorkMain/personList.vue'
 	const { $Message } = require('@/wxcomponents/base/index');
 	import { getPhotoDetail, updataPhotoInfo } from '@/util/api/shop.js'
 	export default {

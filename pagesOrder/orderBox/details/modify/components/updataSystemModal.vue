@@ -17,7 +17,7 @@
 						<view class="title">套系名称：</view>
 					</view>
 					<view class="textBox">
-						<view class="text">{{assemblyName}}</view>
+						<view class="text">{{openInfo.assemblyName}}</view>
 					</view>
 				</view>
 				
@@ -25,24 +25,14 @@
 					<view class="titleB">
 						<view class="title">服务级别：</view>
 					</view>
-					<picker @change="serviceChange" :value="serviceIndex" :range="serviceIdList">
-						<view class="textBox">
-							<view class="text">{{serviceIdList[serviceIndex]}}</view>
-							<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
-						</view>
-					</picker>
+					<modifyPicker class="picker" :changeId="params.serviceCategoryId" :categoryName="'get_serviceCategory'" :getId.sync="params.serviceCategoryId"></modifyPicker>
 				</view>
 				
 				<view class="listBox">
 					<view class="titleB">
 						<view class="title">老师级别：</view>
 					</view>
-					<picker @change="teacherChange" :value="teacherIndex" :range="teacherIdList">
-						<view class="textBox">
-							<view class="text">{{teacherIdList[teacherIndex]}}</view>
-							<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
-						</view>
-					</picker>
+					<modifyPicker class="picker" :changeId="params.teacherCategoryId" :categoryName="'get_teacherCategory'" :getId.sync="params.teacherCategoryId"></modifyPicker>
 				</view>
 			</view>
 			
@@ -56,120 +46,31 @@
 </template>
 
 <script>
+	import modifyPicker from './modifyPicker.vue'
 	import { updataSystem } from '@/util/api/shop.js'
 	import { mapGetters } from 'vuex'
 	export default{
 		props:["openInfo"],
-		computed:{
-			...mapGetters('shopArr',[
-				// 服务
-				'get_serviceCategory',
-				// 老师
-				'get_teacherCategory'
-			])
+		components:{
+			modifyPicker
 		},
 		data(){
-			return{
-				// 过滤服务
-				serviceIdMap: new Map(),  
-				// 过滤老师
-				teacherIdMap: new Map(),  
-				
-				// 套系名
-				assemblyName:null,
-				
-				// 服务picker
-				serviceIndex:0,
-				serviceIdList:[],
-				
-				// 老师picker
-				teacherIndex:0,
-				teacherIdList:[],
-				
-				systemInfo:{}
+			return{				
+				params:{}
 			}
 		},
 		mounted(){
-			this.serviceIdMap = new Map(this.get_serviceCategory.map(item => [item.id, item.name]))
-			this.teacherIdMap = new Map(this.get_teacherCategory.map(item => [item.id, item.name]))
-			
-			this.assemblyName = this.openInfo.assemblyName
 			let info = {
 				orderId:this.openInfo.orderId,
 				serviceCategoryId:this.openInfo.serviceCategoryId,
 				teacherCategoryId:this.openInfo.teacherCategoryId,
 			}
-			this.systemInfo = info
-			this.newchangServiceId()
-			this.newchangTeacherId()
+			this.params = info
 		},
 		methods:{
-			// 创建服务数组
-			newchangServiceId(){
-				let arr = this.get_serviceCategory.map((i)=>{
-					return i.name
-				})
-				arr[0] = '请选择'
-				this.serviceIdList = arr
-				
-				// 已经选择服务名字	
-				let nowServiceName = this.serviceIdMap.get(this.openInfo.serviceCategoryId)
-				if(nowServiceName){
-					this.serviceIndex = this.serviceIdList.findIndex((i)=>{
-						return i === nowServiceName
-					})
-				}else{
-					this.serviceIndex = 0
-				}
-			},
-			
-			// 服务picker返回
-			serviceChange(e){
-				this.serviceIndex = e.detail.value
-				this.get_serviceCategory.some((i)=>{
-					if(i.name === this.serviceIdList[e.detail.value]){
-						this.systemInfo.serviceCategoryId = i.id
-					}else if(this.serviceIdList[e.detail.value] === '请选择'){
-						this.systemInfo.serviceCategoryId = null
-					}
-				})
-			},
-			
-			
-			// 创建老师数组
-			newchangTeacherId(){
-				let arr = this.get_teacherCategory.map((i)=>{
-					return i.name
-				})
-				arr[0] = '请选择'
-				this.teacherIdList = arr
-				
-				// 已经选择服务名字	
-				let nowTeacherName = this.teacherIdMap.get(this.openInfo.teacherCategoryId)
-				if(nowTeacherName){
-					this.teacherIndex = this.teacherIdList.findIndex((i)=>{
-						return i === nowTeacherName
-					})
-				}else{
-					this.teacherIndex = 0
-				}
-			},
-			
-			// 教师picker返回
-			teacherChange(e){
-				this.teacherIndex = e.detail.value
-				this.get_teacherCategory.some((i)=>{
-					if(i.name === this.teacherIdList[e.detail.value]){
-						this.systemInfo.teacherCategoryId = i.id
-					}else if(this.teacherIdList[e.detail.value] === '请选择'){
-						this.systemInfo.teacherCategoryId = null
-					}
-				})
-			},
-			
 			// 保存
 			ok(){
-				updataSystem(this.systemInfo).then(res=>{
+				updataSystem(this.params).then(res=>{
 					if(res.data.code === 200){
 						this.$emit('ok')
 					}

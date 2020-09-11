@@ -6,7 +6,7 @@
 				
 				<searchModul ref="searchModul" @search="search"></searchModul>
 				
-				<view class="listBox" v-for="(item,index) in list" :key="index">
+				<view class="listBox" v-for="(item,index) in list" :key="item.itemId">
 					
 					<detailMoudel :info="item"></detailMoudel>
 					

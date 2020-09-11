@@ -29,11 +29,11 @@
 	import searchModul from '@/components/searchModul.vue'
 	import sPullScroll from '@/components/s-pull-scroll'
 	import changeList from './components/changeList.vue'
-	import detailPzMain from './components/detailPzMain.vue'
-	import detailXpMain from './components/detailXpMain.vue'
-	import detailKbMain from './components/detailKbMain.vue'
-	import detailQjMain from './components/detailQjMain.vue'
-	import detailSmMain from './components/detailSmMain.vue'
+	import detailKbMain from '@/components/detailWorkMain/detailKbMain.vue'
+	import detailPzMain from '@/components/detailWorkMain/detailPzMain.vue'
+	import detailQjMain from '@/components/detailWorkMain/detailQjMain.vue'
+	import detailXpMain from '@/components/detailWorkMain/detailXpMain.vue'
+	import detailSmMain from '@/components/detailWorkMain/detailSmMain.vue'
 	import {
 		getWorkPhotoMy, //查询-我的摄化工作
 		getWorkPhotoDepartment, //查询-我的部门摄化工作

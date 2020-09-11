@@ -36,7 +36,7 @@
 </template>
 
 <script>
-	import list from '@/pagesWork/arrange/components/personList.vue'
+	import list from '@/components/detailWorkMain/personList.vue'
 	export default{
 		props:['info','type','showName','calendarTime'],
 		components:{
@@ -148,7 +148,7 @@
 			
 			goAddress(){
 				uni.navigateTo({
-					url:'./../../../address/address?type=' + this.addressType + '&show=' + this.show
+					url:'/pages/address/address?type=' + this.addressType + '&show=' + this.show
 				})
 			},
 			// 打开日历
@@ -163,7 +163,6 @@
 				deep:true,
 				handler(){
 					this.show = this.showName.show
-					console.log('返回得到名字',this.showName)
 				}
 			},
 			// 修改时间
@@ -172,7 +171,6 @@
 				handler(){
 					this.time = this.calendarTime
 					let tem = Date.parse(new Date(this.calendarTime))
-					console.log('时间戳',tem)
 				}
 			}
 		}

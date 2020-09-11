@@ -35,6 +35,7 @@
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import { getOrderDetails, updataActor } from '@/util/api/shop.js'
 	export default {
 		components:{
@@ -123,7 +124,7 @@
 					num = 1
 				}
 				uni.navigateTo({
-					url:'../../../../../../address/address?type='+ type + '&show=' + this.showTextFa + '&num=' + num
+					url:'/pages/address/address?type='+ type + '&show=' + this.showTextFa + '&num=' + num
 				})
 			},
 			
@@ -164,16 +165,21 @@
 			save(){
 				updataActor(this.actorInfo).then(res=>{
 					if(res.data.code === 200){
-						uni.navigateBack({
-							delta: 1
-						})
+						$Message({
+							content: '修改成功',
+							type: 'success'
+						});
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta: 1
+							})
+						},1000)
 					}
 				})
 			},
 		},
 		watch:{
 			addressInfo(){
-				console.log(this.addressInfo)
 				if(this.addressInfo){
 					this.getAddressInfo(this.addressInfo) 
 				} 
@@ -222,7 +228,7 @@
 			.textarea{
 				padding:20rpx;
 				width: 650rpx;
-				border-bottom: 1rpx solid #DDDDDD
+				border-bottom: 1rpx solid #f9f9f9;
 			}
 		}
 		.save{

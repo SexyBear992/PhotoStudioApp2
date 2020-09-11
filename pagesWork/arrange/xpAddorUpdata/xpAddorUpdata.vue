@@ -77,7 +77,7 @@
 	import scheduleModule from '../components/scheduleModule.vue'
 	import timeModule from '../components/timeModule.vue'
 	import labelModule from '../components/labelModule.vue'
-	import list from '../components/personList.vue'
+	import list from '@/components/detailWorkMain/personList.vue'
 	import noticeModule from '../components/noticeModule.vue'
 	import { getChooseDetail, addChooseInfo, updataChooseInfo } from '@/util/api/shop.js'
 	export default {

@@ -37,6 +37,7 @@
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import ModifyButton from './components/ModifyButton.vue'
 	import orderInfoModul from './components/orderInfoModul.vue'
 	import sourceModule from './components/sourceModule.vue'
@@ -76,7 +77,6 @@
 				// 显示儿童
 				showBaby:false,
 				
-				
 				// 显示修改客户来源模态框
 				showUserSource:false,
 				// 显示修改客户区域模态框
@@ -92,9 +92,11 @@
 		},
 		onLoad(option){
 			this.orderId = option.orderId
+			this.orderId = 321
 		},
 		onShow(){
 			this.getOrderDetails()
+			uni.$emit('changeItem')
 		},
 		mounted(){
 		},
@@ -121,6 +123,10 @@
 				this.showUserSource = false
 				this.showUserArea = false
 				this.showUserSystem = false
+				$Message({
+					content: '修改成功',
+					type: 'success'
+				});
 			},
 			//修改区块模态框取消 
 			cancel(){

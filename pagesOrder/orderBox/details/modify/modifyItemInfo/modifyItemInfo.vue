@@ -45,6 +45,7 @@
 </template>
 
 <script>
+	const { $Message } = require('@/wxcomponents/base/index');
 	import { getOrderDetails, updataItemInfo } from '@/util/api/shop.js'
 	export default {
 		data() {
@@ -85,9 +86,15 @@
 				}
 				updataItemInfo(newInfo).then(res=>{
 					if(res.data.code === 200){
-						uni.navigateBack({
-							 delta: 1
-						})
+						$Message({
+							content: '修改成功',
+							type: 'success'
+						});
+						setTimeout(()=>{
+							uni.navigateBack({
+								 delta: 1
+							})
+						},1000)
 					}
 				})
 			},

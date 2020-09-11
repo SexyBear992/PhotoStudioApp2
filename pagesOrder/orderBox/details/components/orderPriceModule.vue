@@ -27,7 +27,9 @@
 		</view>
 		
 		<!-- 套系内容 -->
-		<assembly :assemblyInfo="dataInfo.assemblyInfo"></assembly>
+		<view v-for="(item,index) in dataInfo.assemblyInfo" :key="index">
+			<assembly :info="item"></assembly>
+		</view>
 		
 	</view>
 </template>
@@ -100,6 +102,7 @@
 	.bigBox{
 		padding: 0 30rpx;
 		padding-top: 30rpx;
+		margin-bottom: 30rpx;
 		.titleBox{
 			font-size: 32rpx;
 			border-left: 8rpx solid #61A3FF;
@@ -114,7 +117,7 @@
 			margin-top: 30rpx;
 			height: 80rpx;
 			line-height: 80rpx;
-			border-bottom: 1rpx solid #DDDDDD;
+			border-bottom: 1rpx solid #f9f9f9;
 			.title{
 				width: 270rpx;
 			}

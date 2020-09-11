@@ -4,35 +4,19 @@
 		<view class="bigBox">
 			
 			<!-- 拍照时间 -->
-			<photoTime 
-				:time="params.successTime"
-				@openCalendar="openCalendar"
-			></photoTime>
+			<photoTime :time="params.successTime" @openCalendar="openCalendar"></photoTime>
 			
 			<!-- 拍照状态 -->
-			<photoStatus 
-				:status="params.processStatus"
-				@getId="getStatus"
-			></photoStatus>
+			<photoStatus :status="params.processStatus" :getId.sync="params.processStatus"></photoStatus>
 			
 			<!-- 拍照类型 -->
-			<processModule 
-				:process="params.processType"
-				@getId="getProcess"
-			></processModule>
+			<processModule :process="params.processType" :getId.sync="params.processType"></processModule>
 			
 			<!-- 拍照张数 -->
-			<photoNum 
-				:num="params.completePhotoDataJson.photoNum"
-				@getNum="getNum"
-			></photoNum>
+			<photoNum :num="params.completePhotoDataJson.photoNum" :getNum.sync="params.completePhotoDataJson.photoNum"></photoNum>
 			
 			<!-- 预约门店 -->
-			<shopModule
-				:title="'拍摄门店'"
-				:shopId="params.successShopId" 
-				@getId="getShopId" 
-			></shopModule>
+			<shopModule :title="'拍摄门店'" :shopId="params.successShopId" @getId="getShopId"></shopModule>
 			
 			<list :title="'摄影师'" :show="showPHOTOGRAPHER" :type="'PHOTOGRAPHER'" @goAddress="goAddress"></list>
 			<list :title="'摄影师助理'" :show="showPHOTOGRAPHER_ASSISTANT" :type="'PHOTOGRAPHER_ASSISTANT'" @goAddress="goAddress"></list>
@@ -74,7 +58,7 @@
 	import shopModule from '@/pagesWork/arrange/components/shopModule.vue'
 	import processModule from '@/pagesWork/arrange/components/processModule.vue'
 	import videoModule from '@/pagesWork/arrange/components/videoModule.vue'
-	import list from '@/pagesWork/arrange/components/personList.vue'
+	import list from '@/components/detailWorkMain/personList.vue'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	import { getPhotoDetails, updataPhoto } from '@/util/api/shop.js'
 	import { mapGetters } from 'vuex'
@@ -174,17 +158,6 @@
 				let tem = Date.parse(new Date(e.fulldate))
 				this.params.successTime = tem
 			},
-			
-			// 获取拍照状态
-			getStatus(e){
-				this.params.processStatus = e
-			},
-			
-			// 获取拍照张数
-			getNum(e){
-				this.params.completePhotoDataJson.photoNum = e
-			},
-			
 			// 获取列表
 			getPhotoDetails(id){
 				getPhotoDetails({id:id}).then(res=>{

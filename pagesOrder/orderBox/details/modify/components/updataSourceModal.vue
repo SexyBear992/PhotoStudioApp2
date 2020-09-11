@@ -1,8 +1,7 @@
 /************************************ 编辑客户来源 ***********************************/
 <template>
 	<view class="bigBox">
-		<view class="box">
-				
+		<view class="box">			
 			<view class="titleBox">
 				<view class="title">编辑客户来源</view>
 				<view class="close" @click="cancel">
@@ -16,32 +15,38 @@
 					<view class="titleB">
 						<view class="title">客户来源：</view>
 					</view>
-					<pickerModule class="textBox" my-img="imgMargin" :arrInfo="pickerSource" :nowName="nowSourceName" @getId="getSourceId"></pickerModule>
-				</view>
-				
+					<picker
+						@change="enList"
+						:value="index" 
+						:range="originArr" 
+						mode = multiSelector 
+						@columnchange="changeList"
+					>
+						<view class="textBox">
+							<view class="text">{{source}}</view>
+							<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
+						</view>
+					</picker>
+				</view>	
 				<!-- 介绍人 -->
 				<view class="listBox">
 					<view class="titleB">
 						<view class="title">介绍人：</view>
 					</view>
 					<view class="textBox">
-						<input class="input" type="text" v-model="sourceInfo.referrerName" placeholder="介绍人" />
+						<input class="input" type="text" v-model="params.referrerName" placeholder="介绍人" />
 					</view>
 				</view>
-				
 				<!-- 手机号码 -->
 				<view class="listBox">
 					<view class="titleB"> 
 						<view class="title">手机号码：</view>
 					</view>
 					<view class="textBox">
-						<input class="input" type="number" v-model="sourceInfo.referrerMobile" placeholder="手机号码" />
+						<input class="input" type="number" v-model="params.referrerMobile" placeholder="手机号码" />
 					</view>
 				</view>
 			</view>
-			
-				
-				
 			<view class="but">
 				<view class="cancel" @click="cancel">取消</view>
 				<view class="ok" @click="ok">保存</view>
@@ -51,13 +56,9 @@
 </template>
 
 <script>
-	import pickerModule from '@/components/pickerModule.vue'
 	import { mapGetters } from 'vuex'
 	import { updataSource } from '@/util/api/shop.js'
 	export default {
-		components:{
-			pickerModule
-		},
 		props:['openInfo'],
 		computed:{
 			...mapGetters('shopArr',[
@@ -67,55 +68,87 @@
 		},
 		data() {
 			return {
-				// 过滤来源
-				originIdMap: new Map(),  
+				// 显示
+				source:'请选择',
 				
-				// 来源picker
-				pickerSource:[],
-				nowSourceName:null,
-				
-				sourceInfo:{}
+				originArr:[[],[]],
+				index:[0,0],
+				secondArr:null,	
+				// 所有列表
+				list:null,
+				getIndex:false,
+				params:{}
 			};
 		},
 		mounted(){
-			this.originIdMap = new Map(this.get_origin.map(item => [item.id, item.name]))
 			let info = {
-				groupId:this.openInfo.customerGroupVo.id,
-				originId:this.openInfo.customerGroupVo.originId,
+				originJson:this.openInfo.customerGroupVo.originJson,
+				orderId:this.openInfo.orderId,
 				referrerMobile:this.openInfo.customerGroupVo.referrerMobile,
 				referrerName:this.openInfo.customerGroupVo.referrerName,
 			}
-			this.sourceInfo = info
-			this.newchangSourceId()
+			this.params = info
+			if(this.params.originJson.cid){
+				this.getIndex = true
+			}
+			this.getArr()
 		},
 		methods:{
-			// 创建来源数组
-			newchangSourceId(){
-				let arr = []
-				this.get_origin.forEach((i)=>{
-					let lis ={
-						id:i.id,
-						name:i.name
+			getArr(){
+				if(this.get_origin.length > 0){
+					let arr = this.get_origin.filter((i)=>{
+						return i.sourceList.length > 0
+					})
+					this.list = arr
+					// picker的一维项
+					this.originArr[0] = arr.map((i)=>{return i.name})
+					if(this.getIndex){
+						this.index[0] = this.list.findIndex((i)=>{ return i.cid === this.params.originJson.cid })
 					}
-					arr.push(lis)
-				})
-				arr[0].name = '请选择'
-				arr[0].id = null
-				this.pickerSource = arr
-				this.nowSourceName = this.originIdMap.get(this.sourceInfo.originId)
+					this.getSecond()
+				}else{
+					$Message({
+						content: '请重试',
+						type: 'error'
+					});
+				}
 			},
-			getSourceId(e){
-				this.sourceInfo.originId = e.id
+			// 通过一维获取二维
+			getSecond(){
+				// 获取当前一维项的二维数组
+				this.secondArr = this.list[this.index[0]].sourceList
+				this.originArr[1] = this.secondArr.map((i)=>{return i.name})
+				if(this.getIndex){
+					this.index[1] = this.secondArr.findIndex((i)=>{ return i.sid === this.params.originJson.sid })
+					this.show()
+					this.getIndex = false
+				}
+				this.$forceUpdate()
 			},
-			sourceIdChange(e){
-				this.sourceIndex = e.detail.value
-				this.get_origin.some((i)=>{
-					if(i.name === this.sourceIdList[e.detail.value]){
-						this.sourceInfo.originId = i.id
-					}else if(this.sourceIdList[e.detail.value] === '请选择'){
-						this.sourceInfo.originId = null
-					}
-				})
+			// 滚动改变
+			changeList(e){
+				let ind = e.detail.column
+				this.index[ind] = e.detail.value
+				this.getSecond()
+			},
+			// 确定选择
+			enList(e){
+				// 获取选择的一维数据
+				let first = this.list[this.index[0]]
+				// 获取选择的二维数据
+				let second = first.sourceList[this.index[1]]
+				this.params.originJson.cid = first.cid
+				this.params.originJson.sid = second.sid
+				this.params.originJson.cname = first.name
+				this.params.originJson.sname = second.name
+				this.show()
+			},
+			show(){
+				// 获取选择的一维数据
+				let first = this.list[this.index[0]]
+				// 获取选择的二维数据
+				let second = this.secondArr[this.index[1]]
+				this.source = `${first.name}/${second.name}`
 			},
 			
 			// 取消
@@ -124,7 +157,7 @@
 			},
 			// 保存
 			ok(){
-				updataSource(this.sourceInfo).then(res=>{
+				updataSource(this.params).then(res=>{
 					if(res.data.code === 200){
 						this.$emit('ok')
 					}
@@ -136,7 +169,4 @@
 
 <style lang="scss" scoped>
 	@import './updataModal.scss';
-	/deep/.imgMargin{
-		margin: 18rpx 0 0 5rpx !important;
-	}
 </style>

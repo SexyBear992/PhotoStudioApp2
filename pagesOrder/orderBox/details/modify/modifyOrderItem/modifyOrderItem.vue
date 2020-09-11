@@ -101,6 +101,7 @@
 		updataOrderService,
 		addOrderService
 	} from '@/util/api/shop.js'
+	const { $Message } = require('@/wxcomponents/base/index');
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	import updataModal from './components/updataModal.vue'
 	import { mapGetters } from 'vuex'
@@ -158,9 +159,7 @@
 						icon : 'delete',
 						background : '#ed3f14'
 					},
-					
 				],
-				
 				// 加急时间
 				urgentTime:null,
 				
@@ -179,11 +178,8 @@
 			};
 		},
 		onLoad(option){
-			// product产品 dress服装 place景点 service服务
 			this.type = option.type
 			this.itemParams.itemId = option.itemId
-			// this.type = 'product'
-			// this.itemParams.itemId = 172
 			switch(this.type){
 				case 'GOODS':
 					this.titleBox = ['商品','单价','P数','数量']
@@ -225,7 +221,6 @@
 		methods:{
 			// 获取子订单
 			getOrderItem(){
-				// option.itemId => 172
 				getOrderItem({itemId:this.itemParams.itemId}).then(res=>{
 					switch(this.type){
 						case 'GOODS':
@@ -243,74 +238,98 @@
 					}
 				})
 			},
-			
 			// 删除商品
 			deletOrderGoods(id){
 				deletOrderGoods({id:id}).then(res=>{
 					if(res.data.code===200){
+						$Message({
+							content: '删除商品成功',
+							type: 'success'
+						});
 						this.getOrderItem()
 					}
 				})
 			},
-			
 			// 删除服装
 			deletOrderDress(id){
 				deletOrderDress({id:id}).then(res=>{
 					if(res.data.code===200){
+						$Message({
+							content: '删除服装成功',
+							type: 'success'
+						});
 						this.getOrderItem()
 					}
 				})
 			},
-			
 			// 删除景点
 			deletOrderPlace(id){
 				deletOrderPlace({id:id}).then(res=>{
 					if(res.data.code===200){
+						$Message({
+							content: '删除景点成功',
+							type: 'success'
+						});
 						this.getOrderItem()
 					}
 				})
 			},
-			
 			// 删除服务
 			deletOrderService(id){
 				deletOrderService({id:id}).then(res=>{
 					if(res.data.code===200){
+						$Message({
+							content: '删除服务成功',
+							type: 'success'
+						});
 						this.getOrderItem()
 					}
 				})
 			},
-			
 			// 更新商品
 			updataOrderGoods(arr){
 				updataOrderGoods(arr).then(res=>{
 					if(res.data.code===200){
+						$Message({
+							content: '更新商品成功',
+							type: 'success'
+						});
 						this.getOrderItem()
 					}
 				})
 			},
-			
 			// 更新服装
 			updataOrderDress(arr){
 				updataOrderDress(arr).then(res=>{
 					if(res.data.code===200){
+						$Message({
+							content: '更新服装成功',
+							type: 'success'
+						});
 						this.getOrderItem()
 					}
 				})
 			},
-			
 			// 更新景点
 			updataOrderPlace(arr){
 				updataOrderPlace(arr).then(res=>{
 					if(res.data.code===200){
+						$Message({
+							content: '更新景点成功',
+							type: 'success'
+						});
 						this.getOrderItem()
 					}
 				})
 			},
-			
 			// 更新服务
 			updataOrderService(arr){
 				updataOrderService(arr).then(res=>{
 					if(res.data.code===200){
+						$Message({
+							content: '更新服务成功',
+							type: 'success'
+						});
 						this.getOrderItem()
 					}
 				})
@@ -343,11 +362,9 @@
 			// 打开工具箱模态框
 			add(){
 				uni.navigateTo({
-					url:'../../../../../../tool/tool?type=' + this.type
+					url:'/pages/tool/tool?type=' + this.type
 				})
 			},
-			
-		
 			// 工具箱模态框返回值 
 			enSure(e){
 				this.toolModalShow = false
@@ -372,7 +389,13 @@
 						arr.push(newArr)
 						this.itemParams.orderItemProcessGoodsDtos = arr
 						addOrderGoods(this.itemParams).then(res=>{
-							this.getOrderItem()
+							if(res.data.code === 200){
+								$Message({
+									content: '添加商品成功',
+									type: 'success'
+								});
+								this.getOrderItem()
+							}
 						})
 					})
 				}else if(e.type === 'DRESSINFO'){
@@ -390,7 +413,13 @@
 					})
 					this.itemParams.orderItemDressInfoDtos = arr
 					addOrderDress(this.itemParams).then(res=>{
-						this.getOrderItem()
+						if(res.data.code === 200){
+							$Message({
+								content: '添加服装成功',
+								type: 'success'
+							});
+							this.getOrderItem()
+						}
 					})
 				}else if(e.type === 'PLACE'){
 					e.toolArr.forEach((i)=>{
@@ -406,7 +435,13 @@
 					})
 					this.itemParams.orderItemProcessPlaceDtos = arr
 					addOrderPlace(this.itemParams).then(res=>{
-						this.getOrderItem()
+						if(res.data.code === 200){
+							$Message({
+								content: '添加景点成功',
+								type: 'success'
+							});
+							this.getOrderItem()
+						}
 					})
 				}else if(e.type === 'SERVICE'){
 					e.toolArr.forEach((i)=>{
@@ -423,7 +458,13 @@
 					})
 					this.itemParams.orderItemServiceDtos = arr
 					addOrderService(this.itemParams).then(res=>{
-						this.getOrderItem()
+						if(res.data.code === 200){
+							$Message({
+								content: '添加服务成功',
+								type: 'success'
+							});
+							this.getOrderItem()
+						}
 					})
 				}
 			},
@@ -446,17 +487,14 @@
 						break
 				}
 			},
-		
 			//关闭修改模态框
 			close(){
 				this.showUpdataModal = false
 			},
-		
 			// 打开日历
 			openCalendar(){
 				this.$refs.calendar.open()
-			},
-			
+			},	
 			//日历返回值
 			enCalendar(e){
 				this.urgentTime = Date.parse(e.fulldate)

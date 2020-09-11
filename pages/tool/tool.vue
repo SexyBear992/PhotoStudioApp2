@@ -94,7 +94,9 @@
 			]),
 		},
 		onLoad(op){
-			this.commodityUses = op.commodityUses.split(',')
+			if(op.commodityUses){
+				this.commodityUses = op.commodityUses.split(',')
+			}
 			this.addIndex = op.index
 			this.toolType = op.type
 			this.params.shopId = Number(this.shopId)

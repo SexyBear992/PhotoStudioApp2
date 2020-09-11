@@ -22,7 +22,7 @@
 			.mainBox{
 				padding: 50rpx;
 				.listBox{
-					padding: 20rpx 0;
+					line-height: 80rpx;
 					font-size: 28rpx;
 					display: flex;
 					color: #000000;
@@ -37,7 +37,7 @@
 						image{
 							width: 15rpx;
 							height: 15rpx;
-							margin: 18rpx 0 0 5rpx;
+							margin: 40rpx 0 0 5rpx;
 						}				
 						input{
 							width: 255rpx;

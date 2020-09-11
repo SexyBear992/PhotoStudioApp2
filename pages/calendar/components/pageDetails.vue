@@ -13,10 +13,10 @@
 
 <script>
 	import detailMoudel from '@/components/detailMoudel.vue'
-	import detailKbMain from '../../../pagesWork/checkWork/components/detailKbMain.vue'
-	import detailPzMain from '../../../pagesWork/checkWork/components/detailPzMain.vue'
-	import detailQjMain from '../../../pagesWork/checkWork/components/detailQjMain.vue'
-	import detailXpMain from '../../../pagesWork/checkWork/components/detailXpMain.vue'
+	import detailKbMain from '@/components/detailWorkMain/detailKbMain.vue'
+	import detailPzMain from '@/components/detailWorkMain/detailPzMain.vue'
+	import detailQjMain from '@/components/detailWorkMain/detailQjMain.vue'
+	import detailXpMain from '@/components/detailWorkMain/detailXpMain.vue'
 	export default{
 		props:['pageDetails','type'],
 		components:{
@@ -31,11 +31,6 @@
 				
 			}
 		},
-		watch:{
-			pageDetails(){
-				console.log('组件',this.pageDetails.length)
-			}
-		}
 	}
 </script>
 

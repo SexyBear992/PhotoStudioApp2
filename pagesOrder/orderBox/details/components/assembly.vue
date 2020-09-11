@@ -1,162 +1,125 @@
 /********************************  套系内容  *************************************/
 <template>
-	<view class="bigBox">
-		<i-collapse accordion>
-			<i-collapse-item 
-				i-class="collapse-item"
-				i-class-title="collapse-item-title"
-				i-class-content="collapse-item-content"
-				i-title-wrap="title-wrap"
-				i-con="i-con"
-				v-for="item in assemblyInfo" 
-				:key="item.itemId" 
-				:title="item.name" 
-				:name="item.itemId" 
-				@click.native="getItemId(item.itemId)"
-			>
-				<view slot="content">
-					<!-- 基本信息 -->
-					<view class="basisInfo">
-						<!-- 价格 -->
-						<view class="list">
-							<view class="title">价格：</view>
-							<view class="text">{{item.price}}</view>
-						</view>
-						<!-- 精修 -->
-						<view class="list">
-							<view class="title">精修：</view>
-							<view class="text">{{item.refineCount}}</view>
-						</view>
-						<!-- 拍摄张数 -->
-						<view class="list">
-							<view class="title">拍摄张数：</view>
-							<view class="text">{{item.photoCount}}</view>
-						</view>
-						<!-- 入底 -->
-						<view class="list">
-							<view class="title">入底：</view>
-							<view class="text">{{item.bottomCount}}</view>
-						</view>
-						<!-- 入册 -->
-						<view class="list">
-							<view class="title">入册：</view>
-							<view class="text">{{item.bookCount}}</view>
-						</view>
+		<view class="bigBox">
+			<view class="titleBox">
+				<view class="butDown" @tap="trigger">
+					<view class="title">{{info.name}}</view>
+					<i-icon class="icon" color="#FFFFFF" size="16" type="enter" :i-class="showContent ? 'i-collapse-item-arrow-show' : 'i-collapse-item-arrow'"/>
+				</view>
+				
+			</view>
+			<view class="i-collapse-item-content" :class="showContent">
+				<view class="basisInfo">
+					<view class="list">
+						<view class="title">价格：</view>
+						<view class="text">{{info.price}}</view>
 					</view>
-					
-					<!-- 列表信息 -->
-					<view class="tableBox">		
-					<view class="refreshBox">
-						<view class="refresh" @click="resh(item.itemId)">
-							<i-icon type="refresh" size="20" color="#80848f" />
-						</view>
+					<view class="list">
+						<view class="title">精修：</view>
+						<view class="text">{{info.refineCount}}</view>
 					</view>
-						<assemblyTable v-if="showOrderItem.orderItemGoods.length > 0" :orderItem="showOrderItem.orderItemGoods" :type="'GOODS'"></assemblyTable>
-						<assemblyTable v-if="showOrderItem.orderItemDressInfo.length > 0" :orderItem="showOrderItem.orderItemDressInfo" :type="'DRESSINFO'"></assemblyTable>
-						<assemblyTable v-if="showOrderItem.orderItemPlace.length > 0" :orderItem="showOrderItem.orderItemPlace" :type="'PLACE'"></assemblyTable>
-						<assemblyTable v-if="showOrderItem.orderItemService.length > 0" :orderItem="showOrderItem.orderItemService" :type="'SERVICE'"></assemblyTable>
+					<view class="list">
+						<view class="title">拍摄张数：</view>
+						<view class="text">{{info.photoCount}}</view>
+					</view>
+					<view class="list">
+						<view class="title">入底：</view>
+						<view class="text">{{info.bottomCount}}</view>
+					</view>
+					<view class="list">
+						<view class="title">入册：</view>
+						<view class="text">{{info.bookCount}}</view>
 					</view>
 				</view>
-			</i-collapse-item>
-		</i-collapse>
-	</view>
+				<assemblyTable :orderItem="item"></assemblyTable>
+			</view>
+		</view>
 </template>
 
 <script>
 	import assemblyTable from './assemblyTable.vue'
 	import { getOrderItem } from '@/util/api/shop.js'
 	export default{
-		props:['assemblyInfo'],
+		props:['info'],
 		components:{
 			assemblyTable
 		},
 		data(){
 			return{
-				name:null,
-				// 已获取子订单
-				geted:[],
-				// 已获取子订单详情
-				orderItem:[],
-				// 显示子订单详情
-				showOrderItem:null,
+				showContent:'',
+				item:{
+					orderItemGoods:[],
+					orderItemDressInfo:[],
+					orderItemPlace:[],
+					orderItemService:[],
+				},
 			}
 		},
+		mounted(){
+			this.getOrderItem()
+			uni.$on('changeItem',()=>{
+				this.getOrderItem()
+			})
+		},
 		methods:{
-			// 获取点击ID
-			getItemId(e){
-				if(!this.geted.includes(e)){
-					this.geted.push(e)
-					this.geted = [...new Set(this.geted)]
-					this.getOrderItem(e)
-				}else{
-					this.orderItem.some((i)=>{
-						if(i.itemId === e){
-							this.showOrderItem = i
-						}
-					})
-				}
+			// 折叠
+			trigger(e){
+				this.showContent = (Boolean(this.showContent) ? '' : 'i-collapse-item-show-content')
 			},
 			// 获取子订单详情
-			getOrderItem(e){
-				getOrderItem({itemId:e}).then(res=>{
-					let obj = res.data.data
-					obj.itemId = e
-					this.orderItem.push(obj)
-					this.showOrderItem = obj
+			getOrderItem(){
+				getOrderItem({itemId:this.info.itemId}).then(res=>{
+					this.item = res.data.data
 				})
 			},
-			// 刷新
-			resh(e){
-				this.getOrderItem(e)
-			}
 		},
 	}
 </script>
 
 <style lang="scss">
-
-	/deep/.collapse-item{
-		padding: 0 !important;
-		border: 0 !important;
-		margin-top: 5rpx;
-	}
-	/deep/.title-wrap{
-		background-color: #61A3FF;
-		padding: 10rpx 30rpx !important;
-		display: flex;
-		justify-content: space-between;
-	}
-	/deep/.collapse-item-title{
-		margin-left: 30rpx;
-		color: #FFFFFF;
+	.bigBox{
 		font-size: 28rpx;
-	}
-	/deep/.i-con{
-		color: #FFFFFF;
-	}
-	
-	.basisInfo{
-		.list{
-			display: flex;
-			font-size: 28rpx;
-			padding: 0 20rpx;
-			margin-top: 30rpx;
-			height: 80rpx;
-			line-height: 80rpx;
-			border-bottom: 1rpx solid #DDDDDD;
-			.title{
-				width: 270rpx;
+		.titleBox{
+			.butDown{
+				display: flex;
+				justify-content: space-between;
+				background-color: #61A3FF;
+				padding: 15rpx 30rpx;
+				.title{
+					color: #FFFFFF;
+				}
+			}
+		}
+		.basisInfo{
+			.list{
+				display: flex;
+				font-size: 28rpx;
+				padding: 0 20rpx;
+				padding-top: 15rpx;
+				height: 80rpx;
+				line-height: 80rpx;
+				border-bottom: 1rpx solid #f9f9f9;
+				.title{
+					width: 270rpx;
+				}
 			}
 		}
 	}
-	
-	.tableBox{
-		.refreshBox{
-			display: flex;
-			flex-direction: row-reverse;
-		}
-		.refresh{
-			
-		}
+	.i-collapse-item-content{
+		padding:6px;
+		padding-top: 0rpx;
+		display:none;
+		box-shadow: 1rpx 7rpx 30rpx 6rpx rgba(0, 0, 0, 0.03);
+	}
+	.i-collapse-item-show-content{
+		display:block
+	}
+	/deep/.i-collapse-item-arrow{
+		transition:transform .2s ease-in-out
+	}
+	/deep/.i-collapse-item-arrow-show{
+		transition:transform .2s ease-in-out;
+		transform-origin: center center;
+		transform:rotate(90deg);
 	}
 </style>

@@ -3,7 +3,6 @@
 	<view>
 		<view class="box">
 			<view class="title">档期分组</view>
-			<!-- <pickerModule my-img="imgMargin" :arrInfo="scheduleArr" :nowName="nowScheduleName" @getId="getSchedule"></pickerModule> -->
 			<picker @change="change" :value="index" :range="arr">
 				<view class="picker">
 					<view class="text">{{show}}</view>
@@ -16,13 +15,9 @@
 
 <script>
 	import { mapGetters } from 'vuex'
-	import pickerModule from '@/components/pickerModule.vue'
 	import { getPhotoTemplate, getChooseTemplate, getWatchTemplate, getPickupTemplate } from '@/util/api/shop.js'
 	export default{
 		props:['type','date','shopId','getType','typographyTypeId'],
-		components:{
-			pickerModule,
-		},
 		computed:{
 			...mapGetters('shopArr',[
 				// 预约档期

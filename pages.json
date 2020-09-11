@@ -59,86 +59,7 @@
 			"style" : {
 				"navigationBarTitleText": "日历"
 			}
-		},
-		{
-			"path" : "pages/index/cashier/orderCashier/orderCashier",
-			"style" : {
-				"navigationBarTitleText": "订单收款"
-			}
-		},
-		{
-			"path" : "pages/index/cashier/orderCashier/detailPrice/detailPrice",
-			"style" : {
-				"navigationBarTitleText": "收款详情"
-			}
-		},
-		{
-			"path" : "pages/index/cashier/orderCashier/collection/collection",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/cashier/orderCashier/collection/updataLatePrice/updataLatePrice",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/cashier/orderCashier/collection/updataEarlyPrice/updataEarlyPrice",
-			"style" : {}
-		},
-		{
-			"path" : "pages/index/cashier/individualOrder/individualOrder",
-			"style" : {
-				"navigationBarTitleText": "散客订单"
-			}
-		},
-		{
-			"path" : "pages/index/cashier/individualOrder/individualCashier/individualCashier",
-			"style" : {
-				"navigationBarTitleText": "散客收款"
-			}
-		},
-		{
-			"path" : "pages/index/cashier/individualOrder/addIndividual/addIndividual",
-			"style" : {
-				"navigationBarTitleText": "新增散客订单"
-			}
-		},
-		{
-			"path" : "pages/index/cashier/individualOrder/updataIndividual/updataIndividual",
-			"style" : {
-				"navigationBarTitleText": "修改散客订单"
-			}
 		}
-		,{
-			"path" : "pages/index/cashier/SpendingAndIncome/SpendingAndIncome",
-			"style" : {}
-		}
-		,{
-			"path" : "pages/index/cashier/SpendingAndIncome/addOrUpdataSpending/addOrUpdataSpending",
-			"style" : {}
-		}
-		,{
-			"path" : "pages/index/cashier/SpendingAndIncome/addIncome/addIncome",
-			"style" : {
-				"navigationBarTitleText": "录入其他收入"
-			}
-		}
-		,{
-			"path" : "pages/index/cashier/retention/retention",
-			"style" : {
-				"navigationBarTitleText": "保留金"
-			}
-		},
-		{
-			"path" : "pages/index/cashier/retention/retentionRecord/retentionRecord",
-			"style" : {
-				"navigationBarTitleText": "保留金记录"	
-			}
-		},
-		{
-			"path" : "pages/index/cashier/retention/retentionChange/retentionChange",
-			"style" : {}
-		}
-    
   ],
 	"subPackages": [
 		{
@@ -269,7 +190,9 @@
 				},
 				{
 					"path" : "checkWork/completePhoto/completePhoto",
-					"style" : {}
+					"style" : {
+						"navigationBarTitleText": "完成拍照"
+					}
 				},
 				{
 					"path" : "convention/convention",
@@ -289,6 +212,89 @@
 				},
 				{
 					"path" : "digitalBox/digitalArrange/digitalArrange",
+					"style" : {}
+				}
+			]
+		},
+		{
+			"root":"pagesCashier",
+			"pages":[
+				{
+					"path" : "orderCashier/orderCashier",
+					"style" : {
+						"navigationBarTitleText": "订单收款"
+					}
+				},
+				{
+					"path" : "orderCashier/detailPrice/detailPrice",
+					"style" : {
+						"navigationBarTitleText": "收款详情"
+					}
+				},
+				{
+					"path" : "orderCashier/collection/collection",
+					"style" : {}
+				},
+				{
+					"path" : "orderCashier/collection/updataLatePrice/updataLatePrice",
+					"style" : {}
+				},
+				{
+					"path" : "orderCashier/collection/updataEarlyPrice/updataEarlyPrice",
+					"style" : {}
+				},
+				{
+					"path" : "individualOrder/individualOrder",
+					"style" : {
+						"navigationBarTitleText": "散客订单"
+					}
+				},
+				{
+					"path" : "individualOrder/individualCashier/individualCashier",
+					"style" : {
+						"navigationBarTitleText": "散客收款"
+					}
+				},
+				{
+					"path" : "individualOrder/addIndividual/addIndividual",
+					"style" : {
+						"navigationBarTitleText": "新增散客订单"
+					}
+				},
+				{
+					"path" : "individualOrder/updataIndividual/updataIndividual",
+					"style" : {
+						"navigationBarTitleText": "修改散客订单"
+					}
+				}
+				,{
+					"path" : "SpendingAndIncome/SpendingAndIncome",
+					"style" : {}
+				}
+				,{
+					"path" : "SpendingAndIncome/addOrUpdataSpending/addOrUpdataSpending",
+					"style" : {}
+				}
+				,{
+					"path" : "SpendingAndIncome/addIncome/addIncome",
+					"style" : {
+						"navigationBarTitleText": "录入其他收入"
+					}
+				}
+				,{
+					"path" : "retention/retention",
+					"style" : {
+						"navigationBarTitleText": "保留金"
+					}
+				},
+				{
+					"path" : "retention/retentionRecord/retentionRecord",
+					"style" : {
+						"navigationBarTitleText": "保留金记录"	
+					}
+				},
+				{
+					"path" : "retention/retentionChange/retentionChange",
 					"style" : {}
 				}
 			]

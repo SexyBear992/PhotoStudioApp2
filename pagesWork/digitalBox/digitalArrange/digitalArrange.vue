@@ -61,14 +61,13 @@
 			};
 		},
 		onLoad(op){
-			// this.type = op.type
-			this.type = 'jx'
-			// let pages = getCurrentPages();
-			// let prvePage = pages[pages.length - 3]; //当前页面
-			// let digitalInfo = prvePage.data.digitalInfo
-			// if(digitalInfo){
-			// 	this.info = digitalInfo
-			// }
+			this.type = op.type
+			let pages = getCurrentPages();
+			let prvePage = pages[pages.length - 3]; //当前页面
+			let digitalInfo = prvePage.data.digitalInfo
+			if(digitalInfo){
+				this.info = digitalInfo
+			}
 			let title 
 			switch(this.type){
 				case 'cx':
@@ -88,64 +87,7 @@
 				title: title
 			})
 			
-			let info = {
-				assemblyName: "9000国庆优化包",
-				assemblyPrice: 9000,
-				bookCount: 25,
-				bottomCount: 50,
-				chooseStatus: "NOT_PROCESSING",
-				chooseUpdateTime: null,
-				customerBabyBasicVos: [
-					{
-						birthdayLunar: false,
-						birthdayStr: null,
-						birthdayTime: 1594915200000,
-						callName: "男宝",
-						name: "吴宝宝",
-						sex: true,
-					}
-				],
-				customerContactBasicVos: [
-					{
-						birthdayLunar: false,
-						birthdayStr: 0,
-						birthdayTime: 1594742400000,
-						callName: "妈妈",
-						mobile: "13824225152",
-						name: "大哥",
-						sex: true,
-					}
-				],
-				designStatus: "NOT_PROCESSING",
-				designUpdateTime: null,
-				groupCategoryId: null,
-				itemId: 171,
-				itemNo: "200717008-02",
-				orderCategoryId: null,
-				orderId: 243,
-				orderNo: "200717008",
-				orderShopId: 14,
-				orderTime: 1594980043235,
-				photoStatus: "NOT_PROCESSING",
-				photoUpdateTime: null,
-				pickupStatus: "NOT_PROCESSING",
-				pickupUpdateTime: null,
-				receptions: ["小欢"],
-				refineStatus: "NOT_PROCESSING",
-				refineUpdateTime: null,
-				repairStatus: "NOT_PROCESSING",
-				repairUpdateTime: null,
-				returnStatus: "NOT_PROCESSING",
-				returnUpdateTime: null,
-				senderStatus: "NOT_PROCESSING",
-				senderUpdateTime: null,
-				serviceCategoryId: 296,
-				teacherCategoryId: 297,
-				type: "BABY",
-				watchStatus: "NOT_PROCESSING",
-				watchUpdateTime: null,
-			}
-			this.info = info
+			
 		},
 		onShow(){
 			let pages = getCurrentPages();

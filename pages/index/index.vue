@@ -265,7 +265,7 @@
 			getUrl(name){
 				switch(name){
 					case 'sy':					// 收银
-						console.log('收银');
+						return '/pagesCashier/orderCashier/orderCashier'
 						break;
 					case 'kd':					// 开单
 						return '/pagesOrder/openOrder/openOrder'
@@ -304,19 +304,19 @@
 						return '/pagesOrder/orderBox/order/order?type=sydd&typeName=所有订单'
 						break;
 					case 'ddsk':				// 订单收款
-						return './cashier/orderCashier/orderCashier'
+						return '/pagesCashier/orderCashier/orderCashier'
 						break;
 					case 'sksk':				// 散客收款
-						return './cashier/individualOrder/individualOrder'
+						return '/pagesCashier/individualOrder/individualOrder'
 						break;
 					case 'zc':					// 支出
-						return './cashier/SpendingAndIncome/SpendingAndIncome?type=spending'
+						return '/pagesCashier/SpendingAndIncome/SpendingAndIncome?type=spending'
 						break;
 					case 'blj':					// 保留金
-						return './cashier/retention/retention'
+						return '/pagesCashier/retention/retention'
 						break;
 					case 'qtsr':				// 其他收入
-						return './cashier/SpendingAndIncome/SpendingAndIncome?type=income'
+						return '/pagesCashier/SpendingAndIncome/SpendingAndIncome?type=income'
 						break;
 
 					case 'shgz':				// 摄化工作

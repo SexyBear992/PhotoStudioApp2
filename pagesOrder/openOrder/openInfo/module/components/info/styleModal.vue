@@ -33,7 +33,7 @@
 			}
 		},
 		mounted(){
-			if(this.enLike !== '喜爱风格'){
+			if(this.enLike !== '喜爱风格' && this.enLike !== '请选择'){
 				this.current = this.enLike.split('/')
 			}
 		},
@@ -49,13 +49,6 @@
 				this.$emit('ok',this.current)
 			}
 		},
-		watch:{
-			enLike(){
-				if(this.enLike){
-					this.current = this.enLike
-				}
-			}
-		}
 	}
 </script>
 

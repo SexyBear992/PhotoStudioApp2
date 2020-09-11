@@ -1,15 +1,12 @@
 /*****************************  修改客户信息  *******************************/
 <template>
 	<view class="bigBox">
-		<view class="mainBox" v-if="isBaby">
+		<view class="mainBox" v-if="type === 'BABY'">
 			<view class="titleBox">
 				<view class="title">宝宝信息</view>
 				<view class="add" @click="addBaby">新增</view>
 			</view>
-			<view class="infoList" v-for="(item, index) in babyDtos" :key="item.id">
-				<view class="delBox">
-					<view class="del" v-if="index > 0" @click="delBaby(index)">删除</view>
-				</view>
+			<view class="infoList" v-for="(item, index) in baby" :key="item.id">
 				<babyList ref="baby" :info="item" :callNameList="babyCallNameList"></babyList>
 			</view>
 		</view>
@@ -19,10 +16,7 @@
 				<view class="title">客户信息</view>
 				<view class="add" @click="addPerson">新增</view>
 			</view>
-			<view class="infoList" v-for="(item,index) in personDtos" :key="item.id">
-				<view class="delBox">
-					<view class="del" v-if="index > 0" @click="delPerson(index)">删除</view>
-				</view>
+			<view class="infoList" v-for="(item,index) in person" :key="item.id">
 				<personList ref="person" :info="item" :callNameList="personCallNameList"></personList>
 			</view>
 		</view>
@@ -53,56 +47,40 @@
 			return {
 				// 订单类型
 				type:null,
-				// 是否有宝宝
-				isBaby:false,
 		
 				// 宝宝昵称列表
 				babyCallNameList:[],
 				// 客户昵称列表
 				personCallNameList:[],
-				
-				// 宝宝列表
-				babyDtos:[],
-				// 客户列表
-				personDtos:[],
-				
+							
+				person:[],
+				baby:[],
+					
 				// 接口params
 				personnelInfo:{
-					// 新增宝宝
-					addCustomerBabyDtos:[],
-					// 新增客户
-					addCustomerContactDtos:[],
-					// 删除宝宝的ID
-					deleteBabyIds:[],
-					// 删除用户的ID
-					deleteRelationIds:[],
-					// 客户组ID
-					groupId:null,
-					// 当前门店ID
-					shopId:null,
-					// 修改宝宝
-					updateCustomerBabyDtos:[],
-					// 修改客户
-					updateRelationCustomerContactDtos:[]
+					addCustomerBabyDtos:[], // 新增宝宝
+					addCustomerContactDtos:[], // 新增客户
+					orderId:null, //订单ID
+					shopId:null, // 当前门店ID
+					updateCustomerBabyDtos:[], // 修改宝宝
+					updateRelationCustomerContactDtos:[], // 修改客户
 				}
 			};
 		},
 		onLoad(option){
-			// option.id 244
 			getOrderDetails({orderId:Number(option.id)}).then(res=>{
 				let data = res.data.data
 				this.type = data.type
 				if(data.type === 'BABY'){
-					this.isBaby = true
 					this.getCallName(false)
 				}
 				this.getCallName(true)
 				// 客户组ID
-				this.personnelInfo.groupId = data.customerGroupVo.id,
+				this.personnelInfo.orderId = Number(option.id)
 				// 获取客户列表
-				this.personDtos = data.customerGroupVo.relationCustomerContactVos
+				this.person = data.customerGroupVo.relationCustomerContactVos
 				// 获取宝宝列表
-				this.babyDtos = data.customerGroupVo.customerBabyVos
+				this.baby = data.customerGroupVo.customerBabyVos
 			})
 		},
 		mounted(){
@@ -113,49 +91,53 @@
 			// 添加宝宝
 			addBaby(){
 				let info={
-					birthdayLunar:null,	
-					birthdayStr:null,
-					birthdayTime:null,
-					callName:this.babyCallNameList[0].name,
-					display:true,
-					name:null,
-					sex:this.babyCallNameList[0].sex,
-					zodiac:null,
+					birthdayLunar:null, //生日是农历还是阴历
+					birthdayStr:null, //出生日期	
+					birthdayTime:null, //出生日期	
+					callName:this.babyCallNameList[0].name, //宝宝称呼	
+					ccId:null, //从客户ID	
+					customerId:null, //主客户ID	
+					display:null, //是否显示	
+					name:null, //宝宝姓名	
+					sex:this.babyCallNameList[0].sex, //性别，false：女，true：男
+					zodiac:null, //生肖
 				}
-				if(this.babyDtos.length >= 3){
+				if(this.baby.length >= 3){
 					$Message({
 						content: '宝宝不能超过三个',
 						type: 'warning'
 					});
 				}else{
-					this.babyDtos.push(info)
+					this.baby.push(info)
 				}
 			},
 			
 			// 新增客户
 			addPerson(){
 				let info = {
-					address: null,
-					birthdayLunar: null,
-					birthdayStr: null,
-					birthdayTime: null,
-					callName: this.personCallNameList[0].name,
-					display: true,
-					mobile: null,
-					name: null,
-					qq: null,
-					sex: this.personCallNameList[0].sex,
-					tel: null,
-					wechat: null,
-					workUnit: null,
+					address: null, //地址
+					birthdayLunar: null, //是否农历	
+					birthdayTime: null, //出生日期	
+					callName: this.personCallNameList[0].name, //联系人称呼	
+					ccId: null, //从客户ID	
+					customerId: null, //主客户ID	
+					display: null, //是否显示
+					email: null, //邮箱
+					main: null, //是否主联系人
+					mobile: null, //手机号码
+					name: null, //客户姓名
+					qq: null, //QQ
+					sex: this.personCallNameList[0].sex, //性别，false：女，true：男
+					tel: null, //固定电话
+					wechat: null, //微信
 				}
-				if(this.personDtos.length >= 2){
+				if(this.person.length >= 2){
 					$Message({
 						content: '客户不能超过两个',
 						type: 'warning'
 					});
 				}else{
-					this.personDtos.push(info)
+					this.person.push(info)
 				}
 			},
 			
@@ -190,46 +172,45 @@
 			},
 			
 			save(){
-				// 新增宝宝
-				let newBaby = []
-				// 修改宝宝
-				let updataBaby = []
-				// 新增客户
-				let newPerson = []
-				// 修改客户
-				let updataPerson = []
-				if(this.isBaby){
+				let addB = []
+				let updateB = []
+				let addP = []
+				let updateP = []
+				if(this.type === 'BABY'){
 					this.$refs.baby.forEach((i)=>{
 						let babyInfo = i.save()
 						if(babyInfo.id){
-							updataBaby.push(babyInfo)
+							updateB.push(babyInfo)
 						}else{
-							newBaby.push(babyInfo)
+							addB.push(babyInfo)
 						}
 					})
 				}
+				
 				this.$refs.person.forEach((i)=>{
 					let personInfo = i.save()
 					if(personInfo.id){
-						updataPerson.push(personInfo)
+						updateP.push(personInfo)
 					}else{
-						newPerson.push(personInfo)
+						addP.push(personInfo)
 					}
 				})
-				// 新增宝宝
-				this.personnelInfo.addCustomerBabyDtos = newBaby
-				// 新增客户
-				this.personnelInfo.addCustomerContactDtos = newPerson
-				// 修改宝宝
-				this.personnelInfo.updateCustomerBabyDtos = updataBaby
-				// 修改客户
-				this.personnelInfo.updateRelationCustomerContactDtos = updataPerson
+				this.personnelInfo.updateCustomerBabyDtos = updateB
+				this.personnelInfo.addCustomerBabyDtos = addB
+				this.personnelInfo.updateRelationCustomerContactDtos = updateP
+				this.personnelInfo.addCustomerContactDtos = addP
 				
 				updataPersonnel(this.personnelInfo).then(res=>{
 					if(res.data.code === 200){
-						uni.navigateBack({
-							delta:1
-						})
+						$Message({
+							content: '修改成功',
+							type: 'success'
+						});
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta:1
+							})
+						},1000)
 					}
 				})
 			}

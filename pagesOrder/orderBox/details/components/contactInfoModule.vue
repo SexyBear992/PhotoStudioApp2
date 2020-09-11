@@ -114,13 +114,13 @@
 			margin-top: 30rpx;
 			height: 80rpx;
 			line-height: 80rpx;
-			border-bottom: 1rpx solid #DDDDDD;
+			border-bottom: 1rpx solid #f9f9f9;
 			.title{
 				width: 270rpx;
 			}
 		}
 		.last{
-			border-bottom: 10rpx solid #DDDDDD;
+			border-bottom: 1rpx solid #DDDDDD;
 		}
 	}
 </style>

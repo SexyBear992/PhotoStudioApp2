@@ -6,111 +6,79 @@
 			<!-- 昵称 -->
 			<view class="listBox">
 				<view class="title">昵称：</view>
-				<pickerModule my-img="imgMargin" :arrInfo="pickerBaby" :nowName="nowBabyName" @getId="getBabyId"></pickerModule>
+				<picker @change="change" :value="index" :range="arr">
+					<view class="textBox">
+						<view class="text">{{arr[index]}}</view>
+						<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
+					</view>
+				</picker>
 			</view>
 			
 			<!-- 名字 -->
 			<view class="listBox">
 				<view class="title">名字：</view>
 				<view class="textBox">
-					<input class="input" type="text" v-model="thisBabyInfo.name" placeholder="宝宝姓名"/>
+					<input class="input" type="text" v-model="params.name" placeholder="宝宝姓名"/>
 				</view>
 			</view>
 			
 			<!-- 生日 -->
-			<view class="listBox">
-				<lunar 
-					class="lunar" 
-					:title="'宝宝生日'" 
-					:typeLunar="thisBabyInfo.birthdayLunar" 
-					:typeStr="thisBabyInfo.birthdayStr" 
-					:typeTime="thisBabyInfo.birthdayTime"
-					:calendarData="calendarData"
-					@openCal="openCal" ref="lunar" 
-					@timeInfo="timeInfo"
-				></lunar>
-			</view>
-			<!-- 日历 -->
-			<uni-calendar 
-				:insert="false"
-				:lunar="true" 
-				:clearDate='true'
-				@confirm="enSure"
-				ref="calendar"
-			/>
+			<birthday 
+				:time="params.birthdayTime" 
+				:lunar="params.birthdayLunar" 
+				:getBTime.sync="params.birthdayTime"
+				:getBLunar.sync="params.birthdayLunar"
+			></birthday>
 
 		</view>
 	</view>
 </template>
 
 <script>
-	import lunar from '../../components/lunar.vue'
-	import pickerModule from '@/components/pickerModule.vue'
-	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
+	import birthday from '../../components/birthday.vue'
 	export default {
 		props:['info','callNameList'],
 		components:{
-			uniCalendar,
-			pickerModule,
-			lunar
+			birthday
 		},
 		data() {
 			return {	
-				// 宝宝picker
-				pickerBaby:[],
-				nowBabyName:null,
+				arr:[],
+				index:0,
 				
-				// 日历选择值
-				calendarData:null,
-				
-				thisBabyInfo:[],
+				params:[],
 			};
 		},
 		mounted(){
-			this.thisBabyInfo = this.info
+			this.params = this.info
+			if(Boolean(this.params.sex)){
+				this.params.sex = true
+			}else{
+				this.params.sex = false
+			}
 			this.newBabyPickerList()
 		},
 		methods:{		
 			// 创建宝宝picker数组
 			newBabyPickerList(){
-				let arr = []
-				this.callNameList.forEach((i)=>{
-					let lis ={
-						id:i.sex,
-						name:i.name
-					}
-					arr.push(lis)
-				})
-				this.pickerBaby = arr
-				this.nowBabyName = this.info.callName
+				this.arr = this.callNameList.map((i)=>{ return i.name})
+				this.index = this.callNameList.findIndex((i)=>{ return i.name === this.params.callName})
 			},
-				
-			// 宝宝picker返回
-			getBabyId(e){
-				this.thisBabyInfo.sex = e.id
-				this.thisBabyInfo.callName = e.name
-			},
-			
-			// 打开日历
-			openCal(){
-				this.$refs.calendar.open()
-			},
-			// 赋值日历返回值
-			enSure(e){
-				this.calendarData = e
-			},
-			// 获取lunar返回值
-			timeInfo(e){
-				this.thisBabyInfo.birthdayLunar = e.typeLunar
-				this.thisBabyInfo.birthdayStr = e.typeStr
-				this.thisBabyInfo.birthdayTime = e.typeTime
-				this.thisBabyInfo.zodiac = e.zodiac
+			change(e){
+				this.index = e.detail.value
+				this.params.callName = this.arr[this.index]
+				this.params.sex = this.callNameList[this.index].sex
 			},
 			
 			save(){
-				return this.thisBabyInfo
+				return this.params
 			}
 		},
+		watch:{
+			callNameList(){
+				this.newBabyPickerList()
+			},
+		}
 	}
 </script>
 
@@ -123,7 +91,7 @@
 			margin: 30rpx;
 			height: 80rpx;
 			line-height: 80rpx;
-			border-bottom: 1rpx solid #DDDDDD;
+			border-bottom: 1rpx solid #f9f9f9;
 			.title{
 				width: 270rpx;
 			}
@@ -142,16 +110,10 @@
 				}
 				.input{
 					border-radius: 10rpx;
-					border: 1rpx solid #DDDDDD;
+					border: 1rpx solid #f9f9f9;
 					padding: 15rpx;
 				}
 			}
-			.lunar{
-				width: 100%;
-			}
 		}
-	}
-	/deep/.imgMargin{
-		margin: 40rpx 0 0 5rpx !important;
 	}
 </style>

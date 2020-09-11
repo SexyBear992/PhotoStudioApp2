@@ -86,7 +86,7 @@
 	import scheduleModule from '../components/scheduleModule.vue'
 	import timeModule from '../components/timeModule.vue'
 	import labelModule from '../components/labelModule.vue'
-	import list from '../components/personList.vue'
+	import list from '@/components/detailWorkMain/personList.vue'
 	import noticeModule from '../components/noticeModule.vue'
 	import pickupGoods from'../components/pickupGoods.vue'
 	import { addPickupInfo, getPickupDetail, updataPickupInfo } from '@/util/api/shop.js'

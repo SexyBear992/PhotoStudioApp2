@@ -45,7 +45,7 @@
 </template>
 
 <script>
-	import pickupStatus from '../../components/getPickupStatus.vue'
+	import pickupStatus from '@/components/detailWorkMain/getPickupStatus.vue'
 	import { mapGetters } from 'vuex'
 	export default{
 		props:['item'],

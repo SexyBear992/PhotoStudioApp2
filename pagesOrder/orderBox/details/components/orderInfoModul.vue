@@ -213,7 +213,7 @@
 			justify-content: space-between;
 			height: 80rpx;
 			line-height: 80rpx;
-			border-bottom: 1rpx solid #DDDDDD;
+			border-bottom: 1rpx solid #f9f9f9;
 			padding: 0 20rpx;
 			font-size: 28rpx;
 			margin-top: 30rpx;
@@ -233,7 +233,7 @@
 			margin-top: 30rpx;
 			height: 80rpx;
 			line-height: 80rpx;
-			border-bottom: 1rpx solid #DDDDDD;
+			border-bottom: 1rpx solid #f9f9f9;
 			.title{
 				width: 270rpx;
 			}

@@ -1,37 +1,69 @@
 <template>
 	<view>
-		<!-- 商品 -->
-		<view class="table">
+		<!-- 产品 -->
+		<view class="mainBox" v-if="orderItem.orderItemGoods.length > 0">
 			<view class="topTitle">
-				<view class="title">{{type | title}}</view>
+				<view class="title">新增产品</view>
 			</view>
-			<!-- 标题 -->
 			<view class="titleBox">
-				<view class="title" v-for="(item,index) in titleBox" :key="index">{{item}}</view>
+				<view class="title">商品</view>
+				<view class="title">单价</view>
+				<view class="title">P数</view>
+				<view class="title">数量</view>
 			</view>
-			<!-- 商品内容 -->
-			<view class="textBox" v-if="type === 'GOODS'" v-for="item in orderItem" :key="item.id">
+			<view class="mian" v-for="(item,index) in orderItem.orderItemGoods" :key="item.id">
 				<view class="text">{{item.name}}</view>
 				<view class="text">{{item.pSalePrice}}</view>
 				<view class="text">{{item.countP}}</view>
 				<view class="text">{{item.countNum}}</view>
 			</view>
-			<!-- 服装内容 -->
-			<view class="textBox" v-if="type === 'DRESSINFO'" v-for="item in orderItem" :key="item.id">
+		</view>
+		<!-- 服装 -->
+		<view class="mainBox" v-if="orderItem.orderItemDressInfo.length > 0">
+			<view class="topTitle">
+				<view class="title">新增服装</view>
+			</view>
+			<view class="titleBox">
+				<view class="title">服装</view>
+				<view class="title">单价</view>
+				<view class="title">类型</view>
+				<view class="title">数量</view>
+			</view>
+			<view class="mian" v-for="(item,index) in orderItem.orderItemDressInfo" :key="item.id">
 				<view class="text">{{item.name}}</view>
 				<view class="text">{{item.salePrice}}</view>
 				<view class="text">{{item.type | type}}</view>
 				<view class="text">{{item.count}}</view>
 			</view>
-			<!-- 景点内容 -->
-			<view class="textBox" v-if="type === 'PLACE'" v-for="item in orderItem" :key="item.id">
+		</view>
+		<!-- 景点 -->
+		<view class="mainBox" v-if="orderItem.orderItemPlace.length > 0">
+			<view class="topTitle">
+				<view class="title">新增景点</view>
+			</view>
+			<view class="titleBox">
+				<view class="title">景点</view>
+				<view class="title">单价</view>
+				<view class="title">类型</view>
+			</view>
+			<view class="mian" v-for="(item,index) in orderItem.orderItemPlace" :key="item.id">
 				<view class="text">{{item.name}}</view>
 				<view class="text">{{item.salePrice}}</view>
 				<view class="text">{{item.placeType | type}}</view>
-				<view class="text"></view>
 			</view>
-			<!-- 服务内容 -->
-			<view class="textBox" v-if="type === 'SERVICE'" v-for="item in orderItem" :key="item.id">
+		</view>
+		<!-- 服务 -->
+		<view class="mainBox" v-if="orderItem.orderItemService.length > 0">
+			<view class="topTitle">
+				<view class="title">新增服务</view>
+			</view>
+			<view class="titleBox">
+				<view class="title">服务</view>
+				<view class="title">单价</view>
+				<view class="title">人数</view>
+				<view class="title">数量</view>
+			</view>
+			<view class="mian" v-for="(item,index) in orderItem.orderItemService" :key="item.id">
 				<view class="text">{{item.name}}</view>
 				<view class="text">{{item.salePrice}}</view>
 				<view class="text">{{item.peopleNumber}}</view>
@@ -43,16 +75,8 @@
 
 <script>
 	export default{
-		props:['orderItem','type'],
+		props:['orderItem'],
 		filters:{
-			title(title){
-				const result = new Map([
-					['GOODS','商品'],
-					['DRESSINFO','服装'],
-					['PLACE','景点'],
-					['SERVICE','服务'],
-				])
-			},
 			type(type){
 				const result = new Map([
 					['INT', '内景'],
@@ -62,70 +86,44 @@
 				return result.get(type)
 			}
 		},
-		data(){
-			return{
-				titleBox:null
-			}
-		},
-		mounted(){
-			switch(this.type){
-				case 'GOODS':
-					this.titleBox = ['商品','单价','P数','数量']
-					break
-				case 'DRESSINFO':
-					this.titleBox = ['服装','单价','类型','数量']
-					break
-				case 'PLACE':
-					this.titleBox = ['景点','单价','类型','']
-					break
-				case 'SERVICE':
-					this.titleBox = ['服务','单价','人数','数量']
-					break
-			}
-		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.table{
-		margin-top: 30rpx;
+	.mainBox{
 		.topTitle{
 			font-size: 32rpx;
+			margin: 20rpx 0;
 			border-left: 8rpx solid #61A3FF;
 			.title{
 				margin-left: 30rpx;
 			}
 		}
 		.titleBox{
-			height: 80rpx;
-			line-height: 80rpx;
+			padding: 20rpx;
 			background-color: #F7F7F7;
 			font-size: 28rpx;
 			color: #333333;
-			margin-top: 20rpx;
 			display: flex;
-			justify-content: space-between;
 			.title{
-				flex: 1;
+				width: 20%;
 				text-align: center;
 			}
 			.title:nth-child(1){
-				flex: 1.5;
+				width: 40%;
 			}
 		}
-		.textBox{
+		.mian{
+			display: flex;
 			color: #999999;
 			font-size: 24rpx;
-			background-color: #fcfcfc;
-			display: flex;
-			justify-content: space-between;
+			padding: 20rpx;
 			.text{
-				flex: 1;
+				width: 20%;
 				text-align: center;
-				padding: 10rpx;
 			}
 			.text:nth-child(1){
-				flex: 1.5;
+				width: 40%;
 			}
 		}
 	}

@@ -2,8 +2,7 @@
 <template>
 	<view>
 		<view class="box">
-			<view class="title" v-if="title">{{title}}</view>
-			<view class="title" v-else>预约门店</view>
+			<view class="title">{{title}}</view>
 			<picker @change="change" :value="index" :range="arr">
 				<view class="picker">
 					<view class="text">{{show}}</view>
@@ -18,6 +17,14 @@
 	import { mapGetters } from 'vuex'
 	export default{
 		props:['shopId','title'],
+		props:{
+			shopId:{
+				default:null,
+			},
+			title:{
+				default:'预约门店'
+			}
+		},
 		computed:{
 			...mapGetters('shopArr',[
 				// 门店

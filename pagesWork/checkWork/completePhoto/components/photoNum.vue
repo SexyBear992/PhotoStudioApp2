@@ -20,7 +20,7 @@
 		// },
 		methods:{
 			changeNum(e){
-				this.$emit('getNum',Number(e.detail.value))
+				this.$emit('update:getNum',Number(e.detail.value))
 			}
 		},
 		watch:{

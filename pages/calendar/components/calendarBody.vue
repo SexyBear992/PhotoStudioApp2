@@ -29,7 +29,7 @@
 		<view class="calenarBox">
 			<view v-for="(item,index) in dateArr" :key="index">
 				<view class="list">
-					<view class="bg" :class="noBg(dateDetail,(item.num - 1)) ? (bgColor(dateDetail,(item.num-1)) ? 'optional' : 'ban' ) :'noBg'" @click="enDate(dateDetail,item.num,item.date)">
+					<view class="bg" :class="noBg(dateDetail,(item.num - 1)) ? (bgColor(dateDetail,(item.num-1)) ? 'optional' : 'ban' ) :'noBg'" @click="enDate(dateDetail,item.num,item.date,index)">
 						<view class="day">{{item.num}}</view>
 						<view class="typographyNum">{{dateDetail | typographyNum(item.num-1)}}</view>
 					</view>
@@ -197,8 +197,8 @@
 				this.dateInit()
 			},		
 		
-			enDate(detail,num,time){
-				// this.$emit('enDate',time)
+			enDate(detail,num,time,index){
+				this.pickerDate = this.dateArr[index].date
 				let isVacation = detail[num-1].isVacation
 				if(!isVacation){
 					this.$emit('enDate',time)

@@ -11,7 +11,7 @@
 		<!-- 客户来源 -->
 		<view class="listBox">
 			<view class="title">客户来源：</view>
-			<view class="text">{{originIdMap.get(dataInfo.originId)}}</view>
+			<view class="text">{{dataInfo.originId}}</view>
 		</view>
 		
 		<!-- 介绍人 -->
@@ -30,15 +30,8 @@
 </template>
 
 <script>
-	import { mapGetters } from 'vuex'
 	export default{
 		props:['openInfo'],
-		computed:{
-			...mapGetters('shopArr',[
-				// 来源
-				'get_origin',
-			])
-		},
 		filters:{
 			referrer(data){
 				if(data !== null && data.trim() !== ''){
@@ -50,13 +43,10 @@
 		},
 		data(){
 			return{
-				// 过滤来源
-				originIdMap: new Map(),  
-				
 				// 内容
 				dataInfo:{
 					// 客户来源
-					originId:null,
+					originId:'未选择',
 					// 介绍人
 					referrerName:null,
 					// 手机号码
@@ -64,13 +54,13 @@
 				}
 			}
 		},
-		mounted(){
-			this.originIdMap = new Map(this.get_origin.map(item => [item.id, item.name]))
-		},
 		watch:{
 			openInfo(){
 				// 客户来源
-				this.dataInfo.originId = this.openInfo.customerGroupVo.originId
+				if(this.openInfo.customerGroupVo.originJson.cid){
+					let data = this.openInfo.customerGroupVo.originJson
+					this.dataInfo.originId = `${data.cname}/${data.sname}`
+				}
 				// 介绍人
 				this.dataInfo.referrerName = this.openInfo.customerGroupVo.referrerName
 				// 介绍人电话
@@ -98,7 +88,7 @@
 			margin-top: 30rpx;
 			height: 80rpx;
 			line-height: 80rpx;
-			border-bottom: 1rpx solid #DDDDDD;
+			border-bottom: 1rpx solid #f9f9f9;
 			.title{
 				width: 270rpx;
 			}

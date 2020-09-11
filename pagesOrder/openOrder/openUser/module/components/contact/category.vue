@@ -19,7 +19,7 @@
 </template>
 
 <script>
-	import area from './area.js'
+	import area from '@/static/area.js'
 	export default{
 		props:['city','province','region'],
 		computed:{

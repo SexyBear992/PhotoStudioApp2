@@ -85,12 +85,12 @@
 				this.act_receipt()
 				this.act_spending()
 				this.act_giftType()
-				uni.switchTab({
-					url:'/pages/index/index'
-				})
-				// uni.redirectTo({
-				// 	url:'/pagesOrder/openOrder/openUser/openUser'					
+				// uni.switchTab({
+				// 	url:'/pages/index/index'
 				// })
+				uni.redirectTo({
+					url:'/pagesOrder/orderBox/details/details'
+				})
 			}
 		}
 	};
