@@ -1,5 +1,6 @@
  // http://192.168.5.220.dev  napi.lyfz.net/pro
-	let test = true
+	let test = false
+	let base = test ? 'http://192.168.5.220' : 'https://napi.lyfz.net'
 	let base_dress = test ? 'http://192.168.5.220/pro/api/dress' : 'https://napi.lyfz.net/proapi/dress'
   let base_message = test ?  'http://192.168.5.220/dev/api/message' : 'https://napi.lyfz.net/pro/api/message'
   let base_user = test ?  'http://192.168.5.220/dev/api/account' : 'https://napi.lyfz.net/pro/api/account'
@@ -10,6 +11,7 @@
 	let base_other = test ? 'https://api.27yn.cn': 'https://api.lyfz.net'
 let baseUrl = {
 	getTicket: `${base_other}/sso/v1/ticket/login`, //登录
+	getHaveEnterprise: `${base}/getHaveEnterprise`, //选择企业
 	getOrigin: `${base_other}/crmData/v1/channel/getAllChannel`,// 客户来源
 	
 	getUserInfo: `${base_user}/account/list/shopIds`, // get 获得用户信息
@@ -21,9 +23,9 @@ let baseUrl = {
 	getCategoryList: `${base_common}/category/list/`, // get     根据类型Type获取所有类别
 	
 	getSystemNameList: `${base_goods}/assembly/getAssemblyName`, // 获取套系名称列表
-  	getSystemDetail:`${base_goods}/assembly/detail`,  // 获取套系详情
+  getSystemDetail:`${base_goods}/assembly/detail`,  // 获取套系详情
 	getCallName:`${base_goods}/callName/list/basis`,  // 获得昵称
-  	getOrderAssembly: `${base_goods}/assembly/detail`, // 开单 获得套系详情
+  getOrderAssembly: `${base_goods}/assembly/detail`, // 开单 获得套系详情
 	getGoodsToolList: `${base_goods}/goods/toolList`, // 获取商店工具箱
 	getPlaceToolList: `${base_goods}/place/toolList`, // 获取景点工具箱
 	getServicesToolList: `${base_goods}/services/toolList`, // 获取服务工具箱
@@ -116,6 +118,8 @@ let baseUrl = {
 	getPickupStatus: `${base_store}/order/item/goods/list/pickup/status`,// 查找-子订单商品状态
 	
 	// 工作
+	updateDigital: `${base_store}/order/item/process/digital/update`, //更新-安排数码工作
+	
 	getWorkPhotoMy: `${base_store}/work/photo/page/my`, //查询-我的摄化工作
 	getWorkPhotoDepartment: `${base_store}/work/photo/page/department`, //查询-我的部门摄化工作
 	getWorkPhotoAll: `${base_store}/work/photo/page/all`, //查询-所有摄化工作
@@ -123,7 +127,6 @@ let baseUrl = {
 	updataWorkPhotoStatus: `${base_store}/order/item/update/photoProcessStatus`, //更新-子订单拍照流程状态
 	getPhotoDetails: `${base_store}/order/item/process/photo/details`,//查找-拍照详情
 	updataPhoto: `${base_store}/order/item/process/photo/update`, //更新-拍照记录
-	
 	
 	getWorkChooseMy: `${base_store}/work/choose/page/my`, //查询-我的选片工作
 	getWorkChooseDepartment: `${base_store}/work/choose/page/department`, //查询-我的部门选片工作

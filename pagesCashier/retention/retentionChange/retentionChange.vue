@@ -1,7 +1,7 @@
 /****************** 保留金编 充值 退款 *******************/
 <template>
 	<view>
-		<add v-if="type === 'add'"></add>
+		<add v-if="type === 'add'" :retentionId="retentionId"></add>
 		<addRecord v-else :type="type" :retentionId="retentionId" :basic="basic"></addRecord>
 		<i-message id="message" />
 	</view>

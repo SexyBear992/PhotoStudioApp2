@@ -100,8 +100,11 @@
 			
 			// 添加保留金
 			add(){
+				// uni.navigateTo({
+				// 	url:'./retentionChange/retentionChange?type=add'
+				// })
 				uni.navigateTo({
-					url:'./retentionChange/retentionChange?type=add'
+					url:'../userInfo/userInfo?type=retention'
 				})
 			},
 			

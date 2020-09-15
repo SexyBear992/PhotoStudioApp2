@@ -169,4 +169,7 @@
 
 <style lang="scss" scoped>
 	@import './updataModal.scss';
+	input{
+		margin-top: 15rpx !important;
+	}
 </style>

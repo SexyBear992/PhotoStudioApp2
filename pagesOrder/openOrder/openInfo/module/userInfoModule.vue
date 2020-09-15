@@ -103,7 +103,7 @@
 					name:m.name,	//客户姓名	
 					qq:m.qqNumber,	//QQ
 					sex:Boolean(m.sex === '男') ? true : false,	//性别
-					tel:null,	//固定电话	
+					tel:m.telphone,	//固定电话	
 					wechat:m.wxNumber,	//微信
 				}
 				this.params.push(p)

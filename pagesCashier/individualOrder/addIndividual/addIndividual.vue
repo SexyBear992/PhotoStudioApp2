@@ -1,25 +1,22 @@
 <template>
 	<view>
 		<view class="bigBox">
-			<!-- 称呼 -->
-			<callNamePicker :getId.sync="params.customerContactAddDto.sex"></callNamePicker>
-			
 			<!-- 客户名称 -->
 			<view class="listBox">
 				<view class="title">客户名称</view>
-				<input type="text" v-model="params.customerContactAddDto.name" placeholder="请输入"/>
+				<view class="text">{{mainContact.name}}</view>
 			</view>
 			
 			<!-- 客户电话 -->
 			<view class="listBox">
 				<view class="title">客户电话</view>
-				<input type="text" v-model="params.customerContactAddDto.mobile" placeholder="请输入"/>
+				<view class="text">{{mainContact.phone}}</view>
 			</view>
 			
 			<!-- 客户微信 -->
 			<view class="listBox">
 				<view class="title">客户微信</view>
-				<input type="text" v-model="params.customerContactAddDto.wechat" placeholder="请输入"/>
+				<view class="text">{{mainContact.wxNumber}}</view>
 			</view>
 			
 			<!-- 项目名字 -->
@@ -84,14 +81,13 @@
 	const { $Message } = require('@/wxcomponents/base/index');
 	import { mapGetters } from 'vuex'
 	import { addOrderIndividual } from '@/util/api/shop.js'
+	import { getMainContact } from '@/util/api/common.js'
 	import goodsBox from './components/goodsBox.vue'
-	import callNamePicker from '@/pagesCashier/components/callNamePicker.vue'
 	import consumePicker from '@/pagesCashier/components/consumePicker.vue'
 	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	import list from '@/components/detailWorkMain/personList.vue'
 	export default {
 		components:{
-			callNamePicker,
 			consumePicker,
 			list,
 			uniCalendar,
@@ -111,15 +107,9 @@
 			return {
 				reception:'请选择',
 				pickerConsumeArr:[],
-				
+				mainContact:null,
 				params:{
-					customerContactAddDto:{ //	客户资料
-						id:null, //联系人ID
-						mobile:null, //客户手机号码
-						name:null, //客户姓名
-						sex:true, //客户性别
-						wechat:null, //客户微信
-					},
+					customerContactAddDto:{},//	客户资料
 					name:null, //项目名称
 					orderGoodsItemDtos:[]	,//商品数组
 					orderTime:null, //订单时间
@@ -130,6 +120,9 @@
 					sumPrice:null, //总价格
 				}
 			};
+		},
+		onLoad(op){
+			this.getMainContact(op.id)
 		},
 		onShow(){
 			let pages = getCurrentPages()
@@ -171,6 +164,42 @@
 			this.params.shopId = this.shopId
 		},
 		methods:{
+			// 主联系人信息
+			getMainContact(id){
+				getMainContact({customerId:id}).then(res=>{
+					if(res.data.code === 1000){
+						this.mainContact = res.data.data
+						let m = this.mainContact
+						let data = {
+							address: m.address,
+							birthdayLunar: (m.birthdayLunar == 0) ? false : true,	//是否农历
+							birthdayTime: Boolean(m.birthdayTime) ? Date.parse(new Date(m.birthdayTime)) : null,
+							categoryJson:{
+								city:m.city,
+								country:m.country,
+								province:m.province,
+								region:m.region,
+							},
+							ccId:m.customerId,	//从客户ID
+							customerId:m.customerId,	//主客户ID	
+							email:m.email,
+							mobile:m.phone,
+							name:m.name,
+							originJson:{
+								cid:m.cid,
+								cname:m.source.split('-')[0],
+								sid:m.sid,
+								sname:m.source.split('-')[1],
+							},
+							qq:m.qqNumber,
+							sex:Boolean(m.sex === '男') ? true : false,	//性别
+							tel:m.telphone,
+							wechat:m.wxNumber
+						}
+						this.params.customerContactAddDto = data
+					}
+				})
+			},
 			// 打开日历
 			openCalendar(){
 				this.$refs.calendar.open()

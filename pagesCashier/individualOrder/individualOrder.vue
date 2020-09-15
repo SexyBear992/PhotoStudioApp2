@@ -68,7 +68,7 @@
 			// 录单
 			add(){
 				uni.navigateTo({
-					url:'./addIndividual/addIndividual'
+					url:'../userInfo/userInfo?type=individual'
 				})
 			},
 			

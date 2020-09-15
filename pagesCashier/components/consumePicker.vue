@@ -14,6 +14,7 @@
 <script>
 	import { mapGetters } from 'vuex'
 	export default{
+		props:['saleCategoryId'],
 		computed:{
 			...mapGetters('shopArr',[
 				'get_consumeType',
@@ -42,6 +43,12 @@
 				this.$emit('update:getId',this.receiptArr[this.index].id)
 				this.$emit('update:getName',this.show)
 			},
+		},
+		watch:{
+			saleCategoryId(){
+				this.index = this.receiptArr.findIndex((i)=>{ return this.saleCategoryId === i.id})
+				this.show = this.arr[this.index]
+			}
 		}
 	}
 </script>

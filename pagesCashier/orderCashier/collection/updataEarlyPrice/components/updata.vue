@@ -71,22 +71,33 @@
 		</view>	
 		<!-- 收款备注 -->
 		<view class="remarkBox">
-			<textarea placeholder="收款备注:" v-model="params.remark"/>
+			<textarea placeholder="收款备注:" v-model="params.remark" :hidden="showText"/>
 		</view>
 		
 		<view class="button" v-if="type === 'collection'" @click="collection">确定收款</view>
 		<view class="button" v-else @click="refund">确定退款</view>
+		<!-- 日历 -->
+		<uni-calendar 
+			:insert="false"
+			:lunar="true" 
+			:clearDate='true'
+			@confirm="enSure"
+			@close="close"
+			ref="calendar"
+		/>
 	</view>
 </template>
 
 <script>
 	const { $Message } = require('@/wxcomponents/base/index');
+	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	import payPicker from '@/pagesCashier/components/payPicker.vue'
 	import { mapGetters } from 'vuex'
 	import { updataLateReceipt, lateRefund } from '@/util/api/shop.js'
 	export default{
-		props:['earlyBasic','calendarTime','type'],
+		props:['earlyBasic','type'],
 		components:{
+			uniCalendar,
 			payPicker,
 		},
 		computed:{
@@ -104,7 +115,7 @@
 			return{
 				shopIdMap:new Map(),
 				consumeTypeMap:new Map(),
-				
+				showText:false,
 				// 不合法数字是否改变
 				changeNum:false,
 
@@ -168,7 +179,14 @@
 		
 			// 打开日历
 			openCalendar(){
-				this.$emit('openCalendar')
+				this.$refs.calendar.open()
+				this.showText = true
+			},
+			enSure(e){
+				this.params.receiptTime = Date.parse(new Date(e.fulldate))
+			},
+			close(){
+				this.showText = false
 			},
 			
 			// 输入金额
@@ -242,11 +260,6 @@
 				})
 			},
 		},
-		watch:{
-			calendarTime(){
-				this.params.receiptTime = this.calendarTime
-			},
-		}
 	}
 </script>
 

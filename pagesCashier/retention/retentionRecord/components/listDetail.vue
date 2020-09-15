@@ -84,8 +84,7 @@
 			return{
 				shopIdMap: new Map(),
 				payIdMap: new Map(),
-				// url:'https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/ModifyButton/'
-				url:'/static/',
+				url:'https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/'
 			}
 		},
 		mounted(){

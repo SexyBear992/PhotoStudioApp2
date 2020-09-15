@@ -60,7 +60,13 @@
 				"navigationBarTitleText": "日历"
 			}
 		}
-  ],
+		,{
+			"path" : "pages/enterprise/enterprise",
+			"style" : {
+				"navigationBarTitleText": "选择企业"
+			}
+		}
+    ],
 	"subPackages": [
 		{
 	    "root": "pagesOrder",
@@ -296,6 +302,18 @@
 				{
 					"path" : "retention/retentionChange/retentionChange",
 					"style" : {}
+				},
+				{
+					"path" : "userInfo/userInfo",
+					"style" : {
+						"navigationBarTitleText": "客户信息"
+					}
+				},
+				{
+					"path" : "userInfo/repeat/repeat",
+					"style" : {
+						"navigationBarTitleText": "重复客资提醒"
+					}
 				}
 			]
 		}

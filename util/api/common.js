@@ -18,6 +18,10 @@ export const getOrigin = (params) => {
 export const getTicket = (params) => {
 	return postObj2(baseUrl.getTicket, params)
 }
+// 获取企业
+export const getHaveEnterprise = (params) => {
+	return get(baseUrl.getHaveEnterprise, params)
+}
 //新增客资
 export const addCustomer = (params) => {
 	return postObj2(baseUrl.addCustomer, params)

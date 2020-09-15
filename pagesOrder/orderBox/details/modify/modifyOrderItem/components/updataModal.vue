@@ -15,7 +15,7 @@
 						<view class="title">备注：</view>
 					</view>
 					<view class="textBox">
-						<textarea type="text" v-model="updatInfo.remark"  placeholder="备注" />
+						<textarea type="text" v-model="updatInfo.remark"  placeholder="备注" :hidden="showText"/>
 					</view>
 				</view>
 			</view>
@@ -53,7 +53,7 @@
 					<view class="titleB">
 						<view class="title">取件方式：</view>
 					</view>
-					<pickerModule my-img="imgMargin" :arrInfo="pickerPickUp" :nowName="nowPickUpName" @getId="getPickUpId"></pickerModule>
+					<modifyPicker class="picker" :changeId="updatInfo.pickupModeCategoryId" :categoryName="'get_pickUp'" :getId.sync="updatInfo.pickupModeCategoryId"></modifyPicker>
 				</view>
 				
 				<view class="listBox">
@@ -61,7 +61,7 @@
 						<view class="title">备注：</view>
 					</view>
 					<view class="textBox">
-						<textarea type="text" v-model="updatInfo.remark"  placeholder="备注" />
+						<textarea type="text" v-model="updatInfo.remark"  placeholder="备注" :hidden="showText"/>
 					</view>
 				</view>
 				
@@ -82,7 +82,7 @@
 						<view class="title">备注：</view>
 					</view>
 					<view class="textBox">
-						<textarea type="text" v-model="updatInfo.remark"  placeholder="备注" />
+						<textarea type="text" v-model="updatInfo.remark"  placeholder="备注" :hidden="showText"/>
 					</view>
 				</view>
 			</view>
@@ -91,47 +91,43 @@
 				<view class="ok" @click="ok">确定修改</view>
 			</view>
 		</view>
+		
+		<uni-calendar
+			:insert="false"
+			:lunar="true" 
+			:clearDate='true'
+			@confirm="enCalendar"
+			@close="closeCalendar"
+			ref="calendar"
+			class="calendar"
+		/>
 	</view>
 </template>
 
 <script>
-	import pickerModule from '@/components/pickerModule.vue'
+	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
+	import modifyPicker from '../../components/modifyPicker.vue'
 	import { mapGetters, mapActions} from 'vuex'
 	export default{
 		components:{
-			pickerModule
+			modifyPicker,
+			uniCalendar
 		},
 		props:['info','faType','urgentTime'],
-		computed:{
-			...mapGetters('shopArr',[
-				'get_pickUp'
-			])
-		},
 		data(){
 			return{
-				// 过滤取件方式
-				pickUpIdMap: new Map(),  
-				
-				// 取件方式picker
-				pickerPickUp:[],
-				nowPickUpName:null,
-				
+				showText:false,
 				updatInfo:{},
 			}
 		},
 		mounted(){
-			this.pickUpIdMap = new Map(this.get_pickUp.map(item => [item.id, item.name]))
 			this.getParmas()
 		},
 		methods:{
-			...mapActions('shopArr',[
-				'act_pickUp'
-			]),
 			// 获得parmas
 			getParmas(){
 				let data = this.info
 				if(this.faType === 'GOODS'){
-					this.act_pickUp()
 					let arr = {
 						countNum:data.countNum,
 						countP:data.countP,
@@ -165,30 +161,17 @@
 				
 			},
 			
-			// 创建取件方式数组
-			newchangPickUpId(){
-				let arr = []
-				this.get_pickUp.forEach((i)=>{
-					let lis ={
-						id:i.id,
-						name:i.name
-					}
-					arr.push(lis)
-				})
-				arr[0].name = '请选择'
-				arr[0].id = null
-				this.pickerPickUp = arr
-				this.nowPickUpName = this.pickUpIdMap.get(this.updatInfo.pickupModeCategoryId)
-			},
-			getPickUpId(e){
-				this.updatInfo.pickupModeCategoryId = e.id
-			},
-			
 			// 打开日历
 			openCalendar(){
-				this.$emit('openCalendar')
+				this.showText = true
+				this.$refs.calendar.open()
 			},
-			
+			enCalendar(e){
+				this.updatInfo.expeditedTime = Date.parse(e.fulldate)
+			},
+			closeCalendar(){
+				this.showText = false
+			},
 			// 关闭
 			close(){
 				this.$emit('close')
@@ -202,28 +185,15 @@
 			info(){
 				this.getParmas()
 			},
-			updatInfo:{
-				deep:true,
-				handler(){
-					console.log('监听数据变化',this.updatInfo)
-				}
-			},
-			// 加急时间
-			urgentTime(){
-				this.updatInfo.expeditedTime = this.urgentTime
-			},
-			// 取件方式
-			get_pickUp(){
-				this.pickUpIdMap = new Map(this.get_pickUp.map(item => [item.id, item.name]))
-				this.newchangPickUpId()
-			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	@import '../../components/updataModal.scss';
-
+	input{
+		margin-top: 15rpx !important;
+	}
 	.okBox{
 		display: flex;
 		flex-direction: row-reverse;
@@ -238,8 +208,5 @@
 			border-radius: 10rpx;
 			border: 1rpx solid #DDDDDD;
 		}
-	}
-	/deep/.imgMargin{
-		margin: 18rpx 0 0 5rpx !important;
 	}
 </style>

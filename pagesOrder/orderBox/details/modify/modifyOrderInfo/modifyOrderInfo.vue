@@ -53,6 +53,7 @@
 				:lunar="openInfo.typeLunar" 
 				:getBTime.sync="openInfo.typeTime"
 				:getBLunar.sync="openInfo.typeLunar"
+				:showText.sync="showText"
 			></birthday>
 			<birthday
 				v-if="type === 'PREGNANT'"
@@ -61,10 +62,11 @@
 				:lunar="openInfo.typeLunar" 
 				:getBTime.sync="openInfo.typeTime"
 				:getBLunar.sync="openInfo.typeLunar"
+				:showText.sync="showText"
 			></birthday>
 
 			<!-- 备注 -->
-			<view class="textareaBox">
+			<view class="textareaBox" :hidden="showText">
 				<view class="title">订单备注</view>
 				<textarea class="textarea" v-model="openInfo.remark" placeholder="请填写" />
 			</view>
@@ -80,6 +82,7 @@
 				:lunar="true" 
 				:clearDate='true'
 				@confirm="enSure"
+				@close="close"
 				ref="calendar"
 			/>
 			
@@ -119,6 +122,7 @@
 				visibleStyle:false,
 				// 前端显示喜爱风格
 				showLike:'请选择',
+				showText:false,
 				
 				// 数据
 				openInfo:{
@@ -156,11 +160,15 @@
 			},
 			// 打开日历
 			openCalendar(){
+				this.showText = true
 				this.$refs.calendar.open()
 			},
 			// 日历选中确定返回值
 			enSure(e){
 				this.openInfo.orderTime = Date.parse(new Date(e.fulldate))
+			},
+			close(e){
+				this.showText = false
 			},
 			// 打开喜爱风格模态框
 			openModal(){

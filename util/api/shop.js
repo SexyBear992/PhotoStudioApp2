@@ -300,6 +300,11 @@ export const getPickupStatus = (params) => {
 }
 
 // 工作 
+//更新-安排数码工作
+export const updateDigital = (params) => {
+	return postObj(baseUrl.updateDigital,params)
+}
+
 //查询-我的摄化工作
 export const getWorkPhotoMy = (params) => {
 	return get(baseUrl.getWorkPhotoMy, params)

@@ -4,7 +4,7 @@ export default{
 		// ticket
 		ticket:null,
 		//ccId
-		ccId:'00000000737f5b5a01737fbfce600000',
+		ccId:null,
 		// 商店ID
 		shopId:null,
 		// 员工信息

@@ -13,6 +13,7 @@
 		computed: {
 			...mapGetters('app',[
 				'get_ticket',
+				'get_ccId',
 				'get_userInfo'
 			])
 		},
@@ -21,6 +22,7 @@
 		methods: {
 			...mapActions('app',[
 				'act_ticket',
+				'act_ccId',
 				'act_userInfo'
 			]),
 			...mapActions('shopArr',[
@@ -37,7 +39,8 @@
 				'act_pay',
 				'act_receipt',
 				'act_spending',
-				'act_giftType'
+				'act_giftType',
+				'act_pickUp'
 			]),
 			// 获取本地缓存ticket
 			getStorageTicket() {
@@ -55,20 +58,40 @@
 					}
 				})
 			},
+			getCCID(){
+				let that = this
+				uni.getStorage({
+					key: 'ccId',
+					success: function(res) {
+						that.act_ccId(res.data)
+					},
+					fail: function(err) {
+						uni.redirectTo({
+							url:'/pages/enterprise/enterprise'
+						})
+					}
+				})
+			},
 		
 			// 获取员工信息
 			getAuthorization(){
 				getAuthorization().then(res=>{
 					if(res.data.code === 200){
 						this.act_userInfo(res.data.data)
+					}else if(res.data.code === 407){
+						uni.removeStorage({
+						    key: 'ccId',
+						});
 					}
 				})
 			}
 		},
 		watch:{
 			get_ticket(){
+				this.getCCID()
+			},
+			get_ccId(){
 				this.getAuthorization()
-				
 			},
 			get_userInfo(){
 				this.act_shopAllArr()
@@ -85,12 +108,13 @@
 				this.act_receipt()
 				this.act_spending()
 				this.act_giftType()
-				// uni.switchTab({
-				// 	url:'/pages/index/index'
-				// })
-				uni.redirectTo({
-					url:'/pagesOrder/orderBox/details/details'
+				this.act_pickUp()
+				uni.switchTab({
+					url:'/pages/index/index'
 				})
+				// uni.redirectTo({
+				// 	url:'/pagesOrder/orderBox/details/details'
+				// })
 			}
 		}
 	};

@@ -65,22 +65,10 @@
 			v-if="showUpdataModal" 
 			:faType="type" 
 			:info="updataInfo"
-			:urgentTime="urgentTime"
 			@close="close" 
 			@ok="updataOK"
-			@openCalendar="openCalendar"
 		></updataModal>
-		
-		<!-- 日历 -->
-		<uni-calendar 
-			:insert="false"
-			:lunar="true" 
-			:clearDate='true'
-			@confirm="enCalendar"
-			ref="calendar"
-			class="calendar"
-		/>
-		
+
 		<i-message id="message" />
 	</view>
 </template>
@@ -102,13 +90,11 @@
 		addOrderService
 	} from '@/util/api/shop.js'
 	const { $Message } = require('@/wxcomponents/base/index');
-	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	import updataModal from './components/updataModal.vue'
 	import { mapGetters } from 'vuex'
 	export default {
 		components:{
 			updataModal,
-			uniCalendar
 		},
 		computed:{
 			...mapGetters('app',[
@@ -160,8 +146,6 @@
 						background : '#ed3f14'
 					},
 				],
-				// 加急时间
-				urgentTime:null,
 				
 				// 数据列表
 				itemInfo:{},
@@ -361,9 +345,15 @@
 			
 			// 打开工具箱模态框
 			add(){
-				uni.navigateTo({
-					url:'/pages/tool/tool?type=' + this.type
-				})
+				if(this.type === 'GOODS'){
+					uni.navigateTo({
+						url:'/pages/tool/tool?type=GOODS&commodityUses=UNIVERSAL,EARLY'
+					})
+				}else{
+					uni.navigateTo({
+						url:'/pages/tool/tool?type=' + this.type
+					})
+				}
 			},
 			// 工具箱模态框返回值 
 			enSure(e){
@@ -443,7 +433,7 @@
 							this.getOrderItem()
 						}
 					})
-				}else if(e.type === 'SERVICE'){
+				}else if(e.type === 'SERVICES'){
 					e.toolArr.forEach((i)=>{
 						let newArr = {
 							count: 1,
@@ -490,14 +480,6 @@
 			//关闭修改模态框
 			close(){
 				this.showUpdataModal = false
-			},
-			// 打开日历
-			openCalendar(){
-				this.$refs.calendar.open()
-			},	
-			//日历返回值
-			enCalendar(e){
-				this.urgentTime = Date.parse(e.fulldate)
 			},
 		},
 		watch:{

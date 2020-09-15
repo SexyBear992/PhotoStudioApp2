@@ -18,20 +18,21 @@
 		</view>
 		
 		<view class="shopBox" v-if="showShop">
-			<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/shop.png" mode=""></image>		
-			<pickerModule my-img="imgMargin" :arrInfo="pickerArr" :nowName="nowPickerName" @getId="getShopId"></pickerModule>
+			<image src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/shop.png" mode=""></image>
+			<picker @change="shopChange" :value="shopIndex" :range="shopArr">
+				<view class="uni-input">
+					<view>{{shopArr[shopIndex]}}</view>
+					<image style="margin-top: 20rpx;" src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
+				</view>
+			</picker>
 		</view>
 	</view>
 </template>
 
 <script>
-	import pickerModule from '@/components/pickerModule.vue'
 	import { mapGetters } from 'vuex'
 	export default {
 		props:['needShop','sai'],
-		components:{
-			pickerModule
-		},
 		computed:{
 			...mapGetters('app',[
 				'shopId'
@@ -42,10 +43,7 @@
 			])
 		},
 		data(){
-			return{
-				// 过滤来源
-				shopIdMap: new Map(),  
-				
+			return{				
 				// 搜索下拉选择
 				array:['姓名','手机号','订单号'],
 				// 下拉下标
@@ -55,8 +53,8 @@
 				
 				showShop:true,
 				
-				pickerArr:[],
-				nowPickerName:null,
+				shopIndex:0,
+				shopArr:[],
 				
 				parmas:{
 					isSearchCount:true,
@@ -72,26 +70,18 @@
 			if(this.needShop !== null){
 				this.showShop = false
 			}
-			this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
 			this.getPickerArr()
 		},
 		methods:{	
 			getPickerArr(){
-				let arr = []
-				this.get_shopAllArr.forEach((i)=>{
-					let lis ={
-						id:i.shopId,
-						name:i.shopName
-					}
-					arr.push(lis)
-				})
-				this.pickerArr = arr
-				this.nowPickerName = this.shopIdMap.get(this.shopId)
+				this.shopArr = this.get_shopAllArr.map((i)=>{ return i.shopName })
+				this.shopIndex = this.get_shopAllArr.findIndex((i)=>{ return this.shopId === i.shopId})
 			},
 			
 			// 获取门店ID
-			getShopId(e){
-				this.parmas.orderShopId = e.id
+			shopChange(e){
+				this.shopIndex = e.detail.value
+				this.parmas.orderShopId = this.get_shopAllArr[this.shopIndex].shopId
 				this.$emit('search',this.parmas)
 			},
 			
@@ -130,16 +120,6 @@
 				this.$emit('search',this.parmas)
 			},
 		},
-		watch:{
-			get_shopAllArr(){
-				if(this.needShop !== null){
-					this.showShop = false
-				}
-				this.shopIdMap = new Map(this.get_shopAllArr.map(item => [item.shopId, item.shopName]))
-				this.getPickerArr()
-			}
-		}
-	
 	}
 </script>
 
@@ -154,17 +134,6 @@
 		justify-content: space-between;
 		.searchLeft{
 			display: flex; 
-			.uni-input{
-				display: flex;
-				font-size: 28rpx;
-				font-weight: bold;
-				padding: 0 30rpx;
-				image{
-					width: 15rpx;
-					height: 15rpx;
-					margin: 40rpx 0 0 5rpx;
-				}
-			}
 			input{
 				font-size: 28rpx;
 				margin-top: 18rpx;
@@ -187,7 +156,18 @@
 			margin: 6rpx 10rpx 0 0;
 		}
 	}
-	/deep/.imgMargin{
-		margin: 18rpx 0 0 5rpx !important;
+	.uni-input{
+		display: flex;
+		font-size: 28rpx;
+		font-weight: bold;
+		padding: 0 30rpx;
+		image{
+			width: 15rpx;
+			height: 15rpx;
+			margin: 40rpx 0 0 5rpx;
+		}
 	}
+	// /deep/.imgMargin{
+	// 	margin: 18rpx 0 0 5rpx !important;
+	// }
 </style>

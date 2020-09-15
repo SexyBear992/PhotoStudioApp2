@@ -61,7 +61,7 @@
 			
 			<!-- 收款备注 -->
 			<view class="remarkBox">
-				<textarea placeholder="收款备注:" v-model="params.remark"/>
+				<textarea placeholder="收款备注:" v-model="params.remark" :hidden="showText"/>
 			</view>
 			
 		</view>
@@ -74,6 +74,7 @@
 			:lunar="true" 
 			:clearDate='true'
 			@confirm="enSure"
+			@close="close"
 			ref="calendar"
 		/>
 	</view>
@@ -101,6 +102,7 @@
 				// 订单基本信息
 				basic:null,
 				changeNum:false,
+				showText:false,
 				params:{
 					billEntryReceiptDtos:[
 						{
@@ -180,10 +182,14 @@
 			// 打开日历
 			openCalendar(){
 				this.$refs.calendar.open()
+				this.showText = true
 			},
 			// 日历返回
 			enSure(e){	
 				this.params.receiptTime = Date.parse(new Date(e.fulldate))
+			},
+			close(){
+				this.showText = false
 			},
 			
 			// 收款

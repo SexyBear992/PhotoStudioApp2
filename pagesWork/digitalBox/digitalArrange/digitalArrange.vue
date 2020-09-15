@@ -12,34 +12,22 @@
 			:info="listInfo" 
 			:type="type" 
 			:showName="showName"
-			:calendarTime="calendarTime"
-			@openCalendar="openCalendar"
-			@ok="getDigitalItem"
+			@ok="ok"
 			@close="closeModal"
 		></digitalUpdataOrAdd>
-		
-		<!-- 日历 -->
-		<uni-calendar 
-			:insert="false"
-			:lunar="true" 
-			:clearDate='true'
-			@confirm="enSure"
-			ref="calendar"
-		/>
 		
 		<i-message id="message" />
 	</view>
 </template>
 
 <script>
-	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
+	const { $Message } = require('@/wxcomponents/base/index');
 	import digitalUpdataOrAdd from './components/digitalUpdataOrAdd.vue'
 	import detailMoudel from '@/components/detailMoudel.vue'
 	import digitalArrangeList from './components/digitalArrangeList.vue'
 	import { getDigitalItem } from '@/util/api/shop.js'
 	export default {
 		components:{
-			uniCalendar,
 			detailMoudel,
 			digitalArrangeList,
 			digitalUpdataOrAdd
@@ -56,8 +44,6 @@
 				// 选择修改的子订单内容
 				listInfo:null,
 				showName:null,
-				// 日历返回时间
-				calendarTime:null,
 			};
 		},
 		onLoad(op){
@@ -109,18 +95,17 @@
 				this.listInfo = e
 				this.showModal = true
 			},
-			// 打开日历
-			openCalendar(){
-				this.$refs.calendar.open()
-			},
-			// 确定时间
-			enSure(e){
-				this.calendarTime = e.fulldate
-			},
 			// 关闭模态框
 			closeModal(){
 				this.showModal = false
-			}
+			},
+			ok(){
+				$Message({
+					content: '修改成功',
+					type: 'success'
+				});
+				this.getDigitalItem()
+			},
 		},
 		watch:{
 			info(){

@@ -5,16 +5,16 @@
 			<view class="text">入册/入底：{{item.bookCount | count}}/{{item.bottomCount | count}}</view>
 			<view class="text">
 				<view>{{text}}师：</view>
-				<span>{{showName}}</span>
+				<span>{{list.actorNameVos | actor}}</span>
 			</view>
 			<view class="text">
 				<view>{{text}}期限：</view>
-				<span>{{time}}</span>
+				<span>{{list.expireTime | time}}</span>
 			</view>
 		</view> 
 		<view class="butBox">
-			<view class="but" v-if="list.process" @click="button">修改</view>
-			<view class="but" v-else @click="button">安排{{text}}</view>
+			<view class="but" v-if="list.process" @click="button('UPDATE')">修改</view>
+			<view class="but" v-else @click="button('ADD')">安排{{text}}</view>
 		</view>
 		
 	</view>
@@ -31,15 +31,35 @@
 					return 0
 				}
 			},
+			times(time){
+				if(time){
+					let dt = new Date(Number(time))
+					let y = dt.getFullYear()
+					let m = (dt.getMonth() + 1).toString().padStart(2, 0)
+					let d = dt.getDate().toString().padStart(2, 0)
+					return `${y}-${m}-${d}`
+				}else{
+					return '待安排'
+				}
+			},
+			actor(arr){
+				if(arr){
+					let nameArr = []
+					arr.forEach((i)=>{
+						nameArr.push(i.actorName)
+					})
+					return nameArr.join('/')
+				}else{
+					return '待安排'
+				}
+			},
 		},
 		data(){
 			return{
 				text:null,
 				list:[],
-				time:null,
 				showName:null,
 				process:null,
-				
 			}
 		},
 		mounted(){
@@ -61,38 +81,25 @@
 					this.process = 'SENDER'
 					break
 			}
-			this.item.orderItemProcessDigitalProcessVos.forEach((i)=>{
-				if(i.process === this.process){
-					this.list = i 
-				}
-			})
-			if(this.list.expireTime){
-				let dt = new Date(Number(this.list.expireTime))
-				let y = dt.getFullYear()
-				let m = (dt.getMonth() + 1).toString().padStart(2, 0)
-				let d = dt.getDate().toString().padStart(2, 0)
-				this.time = `${y}-${m}-${d}`
-			}else{
-				this.time = '待安排'
-			}
-			if(this.list.actorNameVos){
-				let name = []
-				let arr = this.list.actorNameVos
-				arr.forEach((i)=>{
-					name.push(i.actorName)
-				})
-				this.showName = name.join('/')
-			}else{
-				this.showName = '待安排'
-			}	
-
+			this.getList()
 		},
 		methods:{
-			// type show
-			button(){
+			getList(){
+				this.item.orderItemProcessDigitalProcessVos.forEach((i)=>{
+					if(i.process === this.process){ this.list = i }
+				})
+				this.list.itemId = this.item.itemId
+			},
+			button(type){
+				this.list.dataStatus = type
 				this.$emit('onButton',this.list)
 			}
-		}
+		},
+		watch:{
+			item(){
+				this.getList()
+			},
+		},
 	}
 </script>
 

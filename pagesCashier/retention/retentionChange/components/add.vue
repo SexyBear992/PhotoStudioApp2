@@ -1,54 +1,21 @@
 /********************** 保留金录入 *************************/
 <template>
 	<view>
-		<view class="bigBox">
-			<!-- 称呼 -->
-			<view class="listBox">
-				<view class="title">称呼</view>
-				<pickerModule my-img="imgMargin" :arrInfo="pickerSexArr" @getId="getSexId"></pickerModule>
-			</view>
-			
-			<!-- 客户名称 -->
-			<view class="listBox">
-				<view class="title">客户名称</view>
-				<input type="text" v-model="params.customer.name" placeholder="请输入"/>
-			</view>
-			
-			<!-- 客户电话 -->
-			<view class="listBox">
-				<view class="title">客户电话</view>
-				<input type="text" v-model="params.customer.mobile" placeholder="请输入"/>
-			</view>
-			
-			<!-- 客户微信 -->
-			<view class="listBox">
-				<view class="title">客户微信</view>
-				<input type="text" v-model="params.customer.wechat" placeholder="请输入"/>
-			</view>
-			
-			<!-- 客户备注 -->
-			<view class="remarkBox">
-				<textarea placeholder="客户备注:" v-model="params.customer.remark"/>
-			</view>
-						
-			<!-- 录单人 -->
-			<view class="listBox">
-				<view class="title">录单人</view>
-				<view>{{get_userInfo.anotherName}}</view>
-			</view>
-			
+		<view class="bigBox">		
 			<!-- 保留金额 -->
 			<view class="listBox">
 				<view class="title">保留金额</view>
 				<input type="text" v-model="params.money" placeholder="请输入" />
 			</view>
-			
 			<!-- 收款方式 -->
+			<payPicker :title="'收款方式'" :getId.sync="params.payType" :nowPay="params.payType" :getName.sync="params.payTypeName"></payPicker>
+			<!-- 门店 -->
+			<shopPicker :title="'收款门店'" :nowShop="params.shopId" :getId.sync="params.shopId"></shopPicker>
+			<!-- 录单人 -->
 			<view class="listBox">
-				<view class="title">收款方式</view>
-				<pickerModule my-img="imgMargin" :arrInfo="pickerPayArr" @getId="getPayId"></pickerModule>
+				<view class="title">录单人</view>
+				<view>{{get_userInfo.anotherName}}</view>
 			</view>
-			
 			<!-- 收款备注 -->
 			<view class="remarkBox">
 				<textarea placeholder="收款备注:" v-model="params.remark"/>
@@ -62,12 +29,16 @@
 
 <script>
 	const { $Message } = require('@/wxcomponents/base/index');
-	import pickerModule from '@/components/pickerModule.vue'
+	import payPicker from '../../../components/payPicker.vue'
+	import shopPicker from '../../../components/shopPicker.vue'
 	import { mapGetters } from 'vuex'
 	import { addRetention } from '@/util/api/shop.js'
+	import { getMainContact } from '@/util/api/common.js'
 	export default{
+		props:['retentionId'],
 		components:{
-			pickerModule
+			payPicker,
+			shopPicker
 		},
 		computed:{
 			...mapGetters('app',[
@@ -80,20 +51,9 @@
 		},
 		data(){
 			return{
-				pickerSexArr:[{name:'先生',id:true},{name:'女士',id:false}],
-				// picker支付数组
-				pickerPayArr:[],
-				
 				params:{
 					createUser:null, //录入人id
-					customer:{ //客户信息对象
-						id:null, //id
-						mobile:null, //手机号
-						name:null, //姓名
-						remark:null, //客户备注
-						sex:true, //性别
-						wechat:null, //微信号
-					},
+					customer:{}, //客户信息对象
 					money:null, //金额
 					payType:null, //支付方式
 					payTypeName:null, //支付方式名称
@@ -106,34 +66,47 @@
 			// 录单人
 			this.params.createUser = this.get_userInfo.userId
 			this.params.shopId = this.shopId
-			this.getPayArr()
+			this.getMainContact()
 		},
 		methods:{
-			// 称呼返回
-			getSexId(e){
-				this.params.customerContactAddDto.sex = e.id
-			},
-			// 支付方式数组
-			getPayArr(){
-				let arr = []
-				this.get_pay.forEach((i)=>{
-					let lis ={
-						id:i.id,
-						name:i.name
+			// 主联系人信息
+			getMainContact(){
+				getMainContact({customerId:this.retentionId}).then(res=>{
+					if(res.data.code === 1000){
+						this.mainContact = res.data.data
+						let m = this.mainContact
+						let data = {
+							address: m.address,
+							birthdayLunar: (m.birthdayLunar == 0) ? false : true,	//是否农历
+							birthdayTime: Boolean(m.birthdayTime) ? Date.parse(new Date(m.birthdayTime)) : null,
+							categoryJson:{
+								city:m.city,
+								country:m.country,
+								province:m.province,
+								region:m.region,
+							},
+							ccId:m.customerId,	//从客户ID
+							customerId:m.customerId,	//主客户ID	
+							email:m.email,
+							mobile:m.phone,
+							name:m.name,
+							originJson:{
+								cid:m.cid,
+								cname:m.source.split('-')[0],
+								sid:m.sid,
+								sname:m.source.split('-')[1],
+							},
+							qq:m.qqNumber,
+							sex:Boolean(m.sex === '男') ? true : false,	//性别
+							tel:m.telphone,
+							wechat:m.wxNumber
+						}
+						this.params.customer = data
+						console.log('7777777777',this.params)
 					}
-					arr.push(lis)
 				})
-				arr.shift()
-				this.pickerPayArr = arr
-				this.params.payType = this.pickerPayArr[0].id
-				this.params.payTypeName = this.pickerPayArr[0].name
 			},
-			// 支付方式返回
-			getPayId(e){
-				this.params.payType = e.id
-				this.params.payTypeName = e.name
-			},	
-		
+			
 			// 录入保留金
 			add(){
 				addRetention(this.params).then(res=>{

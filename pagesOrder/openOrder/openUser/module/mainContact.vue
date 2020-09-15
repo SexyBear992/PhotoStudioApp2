@@ -2,7 +2,7 @@
 <template>
 	<view>
 		<view class="box">
-			<view class="titleTop" @click="cs">主 联系人</view>
+			<view class="titleTop">主 联系人</view>
 			<!-- 姓名 -->
 			<userInput :title="'姓名'" :enText="params.name" :getText.sync="params.name"></userInput>
 			<!-- 性别 -->
@@ -106,6 +106,8 @@
 		},
 		watch:{
 			oldUser(){
+				let soureId = [this.oldUser.cid,this.oldUser.sid]
+				this.oldUser.soureId = soureId
 				this.params = this.oldUser
 				this.params.extend = null
 			}

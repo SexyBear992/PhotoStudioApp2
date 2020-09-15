@@ -47,16 +47,26 @@
 		</view>	
 		<!-- 收款备注 -->
 		<view class="remarkBox">
-			<textarea placeholder="收款备注:" v-model="params.remark"/>
+			<textarea placeholder="收款备注:" v-model="params.remark" :hidden="showText"/>
 		</view>
 		
 		<view class="button" @click="add">添加退款</view>
+		<!-- 日历 -->
+		<uni-calendar 
+			:insert="false"
+			:lunar="true" 
+			:clearDate='true'
+			@confirm="enSure"
+			@close="close"
+			ref="calendar"
+		/>
 	</view>
 </template>
 
 <script>
 	const { $Message } = require('@/wxcomponents/base/index');
 	import { mapGetters } from 'vuex'
+	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	import shopPicker from '@/pagesCashier/components/shopPicker.vue'
 	import itemPicker from '@/pagesCashier/components/itemPicker.vue'
 	import consumePicker from '@/pagesCashier/components/consumePicker.vue'
@@ -64,8 +74,9 @@
 	import list from '@/components/detailWorkMain/personList.vue'
 	import { addLateReceipt, getItemNo } from '@/util/api/shop.js'
 	export default{
-		props:['calendarTime','recordId','oId','enAddressInfo'],
+		props:['recordId','oId','enAddressInfo'],
 		components:{
+			uniCalendar,
 			shopPicker,
 			consumePicker,
 			itemPicker,
@@ -85,10 +96,9 @@
 		data(){
 			return{
 				shopIdMap:new Map(),
-				
+				showText:false,
 				// 子订单数据
 				itemList:null,
-				
 				// 接单人
 				reception:'请选择',
 				
@@ -147,7 +157,14 @@
 			},
 			// 打开日历
 			openCalendar(){
-				this.$emit('openCalendar')
+				this.$refs.calendar.open()
+				this.showText = true
+			},
+			enSure(e){
+				this.params.receiptTime = Date.parse(new Date(e.fulldate))
+			},
+			close(){
+				this.showText = false
 			},
 			// 收款金额
 			money(e){
@@ -181,10 +198,6 @@
 			},
 		},
 		watch:{
-			// 时间
-			calendarTime(){
-				this.params.receiptTime = this.calendarTime
-			},
 			// 接单人
 			enAddressInfo(){
 				this.reception = this.enAddressInfo.show

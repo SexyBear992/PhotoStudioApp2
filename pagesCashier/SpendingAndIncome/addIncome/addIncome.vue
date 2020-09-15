@@ -33,7 +33,7 @@
 			</view>
 			<!-- 订单备注 -->
 			<view class="remarkBox">
-				<textarea placeholder="订单备注:" v-model="params.remark"/>
+				<textarea placeholder="订单备注:" v-model="params.remark" :hidden="showText"/>
 			</view>
 			
 			<view class="button" @click="add">录入其他收入</view>
@@ -46,6 +46,7 @@
 			:lunar="true" 
 			:clearDate='true'
 			@confirm="enSure"
+			@close="close"
 			ref="calendar"
 		/>
 	</view>
@@ -71,7 +72,7 @@
 		data() {
 			return {
 				reception:'请选择',
-				
+				showText:false,
 				params:{
 					money:null, //金额
 					name:null, //项目名称	
@@ -92,10 +93,14 @@
 			// 打开日历
 			openCalendar(){
 				this.$refs.calendar.open()
+				this.showText = true
 			},
 			// 日历返回
 			enSure(e){	
 				this.params.receiptTime = Date.parse(new Date(e.fulldate))
+			},
+			close(){
+				this.showText = false
 			},
 			
 			add(){

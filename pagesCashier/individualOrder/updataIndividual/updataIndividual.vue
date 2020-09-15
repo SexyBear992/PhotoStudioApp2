@@ -32,10 +32,7 @@
 			</view>
 			
 			<!-- 项目类别 -->
-			<view class="listBox">
-				<view class="title">项目类别</view>
-				<pickerModule my-img="imgMargin" :arrInfo="pickerConsumeArr" :nowName="nowConsume" @getId="getConsumeId"></pickerModule>
-			</view>
+			<consumePicker :saleCategoryId="params.saleCategoryId" :getId.sync="params.saleCategoryId"></consumePicker>
 			
 			<!-- 订单金额 -->
 			<view class="listBox">
@@ -78,28 +75,17 @@
 <script>
 	const { $Message } = require('@/wxcomponents/base/index');
 	import goodsBox from '../addIndividual/components/goodsBox.vue'
-	import pickerModule from '@/components/pickerModule.vue'
+	import consumePicker from '../../components/consumePicker.vue'
 	import list from '@/components/detailWorkMain/personList.vue'
-	import { mapGetters } from 'vuex'
 	import { updateOrderIndividual, getOrderIndividualDetials } from '@/util/api/shop.js'
 	export default {
-		computed:{
-			...mapGetters('shopArr',[
-				// 消费类别
-				'get_consumeType',
-			]),
-		},
 		components:{
 			goodsBox,
-			pickerModule,
+			consumePicker,
 			list
 		},
 		data() {
 			return {
-				
-				pickerConsumeArr:[],
-				nowConsume:null,
-				
 				// 详情
 				detials:null,
 				// 性别
@@ -169,7 +155,6 @@
 						this.sex = '女士'
 					}
 					// 获取当前项目类别
-					this.getConsumeArr(data.saleCategoryId)
 					this.params.contactId = data.contactId
 					this.params.name = data.name
 					this.params.orderGoodsId = data.id
@@ -188,28 +173,6 @@
 					this.params.saleCategoryId = data.saleCategoryId
 					this.params.sumPrice = data.sumPrice
 				})
-			},
-			
-			// 消费类别数组
-			getConsumeArr(saleCategoryId){
-				let arr = []
-				this.get_consumeType.forEach((i)=>{
-					let lis ={
-						id:i.id,
-						name:i.name
-					}
-					arr.push(lis)
-					if(saleCategoryId === i.id){
-						this.nowConsume = i.name
-					}
-				})
-				arr[0].id = null,
-				arr[0].name = '请选择'
-				this.pickerConsumeArr = arr
-			},
-			// 消费类型返回
-			getConsumeId(e){
-				this.params.saleCategoryId = e.id
 			},
 			// 接单人
 			goAddress(){

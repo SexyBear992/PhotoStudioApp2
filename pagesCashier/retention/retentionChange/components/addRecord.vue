@@ -18,27 +18,26 @@
 				<view class="text">{{get_userInfo.anotherName}}</view>
 			</view>
 			<!-- 门店 -->
-			<view class="listBox">
-				<view class="title">{{text}}门店</view>
-				<pickerModule my-img="imgMargin" :arrInfo="pickerShopArr" :nowName="nowShopName" @getId="getShopId"></pickerModule>
-			</view>
+			<shopPicker :title="text+'门店'" :nowShop="params.shopId" :getId.sync="params.shopId"></shopPicker>
 			
 			<!-- 保留金充值 -->
 			<view class="listBox">
 				<view class="title">{{text}}金额</view>
-				<input type="text" placeholder="请输入" v-model="params.money"/>
+				<input type="number" placeholder="请输入" v-model="params.money"/>
 			</view>
 			
 			<!-- 方式 -->
-			<view class="listBox">
-				<view class="title">{{text}}方式</view>
-				<pickerModule my-img="imgMargin" :arrInfo="pickerPayArr" @getId="getPayId"></pickerModule>
-			</view>
+			<payPicker :title="text+'方式'" :getId.sync="params.payType" :nowPay="params.payType" :getName.sync="params.payTypeName"></payPicker>
 			
 			<!-- 记录类型 -->
 			<view v-if="type === 'refund'" class="listBox">
 				<view class="title">记录类型</view>
-				<pickerModule my-img="imgMargin" :arrInfo="pickerTypeArr" @getId="getTypeId" :nowName="'退款'"></pickerModule>
+				<picker @change="change" :value="index" :range="arr">
+					<view class="textBox">
+						<view class="text">{{arr[index]}}</view>
+						<image class="my-img" src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
+					</view>
+				</picker>
 			</view>
 			
 			<!-- 备注 -->
@@ -54,38 +53,33 @@
 
 <script>
 	const { $Message } = require('@/wxcomponents/base/index');
-	import pickerModule from '@/components/pickerModule.vue'
+	import payPicker from '../../../components/payPicker.vue'
+	import shopPicker from '../../../components/shopPicker.vue'
 	import { addRetentionRecord } from '@/util/api/shop.js'
 	import { mapGetters } from 'vuex'
 	export default{
 		props:['retentionId','basic','type'],
 		components:{
-			pickerModule
+			payPicker,
+			shopPicker
 		},
 		computed:{
 			...mapGetters('app',[
 				'shopId',
 				'get_userInfo'
 			]),
-			...mapGetters('shopArr',[
-				'get_shopAllArr',
-				'get_pay'
-			])
 		},
 		data(){
 			return{
 				text:null,
-				// picker门店数组
-				pickerShopArr:[],
-				nowShopName:null,
-				// picker支付数组
-				pickerPayArr:[],
 				// 记录类型
+				index:0,
 				pickerTypeArr:[
 					{name:'退款',id:'REFUND'},
 					{name:'订单退款',id:'ORDERREFILL'},
 					{name:'订单扣款',id:'ORDERREFUND'},
 				],
+				arr:['退款','订单退款','订单扣款'],
 				params:{
 					createUser:null, //录入人
 					evidence:null, //扣款凭证
@@ -103,60 +97,24 @@
 		mounted(){
 			if(this.type === 'topUp'){
 				this.text = '收款'
-				this.type = 'REFILL'
+				this.params.type = 'REFILL'
 			}else{
 				this.text = '退款'
-				this.type = 'REFUND'
+				this.params.type = 'REFUND'
 			}
 			this.params.createUser = this.get_userInfo.userId
 			this.params.shopId = this.shopId
-			this.params.retentionId = this.retentionId
-			this.getShopArr()
-			this.getPayArr()
+			this.params.retentionId = Number(this.retentionId)
 		},
 		methods:{
-			getShopArr(){
-				let arr = []
-				this.get_shopAllArr.forEach((i)=>{
-					let lis ={
-						id:i.shopId,
-						name:i.shopName
-					}
-					arr.push(lis)
-					if(this.shopId === i.shopId){
-						this.nowShopName = i.shopName
-					}
-				})
-				this.pickerShopArr = arr
+			change(e){
+				this.index = e.detail.value
+				this.params.type = this.pickerTypeArr[this.index].id
 			},
-			// 获取门店ID
-			getShopId(e){
-				this.parmas.shopId = e.id
-			},
-			// 支付方式数组
-			getPayArr(){
-				let arr = []
-				this.get_pay.forEach((i)=>{
-					let lis ={
-						id:i.id,
-						name:i.name
-					}
-					arr.push(lis)
-				})
-				arr.shift()
-				this.pickerPayArr = arr
-				this.params.payType = this.pickerPayArr[0].id
-				this.params.payTypeName = this.pickerPayArr[0].name
-			},
-			// 支付方式返回
-			getPayId(e){
-				this.params.payType = e.id
-				this.params.payTypeName = e.name
-			},	
 			// 记录类型返回
-			getTypeId(e){
-				this.params.type = e.id
-			},
+			// getTypeId(e){
+			// 	this.params.type = e.id
+			// },
 			// 充值
 			addRecord(){
 				addRetentionRecord(this.params).then(res=>{
@@ -184,4 +142,12 @@
 
 <style lang="scss" scoped>
 	@import '@/pagesCashier/orderCashier/collection/components/updataPriceStyle.scss';
+	.textBox{
+		display: flex;
+		image{
+			width: 15rpx;
+			height: 15rpx;
+			margin-top: 18rpx;
+		}				
+	}
 </style>

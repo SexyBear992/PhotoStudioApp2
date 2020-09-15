@@ -72,8 +72,7 @@
 	export default{
 		data(){
 			return{
-				// url:'https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/ModifyButton/changeOrder'
-				url:'/static/changeOrder/',
+				url:'https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/changeOrder/'
 			}
 		},
 		methods:{

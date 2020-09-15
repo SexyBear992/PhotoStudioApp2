@@ -24,7 +24,9 @@
 				// 服务等级
 				'get_serviceCategory',
 				// 教师等级
-				'get_teacherCategory'
+				'get_teacherCategory',
+				// 取件方式
+				'get_pickUp'
 			]),
 		},
 		data(){

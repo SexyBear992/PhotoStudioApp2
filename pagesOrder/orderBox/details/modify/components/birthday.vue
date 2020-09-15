@@ -19,6 +19,7 @@
 			:lunar="true" 
 			:clearDate='true'
 			@confirm="enSure"
+			@close="close"
 			ref="calendar"
 		/>
 	</view>
@@ -48,10 +49,15 @@
 		methods:{
 			openCalendar(){
 				this.$refs.calendar.open()
+				this.$emit('update:showText',true)
+			},
+			close(){
+				this.$emit('update:showText',false)
 			},
 			// 日历选中确定返回值
 			enSure(e){
 				this.$emit('update:getBTime',Date.parse(new Date(e.fulldate)))
+				this.$emit('update:showText',false)
 			},
 			change(e){
 				this.$emit('update:getBLunar',e.target.value)

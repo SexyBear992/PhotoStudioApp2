@@ -161,6 +161,7 @@
 				})
 			},
 			close() {
+				this.setEmit('close')
 				this.aniMaskShow = false
 				this.$nextTick(() => {
 					setTimeout(() => {

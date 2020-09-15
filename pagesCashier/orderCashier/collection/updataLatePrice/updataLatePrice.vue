@@ -68,7 +68,7 @@
 			
 			<!-- 收款备注 -->
 			<view class="remarkBox">
-				<textarea placeholder="收款备注:" v-model="params.remark"/>
+				<textarea placeholder="收款备注:" v-model="params.remark" :hidden="showText"/>
 			</view>
 
 			<view class="button" @click="en">确定{{text}}</view>
@@ -82,6 +82,7 @@
 			:lunar="true" 
 			:clearDate='true'
 			@confirm="enSure"
+			@close="close"
 			ref="calendar"
 		/>
 	</view>
@@ -115,7 +116,7 @@
 				basic:[],
 				
 				text:null,
-				
+				showText:false,
 				shopIdMap: new Map(),
 				
 				// 接单人
@@ -211,10 +212,14 @@
 			// 打开日历
 			openCalendar(){
 				this.$refs.calendar.open()
+				this.showText = true
 			},
 			// 日历返回
 			enSure(e){	
 				this.params.receiptTime = Date.parse(new Date(e.fulldate))
+			},
+			close(){
+				this.showText = false
 			},
 			
 			// 输入金额

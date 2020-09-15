@@ -21,36 +21,72 @@
 				<view class="timeBox">
 					<view class="titleT">完成期限</view>
 					<view class="text" @click="openCalendar">
-						{{time}}
+						{{params.expireTime | times}}
 						<image class="my-img" src="https://lyfz-saas-erp-system.oss-cn-hangzhou.aliyuncs.com/AppletsFile/down.png" mode=""></image>
 					</view>
 				</view>
 			</view>
 			
 			<view class="butBox">
-				<view class="but" @click="updataData">确定</view>
+				<view class="but" @click="updataRepair">确定</view>
 			</view>
 		</view>
+		
+		<!-- 日历 -->
+		<uni-calendar 
+			:insert="false"
+			:lunar="true" 
+			:clearDate='true'
+			@confirm="enSure"
+			ref="calendar"
+		/>
 		<i-message id="message" />
 	</view>
 </template>
 
 <script>
+	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	import list from '@/components/detailWorkMain/personList.vue'
+	import { updateDigital } from '@/util/api/shop.js'
+	import { mapGetters } from 'vuex'
 	export default{
-		props:['info','type','showName','calendarTime'],
+		props:['info','type','showName'],
 		components:{
+			uniCalendar,
 			list
+		},
+		computed:{
+			...mapGetters('app',[
+				'shopId',
+			]),
+		},
+		filters:{
+			times(time){
+				if(time){
+					let dt = new Date(Number(time))
+					let y = dt.getFullYear()
+					let m = (dt.getMonth() + 1).toString().padStart(2, 0)
+					let d = dt.getDate().toString().padStart(2, 0)
+					return `${y}-${m}-${d}`
+				}else{
+					return '待安排'
+				}
+			},
 		},
 		data(){
 			return{
 				text:null,
 				show:'请选择',
 				addressType:null,
-				time:null,
+				params:{
+					shopId:null,
+					actorIds:null,
+					expireTime:null,
+				},
 			}
 		},
 		mounted(){
+			this.params = this.info
 			switch(this.type){
 				case 'cx':
 					this.text = '初修'
@@ -69,83 +105,35 @@
 					this.addressType = 'SENDERGRAPHER'
 					break
 			}
-			
+			// 门店
+			this.params.shopId = this.shopId
+			// 人员
 			if(this.info.actorNameVos){
-				// 人员
 				let nameArr = []
 				this.info.actorNameVos.forEach((i)=>{
 					nameArr.push(i.actorName)
 				})
+				let nameId = []
+				this.info.actorNameVos.forEach((i)=>{
+					nameId.push(i.actorId)
+				})
+				this.params.actorIds = nameId
 				this.show = nameArr.join('/')
 			}
-				
-			// 时间
-			if(this.info.expireTime){
-				let dt = new Date(Number(this.info.expireTime))
-				let y = dt.getFullYear()
-				let m = (dt.getMonth() + 1).toString().padStart(2, 0)
-				let d = dt.getDate().toString().padStart(2, 0)
-				this.time = `${y}-${m}-${d}`
-			}else{
-				this.time = '待安排'
-			}
+			delete this.params.actorNameVos
 		},
 		methods:{
-			// 修改
-			updataData(){
-				switch(this.type){
-					case 'cx':
-						this.updataRepair()
-						break
-					case 'jx':
-						this.updataRefine()
-						break
-					case 'sj':
-						this.updataDesign()
-						break
-					case 'fp':
-						this.updataSender()
-						break
-				}
-			},
-			// 修改初修
 			updataRepair(){
-				updataRepair().then(res=>{
+				updateDigital(this.params).then(res=>{
 					if(res.data.code === 200){
 						this.$emit('ok')
 					}
 				})
 			},
-			// 修改精修
-			updataRefine(){
-				updataRefine().then(res=>{
-					if(res.data.code === 200){
-						this.$emit('ok')
-					}
-				})
-			},
-			// 修改设计
-			updataDesign(){
-				updataDesign().then(res=>{
-					if(res.data.code === 200){
-						this.$emit('ok')
-					}
-				})
-			},
-			// 修改发片
-			updataSender(){
-				updataSender().then(res=>{
-					if(res.data.code === 200){
-						this.$emit('ok')
-					}
-				})
-			},
-			
 			// 关闭模态框
 			cancel(){
 				this.$emit('close')
-			},
-			
+			},	
 			goAddress(){
 				uni.navigateTo({
 					url:'/pages/address/address?type=' + this.addressType + '&show=' + this.show
@@ -153,9 +141,13 @@
 			},
 			// 打开日历
 			openCalendar(){
-				this.$emit('openCalendar')
+				this.$refs.calendar.open()
 			},
-
+			// 确定时间
+			enSure(e){
+				this.params.expireTime = Date.parse(new Date(e.fulldate))
+			},
+			
 		},
 		watch:{
 			// 修改名字
@@ -163,16 +155,9 @@
 				deep:true,
 				handler(){
 					this.show = this.showName.show
+					this.params.actorIds = this.showName.enArr.map((i)=>{ return i.id})
 				}
 			},
-			// 修改时间
-			calendarTime:{
-				deep:true,
-				handler(){
-					this.time = this.calendarTime
-					let tem = Date.parse(new Date(this.calendarTime))
-				}
-			}
 		}
 	}
 </script>

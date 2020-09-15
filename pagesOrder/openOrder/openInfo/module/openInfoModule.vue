@@ -24,7 +24,7 @@
 			<!-- 备注 -->
 			<view class="remark">
 				<view class="title">备注</view>
-				<textarea class="textartea" placeholder="订单备注" v-model="params.remark"></textarea>
+				<textarea class="textartea" placeholder="订单备注" v-model="params.remark" :hidden="showText"></textarea>
 			</view>
 		</view>
 		
@@ -37,6 +37,7 @@
 			:lunar="true" 
 			:clearDate='true'
 			@confirm="enSure"
+			@close="close"
 			ref="calendar"
 		/>
 	</view>
@@ -79,7 +80,7 @@
 				showLikeModal:false,
 				// 风格显示
 				showLike:'喜爱风格',
-				
+				showText:false,
 				params:{
 					// 自动生成时间
 					autoOrderTime:false,
@@ -118,10 +119,14 @@
 			// 打开日历
 			openCalendar(){
 				this.$refs.calendar.open()
+				this.showText = true
 			},
 			// 日历选中确定返回值
 			enSure(e){
 				this.params.orderTime = Date.parse(new Date(e.fulldate))
+			},
+			close(){
+				this.showText = false
 			},
 			// 打开喜爱模态框
 			openLikeStyle(){

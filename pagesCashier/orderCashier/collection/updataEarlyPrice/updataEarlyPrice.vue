@@ -1,41 +1,29 @@
 <template>
 	<view>
 		<add 
-			v-if="type === 'add' "
+			v-if="type === 'add'"
 			:recordId="recordId"
 			:oId="oId"
 			:enAddressInfo="enAddressInfo"
-			:calendarTime="calendarTime"
 			@openCalendar="openCalendar"
 		></add>
 		<updata 
 			v-if="earlyBasic" 
 			:earlyBasic="earlyBasic" 
-			:calendarTime="calendarTime"
 			:type="type"
 			@openCalendar="openCalendar"
 		></updata>
 		
 		<i-message id="message" />
-		<!-- 日历 -->
-		<uni-calendar 
-			:insert="false"
-			:lunar="true" 
-			:clearDate='true'
-			@confirm="enSure"
-			ref="calendar"
-		/>
 	</view>
 </template>
 
 <script>
 	const { $Message } = require('@/wxcomponents/base/index');
-	import uniCalendar from '@/components/uni/uni-calendar/uni-calendar.vue'
 	import updata from './components/updata.vue'
 	import add from './components/add.vue'
 	export default {
 		components:{
-			uniCalendar,
 			updata,
 			add
 		},
