@@ -1,52 +1,96 @@
 <template>
 	<view>
-		<view class="listBox" v-for="(item,index) in addressBook" :key="index">
-			<view class="left">
-				<image :src="url+'img_tx@2x.png'" mode=""></image>
-				<view class="nAndp">
-					<view class="name">{{item.name}}</view>
-					<view class="phone">{{item.phone}}</view>
+		<section class="PullScroll-Page">
+		  <s-pull-scroll ref="pullScroll" :back-top="true" :pullDown="pullDown" :pullUp="loadData">
+				<view class="listBox" v-for="(item,index) in list" :key="index">
+					<view class="left">
+						<image :src="item.portrait ? item.portrait : 'https://storagetest.lyfz.net/static/img/default-user.jpg'" mode=""></image>
+						<view class="nAndp">
+							<view class="name">{{item.name}}</view>
+							<view class="phone">{{item.mobile ? item.mobile : '无联系方式'}}</view>
+						</view>
+					</view>
+					<image src="/static/goPhone.png" class="icon" mode="" @click="goPhone(item.mobile)"></image>
 				</view>
-			</view>
-			<view class="belongs">{{item.belongs}}</view>
-			<image :src="url+'telephone.png'" class="icon" mode="" @click="goPhone(item.phone)"></image>
-		</view>
-		
+				<view class="noMove"v-if="showNoMore">没有更多数据</view>
+				<view style="height: 150rpx;"></view>
+			</s-pull-scroll>
+		</section>
+		<i-message id="message" />
 		<tabBar :index="2"></tabBar>
 	</view>
 </template>
 
 <script>
+	import { pageAccountAddressBookVo } from '@/util/api/user.js'
+	import sPullScroll from '@/components/s-pull-scroll';
 	export default {
+		components:{
+			sPullScroll,
+		},
 		data() {
 			return {
-				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
-				addressBook:[
-					{
-						name:'周易缘',
-						phone:'134879132842',
-						belongs:'门市部'
-					},
-					{
-						name:'唐艺芯',
-						phone:'134879132842',
-						belongs:'门市部'
-					},
-					{
-						name:'周俊廷',
-						phone:'134879132842',
-						belongs:'门市部'
-					}
-				]
+				// 总数量
+				total:11,
+				// 列表
+				list: [],
+				// 没有更多
+				showNoMore:false,
+				
+				params:{
+					isSearchCount:true,
+					limit:15,
+					page:1,
+				},
 			};
 		},
+		onLoad(){
+			this.refresh();
+		},
 		methods:{
+			pageAccountAddressBookVo(){
+				pageAccountAddressBookVo(this.params).then(res=>{
+					this.total = res.data.data.total
+					const curList = res.data.data.records
+					curList.forEach((i)=>{
+						this.list.push(i)
+					})
+				})
+			},
 			// 跳转进拨号页
 			goPhone(phone){
 				uni.makePhoneCall({
 					phoneNumber:phone
 				})
-			}
+			},
+			
+			// 组件
+			refresh () {
+				this.$nextTick(() => {
+					this.$refs.pullScroll.refresh();
+				});
+			},
+			pullDown (pullScroll) {
+				setTimeout(() => {
+					this.params.page = 1
+					this.loadData(pullScroll);
+				}, 200);
+			},
+			loadData (pullScroll) {
+				if (pullScroll.page == 1) {
+					this.list = [];
+				}
+				if(!this.showNoMore){
+					this.params.page = pullScroll.page
+				}
+				if(this.list.length < this.total){
+					this.pageAccountAddressBookVo()
+					this.showNoMore = false
+				}else{
+					this.showNoMore = true
+				}
+				pullScroll.success();
+			},
 		}
 	}
 </script>
@@ -71,13 +115,15 @@
 				margin-top: 10rpx;
 			}
 		}
-		.belongs{
-			margin-top: 30rpx;
-		}
 		image{
 			width: 44rpx;
 			height: 44rpx;
 			margin-top: 25rpx;
 		}
+	}
+	.noMove{
+		font-size: 28rpx;
+		text-align: center;
+		margin: 20rpx 0 ;
 	}
 </style>

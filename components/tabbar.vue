@@ -68,6 +68,7 @@
 		text-align: center;
 		display: flex;
 		justify-content: space-around;
+		z-index: 2;
 		.list{
 			flex: 1;
 			display: flex;

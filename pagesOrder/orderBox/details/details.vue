@@ -92,7 +92,7 @@
 		},
 		onLoad(option){
 			this.orderId = option.orderId
-			this.orderId = 321
+			// this.orderId = 321
 		},
 		onShow(){
 			this.getOrderDetails()
@@ -159,8 +159,14 @@
 						break
 					// 入册/入底
 					case 'bookAndBottom':
-						this.showOnItem = true
-						this.updataItemType = e
+						if(this.openInfo.orderItemVos.length === 1){
+							uni.navigateTo({
+								url:'./modify/modifyItemInfo/modifyItemInfo?id=' + this.openInfo.orderId + '&itemId=' + this.openInfo.orderItemVos[0].itemId
+							})
+						}else{
+							this.showOnItem = true
+							this.updataItemType = e
+						}
 						break;
 					// 服务人员
 					case 'servicePersonnel':
@@ -177,24 +183,48 @@
 						break
 					// 产品
 					case 'GOODS':
-						this.showOnItem = true
-						this.updataItemType = e
+						if(this.openInfo.orderItemVos.length === 1){
+							uni.navigateTo({
+								url:'./modify/modifyOrderItem/modifyOrderItem?id=' + this.openInfo.orderId + '&itemId=' + this.openInfo.orderItemVos[0].itemId + '&type=' + e
+							})
+						}else{
+							this.showOnItem = true
+							this.updataItemType = e
+						}
 						break
 					// 服装
 					case 'DRESSINFO':
-						this.showOnItem = true
-						this.updataItemType = e
+						if(this.openInfo.orderItemVos.length === 1){
+							uni.navigateTo({
+								url:'./modify/modifyOrderItem/modifyOrderItem?id=' + this.openInfo.orderId + '&itemId=' + this.openInfo.orderItemVos[0].itemId + '&type=' + e
+							})
+						}else{
+							this.showOnItem = true
+							this.updataItemType = e
+						}
 						break
 					// 景点
 					case 'PLACE':
-						this.showOnItem = true
-						this.updataItemType = e
+						if(this.openInfo.orderItemVos.length === 1){
+							uni.navigateTo({
+								url:'./modify/modifyOrderItem/modifyOrderItem?id=' + this.openInfo.orderId + '&itemId=' + this.openInfo.orderItemVos[0].itemId + '&type=' + e
+							})
+						}else{
+							this.showOnItem = true
+							this.updataItemType = e
+						}
 						break
 					// 服务
 					// 服务
 					case 'SERVICES':
-						this.showOnItem = true
-						this.updataItemType = e
+						if(this.openInfo.orderItemVos.length === 1){
+							uni.navigateTo({
+								url:'./modify/modifyOrderItem/modifyOrderItem?id=' + this.openInfo.orderId + '&itemId=' + this.openInfo.orderItemVos[0].itemId + '&type=' + e
+							})
+						}else{
+							this.showOnItem = true
+							this.updataItemType = e
+						}
 						break
 				}
 			}

@@ -4,7 +4,7 @@
 		<!-- 标题 -->
 		<view class="titleBox">
 			<view class="title">
-				客户来源模板
+				客户来源
 			</view>
 		</view>
 		

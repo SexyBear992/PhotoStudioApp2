@@ -3,7 +3,7 @@
 	import { mapGetters, mapActions } from 'vuex'
 	export default {
 		onLaunch: function() {
-			this.getStorageTicket()
+			console.log('AppOnLaunch')
 		},
 		data() {
 			return {
@@ -18,6 +18,8 @@
 			])
 		},
 		mounted(){
+			console.log('AppMounted')
+			this.getStorageTicket()
 		},
 		methods: {
 			...mapActions('app',[
@@ -50,6 +52,7 @@
 					key: 'ticket',
 					success: function(res) {
 						that.act_ticket(res.data)
+						that.getCCID()
 					},
 					fail: function(err) {
 						uni.redirectTo({
@@ -63,7 +66,9 @@
 				uni.getStorage({
 					key: 'ccId',
 					success: function(res) {
-						that.act_ccId(res.data)
+						if(Boolean(res.data)){
+							that.act_ccId(res.data)
+						}
 					},
 					fail: function(err) {
 						uni.redirectTo({
@@ -76,20 +81,25 @@
 			// 获取员工信息
 			getAuthorization(){
 				getAuthorization().then(res=>{
-					if(res.data.code === 200){
-						this.act_userInfo(res.data.data)
-					}else if(res.data.code === 407){
+					if(res.data.code !== 200){
 						uni.removeStorage({
-						    key: 'ccId',
+							key: 'ticket',
 						});
+						uni.removeStorage({
+							key: 'ccId',
+						});
+						this.act_ticket(null)
+						this.act_ccId(null)
+						uni.redirectTo({
+							url:'/pages/login/login'
+						})
+					}else{
+						this.act_userInfo(res.data.data)
 					}
 				})
 			}
 		},
 		watch:{
-			get_ticket(){
-				this.getCCID()
-			},
 			get_ccId(){
 				this.getAuthorization()
 			},

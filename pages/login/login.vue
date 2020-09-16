@@ -81,6 +81,9 @@
 						data:res.data.data.ticket
 					})
 					this.act_ticket(res.data.data.ticket)
+					uni.redirectTo({
+						url:'/pages/enterprise/enterprise'
+					})
 				})
 			},
 		}

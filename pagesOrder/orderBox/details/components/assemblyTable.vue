@@ -3,7 +3,7 @@
 		<!-- 产品 -->
 		<view class="mainBox" v-if="orderItem.orderItemGoods.length > 0">
 			<view class="topTitle">
-				<view class="title">新增产品</view>
+				<view class="title">产品</view>
 			</view>
 			<view class="titleBox">
 				<view class="title">商品</view>
@@ -21,7 +21,7 @@
 		<!-- 服装 -->
 		<view class="mainBox" v-if="orderItem.orderItemDressInfo.length > 0">
 			<view class="topTitle">
-				<view class="title">新增服装</view>
+				<view class="title">服装</view>
 			</view>
 			<view class="titleBox">
 				<view class="title">服装</view>
@@ -39,7 +39,7 @@
 		<!-- 景点 -->
 		<view class="mainBox" v-if="orderItem.orderItemPlace.length > 0">
 			<view class="topTitle">
-				<view class="title">新增景点</view>
+				<view class="title">景点</view>
 			</view>
 			<view class="titleBox">
 				<view class="title">景点</view>
@@ -55,7 +55,7 @@
 		<!-- 服务 -->
 		<view class="mainBox" v-if="orderItem.orderItemService.length > 0">
 			<view class="topTitle">
-				<view class="title">新增服务</view>
+				<view class="title">服务</view>
 			</view>
 			<view class="titleBox">
 				<view class="title">服务</view>

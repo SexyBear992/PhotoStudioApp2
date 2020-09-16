@@ -23,6 +23,11 @@
 	import { mapGetters, mapActions } from 'vuex'
 	import { getHaveEnterprise } from '@/util/api/common.js'
 	export default {
+		computed:{
+			...mapGetters('app',[
+				'get_ccId',
+			]),
+		},
 		data() {
 			return {
 				enterpriseInfo:[],
@@ -46,21 +51,53 @@
 			]),
 			getHaveEnterprise(){
 				getHaveEnterprise().then(res=>{
-					this.enterpriseInfo = res.data.data
-					this.arr = this.enterpriseInfo.map((i)=>{ return i.name })
+					if(res.data.code === 400){
+						setTimeout(()=>{
+							uni.redirectTo({
+								url:'/pages/login/login'
+							})
+						},1000)
+					}else{
+						this.enterpriseInfo = res.data.data
+						this.arr = this.enterpriseInfo.map((i)=>{ return i.name })
+						if(this.get_ccId){
+							this.index = this.enterpriseInfo.findIndex((i)=>{ return this.get_ccId === i.enterpriseNo})
+							this.show = this.enterpriseInfo[this.index].name
+							this.ccId = this.enterpriseInfo[this.index].enterpriseNo
+						}
+						if(this.arr.length === 1){
+							this.show = this.enterpriseInfo[this.index].name
+							this.ccId = this.enterpriseInfo[this.index].enterpriseNo
+							this.enCCID()
+						}
+					}
 				})
 			},
 			change(e){
 				this.index = e.detail.value
 				this.ccId = this.enterpriseInfo[this.index].enterpriseNo
+				this.show = this.enterpriseInfo[this.index].name
 			},
 			enCCID(){
-				let that = this
-				uni.setStorage({
-					key:'ccId',
-					data:that.ccId
-				})
-				this.act_ccId(this.ccId)
+				if(this.ccId){
+					if(this.ccId === this.get_ccId){
+						uni.switchTab({
+							url:'/pages/index/index'
+						})
+					}else{
+						let that = this
+						uni.setStorage({
+							key:'ccId',
+							data:that.ccId
+						})
+						this.act_ccId(this.ccId)
+					}
+				}else{
+					$Message({
+						content: '请选择企业',
+						type: 'warning'
+					});
+				}
 			},
 		},
 	}
@@ -90,7 +127,10 @@
 			justify-content: space-between;
 			line-height: 58rpx;
 			.text{
-				margin-right: 30rpx;
+				max-width: 330rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 		}
 	}

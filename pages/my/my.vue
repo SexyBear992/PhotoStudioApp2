@@ -2,77 +2,80 @@
 	<view>
 		<view class="topBox">
 			<view class="topBut">
-				<view class="switchStores" @click="switchStores">切换门店</view>
-				<view class="SignIn" @click="SignIn">签到</view>
+				<view class="switchStores" @click="switchStores">切换企业</view>
+				<view class="SignIn" @click="SignIn">登出</view>
 			</view>
 			
 			<view class="avatarBox">
-				<image :src="url+'img_tx@2x.png'" mode=""  class="avatar"></image>
+				<image :src="get_userInfo.portrait ? get_userInfo.portrait : 'https://storagetest.lyfz.net/static/img/default-user.jpg'" mode=""  class="avatar"></image>
 			</view>
-			<view class="name">{{user.name}}</view>
-			<view class="department">部门|{{user.department}}</view>
+			<view class="name">{{get_userInfo.name}}</view>
 		</view>
 		
 		<view class="listBox">
 			<view class="title">电话</view>
-			<view class="text">{{user.phone}}</view>
-		</view>
-		
-		<view class="listBox">
-			<view class="title">部门电话</view>
-			<view class="text">{{user.DPhone}}</view>
+			<view class="text">{{get_userInfo.mobile}}</view>
 		</view>
 		
 		<view class="listBox">
 			<view class="title">工号</view>
-			<view class="text">{{user.Gid}}</view>
+			<view class="text">{{get_userInfo.jobNumber}}</view>
 		</view>
 		
 		<view class="listBox">
 			<view class="title">生日</view>
-			<view class="text">{{user.birthday}}</view>
+			<view class="text">{{get_userInfo.birthday | time}}</view>
 		</view>
 		
 		<view class="listBox">
 			<view class="title">性别</view>
-			<view class="text">{{user.sex}}</view>
+			<view class="text">{{get_userInfo.sex ? '男' : '女'}}</view>
 		</view>
 		
 		<view class="listBox">
 			<view class="title">邮件</view>
-			<view class="text">{{user.email}}</view>
+			<view class="text">{{get_userInfo.email}}</view>
 		</view>
 		
-		
+		<i-message id="message" />
 		<tabBar :index="5"></tabBar>
 	</view>
 </template>
 
 <script>
+	import { mapGetters, mapActions } from 'vuex'
 	export default {
+		computed:{
+			...mapGetters('app',[
+				'get_userInfo'
+			])
+		},
 		data() {
 			return {
-				url:'https://7068-photostudioapp-1302515241.tcb.qcloud.la/icon/',
-				user:{
-					name:'熊镇城',
-					department:'开发',
-					phone:'18718168497',
-					DPhone:'23017183',
-					Gid:'DD000',
-					birthday:'07-17',
-					email:'935299671@qq.com',
-					sex:'男'
-				}
+
 			};
 		},
 		methods:{
-			// 签到
+			...mapActions('app',[
+				'act_ticket',
+				'act_ccId',
+				'act_userInfo'
+			]),
+			// 登出
 			SignIn(){
-				console.log('签到')
+				uni.removeStorage({
+					key: 'ticket',
+				});
+				this.act_ticket(null)
+				uni.redirectTo({
+					url:'/pages/login/login'
+				})
 			},
-			// 切换门店
+			// 切换企业
 			switchStores(){
-				console.log('切换门店')
+				uni.navigateTo({
+					url:'/pages/enterprise/enterprise'
+				})
 			}
 		}
 	}
@@ -112,12 +115,6 @@
 			font-size: 36rpx;
 			text-align: center;
 			margin-top: 30rpx;
-		}
-		.department{
-			font-size: 32rpx;
-			color: #FFFFFF;
-			text-align: center;
-			margin-top: 10rpx;
 			padding-bottom: 50rpx;
 		}
 	}

@@ -1,6 +1,6 @@
  // http://192.168.5.220.dev  napi.lyfz.net/pro
 	let test = false
-	let base = test ? 'http://192.168.5.220' : 'https://napi.lyfz.net'
+	let base = test ? 'http://192.168.5.15' : 'https://napi.lyfz.net'
 	let base_dress = test ? 'http://192.168.5.220/pro/api/dress' : 'https://napi.lyfz.net/proapi/dress'
   let base_message = test ?  'http://192.168.5.220/dev/api/message' : 'https://napi.lyfz.net/pro/api/message'
   let base_user = test ?  'http://192.168.5.220/dev/api/account' : 'https://napi.lyfz.net/pro/api/account'
@@ -17,7 +17,7 @@ let baseUrl = {
 	getUserInfo: `${base_user}/account/list/shopIds`, // get 获得用户信息
 	getAccountAllArr: `${base_user}/account/getEnterpriseAll`, // 查找-全部员工
 	getAuthorization: `${base_user}/account/getAuthorization`, // 查找-授权员工信息
-
+	pageAccountAddressBookVo: `${base_user}/account/pageAccountAddressBookVo`, //查找-员工通讯录
 	
 	getAllShopQY: `${base_common}/shop/list/shopNameVo`, // 查找-所有门店
 	getCategoryList: `${base_common}/category/list/`, // get     根据类型Type获取所有类别
